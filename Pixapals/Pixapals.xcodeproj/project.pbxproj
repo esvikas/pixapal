@@ -12,6 +12,7 @@
 		329B58231C3E260600C1EE08 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 329B58221C3E260600C1EE08 /* Assets.xcassets */; };
 		329B58261C3E260600C1EE08 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 329B58241C3E260600C1EE08 /* LaunchScreen.storyboard */; };
 		329B582E1C3E267300C1EE08 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 329B582D1C3E267300C1EE08 /* ViewController.swift */; };
+		79A52A0517F432D13BEF7F2F /* Pods_Pixapals.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77794623276E2BA467ACACC8 /* Pods_Pixapals.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -22,6 +23,9 @@
 		329B58251C3E260600C1EE08 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		329B58271C3E260600C1EE08 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		329B582D1C3E267300C1EE08 /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ViewController.swift; path = ViewControllers/ViewController.swift; sourceTree = "<group>"; };
+		77794623276E2BA467ACACC8 /* Pods_Pixapals.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Pixapals.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		DA96032AFC9669B523CDF8B7 /* Pods-Pixapals.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Pixapals.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Pixapals/Pods-Pixapals.debug.xcconfig"; sourceTree = "<group>"; };
+		DC1859A586815A5666ED6B08 /* Pods-Pixapals.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Pixapals.release.xcconfig"; path = "Pods/Target Support Files/Pods-Pixapals/Pods-Pixapals.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -29,6 +33,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				79A52A0517F432D13BEF7F2F /* Pods_Pixapals.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -40,6 +45,8 @@
 			children = (
 				329B581A1C3E260600C1EE08 /* Pixapals */,
 				329B58191C3E260600C1EE08 /* Products */,
+				B08378BA04DD4F3F064BCC5E /* Pods */,
+				D8434C931E6A53BF2AD08086 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -64,6 +71,23 @@
 			path = Pixapals;
 			sourceTree = "<group>";
 		};
+		B08378BA04DD4F3F064BCC5E /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				DA96032AFC9669B523CDF8B7 /* Pods-Pixapals.debug.xcconfig */,
+				DC1859A586815A5666ED6B08 /* Pods-Pixapals.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		D8434C931E6A53BF2AD08086 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				77794623276E2BA467ACACC8 /* Pods_Pixapals.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -71,9 +95,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 329B582A1C3E260600C1EE08 /* Build configuration list for PBXNativeTarget "Pixapals" */;
 			buildPhases = (
+				3E069F0DE5A7FD8B648A1D56 /* Check Pods Manifest.lock */,
 				329B58141C3E260600C1EE08 /* Sources */,
 				329B58151C3E260600C1EE08 /* Frameworks */,
 				329B58161C3E260600C1EE08 /* Resources */,
+				48B8AB27A5431D8328D8348D /* Embed Pods Frameworks */,
+				76AEDD47274244E8D28E84DE /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -129,6 +156,54 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		3E069F0DE5A7FD8B648A1D56 /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		48B8AB27A5431D8328D8348D /* Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Pixapals/Pods-Pixapals-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		76AEDD47274244E8D28E84DE /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Pixapals/Pods-Pixapals-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		329B58141C3E260600C1EE08 /* Sources */ = {
@@ -245,6 +320,7 @@
 		};
 		329B582B1C3E260600C1EE08 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = DA96032AFC9669B523CDF8B7 /* Pods-Pixapals.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = Pixapals/Info.plist;
@@ -256,6 +332,7 @@
 		};
 		329B582C1C3E260600C1EE08 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = DC1859A586815A5666ED6B08 /* Pods-Pixapals.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = Pixapals/Info.plist;
@@ -284,6 +361,7 @@
 				329B582C1C3E260600C1EE08 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

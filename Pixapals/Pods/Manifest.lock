@@ -1,0 +1,31 @@
+PODS:
+  - Alamofire (3.1.4)
+  - IQKeyboardManager (3.3.5)
+  - Kingfisher (1.9.1)
+  - MBProgressHUD (0.9.2)
+  - SwiftyJSON (2.3.2)
+
+DEPENDENCIES:
+  - Alamofire (~> 3.0)
+  - IQKeyboardManager
+  - Kingfisher (~> 1.9)
+  - MBProgressHUD (~> 0.9.2)
+  - SwiftyJSON (from `https://github.com/SwiftyJSON/SwiftyJSON.git`)
+
+EXTERNAL SOURCES:
+  SwiftyJSON:
+    :git: https://github.com/SwiftyJSON/SwiftyJSON.git
+
+CHECKOUT OPTIONS:
+  SwiftyJSON:
+    :commit: 5f59648a6e9356b26c5cb698ab924fa7d750b6c9
+    :git: https://github.com/SwiftyJSON/SwiftyJSON.git
+
+SPEC CHECKSUMS:
+  Alamofire: fbc829692f351fa1d8a31dd75fd7f7f56fea31fb
+  IQKeyboardManager: 128bcb96b3ec03ff87942cdd7fa7f44491aa3d08
+  Kingfisher: 98fedd5d44d982b331fc7303f9f6144b7d8ba289
+  MBProgressHUD: 1569cf7ace17a8bac47aabfbb8580a49690386d1
+  SwiftyJSON: 04ccea08915aa0109039157c7974cf0298da292a
+
+COCOAPODS: 0.39.0
