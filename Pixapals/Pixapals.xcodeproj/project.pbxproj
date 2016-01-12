@@ -13,6 +13,8 @@
 		329B58261C3E260600C1EE08 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 329B58241C3E260600C1EE08 /* LaunchScreen.storyboard */; };
 		329B582E1C3E267300C1EE08 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 329B582D1C3E267300C1EE08 /* ViewController.swift */; };
 		435EC4BF1C44E74B00CF88D4 /* GlobalFeedsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 435EC4BE1C44E74B00CF88D4 /* GlobalFeedsViewController.swift */; };
+		43C103381C44EF70009512C2 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C103371C44EF70009512C2 /* ProfileViewController.swift */; };
+		43C1033B1C44F276009512C2 /* LoginWithEmailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C1033A1C44F276009512C2 /* LoginWithEmailViewController.swift */; };
 		43D2C75D1C43529500F0E2C5 /* ButtonWithCornerRadius.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D2C75C1C43529500F0E2C5 /* ButtonWithCornerRadius.swift */; };
 		43D2C75F1C4378A900F0E2C5 /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D2C75E1C4378A900F0E2C5 /* RegisterViewController.swift */; };
 		43D2C7651C43B89800F0E2C5 /* PostFeedModeSelectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D2C7641C43B89800F0E2C5 /* PostFeedModeSelectionViewController.swift */; };
@@ -28,6 +30,8 @@
 		329B58271C3E260600C1EE08 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		329B582D1C3E267300C1EE08 /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ViewController.swift; path = ViewControllers/ViewController.swift; sourceTree = "<group>"; };
 		435EC4BE1C44E74B00CF88D4 /* GlobalFeedsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GlobalFeedsViewController.swift; sourceTree = "<group>"; };
+		43C103371C44EF70009512C2 /* ProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
+		43C1033A1C44F276009512C2 /* LoginWithEmailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginWithEmailViewController.swift; sourceTree = "<group>"; };
 		43D2C75C1C43529500F0E2C5 /* ButtonWithCornerRadius.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ButtonWithCornerRadius.swift; sourceTree = "<group>"; };
 		43D2C75E1C4378A900F0E2C5 /* RegisterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
 		43D2C7641C43B89800F0E2C5 /* PostFeedModeSelectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostFeedModeSelectionViewController.swift; sourceTree = "<group>"; };
@@ -69,18 +73,36 @@
 		329B581A1C3E260600C1EE08 /* Pixapals */ = {
 			isa = PBXGroup;
 			children = (
-				329B582D1C3E267300C1EE08 /* ViewController.swift */,
+				43C1033C1C44F2A3009512C2 /* Views */,
+				43C103391C44F242009512C2 /* ViewControllers */,
 				329B581B1C3E260600C1EE08 /* AppDelegate.swift */,
 				329B581F1C3E260600C1EE08 /* Main.storyboard */,
 				329B58221C3E260600C1EE08 /* Assets.xcassets */,
 				329B58241C3E260600C1EE08 /* LaunchScreen.storyboard */,
 				329B58271C3E260600C1EE08 /* Info.plist */,
-				43D2C75C1C43529500F0E2C5 /* ButtonWithCornerRadius.swift */,
+			);
+			path = Pixapals;
+			sourceTree = "<group>";
+		};
+		43C103391C44F242009512C2 /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				329B582D1C3E267300C1EE08 /* ViewController.swift */,
 				43D2C75E1C4378A900F0E2C5 /* RegisterViewController.swift */,
 				43D2C7641C43B89800F0E2C5 /* PostFeedModeSelectionViewController.swift */,
 				435EC4BE1C44E74B00CF88D4 /* GlobalFeedsViewController.swift */,
+				43C103371C44EF70009512C2 /* ProfileViewController.swift */,
+				43C1033A1C44F276009512C2 /* LoginWithEmailViewController.swift */,
 			);
-			path = Pixapals;
+			name = ViewControllers;
+			sourceTree = "<group>";
+		};
+		43C1033C1C44F2A3009512C2 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				43D2C75C1C43529500F0E2C5 /* ButtonWithCornerRadius.swift */,
+			);
+			name = Views;
 			sourceTree = "<group>";
 		};
 		B08378BA04DD4F3F064BCC5E /* Pods */ = {
@@ -227,6 +249,8 @@
 				329B582E1C3E267300C1EE08 /* ViewController.swift in Sources */,
 				43D2C7651C43B89800F0E2C5 /* PostFeedModeSelectionViewController.swift in Sources */,
 				329B581C1C3E260600C1EE08 /* AppDelegate.swift in Sources */,
+				43C1033B1C44F276009512C2 /* LoginWithEmailViewController.swift in Sources */,
+				43C103381C44EF70009512C2 /* ProfileViewController.swift in Sources */,
 				43D2C75F1C4378A900F0E2C5 /* RegisterViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
