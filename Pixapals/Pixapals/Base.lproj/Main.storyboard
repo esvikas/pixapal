@@ -220,10 +220,10 @@
             </objects>
             <point key="canvasLocation" x="2436" y="411"/>
         </scene>
-        <!--View Controller-->
+        <!--Global Feeds View Controller-->
         <scene sceneID="x0p-1X-DNX">
             <objects>
-                <viewController id="rSs-SK-SEN" sceneMemberID="viewController">
+                <viewController id="rSs-SK-SEN" customClass="GlobalFeedsViewController" customModule="Pixapals" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Tel-PW-hSD"/>
                         <viewControllerLayoutGuide type="bottom" id="vW0-qc-GRn"/>
@@ -315,7 +315,7 @@
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                 </view>
             </objects>
-            <point key="canvasLocation" x="3049" y="419"/>
+            <point key="canvasLocation" x="3194" y="411"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="tZm-Gj-YLE">
@@ -336,10 +336,10 @@
             </objects>
             <point key="canvasLocation" x="3680" y="1202"/>
         </scene>
-        <!--CustomUI Tab Bar Controller-->
+        <!--Tab Bar Controller-->
         <scene sceneID="llN-2I-W7I">
             <objects>
-                <tabBarController id="szp-OA-VCz" customClass="CustomUITabBarController" customModule="Pixapals" customModuleProvider="target" sceneMemberID="viewController">
+                <tabBarController id="szp-OA-VCz" sceneMemberID="viewController">
                     <tabBar key="tabBar" contentMode="scaleToFill" id="7a9-ce-cru">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="49"/>
                         <autoresizingMask key="autoresizingMask"/>
