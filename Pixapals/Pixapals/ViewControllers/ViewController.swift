@@ -28,6 +28,8 @@ class ViewController: UIViewController {
         UIApplication.sharedApplication().statusBarStyle = UIStatusBarStyle.Default
     }
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+
+        self.navigationController?.navigationBarHidden = false
         UIApplication.sharedApplication().statusBarStyle = UIStatusBarStyle.LightContent
     }
 }

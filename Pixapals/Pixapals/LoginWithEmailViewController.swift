@@ -1,5 +1,5 @@
 //
-//  GlobalFeedsViewController.swift
+//  LoginWithEmailViewController.swift
 //  Pixapals
 //
 //  Created by DARI on 1/12/16.
@@ -8,11 +8,11 @@
 
 import UIKit
 
-class GlobalFeedsViewController: UIViewController {
+class LoginWithEmailViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-       //self.navigationItem.hidesBackButton = true
+
         // Do any additional setup after loading the view.
     }
 
@@ -20,9 +20,7 @@ class GlobalFeedsViewController: UIViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    override func viewWillAppear(animated: Bool) {
-        self.tabBarController?.navigationItem.hidesBackButton = true
-    }
+    
 
     /*
     // MARK: - Navigation
