@@ -13,8 +13,10 @@
 		329B58261C3E260600C1EE08 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 329B58241C3E260600C1EE08 /* LaunchScreen.storyboard */; };
 		329B582E1C3E267300C1EE08 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 329B582D1C3E267300C1EE08 /* ViewController.swift */; };
 		435EC4BF1C44E74B00CF88D4 /* GlobalFeedsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 435EC4BE1C44E74B00CF88D4 /* GlobalFeedsViewController.swift */; };
+		439738151C45F3E2001F344F /* PostFeedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439738141C45F3E2001F344F /* PostFeedViewController.swift */; };
 		43C103381C44EF70009512C2 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C103371C44EF70009512C2 /* ProfileViewController.swift */; };
 		43C1033B1C44F276009512C2 /* LoginWithEmailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C1033A1C44F276009512C2 /* LoginWithEmailViewController.swift */; };
+		43C1033E1C450BEF009512C2 /* CustomTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C1033D1C450BEF009512C2 /* CustomTabBarController.swift */; };
 		43D2C75D1C43529500F0E2C5 /* ButtonWithCornerRadius.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D2C75C1C43529500F0E2C5 /* ButtonWithCornerRadius.swift */; };
 		43D2C75F1C4378A900F0E2C5 /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D2C75E1C4378A900F0E2C5 /* RegisterViewController.swift */; };
 		43D2C7651C43B89800F0E2C5 /* PostFeedModeSelectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D2C7641C43B89800F0E2C5 /* PostFeedModeSelectionViewController.swift */; };
@@ -30,8 +32,10 @@
 		329B58271C3E260600C1EE08 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		329B582D1C3E267300C1EE08 /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ViewController.swift; path = ViewControllers/ViewController.swift; sourceTree = "<group>"; };
 		435EC4BE1C44E74B00CF88D4 /* GlobalFeedsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GlobalFeedsViewController.swift; sourceTree = "<group>"; };
+		439738141C45F3E2001F344F /* PostFeedViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostFeedViewController.swift; sourceTree = "<group>"; };
 		43C103371C44EF70009512C2 /* ProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		43C1033A1C44F276009512C2 /* LoginWithEmailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginWithEmailViewController.swift; sourceTree = "<group>"; };
+		43C1033D1C450BEF009512C2 /* CustomTabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomTabBarController.swift; sourceTree = "<group>"; };
 		43D2C75C1C43529500F0E2C5 /* ButtonWithCornerRadius.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ButtonWithCornerRadius.swift; sourceTree = "<group>"; };
 		43D2C75E1C4378A900F0E2C5 /* RegisterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
 		43D2C7641C43B89800F0E2C5 /* PostFeedModeSelectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostFeedModeSelectionViewController.swift; sourceTree = "<group>"; };
@@ -93,6 +97,8 @@
 				435EC4BE1C44E74B00CF88D4 /* GlobalFeedsViewController.swift */,
 				43C103371C44EF70009512C2 /* ProfileViewController.swift */,
 				43C1033A1C44F276009512C2 /* LoginWithEmailViewController.swift */,
+				43C1033D1C450BEF009512C2 /* CustomTabBarController.swift */,
+				439738141C45F3E2001F344F /* PostFeedViewController.swift */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -248,10 +254,12 @@
 				435EC4BF1C44E74B00CF88D4 /* GlobalFeedsViewController.swift in Sources */,
 				329B582E1C3E267300C1EE08 /* ViewController.swift in Sources */,
 				43D2C7651C43B89800F0E2C5 /* PostFeedModeSelectionViewController.swift in Sources */,
+				439738151C45F3E2001F344F /* PostFeedViewController.swift in Sources */,
 				329B581C1C3E260600C1EE08 /* AppDelegate.swift in Sources */,
 				43C1033B1C44F276009512C2 /* LoginWithEmailViewController.swift in Sources */,
 				43C103381C44EF70009512C2 /* ProfileViewController.swift in Sources */,
 				43D2C75F1C4378A900F0E2C5 /* RegisterViewController.swift in Sources */,
+				43C1033E1C450BEF009512C2 /* CustomTabBarController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
