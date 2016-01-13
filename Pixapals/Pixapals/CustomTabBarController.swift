@@ -12,7 +12,9 @@ class CustomTabBarController: UITabBarController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.selectedViewController?.tabBarItem
+        self.navigationItem.hidesBackButton = true
+        
+        //self.selectedViewController?.tabBarItem
         // Do any additional setup after loading the view.
     }
 

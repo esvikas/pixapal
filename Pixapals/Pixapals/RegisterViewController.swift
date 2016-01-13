@@ -22,10 +22,7 @@ class RegisterViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     override func viewWillAppear(animated: Bool) {
-        self.navigationController?.navigationBarHidden = false
-    }
-    @IBAction func backButtonPressed(sender: AnyObject) {
-        self.navigationController?.popViewControllerAnimated(true)
+        //self.navigationController?.navigationBarHidden = false
     }
 
     /*
