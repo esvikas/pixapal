@@ -18,7 +18,7 @@ class PostFeedModeSelectionViewController: UIViewController, UINavigationControl
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        self.tabBarController?.navigationItem.title = "Select Post Mode"
         // Do any additional setup after loading the view.
         singleModeButton.layer.borderColor = UIColor(red:0.914, green:0.910, blue:0.922, alpha:1.00).CGColor
         singleModeButton.layer.borderWidth = 3
@@ -30,6 +30,7 @@ class PostFeedModeSelectionViewController: UIViewController, UINavigationControl
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+<<<<<<< HEAD
     
     
     @IBAction func btnChangeProfilePic(sender: AnyObject) {
@@ -78,6 +79,11 @@ class PostFeedModeSelectionViewController: UIViewController, UINavigationControl
         }
     }
 
+=======
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        //self.navigation
+    }
+>>>>>>> Dari
     /*
     // MARK: - Navigation
 

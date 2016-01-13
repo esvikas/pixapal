@@ -21,7 +21,9 @@ class GlobalFeedsViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     override func viewWillAppear(animated: Bool) {
+        self.tabBarController?.navigationItem.title = "Global Feed"
         self.tabBarController?.navigationItem.hidesBackButton = true
+        self.tabBarController?.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .Plain, target: nil, action: nil)
     }
 
     /*
