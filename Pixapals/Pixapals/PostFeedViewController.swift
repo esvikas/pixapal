@@ -20,7 +20,7 @@ class PostFeedViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        if self.image2 == nil {
+        if self.image2 != nil {
             doubleModeStackView.hidden = true
             doubleModeSwipeImageInstructionLabel.hidden = true
             singleModeImageView.hidden = false
