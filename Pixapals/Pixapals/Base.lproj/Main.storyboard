@@ -247,6 +247,9 @@
                                     </userDefinedRuntimeAttribute>
                                     <userDefinedRuntimeAttribute type="string" keyPath="layer.borderWidth" value="1"/>
                                 </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <action selector="btnChangeProfilePic:" destination="74A-BF-VMy" eventType="touchUpInside" id="xaP-Ja-Obl"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hJs-dT-0ue">
                                 <rect key="frame" x="20" y="312" width="560" height="223"/>
