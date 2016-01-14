@@ -7,6 +7,11 @@
 //
 
 import UIKit
+enum imageMode: String {
+    
+    case singleImage
+    case doubleImage
+}
 
 class PostFeedViewController: UIViewController {
 
@@ -18,16 +23,23 @@ class PostFeedViewController: UIViewController {
     var image2: UIImage!
     var image1: UIImage!
     
+    let imageModes = imageMode.singleImage
+    
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         if self.image2 == nil {
             doubleModeStackView.hidden = true
             doubleModeSwipeImageInstructionLabel.hidden = true
             singleModeImageView.hidden = false
+            singleModeImageView.image=image1
+
         } else {
             singleModeImageView.hidden = true
             doubleModeStackView.hidden = false
             doubleModeSwipeImageInstructionLabel.hidden = false
+
         }
         // Do any additional setup after loading the view.
     }

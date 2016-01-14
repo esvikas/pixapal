@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		321B7F9B1C460E760017932E /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 321B7F9A1C460E760017932E /* Reachability.swift */; };
+		321B7F9D1C465CEC0017932E /* HelperFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 321B7F9C1C465CEC0017932E /* HelperFile.swift */; };
 		329B581C1C3E260600C1EE08 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 329B581B1C3E260600C1EE08 /* AppDelegate.swift */; };
 		329B58211C3E260600C1EE08 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 329B581F1C3E260600C1EE08 /* Main.storyboard */; };
 		329B58231C3E260600C1EE08 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 329B58221C3E260600C1EE08 /* Assets.xcassets */; };
@@ -24,6 +26,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		321B7F9A1C460E760017932E /* Reachability.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
+		321B7F9C1C465CEC0017932E /* HelperFile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HelperFile.swift; sourceTree = "<group>"; };
 		329B58181C3E260600C1EE08 /* Pixapals.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Pixapals.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		329B581B1C3E260600C1EE08 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		329B58201C3E260600C1EE08 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -84,6 +88,7 @@
 				329B58221C3E260600C1EE08 /* Assets.xcassets */,
 				329B58241C3E260600C1EE08 /* LaunchScreen.storyboard */,
 				329B58271C3E260600C1EE08 /* Info.plist */,
+				321B7F9C1C465CEC0017932E /* HelperFile.swift */,
 			);
 			path = Pixapals;
 			sourceTree = "<group>";
@@ -91,6 +96,7 @@
 		43C103391C44F242009512C2 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				321B7F9A1C460E760017932E /* Reachability.swift */,
 				329B582D1C3E267300C1EE08 /* ViewController.swift */,
 				43D2C75E1C4378A900F0E2C5 /* RegisterViewController.swift */,
 				43D2C7641C43B89800F0E2C5 /* PostFeedModeSelectionViewController.swift */,
@@ -256,10 +262,12 @@
 				43D2C7651C43B89800F0E2C5 /* PostFeedModeSelectionViewController.swift in Sources */,
 				439738151C45F3E2001F344F /* PostFeedViewController.swift in Sources */,
 				329B581C1C3E260600C1EE08 /* AppDelegate.swift in Sources */,
+				321B7F9B1C460E760017932E /* Reachability.swift in Sources */,
 				43C1033B1C44F276009512C2 /* LoginWithEmailViewController.swift in Sources */,
 				43C103381C44EF70009512C2 /* ProfileViewController.swift in Sources */,
 				43D2C75F1C4378A900F0E2C5 /* RegisterViewController.swift in Sources */,
 				43C1033E1C450BEF009512C2 /* CustomTabBarController.swift in Sources */,
+				321B7F9D1C465CEC0017932E /* HelperFile.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -9,7 +9,6 @@
 import UIKit
 
 class ViewController: UIViewController {
-
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .Plain, target: nil, action: nil)
@@ -31,6 +30,9 @@ class ViewController: UIViewController {
 
         self.navigationController?.navigationBarHidden = false
         UIApplication.sharedApplication().statusBarStyle = UIStatusBarStyle.LightContent
+    }
+    static func abc() {
+        
     }
 }
 

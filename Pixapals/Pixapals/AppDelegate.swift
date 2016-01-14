@@ -12,7 +12,7 @@ import UIKit
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-
+    var deviceTokenString: String!
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         UINavigationBar.appearance().backIndicatorImage = UIImage(named: "report_form_left_arrow")
@@ -21,6 +21,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         UITabBar.appearance().tintColor = UIColor.whiteColor()
         // Override point for customization after application launch.
         return true
+    }
+    
+    func application( application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData ) {
+        
+        let characterSet: NSCharacterSet = NSCharacterSet( charactersInString: "<>" )
+        
+        deviceTokenString = ( deviceToken.description as NSString )
+            .stringByTrimmingCharactersInSet( characterSet )
+            .stringByReplacingOccurrencesOfString( " ", withString: "" ) as String
+        let nsUserDefault = NSUserDefaults.standardUserDefaults()
+        nsUserDefault.setObject(deviceTokenString, forKey: "deviceTokenString")
+        print(deviceTokenString)
     }
 
     func applicationWillResignActive(application: UIApplication) {

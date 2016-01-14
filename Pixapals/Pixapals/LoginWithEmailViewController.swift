@@ -7,8 +7,12 @@
 //
 
 import UIKit
+import Alamofire
 
 class LoginWithEmailViewController: UIViewController {
+
+    @IBOutlet var emailTextfield: UITextField! 
+    @IBOutlet var passwordTextfield: UITextField!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -21,15 +25,61 @@ class LoginWithEmailViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+    @IBAction func btnLogin(sender: AnyObject) {
+        loginWithEmail()
     }
-    */
+
+    func loginWithEmail(){
+        
+        
+        
+        var registerUrlString = "http://192.168.0.77/API/public/api/v1/login-using-email"
+        
+        let parametersToPost = [
+            "email": emailTextfield.text!,
+            "password": passwordTextfield.text!
+ 
+        ]
+        
+        print(parametersToPost, terminator: "")
+
+        
+        
+        
+        Alamofire.request(.POST, registerUrlString, parameters: parametersToPost)
+            .responseJSON { response in
+                debugPrint(response)     // prints detailed description of all response properties
+                
+                print(response.request)  // original URL request
+                print(response.response) // URL response
+                print(response.data)     // server data
+                print(response.result)   // result of response serialization
+                
+                if let JSON = response.result.value {
+                    print("JSON: \(JSON)")
+                }
+                
+                
+                
+                if let HTTPResponse = response.response {
+                    
+                    let statusCode = HTTPResponse.statusCode
+                    
+                    if statusCode==200{
+                        
+                        
+           
+                    }else  {
+                        
+
+                        
+
+                    }
+                }
+        }
+        
+    }
+    
+    
 
 }

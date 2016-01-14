@@ -9,5 +9,6 @@ pod 'SwiftyJSON', :git => 'https://github.com/SwiftyJSON/SwiftyJSON.git'
 pod 'Kingfisher', '~> 1.9'
 pod 'IQKeyboardManager'
 pod 'MBProgressHUD', '~> 0.9.2'
+pod 'AlamofireObjectMapper', '~> 2.1'
 end
 
