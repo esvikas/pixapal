@@ -13,6 +13,8 @@ class PostFeedModeSelectionViewController: UIViewController, UINavigationControl
     @IBOutlet weak var singleModeButton: UIButton!
     @IBOutlet weak var doubleModeButton: UIButton!
     
+    var CapturedImage:UIImage!
+    
     var popover:UIPopoverController?=nil
     var picker:UIImagePickerController?=UIImagePickerController()
     
@@ -30,8 +32,6 @@ class PostFeedModeSelectionViewController: UIViewController, UINavigationControl
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-<<<<<<< HEAD
-    
     
     @IBAction func btnChangeProfilePic(sender: AnyObject) {
         
@@ -79,24 +79,19 @@ class PostFeedModeSelectionViewController: UIViewController, UINavigationControl
         }
     }
 
-=======
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        //self.navigation
-    }
->>>>>>> Dari
-    /*
-    // MARK: - Navigation
 
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
+
+    func segueToPostFeedViewController(){
+        
+        let storyboard: UIStoryboard = UIStoryboard (name: "Main", bundle: nil)
+        let vc: PostFeedViewController = storyboard.instantiateViewControllerWithIdentifier("PostFeedViewController") as! PostFeedViewController
+        vc.image1=CapturedImage
+        self.navigationController?.pushViewController(vc, animated: true)
+        
 
 }
 
-
+}
 
 
 
@@ -136,7 +131,8 @@ let uploadLiamge:UIImage = image.fixOrientation()
 
 
 let imageData:NSData = NSData(data:(UIImageJPEGRepresentation(uploadLiamge, 1))!)
-//self.updateImageToServer(imageData)
+CapturedImage = image
+    segueToPostFeedViewController()
 
 
 }
