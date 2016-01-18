@@ -21,7 +21,6 @@ class RegisterViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-       
         // Do any additional setup after loading the view.
     }
 
@@ -39,7 +38,9 @@ class RegisterViewController: UIViewController {
         let nsUserDefault = NSUserDefaults.standardUserDefaults()
         let deviceToken = nsUserDefault.objectForKey("deviceTokenString") as! String
 
-        let parameters: [String: AnyObject] = ["name": self.textFieldFullName.text!,
+        let parameters: [String: AnyObject] =
+        [
+            "name": self.textFieldFullName.text!,
             "email": self.textFieldEmail.text!,
             "username": self.textFieldUsername.text!,
             "password": self.textFieldPassword.text!,
@@ -50,7 +51,8 @@ class RegisterViewController: UIViewController {
             "bio": "",
             "phone": "",
             "gender":"",
-            "device_token" : deviceToken]
+            "device_token" : deviceToken
+        ]
         
         
         Alamofire.request(.POST, registerUrlString, parameters: parameters)
@@ -65,8 +67,6 @@ class RegisterViewController: UIViewController {
                 if let JSON = response.result.value {
                     print("JSON: \(JSON)")
                 }
-                
-                
                 
                 if let HTTPResponse = response.response {
                     

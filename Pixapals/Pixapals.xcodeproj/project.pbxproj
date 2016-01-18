@@ -16,6 +16,7 @@
 		329B582E1C3E267300C1EE08 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 329B582D1C3E267300C1EE08 /* ViewController.swift */; };
 		435EC4BF1C44E74B00CF88D4 /* GlobalFeedsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 435EC4BE1C44E74B00CF88D4 /* GlobalFeedsViewController.swift */; };
 		439738151C45F3E2001F344F /* PostFeedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439738141C45F3E2001F344F /* PostFeedViewController.swift */; };
+		439A350C1C4CFD5600A036E9 /* UserDataStruct.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439A350B1C4CFD5600A036E9 /* UserDataStruct.swift */; };
 		43A0EE5F1C4CA7BC009C4E46 /* GlobalFeedTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43A0EE5E1C4CA7BC009C4E46 /* GlobalFeedTableViewCell.swift */; };
 		43A0EE611C4CCBCB009C4E46 /* GlobalFeedCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43A0EE601C4CCBCB009C4E46 /* GlobalFeedCollectionViewCell.swift */; };
 		43BF1F1A1C48B252000980D5 /* DoubleModeFeedImageSelectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43BF1F191C48B252000980D5 /* DoubleModeFeedImageSelectionViewController.swift */; };
@@ -41,6 +42,7 @@
 		329B582D1C3E267300C1EE08 /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ViewController.swift; path = ViewControllers/ViewController.swift; sourceTree = "<group>"; };
 		435EC4BE1C44E74B00CF88D4 /* GlobalFeedsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GlobalFeedsViewController.swift; sourceTree = "<group>"; };
 		439738141C45F3E2001F344F /* PostFeedViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostFeedViewController.swift; sourceTree = "<group>"; };
+		439A350B1C4CFD5600A036E9 /* UserDataStruct.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserDataStruct.swift; sourceTree = "<group>"; };
 		43A0EE5E1C4CA7BC009C4E46 /* GlobalFeedTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GlobalFeedTableViewCell.swift; sourceTree = "<group>"; };
 		43A0EE601C4CCBCB009C4E46 /* GlobalFeedCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GlobalFeedCollectionViewCell.swift; sourceTree = "<group>"; };
 		43BF1F191C48B252000980D5 /* DoubleModeFeedImageSelectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DoubleModeFeedImageSelectionViewController.swift; sourceTree = "<group>"; };
@@ -97,6 +99,7 @@
 				329B58241C3E260600C1EE08 /* LaunchScreen.storyboard */,
 				329B58271C3E260600C1EE08 /* Info.plist */,
 				321B7F9C1C465CEC0017932E /* HelperFile.swift */,
+				439A350B1C4CFD5600A036E9 /* UserDataStruct.swift */,
 			);
 			path = Pixapals;
 			sourceTree = "<group>";
@@ -282,6 +285,7 @@
 				43D2C75F1C4378A900F0E2C5 /* RegisterViewController.swift in Sources */,
 				43C1033E1C450BEF009512C2 /* CustomTabBarController.swift in Sources */,
 				43A0EE611C4CCBCB009C4E46 /* GlobalFeedCollectionViewCell.swift in Sources */,
+				439A350C1C4CFD5600A036E9 /* UserDataStruct.swift in Sources */,
 				43BF1F1A1C48B252000980D5 /* DoubleModeFeedImageSelectionViewController.swift in Sources */,
 				321B7F9D1C465CEC0017932E /* HelperFile.swift in Sources */,
 			);

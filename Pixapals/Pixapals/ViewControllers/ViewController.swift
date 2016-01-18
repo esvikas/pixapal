@@ -31,8 +31,5 @@ class ViewController: UIViewController {
         self.navigationController?.navigationBarHidden = false
         UIApplication.sharedApplication().statusBarStyle = UIStatusBarStyle.LightContent
     }
-    static func abc() {
-        
-    }
 }
 

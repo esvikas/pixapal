@@ -60,6 +60,9 @@
                                         <real key="value" value="2"/>
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <action selector="btnLogin:" destination="wAX-Jp-C9S" eventType="touchUpInside" id="tTQ-QC-VoM"/>
+                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" red="0.95686274509803926" green="0.95686274509803926" blue="0.95686274509803926" alpha="1" colorSpace="calibratedRGB"/>
@@ -81,6 +84,10 @@
                         </variation>
                     </view>
                     <navigationItem key="navigationItem" title="Login With Email" id="fam-Q8-beE"/>
+                    <connections>
+                        <outlet property="emailTextfield" destination="nvE-uy-Io7" id="YdH-tR-MDe"/>
+                        <outlet property="passwordTextfield" destination="fpm-7l-Xqn" id="FhQ-gf-Ms9"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="IaH-tm-4Rg" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -143,7 +150,7 @@
                                             </mask>
                                         </variation>
                                         <connections>
-                                            <segue destination="szp-OA-VCz" kind="show" identifier="loginWithEmailSegue" id="9JJ-bs-f6T"/>
+                                            <segue destination="szp-OA-VCz" kind="show" identifier="loginWithFacebookSegue" id="9JJ-bs-f6T"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mnO-OH-r1z" customClass="ButtonWithCornerRadius" customModule="Pixapals" customModuleProvider="target">
@@ -1259,7 +1266,7 @@
         <!--Tab Bar Controller-->
         <scene sceneID="llN-2I-W7I">
             <objects>
-                <tabBarController automaticallyAdjustsScrollViewInsets="NO" id="szp-OA-VCz" sceneMemberID="viewController">
+                <tabBarController storyboardIdentifier="tabView" automaticallyAdjustsScrollViewInsets="NO" id="szp-OA-VCz" sceneMemberID="viewController">
                     <tabBar key="tabBar" contentMode="scaleToFill" id="7a9-ce-cru">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="49"/>
                         <autoresizingMask key="autoresizingMask"/>
