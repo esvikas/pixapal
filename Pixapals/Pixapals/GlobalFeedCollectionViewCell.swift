@@ -9,5 +9,6 @@
 import UIKit
 
 class GlobalFeedCollectionViewCell: UICollectionViewCell {
+    @IBOutlet weak var feedImage: UIImageView!
     
 }
