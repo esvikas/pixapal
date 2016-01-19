@@ -33,7 +33,7 @@ class PostFeedModeSelectionViewController: UIViewController, UINavigationControl
         // Dispose of any resources that can be recreated.
     }
     
-    @IBAction func btnChangeProfilePic(sender: AnyObject) {
+    @IBAction func btnChooseSingleImage(sender: AnyObject) {
         
         let reachability: Reachability
         do {

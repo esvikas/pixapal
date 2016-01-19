@@ -37,6 +37,14 @@ class ProfileViewController: UIViewController {
         tableView.hidden = false
         tableView.reloadData()
     }
+    @IBAction func btnEditProgileSender(sender: AnyObject) {
+        
+        
+        let storyboard: UIStoryboard = UIStoryboard (name: "Main", bundle: nil)
+        let vc: ProfileEditViewController = storyboard.instantiateViewControllerWithIdentifier("ProfileEditViewController") as! ProfileEditViewController
+        self.navigationController?.pushViewController(vc, animated: true)
+        
+    }
     
     /*
     // MARK: - Navigation

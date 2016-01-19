@@ -9,6 +9,9 @@
 /* Begin PBXBuildFile section */
 		321B7F9B1C460E760017932E /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 321B7F9A1C460E760017932E /* Reachability.swift */; };
 		321B7F9D1C465CEC0017932E /* HelperFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 321B7F9C1C465CEC0017932E /* HelperFile.swift */; };
+		321BF4821C4D0EF50025CE64 /* SRWebClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 321BF4811C4D0EF50025CE64 /* SRWebClient.swift */; };
+		327522801C4E1821002DED9C /* ProfileEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3275227F1C4E1821002DED9C /* ProfileEditViewController.swift */; };
+		327522821C4E471F002DED9C /* 9bcc6faaa3ad.png in Resources */ = {isa = PBXBuildFile; fileRef = 327522811C4E471F002DED9C /* 9bcc6faaa3ad.png */; };
 		329B581C1C3E260600C1EE08 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 329B581B1C3E260600C1EE08 /* AppDelegate.swift */; };
 		329B58211C3E260600C1EE08 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 329B581F1C3E260600C1EE08 /* Main.storyboard */; };
 		329B58231C3E260600C1EE08 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 329B58221C3E260600C1EE08 /* Assets.xcassets */; };
@@ -30,6 +33,9 @@
 /* Begin PBXFileReference section */
 		321B7F9A1C460E760017932E /* Reachability.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
 		321B7F9C1C465CEC0017932E /* HelperFile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HelperFile.swift; sourceTree = "<group>"; };
+		321BF4811C4D0EF50025CE64 /* SRWebClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SRWebClient.swift; sourceTree = "<group>"; };
+		3275227F1C4E1821002DED9C /* ProfileEditViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileEditViewController.swift; sourceTree = "<group>"; };
+		327522811C4E471F002DED9C /* 9bcc6faaa3ad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 9bcc6faaa3ad.png; sourceTree = "<group>"; };
 		329B58181C3E260600C1EE08 /* Pixapals.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Pixapals.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		329B581B1C3E260600C1EE08 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		329B58201C3E260600C1EE08 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -100,6 +106,8 @@
 		43C103391C44F242009512C2 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				327522811C4E471F002DED9C /* 9bcc6faaa3ad.png */,
+				321BF4811C4D0EF50025CE64 /* SRWebClient.swift */,
 				321B7F9A1C460E760017932E /* Reachability.swift */,
 				329B582D1C3E267300C1EE08 /* ViewController.swift */,
 				43D2C75E1C4378A900F0E2C5 /* RegisterViewController.swift */,
@@ -110,6 +118,7 @@
 				43C1033D1C450BEF009512C2 /* CustomTabBarController.swift */,
 				439738141C45F3E2001F344F /* PostFeedViewController.swift */,
 				43BF1F191C48B252000980D5 /* DoubleModeFeedImageSelectionViewController.swift */,
+				3275227F1C4E1821002DED9C /* ProfileEditViewController.swift */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -204,6 +213,7 @@
 				329B58261C3E260600C1EE08 /* LaunchScreen.storyboard in Resources */,
 				329B58231C3E260600C1EE08 /* Assets.xcassets in Resources */,
 				329B58211C3E260600C1EE08 /* Main.storyboard in Resources */,
+				327522821C4E471F002DED9C /* 9bcc6faaa3ad.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -262,6 +272,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				327522801C4E1821002DED9C /* ProfileEditViewController.swift in Sources */,
 				43D2C75D1C43529500F0E2C5 /* ButtonWithCornerRadius.swift in Sources */,
 				435EC4BF1C44E74B00CF88D4 /* GlobalFeedsViewController.swift in Sources */,
 				329B582E1C3E267300C1EE08 /* ViewController.swift in Sources */,
@@ -270,6 +281,7 @@
 				43BF1F1E1C48DDB7000980D5 /* ProfileCustomCollectionViewCell.swift in Sources */,
 				329B581C1C3E260600C1EE08 /* AppDelegate.swift in Sources */,
 				321B7F9B1C460E760017932E /* Reachability.swift in Sources */,
+				321BF4821C4D0EF50025CE64 /* SRWebClient.swift in Sources */,
 				43C1033B1C44F276009512C2 /* LoginWithEmailViewController.swift in Sources */,
 				43C103381C44EF70009512C2 /* ProfileViewController.swift in Sources */,
 				43D2C75F1C4378A900F0E2C5 /* RegisterViewController.swift in Sources */,

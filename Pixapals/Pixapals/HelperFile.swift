@@ -8,4 +8,6 @@
 
 import UIKit
 
+let apiUrl = "http://192.168.0.77/API/public/"
+
 
