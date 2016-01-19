@@ -11,7 +11,7 @@ import Alamofire
 import SwiftyJSON
 
 class RegisterViewController: UIViewController {
-
+    
     @IBOutlet weak var textFieldFullName: UITextField!
     @IBOutlet weak var textFieldEmail: UITextField!
     @IBOutlet weak var textFieldUsername: UITextField!
@@ -23,7 +23,7 @@ class RegisterViewController: UIViewController {
         
         // Do any additional setup after loading the view.
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -31,13 +31,23 @@ class RegisterViewController: UIViewController {
     override func viewWillAppear(animated: Bool) {
         //self.navigationController?.navigationBarHidden = false
     }
-
+    
     @IBAction func confirmButtonClicked(sender: AnyObject) {
-        let registerUrlString = "192.168.0.77/API/public/api/v1/register"
+//        let email = self.textFieldEmail.text
+//        let password = self.textFieldPassword.text
+//        let confirmPassword = self.textFieldConfirmPassword.text
+//        let name = self.textFieldFullName.text
+//        let username = self.textFieldUsername.text
+//        
+//        let validator = Validator()
+//        print(validator.isValidEmail(email!))
+        
+        let registerUrlString = "http://192.168.0.77/API/public/api/v1/register"
         
         let nsUserDefault = NSUserDefaults.standardUserDefaults()
-        let deviceToken = nsUserDefault.objectForKey("deviceTokenString") as! String
-
+        // let deviceToken = nsUserDefault.objectForKey("deviceTokenString") as! String
+        let deviceToken = "ff34dsft53fsdds33"
+        
         let parameters: [String: AnyObject] =
         [
             "name": self.textFieldFullName.text!,
@@ -57,43 +67,39 @@ class RegisterViewController: UIViewController {
         
         Alamofire.request(.POST, registerUrlString, parameters: parameters)
             .responseJSON { response in
-                debugPrint(response)     // prints detailed description of all response properties
                 
-                print(response.request)  // original URL request
-                print(response.response) // URL response
-                print(response.data)     // server data
-                print(response.result)   // result of response serialization
-                
-                if let JSON = response.result.value {
-                    print("JSON: \(JSON)")
-                }
-                
-                if let HTTPResponse = response.response {
-                    
-                    let statusCode = HTTPResponse.statusCode
-                    
-                    if statusCode==200{
-                        
-                        
-                        
-                    }else  {
-                        
-                        
-                        
-                        
+                switch response.result {
+                case .Success(let data):
+                        if let dict = data["user"] as? [String: AnyObject] {
+                            var newDict = [String: AnyObject]()
+                            for (item, value) in dict where "<null>" != "\(value.description)" {
+                                newDict[item] = "\(value)"
+                            }
+                            print(newDict)
+                            let userDefaults = NSUserDefaults.standardUserDefaults()
+                            userDefaults.setObject(newDict, forKey: "user_info")
+                            let storyBoard = UIStoryboard(name: "Main", bundle: nil)
+                            let vc = storyBoard.instantiateViewControllerWithIdentifier("tabView")
+                            self.navigationController?.pushViewController(vc, animated: true)
+                        }
+                    else {
+                        print(data)
+                        print("Invalid Username/Password: \(data["message"])")
                     }
+                case .Failure(let error):
+                    print("Error in connection \(error)")
                 }
         }
         
     }
     /*
     // MARK: - Navigation
-
+    
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+    // Get the new view controller using segue.destinationViewController.
+    // Pass the selected object to the new view controller.
     }
     */
-
+    
 }

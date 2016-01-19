@@ -19,17 +19,20 @@ struct UserDataStruct {
     let longitude: String
     let latitude: String
     let gender: Gender
-    let id: Int
+    let id: Int!
     
     init () {
         let nsUserDefault = NSUserDefaults.standardUserDefaults()
-        let user_Info_Dict = nsUserDefault.valueForKey("user_info") as! [String: AnyObject]
-        username = user_Info_Dict["username"]!.stringValue
-        email = user_Info_Dict["email"]!.stringValue
-        api_token = user_Info_Dict["api_token"]!.stringValue
-        longitude = user_Info_Dict["longitude"]!.stringValue
-        latitude = user_Info_Dict["latitude"]!.stringValue
-        if let gender = user_Info_Dict["gender"]!.stringValue {
+        var user_Info_Dict = [String: String]()
+        if let user_Info_Dict_from_NSUserDefault = nsUserDefault.valueForKey("user_info") as? [String: String] {
+            user_Info_Dict = user_Info_Dict_from_NSUserDefault
+        }
+        username = user_Info_Dict["username"] ?? ""
+        email = user_Info_Dict["email"] ?? ""
+        api_token = user_Info_Dict["api_token"] ?? ""
+        longitude = user_Info_Dict["longitude"] ?? ""
+        latitude = user_Info_Dict["latitude"] ?? ""
+        if let gender = user_Info_Dict["gender"] {
             switch gender {
                 case "male":
                     self.gender = Gender.Male
@@ -39,6 +42,10 @@ struct UserDataStruct {
         } else {
             gender = Gender.Male
         }
-        id = user_Info_Dict["id"]!.integerValue
+        if let id = user_Info_Dict["id"] {
+            self.id = Int(id)
+        }else {
+            self.id = nil
+        }
     }
 }

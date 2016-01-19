@@ -8,7 +8,7 @@
 
 import UIKit
 import Alamofire
-import SwiftyJSON
+//import SwiftyJSON
 
 class LoginWithEmailViewController: UIViewController {
     
@@ -39,7 +39,6 @@ class LoginWithEmailViewController: UIViewController {
         let parametersToPost = [
             "email": emailTextfield.text!,
             "password": passwordTextfield.text!
-            
         ]
         
         print(parametersToPost, terminator: "")
@@ -80,33 +79,52 @@ class LoginWithEmailViewController: UIViewController {
                 //                    print(error)
                 //                }
                 
-                if let HTTPResponse = response.response {
-                    
-                    let statusCode = HTTPResponse.statusCode
-                    //print(statusCode)
-                    
-                    if statusCode==200{
-                        if let dict = response.result.value?["user"] as? [String: AnyObject] {
-                            var newDict = [String: AnyObject]()
-                            print(dict)
-                            for (item, value) in dict where "<null>" != "\(value.description)" {
-                                newDict[item] = value
-                            }
-                            print(newDict)
-                            let userDefaults = NSUserDefaults.standardUserDefaults()
-                            userDefaults.setObject(newDict, forKey: "user_info")
-                            let storyBoard = UIStoryboard(name: "Main", bundle: nil)
-                            let vc = storyBoard.instantiateViewControllerWithIdentifier("tabView")
-                            self.navigationController?.pushViewController(vc, animated: true)
+                switch response.result {
+                case .Success(let data):
+                    if let dict = data["user"] as? [String: AnyObject] {
+                        var newDict = [String: AnyObject]()
+                        for (item, value) in dict where "<null>" != "\(value.description)" {
+                            newDict[item] = "\(value)"
                         }
-                    }else if statusCode == 412  {
-                        print("Invalid Username/Password")
+                        print(newDict)
+                        let userDefaults = NSUserDefaults.standardUserDefaults()
+                        userDefaults.setObject(newDict, forKey: "user_info")
+                        let storyBoard = UIStoryboard(name: "Main", bundle: nil)
+                        let vc = storyBoard.instantiateViewControllerWithIdentifier("tabView")
+                        self.navigationController?.pushViewController(vc, animated: true)
                     } else {
-                        print("Error in connection")
+                        print(data)
+                        print("Invalid Username/Password: \(data["message"])")
                     }
-                }else {
-                    print("Error in connection")
+                case .Failure(let error):
+                    print("Error in connection \(error)")
                 }
+//                if let HTTPResponse = response.response {
+//                    
+//                    let statusCode = HTTPResponse.statusCode
+//                    //print(statusCode)
+//                    
+//                    if statusCode==200{
+//                        if let dict = response.result.value?["user"] as? [String: AnyObject] {
+//                            var newDict = [String: AnyObject]()
+//                            for (item, value) in dict where "<null>" != "\(value.description)" {
+//                                newDict[item] = "\(value)"
+//                            }
+//                            print(newDict)
+//                            let userDefaults = NSUserDefaults.standardUserDefaults()
+//                            userDefaults.setObject(newDict, forKey: "user_info")
+//                            let storyBoard = UIStoryboard(name: "Main", bundle: nil)
+//                            let vc = storyBoard.instantiateViewControllerWithIdentifier("tabView")
+//                            self.navigationController?.pushViewController(vc, animated: true)
+//                        }
+//                    }else if statusCode == 412  {
+//                        print("Invalid Username/Password")
+//                    } else {
+//                        print("Error in connection")
+//                    }
+//                }else {
+//                    print("Error in connection")
+//                }
         }
         
     }
