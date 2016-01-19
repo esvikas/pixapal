@@ -23,6 +23,9 @@ class CustomTabBarController: UITabBarController {
         // Dispose of any resources that can be recreated.
     }
     
+    func hello () {
+        
+    }
 
     /*
     // MARK: - Navigation
