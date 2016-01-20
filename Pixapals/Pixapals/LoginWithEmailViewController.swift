@@ -31,15 +31,8 @@ class LoginWithEmailViewController: UIViewController {
     }
     
     func loginWithEmail(){
-        
-        
-        
-<<<<<<< HEAD
+
         let registerUrlString = "\(apiUrl)api/v1/login-using-email"
-=======
-        let registerUrlString = "http://192.168.0.77/API/public/api/v1/login-using-email"
->>>>>>> master
-        
         let parametersToPost = [
             "email": emailTextfield.text!,
             "password": passwordTextfield.text!

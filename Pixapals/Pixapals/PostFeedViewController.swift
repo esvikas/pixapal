@@ -17,7 +17,7 @@ enum imageMode: String {
 }
 
 class PostFeedViewController: UIViewController {
-
+    
     @IBOutlet weak var singleModeImageView: UIImageView!
     @IBOutlet weak var doubleModeStackView: UIStackView!
     @IBOutlet weak var doubleModeSwipeImageInstructionLabel: UILabel!
@@ -38,40 +38,39 @@ class PostFeedViewController: UIViewController {
             doubleModeSwipeImageInstructionLabel.hidden = true
             singleModeImageView.hidden = false
             singleModeImageView.image=image1
-
+            
         } else {
             singleModeImageView.hidden = true
             doubleModeStackView.hidden = false
             doubleModeSwipeImageInstructionLabel.hidden = false
-
+            
         }
         // Do any additional setup after loading the view.
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
     
-
+    
     @IBAction func btnPostFeed(sender: AnyObject) {
         PostFeed()
     }
-
-
+    
+    
     
     func PostFeed(){
         
         let parameters = [
             "user_id" : "1",
             "comment" : "This is the body text."
-
+            
         ]
         let headers = [
             "X-Auth-Token" : "c353c462bb19d45f5d60d14ddf7ec3664c0eeaaaede6309c03dd8129df745b91",
-
         ]
-
+        
         // example image data
         let image = image1
         let imageData = NSData(data:(UIImageJPEGRepresentation(image, 1))!)
@@ -81,27 +80,26 @@ class PostFeedViewController: UIViewController {
         
         // CREATE AND SEND REQUEST ----------
         
-
-            SRWebClient.POST("\(apiUrl)api/v1/feeds")
-                
-                .data(imageData, fieldName:"photo", data:parameters)
-                .headers(headers)
-                .send({(response:AnyObject!, status:Int) -> Void in
-                    
-//                    _ = JSON(response)
-                     print(response)
-                    
-print("Sucess")
-                    
-                    
-                    },failure:{(response:AnyObject!, error:NSError!) -> Void in
-                        
-                 print("Failure")
-                        print(response)
-                        print(error)
-        })
+        SRWebClient.POST("\(apiUrl)api/v1/feeds")
             
-        }
+            .data(imageData, fieldName:"photo", data:parameters)
+            .headers(headers)
+            .send({(response:AnyObject!, status:Int) -> Void in
+                
+                //                    _ = JSON(response)
+                print(response)
+                
+                print("Sucess")
+                
+                
+                },failure:{(response:AnyObject!, error:NSError!) -> Void in
+                    
+                    print("Failure")
+                    print(response)
+                    print(error)
+            })
+        
+    }
 }
 
 
