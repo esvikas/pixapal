@@ -12,11 +12,15 @@ enum ValidationRules: Int {
     case alpha = 0, alphaNumeric, alphaNumericWithSpace, alphaNumericWithDot, numeric, email, tel, mobileNumber
 }
 
+enum Either<A, B> {
+    case either(A)
+    case or(B)
+}
 struct Validator {
     //private let emailRegex: String = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\\+.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$" //HTML5 W3C
-    private let emailRegex: String = "^[a-zA-Z0-9]+[._][a-zA-Z0-9]+$"
+    private let emailRegex: String = "^(([A-Z0-9]+(.|_)?[A-Z0-9]+){1,}@([A-Z0-9]+(.|_)?[A-Z0-9]+){1,}\\.([A-Z]+|([A-Z]+\\.[A-Z]{2,3})))$"
     
-    private var data = [(AnyObject, ValidationRules)]()
+    private var data = [(AnyObject, ValidationRules, (min: Int, max: Int))]()
     
     func isValidEmail(email: String)-> Bool {
         print(emailRegex)
@@ -24,33 +28,50 @@ struct Validator {
         return regex.test(email)
     }
     
-    mutating func make(data: [(AnyObject, ValidationRules)]) {
+    mutating func make(data: [(AnyObject, ValidationRules, (min: Int, max: Int))]) {
         self.data = data
     }
     
-    func validate() -> Bool {
-        let result = data.filter {
-            switch $0.1 {
-            case .alpha:
-                guard let alpha = $0.0 as? String else {
-                    return false
-                }
-                let regex = Regex(regex: "^[a-zA-Z]+$")
-                return regex.test(alpha)
-            case .alphaNumeric:
-                return false
-            default:
-                return false
+    func validate(text: String, rule: ValidationRules, range: (min: Int, max: Int)) -> Either <Bool , [String]>{
+        var regexString = ""
+        var errorMsgs = [String]()
+        switch rule {
+        case .alpha:
+            regexString =  "^[a-zA-Z]+$"
+        case .alphaNumeric:
+            regexString = "^[a-zA-Z0-9]+$"
+        case .alphaNumericWithSpace:
+            regexString = "^([0-9A-Za-z]+( )?[0-9A-Za-z]+){1,}$"
+        case .alphaNumericWithDot:
+            regexString = "^([0-9A-Za-z]+(.)?[0-9A-Za-z]+){1,}$"
+        case .email:
+            regexString = "^(([A-Z0-9]+(.|_)?[A-Z0-9]+){1,}@([A-Z0-9]+(.|_)?[A-Z0-9]+){1,}\\.([A-Z]+|([A-Z]+\\.[A-Z]{2,3})))$"
+            if text.characters.count > 255 {
+                errorMsgs.append("Email is longer than 255 characters.")
             }
+        case .numeric:
+            regexString = "^[0-9]+$"
+        case .mobileNumber:
+            regexString = "^[1-9][0-9]{9}$"
+        case .tel:
+            regexString = "^[0-9]{9}$"
         }
-        return true
+        let regex = Regex(regex: regexString)
+        if regex.test(text) {
+            return Either.either(true)
+        }else {
+            errorMsgs.append("Input doesn't match the type.")
+            return Either.or(errorMsgs)
+        }
+        // }
+        // return Either.either(true)
     }
     
     private func checkIfIsOfClass(toCheck: AnyObject, className: AnyClass) -> Bool{
         
-//        guard let _ = toCheck as? className else {
-//            return false
-//        }
+        //        guard let _ = toCheck as? className else {
+        //            return false
+        //        }
         return true
     }
 }
@@ -77,6 +98,7 @@ struct Regex {
         if matches != nil {
             return matches?.count > 0
         }
-         return false
+        return false
     }
 }
+
