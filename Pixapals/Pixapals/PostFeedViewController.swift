@@ -19,9 +19,13 @@ enum imageMode: String {
 class PostFeedViewController: UIViewController {
     
     @IBOutlet weak var singleModeImageView: UIImageView!
+    @IBOutlet weak var doubleModeImageView1: UIImageView!
+    @IBOutlet weak var doubleModeImageView2: UIImageView!
+
+
     @IBOutlet weak var doubleModeStackView: UIStackView!
     @IBOutlet weak var doubleModeSwipeImageInstructionLabel: UILabel!
-    @IBOutlet var commentTextField: UITextField!
+    @IBOutlet var commentTextField: UITextView!
     
     
     var image2: UIImage!
@@ -39,9 +43,12 @@ class PostFeedViewController: UIViewController {
             singleModeImageView.hidden = false
             singleModeImageView.image=image1
             
-        } else {
+        } else  {
             singleModeImageView.hidden = true
             doubleModeStackView.hidden = false
+            doubleModeImageView1.image=image1
+            doubleModeImageView2.image=image2
+
             doubleModeSwipeImageInstructionLabel.hidden = false
             
         }
@@ -64,7 +71,7 @@ class PostFeedViewController: UIViewController {
         
         let parameters = [
             "user_id" : "1",
-            "comment" : "This is the body text."
+            "comment" : commentTextField.text!
             
         ]
         let headers = [
@@ -90,6 +97,11 @@ class PostFeedViewController: UIViewController {
                 print(response)
                 
                 print("Sucess")
+                self.image1=nil
+                self.image2=nil
+
+                
+                
                 
                 
                 },failure:{(response:AnyObject!, error:NSError!) -> Void in

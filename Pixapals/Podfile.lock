@@ -3,6 +3,7 @@ PODS:
   - AlamofireObjectMapper (2.1.0):
     - Alamofire (~> 3.1.0)
     - ObjectMapper (~> 1.0)
+  - ImagePicker (1.1)
   - IQKeyboardManager (3.3.5)
   - Kingfisher (1.9.1)
   - MBProgressHUD (0.9.2)
@@ -12,6 +13,7 @@ PODS:
 DEPENDENCIES:
   - Alamofire (~> 3.0)
   - AlamofireObjectMapper (~> 2.1)
+  - ImagePicker
   - IQKeyboardManager
   - Kingfisher (~> 1.9)
   - MBProgressHUD (~> 0.9.2)
@@ -29,6 +31,7 @@ CHECKOUT OPTIONS:
 SPEC CHECKSUMS:
   Alamofire: fbc829692f351fa1d8a31dd75fd7f7f56fea31fb
   AlamofireObjectMapper: 24097576202064f8b0a583452dd934064f78dc0e
+  ImagePicker: 2a904341bbc47c96457de00558d2f8dd186eff7c
   IQKeyboardManager: 128bcb96b3ec03ff87942cdd7fa7f44491aa3d08
   Kingfisher: 98fedd5d44d982b331fc7303f9f6144b7d8ba289
   MBProgressHUD: 1569cf7ace17a8bac47aabfbb8580a49690386d1

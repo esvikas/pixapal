@@ -10,11 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Pixapals/PostFeedViewController.swift"
-            timestampString = "474899010.252397"
+            timestampString = "474985158.345901"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "92"
-            endingLineNumber = "92"
+            startingLineNumber = "101"
+            endingLineNumber = "101"
             landmarkName = "PostFeed()"
             landmarkType = "5">
          </BreakpointContent>
@@ -26,11 +26,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Pixapals/PostFeedViewController.swift"
-            timestampString = "474899010.252397"
+            timestampString = "474984404.17526"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "90"
-            endingLineNumber = "90"
+            startingLineNumber = "97"
+            endingLineNumber = "97"
             landmarkName = "PostFeed()"
             landmarkType = "5">
          </BreakpointContent>
@@ -42,11 +42,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Pixapals/PostFeedViewController.swift"
-            timestampString = "474899010.252397"
+            timestampString = "474985158.345901"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "98"
-            endingLineNumber = "98"
+            startingLineNumber = "110"
+            endingLineNumber = "110"
             landmarkName = "PostFeed()"
             landmarkType = "5">
          </BreakpointContent>
@@ -84,7 +84,7 @@
                   moduleName = "Pixapals"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/ak2g/Documents/Pixapals/Pixapals/Pixapals/ProfileEditViewController.swift"
-                  timestampString = "474961923.348376"
+                  timestampString = "474985830.950388"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "0"
@@ -99,7 +99,7 @@
                   moduleName = "Pixapals"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/ak2g/Documents/Pixapals/Pixapals/Pixapals/ProfileEditViewController.swift"
-                  timestampString = "474961923.348522"
+                  timestampString = "474985830.950539"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "0"
@@ -114,7 +114,7 @@
                   moduleName = "Pixapals"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/ak2g/Documents/Pixapals/Pixapals/Pixapals/ProfileEditViewController.swift"
-                  timestampString = "474961923.348664"
+                  timestampString = "474985830.950672"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "0"
@@ -129,14 +129,94 @@
                   moduleName = "Pixapals"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/ak2g/Documents/Pixapals/Pixapals/Pixapals/ProfileEditViewController.swift"
-                  timestampString = "474961923.348797"
+                  timestampString = "474985830.950804"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "17"
                   endingLineNumber = "17"
-                  offsetFromSymbolStart = "167">
+                  offsetFromSymbolStart = "206">
                </Location>
             </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Pixapals/DoubleModeFeedImageSelectionViewController.swift"
+            timestampString = "474985632.445589"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "53"
+            endingLineNumber = "53"
+            landmarkName = "image1Pressed()"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Pixapals/PostFeedViewController.swift"
+            timestampString = "474985315.07668"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "42"
+            endingLineNumber = "42"
+            landmarkName = "viewDidLoad()"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Pixapals/PostFeedViewController.swift"
+            timestampString = "474985315.98065"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "49"
+            endingLineNumber = "49"
+            landmarkName = "viewDidLoad()"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Pixapals/DoubleModeFeedImageSelectionViewController.swift"
+            timestampString = "474985505.321019"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "91"
+            endingLineNumber = "91"
+            landmarkName = "btnNext(_:)"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Pixapals/DoubleModeFeedImageSelectionViewController.swift"
+            timestampString = "474985630.870041"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "70"
+            endingLineNumber = "70"
+            landmarkName = "image2Pressed()"
+            landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

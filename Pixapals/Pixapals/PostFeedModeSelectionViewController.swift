@@ -7,8 +7,9 @@
 //
 
 import UIKit
+import ImagePicker
 
-class PostFeedModeSelectionViewController: UIViewController, UINavigationControllerDelegate {
+class PostFeedModeSelectionViewController: UIViewController, UINavigationControllerDelegate, ImagePickerDelegate {
 
     @IBOutlet weak var singleModeButton: UIButton!
     @IBOutlet weak var doubleModeButton: UIButton!
@@ -16,7 +17,6 @@ class PostFeedModeSelectionViewController: UIViewController, UINavigationControl
     var CapturedImage:UIImage!
     
     var popover:UIPopoverController?=nil
-    var picker:UIImagePickerController?=UIImagePickerController()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -39,38 +39,16 @@ class PostFeedModeSelectionViewController: UIViewController, UINavigationControl
         do {
             reachability = try Reachability.reachabilityForInternetConnection()
             if reachability.isReachable()  {
-                
-                
-                let alert:UIAlertController=UIAlertController(title: "Choose Image", message: nil, preferredStyle: UIAlertControllerStyle.ActionSheet)
-                let cameraAction = UIAlertAction(title: "Camera", style: UIAlertActionStyle.Default)
-                    {
-                        UIAlertAction in
-                        self.openCamera()
-                }
-                let gallaryAction = UIAlertAction(title: "Gallary", style: UIAlertActionStyle.Default)
-                    {
-                        UIAlertAction in
-                        self.openGallary()
-                }
-                let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Cancel)
-                    {
-                        UIAlertAction in
-                }
-                // Add the actions
-                self.picker?.delegate = self
-                alert.addAction(cameraAction)
-                alert.addAction(gallaryAction)
-                alert.addAction(cancelAction)
-                // Present the controller
-                if UIDevice.currentDevice().userInterfaceIdiom == .Phone
-                {
-                    self.presentViewController(alert, animated: true, completion: nil)
-                }
-                else
-                {
-                    self.popover=UIPopoverController(contentViewController: alert)
-                    popover!.presentPopoverFromRect(singleModeButton.frame, inView: self.view, permittedArrowDirections: UIPopoverArrowDirection.Any, animated: true)
-                }
+                singleModeButton.selected=true
+
+
+                let imagePickerController = ImagePickerController()
+                imagePickerController.delegate = self
+                imagePickerController.imageLimit = 1
+                presentViewController(imagePickerController, animated: true, completion: nil)
+                Configuration.doneButtonTitle = "Next"
+                Configuration.noImagesTitle = "Sorry! There are no images here!"
+
             }
             
         } catch {
@@ -78,18 +56,36 @@ class PostFeedModeSelectionViewController: UIViewController, UINavigationControl
             return
         }
     }
-
-
-
-    func segueToPostFeedViewController(){
-        
-        let storyboard: UIStoryboard = UIStoryboard (name: "Main", bundle: nil)
-        let vc: PostFeedViewController = storyboard.instantiateViewControllerWithIdentifier("PostFeedViewController") as! PostFeedViewController
-        vc.image1=CapturedImage
-        self.navigationController?.pushViewController(vc, animated: true)
+    
+    @IBAction func btnChooseDoubleImage(sender: AnyObject) {
         
 
-}
+    }
+
+
+
+
+    
+    func wrapperDidPress(images: [UIImage]){
+        
+    }
+    func doneButtonDidPress(images: [UIImage]){
+        self.dismissViewControllerAnimated(false, completion: nil)
+        
+        
+            let uploadLiamge:UIImage = images[0].fixOrientation()
+            CapturedImage = uploadLiamge
+            
+            let storyboard: UIStoryboard = UIStoryboard (name: "Main", bundle: nil)
+            let vc: PostFeedViewController = storyboard.instantiateViewControllerWithIdentifier("PostFeedViewController") as! PostFeedViewController
+            vc.image1=CapturedImage
+            self.navigationController?.pushViewController(vc, animated: true)
+        
+
+    }
+    func cancelButtonDidPress(){
+        
+    }
 
 }
 
@@ -122,57 +118,44 @@ func imagePickerController(picker: UIImagePickerController, didFinishPickingMedi
 
 
 picker .dismissViewControllerAnimated(true, completion: nil)
-let image = (info[UIImagePickerControllerOriginalImage] as! UIImage)
-
-
-
-
-let uploadLiamge:UIImage = image.fixOrientation()
-
-
-let imageData:NSData = NSData(data:(UIImageJPEGRepresentation(uploadLiamge, 1))!)
-CapturedImage = image
-    segueToPostFeedViewController()
-
-
-}
-
-func imagePickerControllerDidCancel(picker: UIImagePickerController) {
-
-picker.dismissViewControllerAnimated(true, completion: nil)
-
-}
-
-func openCamera()
-{
-if(UIImagePickerController .isSourceTypeAvailable(UIImagePickerControllerSourceType.Camera))
-{
-picker!.sourceType = UIImagePickerControllerSourceType.Camera
-self .presentViewController(picker!, animated: true, completion: nil)
-}
-else
-{
-openGallary()
-}
-}
-func openGallary()
-{
-picker!.sourceType = UIImagePickerControllerSourceType.PhotoLibrary
-if UIDevice.currentDevice().userInterfaceIdiom == .Phone
-{
-self.presentViewController(picker!, animated: true, completion: nil)
-}
-else
-{
-popover=UIPopoverController(contentViewController: picker!)
-popover!.presentPopoverFromRect(singleModeButton.frame, inView: self.view, permittedArrowDirections: UIPopoverArrowDirection.Any, animated: true)
-}
-}
-
 
 
 
 }
+
+
+}
+
+//func openCamera()
+//{
+//if(UIImagePickerController .isSourceTypeAvailable(UIImagePickerControllerSourceType.Camera))
+//{
+//picker!.sourceType = UIImagePickerControllerSourceType.Camera
+//self .presentViewController(picker!, animated: true, completion: nil)
+//}
+//else
+//{
+//openGallary()
+//}
+//}
+//func openGallary()
+//{
+//picker!.sourceType = UIImagePickerControllerSourceType.PhotoLibrary
+//if UIDevice.currentDevice().userInterfaceIdiom == .Phone
+//{
+//self.presentViewController(picker!, animated: true, completion: nil)
+//}
+//else
+//{
+//popover=UIPopoverController(contentViewController: picker!)
+//popover!.presentPopoverFromRect(singleModeButton.frame, inView: self.view, permittedArrowDirections: UIPopoverArrowDirection.Any, animated: true)
+//}
+//}
+
+
+
+
+
 
 
 extension UIImage {
