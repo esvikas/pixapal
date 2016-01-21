@@ -8,8 +8,15 @@
 
 import Foundation
 
-enum ValidationRules: Int {
-    case alpha = 0, alphaNumeric, alphaNumericWithSpace, alphaNumericWithDot, numeric, email, tel, mobileNumber
+enum ValidationRules: String {
+    case alpha = "^[a-zA-Z]+$"
+    case alphaNumeric = "^[a-zA-Z0-9]+$"
+    case alphaNumericWithSpace = "^([0-9A-Za-z]+( )?[0-9A-Za-z]+){1,}$"
+    case alphaNumericWithDot = "^([0-9A-Za-z]+(.)?[0-9A-Za-z]+){1,}$"
+    case numeric = "^[0-9]+$"
+    case email = "^(([A-Z0-9]+(.|_)?[A-Z0-9]+){1,}@([A-Z0-9]+(.|_)?[A-Z0-9]+){1,}\\.([A-Z]+|([A-Z]+\\.[A-Z]{2,3})))$"
+    case tel = "^[0-9]{9}$"
+    case mobileNumber = "^[1-9][0-9]{9}$"
 }
 
 enum Either<A, B> {
@@ -18,23 +25,51 @@ enum Either<A, B> {
 }
 struct Validator {
     //private let emailRegex: String = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\\+.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$" //HTML5 W3C
-    private let emailRegex: String = "^(([A-Z0-9]+(.|_)?[A-Z0-9]+){1,}@([A-Z0-9]+(.|_)?[A-Z0-9]+){1,}\\.([A-Z]+|([A-Z]+\\.[A-Z]{2,3})))$"
+    //private let emailRegex: String = "^(([A-Z0-9]+(.|_)?[A-Z0-9]+){1,}@([A-Z0-9]+(.|_)?[A-Z0-9]+){1,}\\.([A-Z]+|([A-Z]+\\.[A-Z]{2,3})))$"
     
-    private var data = [(AnyObject, ValidationRules, (min: Int, max: Int))]()
+    //private var data = [(AnyObject, ValidationRules, (min: Int, max: Int))]()
     
     func isValidEmail(email: String)-> Bool {
-        print(emailRegex)
-        let regex = Regex(regex: self.emailRegex)
-        return regex.test(email)
+        if case Either.either(let result) = validate(input: email, rule: .email, range: nil) {
+            return result
+        } else {
+            return false
+        }
     }
     
-    mutating func make(data: [(AnyObject, ValidationRules, (min: Int, max: Int))]) {
-        self.data = data
-    }
+//    mutating func make(data: [(AnyObject, ValidationRules, (min: Int, max: Int))]) {
+//        self.data = data
+//    }
     
-    func validate(text: String, rule: ValidationRules, range: (min: Int, max: Int)) -> Either <Bool , [String]>{
+    func validate(input value: AnyObject, rule: ValidationRules, range: (min: Int, max: Int)?) -> Either <Bool , [String]>{
         var regexString = ""
         var errorMsgs = [String]()
+        guard let text = value as? String else {
+            errorMsgs.append("Passed Input is a invalid data type")
+            return Either.or(errorMsgs)
+        }
+        
+        if let range = range {
+            if case ValidationRules.numeric = rule {
+                if let number = value as? Int {
+                    if number > range.max {
+                        errorMsgs.append("greater then \(range.max).")
+                    }else if number < range.min {
+                        errorMsgs.append("less then \(range.min).")
+                    }
+                } else {
+                    errorMsgs.append("invalid numeric value.")
+                    return Either.or(errorMsgs)
+                }
+            } else {
+                if text.characters.count > range.max {
+                    errorMsgs.append("greater then \(range.max) characters.")
+                }else if text.characters.count < range.min {
+                    errorMsgs.append("less then \(range.min) characters.")
+                }
+            }
+        }
+        
         switch rule {
         case .alpha:
             regexString =  "^[a-zA-Z]+$"
@@ -56,24 +91,16 @@ struct Validator {
         case .tel:
             regexString = "^[0-9]{9}$"
         }
+        print(rule.rawValue)
         let regex = Regex(regex: regexString)
         if regex.test(text) {
             return Either.either(true)
         }else {
-            errorMsgs.append("Input doesn't match the type.")
+            errorMsgs.append("Input doesn't match the specified datatype.")
             return Either.or(errorMsgs)
         }
-        // }
-        // return Either.either(true)
     }
     
-    private func checkIfIsOfClass(toCheck: AnyObject, className: AnyClass) -> Bool{
-        
-        //        guard let _ = toCheck as? className else {
-        //            return false
-        //        }
-        return true
-    }
 }
 
 struct Regex {
