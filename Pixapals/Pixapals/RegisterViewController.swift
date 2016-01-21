@@ -41,13 +41,16 @@ class RegisterViewController: UIViewController {
 //        
 //        let validator = Validator()
 //        print(validator.isValidEmail(email!))
-        
-        let registerUrlString = "http://192.168.0.77/API/public/api/v1/register"
+        //let registerUrlString = "\(apiUrl)api/v1/login-using-email"
+        let registerUrlString = "\(apiUrl)api/v1/register"
         
         let nsUserDefault = NSUserDefaults.standardUserDefaults()
         // let deviceToken = nsUserDefault.objectForKey("deviceTokenString") as! String
         let deviceToken = "ff34dsft53fsdds33"
-        
+        if !Validator().isValidEmail(self.textFieldEmail.text!) {
+            print("invalid email")
+            return
+        }
         let parameters: [String: AnyObject] =
         [
             "name": self.textFieldFullName.text!,
@@ -64,20 +67,15 @@ class RegisterViewController: UIViewController {
             "device_token" : deviceToken
         ]
         
-        
         Alamofire.request(.POST, registerUrlString, parameters: parameters)
             .responseJSON { response in
                 
                 switch response.result {
                 case .Success(let data):
                         if let dict = data["user"] as? [String: AnyObject] {
-                            var newDict = [String: AnyObject]()
-                            for (item, value) in dict where "<null>" != "\(value.description)" {
-                                newDict[item] = "\(value)"
-                            }
-                            print(newDict)
-                            let userDefaults = NSUserDefaults.standardUserDefaults()
-                            userDefaults.setObject(newDict, forKey: "user_info")
+                            let userInfoStruct = UserDataStruct()
+                            userInfoStruct.saveUserInfoFromJSON(jsonContainingUserInfo: dict)
+                            
                             let storyBoard = UIStoryboard(name: "Main", bundle: nil)
                             let vc = storyBoard.instantiateViewControllerWithIdentifier("tabView")
                             self.navigationController?.pushViewController(vc, animated: true)

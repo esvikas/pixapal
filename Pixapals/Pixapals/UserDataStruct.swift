@@ -13,13 +13,15 @@ enum Gender: String {
 }
 
 struct UserDataStruct {
-    let username: String
-    let email: String
-    let api_token: String
-    let longitude: String
-    let latitude: String
+    let username: String!
+    let email: String!
+    let api_token: String!
+    let longitude: String!
+    let latitude: String!
     let gender: Gender
     let id: Int!
+    let website: String!
+    let bio: String!
     
     init () {
         let nsUserDefault = NSUserDefaults.standardUserDefaults()
@@ -27,11 +29,14 @@ struct UserDataStruct {
         if let user_Info_Dict_from_NSUserDefault = nsUserDefault.valueForKey("user_info") as? [String: String] {
             user_Info_Dict = user_Info_Dict_from_NSUserDefault
         }
-        username = user_Info_Dict["username"] ?? ""
-        email = user_Info_Dict["email"] ?? ""
-        api_token = user_Info_Dict["api_token"] ?? ""
-        longitude = user_Info_Dict["longitude"] ?? ""
-        latitude = user_Info_Dict["latitude"] ?? ""
+        username = user_Info_Dict["username"]
+        email = user_Info_Dict["email"]
+        api_token = user_Info_Dict["api_token"]
+        longitude = user_Info_Dict["longitude"]
+        latitude = user_Info_Dict["latitude"]
+        website = user_Info_Dict["website"]
+        bio = user_Info_Dict["bio"]
+        
         if let gender = user_Info_Dict["gender"] {
             switch gender {
                 case "male":
@@ -47,5 +52,25 @@ struct UserDataStruct {
         }else {
             self.id = nil
         }
+    }
+    
+    func saveUserInfoFromJSON(jsonContainingUserInfo dict: [String: AnyObject]){
+        var newDict = [String: AnyObject]()
+        for (item, value) in dict where "<null>" != "\(value.description)" {
+            newDict[item] = "\(value)"
+        }
+        print(newDict)
+        let userDefaults = NSUserDefaults.standardUserDefaults()
+        userDefaults.setObject(newDict, forKey: "user_info")
+    }
+    
+    func saveKeyInUserInfo(key: String, value: AnyObject) {
+        let userDefaults = NSUserDefaults.standardUserDefaults()
+        guard var dict = userDefaults.objectForKey("user_info") as? [String: AnyObject] else {
+            return
+        }
+        dict[key] = value
+        userDefaults.removeObjectForKey("user_info")
+        userDefaults.setObject(dict, forKey: "user_info")
     }
 }

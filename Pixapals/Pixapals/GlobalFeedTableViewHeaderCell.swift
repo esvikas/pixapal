@@ -1,20 +1,18 @@
 //
-//  GlobalFeedTableViewCell.swift
+//  GlobalFeedTableViewHeaderCell.swift
 //  Pixapals
 //
-//  Created by DARI on 1/18/16.
+//  Created by DARI on 1/21/16.
 //  Copyright © 2016 com.pixpal. All rights reserved.
 //
 
 import UIKit
 
-class GlobalFeedTableViewCell: UITableViewCell {
+class GlobalFeedTableViewHeaderCell: UITableViewCell {
 
-    @IBOutlet weak var feedImage: UIImageView!
-    @IBOutlet weak var loveIcon: UIImageView!
-    @IBOutlet weak var leftCount: UILabel!
-    @IBOutlet weak var loveCount: UILabel!
-    @IBOutlet weak var comment: UILabel!
+    @IBOutlet weak var userProfilePic: UIImageView!
+    @IBOutlet weak var username: UILabel!
+    @IBOutlet weak var timeElapsed: UILabel!
     
     override func awakeFromNib() {
         super.awakeFromNib()
