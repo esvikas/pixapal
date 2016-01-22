@@ -85,19 +85,29 @@ strip_invalid_archs() {
 
 if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework "Pods-Pixapals/Alamofire.framework"
+  install_framework "Pods-Pixapals/Bolts.framework"
+  install_framework "Pods-Pixapals/DZNEmptyDataSet.framework"
+  install_framework "Pods-Pixapals/FBSDKCoreKit.framework"
+  install_framework "Pods-Pixapals/FBSDKLoginKit.framework"
   install_framework "Pods-Pixapals/IQKeyboardManager.framework"
   install_framework "Pods-Pixapals/ImagePicker.framework"
   install_framework "Pods-Pixapals/Kingfisher.framework"
   install_framework "Pods-Pixapals/MBProgressHUD.framework"
   install_framework "Pods-Pixapals/Spring.framework"
   install_framework "Pods-Pixapals/SwiftyJSON.framework"
+  install_framework "Pods-Pixapals/Toucan.framework"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework "Pods-Pixapals/Alamofire.framework"
+  install_framework "Pods-Pixapals/Bolts.framework"
+  install_framework "Pods-Pixapals/DZNEmptyDataSet.framework"
+  install_framework "Pods-Pixapals/FBSDKCoreKit.framework"
+  install_framework "Pods-Pixapals/FBSDKLoginKit.framework"
   install_framework "Pods-Pixapals/IQKeyboardManager.framework"
   install_framework "Pods-Pixapals/ImagePicker.framework"
   install_framework "Pods-Pixapals/Kingfisher.framework"
   install_framework "Pods-Pixapals/MBProgressHUD.framework"
   install_framework "Pods-Pixapals/Spring.framework"
   install_framework "Pods-Pixapals/SwiftyJSON.framework"
+  install_framework "Pods-Pixapals/Toucan.framework"
 fi

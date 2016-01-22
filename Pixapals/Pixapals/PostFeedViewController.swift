@@ -164,7 +164,7 @@ class PostFeedViewController: UIViewController {
         
         // example image data
         let image = image1
-        let imageData = NSData(data:(UIImageJPEGRepresentation(image, 1))!)
+        let imageData = NSData(data:(UIImageJPEGRepresentation(image1, 1))!)
         
         print(parameters)
         print(headers)

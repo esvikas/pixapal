@@ -11,6 +11,9 @@ pod 'IQKeyboardManager'
 pod 'MBProgressHUD', '~> 0.9.2'
 pod 'Spring', :git => 'https://github.com/MengTo/Spring.git', :branch => 'swift2'
 pod 'ImagePicker'
+pod 'DZNEmptyDataSet’
+pod ‘FBSDKLoginKit’
+pod ‘Toucan’
 
 
 end
