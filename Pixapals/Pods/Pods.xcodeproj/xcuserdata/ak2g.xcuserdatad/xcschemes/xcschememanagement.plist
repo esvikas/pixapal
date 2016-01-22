@@ -9,11 +9,6 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
-		<key>AlamofireObjectMapper.xcscheme</key>
-		<dict>
-			<key>isShown</key>
-			<false/>
-		</dict>
 		<key>IQKeyboardManager.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -39,12 +34,12 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
-		<key>ObjectMapper.xcscheme</key>
+		<key>Pods-Pixapals.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
 		</dict>
-		<key>Pods-Pixapals.xcscheme</key>
+		<key>Spring.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
@@ -57,16 +52,6 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>1A8B1E47CA40EE73BBEB55F118208114</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>3951C91C797B1522BCB880CEFF3B631A</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
 		<key>432ECC54282C84882B482CCB4CF227FC</key>
 		<dict>
 			<key>primary</key>
@@ -77,7 +62,22 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>C5CBCAA97E951CC882334464FBDF983D</key>
+		<key>484C3260083860863EA0E1C40F9E1DD0</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>5855D213D188EE14086C1F827DE7B1FF</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>792B8028E1050B5268E5CF4BAB2D5F20</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>8971F3E265273958DAC0C07B720F6078</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -93,16 +93,6 @@
 			<true/>
 		</dict>
 		<key>F91226101ECE8FCFD221A3EC54481F82</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>FBD082A0D35F7917EAB9DD9D3CCA9976</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>FD2454D242C0D8AEC8FBB8FCB25CB6DE</key>
 		<dict>
 			<key>primary</key>
 			<true/>

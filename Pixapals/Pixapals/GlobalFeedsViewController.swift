@@ -131,6 +131,9 @@ extension GlobalFeedsViewController: UITableViewDataSource {
         cell.loveCount.text = "\(feedsToShow[indexPath.section, "loveit"].string ?? "0") love it"
         cell.leftCount.text = "\(feedsToShow[indexPath.section, "leaveit"].string ?? "0") left it"
         cell.comment.text = "\(feedsToShow[indexPath.section, "comment"].string ?? "")"
+//        cell.imageViewObject?.kf_setImageWithURL(NSURL(string: feedsToShow[indexPath.section, "photo"].string!)!)
+//        cell.DynamicView.addSubview(cell.feedImage)
+        print(cell.feedImage.frame.height)
         
         return cell
     }
@@ -140,6 +143,8 @@ extension GlobalFeedsViewController: UITableViewDataSource {
 extension GlobalFeedsViewController: UITableViewDelegate {
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
+        
+        
     }
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
@@ -204,6 +209,8 @@ extension GlobalFeedsViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
         return CGSizeMake((self.view.frame.width - 44)/2, (self.view.frame.width - 44)/2)
     }
+    
+    
     
 }
 

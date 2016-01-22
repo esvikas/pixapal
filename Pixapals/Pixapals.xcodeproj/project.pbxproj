@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		320933FB1C50EF1100B092B1 /* WobbleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 320933FA1C50EF1100B092B1 /* WobbleView.swift */; };
 		321B7F9B1C460E760017932E /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 321B7F9A1C460E760017932E /* Reachability.swift */; };
 		321B7F9D1C465CEC0017932E /* HelperFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 321B7F9C1C465CEC0017932E /* HelperFile.swift */; };
 		321BF4821C4D0EF50025CE64 /* SRWebClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 321BF4811C4D0EF50025CE64 /* SRWebClient.swift */; };
@@ -36,10 +37,12 @@
 		43D2C75F1C4378A900F0E2C5 /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D2C75E1C4378A900F0E2C5 /* RegisterViewController.swift */; };
 		43D2C7651C43B89800F0E2C5 /* PostFeedModeSelectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D2C7641C43B89800F0E2C5 /* PostFeedModeSelectionViewController.swift */; };
 		43FBEE0C1C50D4EB00C25A7D /* GlobalFeedTableViewHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43FBEE0B1C50D4EB00C25A7D /* GlobalFeedTableViewHeaderCell.swift */; };
-		79A52A0517F432D13BEF7F2F /* Pods_Pixapals.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77794623276E2BA467ACACC8 /* Pods_Pixapals.framework */; };
+		D794CCBE85986CD3C38B5435 /* Pods_Pixapals.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9EAB444B124BDE822F19ED75 /* Pods_Pixapals.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		25D925DA979295FB8DE10432 /* Pods-Pixapals.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Pixapals.release.xcconfig"; path = "Pods/Target Support Files/Pods-Pixapals/Pods-Pixapals.release.xcconfig"; sourceTree = "<group>"; };
+		320933FA1C50EF1100B092B1 /* WobbleView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WobbleView.swift; sourceTree = "<group>"; };
 		321B7F9A1C460E760017932E /* Reachability.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
 		321B7F9C1C465CEC0017932E /* HelperFile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HelperFile.swift; sourceTree = "<group>"; };
 		321BF4811C4D0EF50025CE64 /* SRWebClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SRWebClient.swift; sourceTree = "<group>"; };
@@ -71,9 +74,8 @@
 		43D2C75E1C4378A900F0E2C5 /* RegisterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
 		43D2C7641C43B89800F0E2C5 /* PostFeedModeSelectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostFeedModeSelectionViewController.swift; sourceTree = "<group>"; };
 		43FBEE0B1C50D4EB00C25A7D /* GlobalFeedTableViewHeaderCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GlobalFeedTableViewHeaderCell.swift; sourceTree = "<group>"; };
-		77794623276E2BA467ACACC8 /* Pods_Pixapals.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Pixapals.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		DA96032AFC9669B523CDF8B7 /* Pods-Pixapals.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Pixapals.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Pixapals/Pods-Pixapals.debug.xcconfig"; sourceTree = "<group>"; };
-		DC1859A586815A5666ED6B08 /* Pods-Pixapals.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Pixapals.release.xcconfig"; path = "Pods/Target Support Files/Pods-Pixapals/Pods-Pixapals.release.xcconfig"; sourceTree = "<group>"; };
+		9EAB444B124BDE822F19ED75 /* Pods_Pixapals.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Pixapals.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		CD4AF32D5D95BBDC56CB9EDA /* Pods-Pixapals.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Pixapals.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Pixapals/Pods-Pixapals.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -81,7 +83,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				79A52A0517F432D13BEF7F2F /* Pods_Pixapals.framework in Frameworks */,
+				D794CCBE85986CD3C38B5435 /* Pods_Pixapals.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -150,6 +152,7 @@
 		43C1033C1C44F2A3009512C2 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				320933FA1C50EF1100B092B1 /* WobbleView.swift */,
 				43D2C75C1C43529500F0E2C5 /* ButtonWithCornerRadius.swift */,
 				43BF1F1D1C48DDB7000980D5 /* ProfileCustomCollectionViewCell.swift */,
 				43A0EE5E1C4CA7BC009C4E46 /* GlobalFeedTableViewCell.swift */,
@@ -162,8 +165,8 @@
 		B08378BA04DD4F3F064BCC5E /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				DA96032AFC9669B523CDF8B7 /* Pods-Pixapals.debug.xcconfig */,
-				DC1859A586815A5666ED6B08 /* Pods-Pixapals.release.xcconfig */,
+				CD4AF32D5D95BBDC56CB9EDA /* Pods-Pixapals.debug.xcconfig */,
+				25D925DA979295FB8DE10432 /* Pods-Pixapals.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -171,7 +174,7 @@
 		D8434C931E6A53BF2AD08086 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				77794623276E2BA467ACACC8 /* Pods_Pixapals.framework */,
+				9EAB444B124BDE822F19ED75 /* Pods_Pixapals.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -302,6 +305,7 @@
 				327522801C4E1821002DED9C /* ProfileEditViewController.swift in Sources */,
 				43D2C75D1C43529500F0E2C5 /* ButtonWithCornerRadius.swift in Sources */,
 				32CBF55B1C4F7DEC0064E91D /* UIColor+Hex.swift in Sources */,
+				320933FB1C50EF1100B092B1 /* WobbleView.swift in Sources */,
 				435EC4BF1C44E74B00CF88D4 /* GlobalFeedsViewController.swift in Sources */,
 				329B582E1C3E267300C1EE08 /* ViewController.swift in Sources */,
 				43D2C7651C43B89800F0E2C5 /* PostFeedModeSelectionViewController.swift in Sources */,
@@ -432,7 +436,7 @@
 		};
 		329B582B1C3E260600C1EE08 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = DA96032AFC9669B523CDF8B7 /* Pods-Pixapals.debug.xcconfig */;
+			baseConfigurationReference = CD4AF32D5D95BBDC56CB9EDA /* Pods-Pixapals.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = Pixapals/Info.plist;
@@ -444,7 +448,7 @@
 		};
 		329B582C1C3E260600C1EE08 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = DC1859A586815A5666ED6B08 /* Pods-Pixapals.release.xcconfig */;
+			baseConfigurationReference = 25D925DA979295FB8DE10432 /* Pods-Pixapals.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = Pixapals/Info.plist;

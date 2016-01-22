@@ -85,21 +85,19 @@ strip_invalid_archs() {
 
 if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework "Pods-Pixapals/Alamofire.framework"
-  install_framework "Pods-Pixapals/AlamofireObjectMapper.framework"
   install_framework "Pods-Pixapals/IQKeyboardManager.framework"
   install_framework "Pods-Pixapals/ImagePicker.framework"
   install_framework "Pods-Pixapals/Kingfisher.framework"
   install_framework "Pods-Pixapals/MBProgressHUD.framework"
-  install_framework "Pods-Pixapals/ObjectMapper.framework"
+  install_framework "Pods-Pixapals/Spring.framework"
   install_framework "Pods-Pixapals/SwiftyJSON.framework"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework "Pods-Pixapals/Alamofire.framework"
-  install_framework "Pods-Pixapals/AlamofireObjectMapper.framework"
   install_framework "Pods-Pixapals/IQKeyboardManager.framework"
   install_framework "Pods-Pixapals/ImagePicker.framework"
   install_framework "Pods-Pixapals/Kingfisher.framework"
   install_framework "Pods-Pixapals/MBProgressHUD.framework"
-  install_framework "Pods-Pixapals/ObjectMapper.framework"
+  install_framework "Pods-Pixapals/Spring.framework"
   install_framework "Pods-Pixapals/SwiftyJSON.framework"
 fi

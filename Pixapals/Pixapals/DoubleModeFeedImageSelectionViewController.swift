@@ -40,6 +40,10 @@ class DoubleModeFeedImageSelectionViewController: UIViewController, ImagePickerD
         let gestureRecognizer2 = UITapGestureRecognizer(target: self, action: Selector("image2Pressed"))
         image2.addGestureRecognizer(gestureRecognizer2)
         
+        
+        
+
+        
 
     }
     
@@ -142,5 +146,6 @@ class DoubleModeFeedImageSelectionViewController: UIViewController, ImagePickerD
     func cancelButtonDidPress(){
         
     }
+    
 
 }
