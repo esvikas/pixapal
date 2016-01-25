@@ -184,7 +184,22 @@ class PostFeedViewController: UIViewController {
                 self.image1=nil
                 self.image2=nil
 
+                let alertController = UIAlertController(title: "Sucess", message: "Your post sucessfuly posted", preferredStyle: .Alert)
                 
+                let cancelAction = UIAlertAction(title: "Ok", style: .Cancel) { (action) in
+                    print(action)
+                    
+                    
+                    let viewControllers: [UIViewController] = self.navigationController!.viewControllers as [UIViewController];
+                    self.navigationController!.popToViewController(viewControllers[viewControllers.count - 2], animated: true);
+                }
+                alertController.addAction(cancelAction)
+                
+
+                
+                self.presentViewController(alertController, animated: true) {
+                    // ...
+                }
                 
                 
                 
