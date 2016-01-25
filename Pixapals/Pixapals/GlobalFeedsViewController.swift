@@ -80,6 +80,7 @@ class GlobalFeedsViewController: UIViewController {
                 
                 if !json["error"].boolValue {
                     self.feedsToShow = json
+                   // print(self.feedsToShow)
                     self.tableView.reloadData()
                     self.collectionView.reloadData()
                 } else {
@@ -128,6 +129,12 @@ extension GlobalFeedsViewController: UITableViewDataSource {
         
         let cell = tableView.dequeueReusableCellWithIdentifier("globalFeedTableViewCell", forIndexPath: indexPath) as! GlobalFeedTableViewCell
         cell.feedImage.kf_setImageWithURL(NSURL(string: feedsToShow[indexPath.section, "photo"].string!)!)
+        if let imagePresent = feedsToShow[indexPath.section,"photo_two"].string?.isEmpty where imagePresent == false {
+            cell.feedImage2.hidden = false
+            cell.feedImage2.kf_setImageWithURL(NSURL(string: feedsToShow[indexPath.section,"photo_two"].string!)!)
+        } else {
+            cell.feedImage2.hidden = true
+        }
         cell.loveCount.text = "\(feedsToShow[indexPath.section, "loveit"].string ?? "0") love it"
         cell.leftCount.text = "\(feedsToShow[indexPath.section, "leaveit"].string ?? "0") left it"
         cell.comment.text = "\(feedsToShow[indexPath.section, "comment"].string ?? "")"

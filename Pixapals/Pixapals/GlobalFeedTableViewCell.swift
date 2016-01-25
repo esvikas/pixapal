@@ -15,7 +15,7 @@ class GlobalFeedTableViewCell: UITableViewCell {
     @IBOutlet weak var leftCount: UILabel!
     @IBOutlet weak var loveCount: UILabel!
     @IBOutlet weak var comment: UILabel!
-    
+    @IBOutlet weak var feedImage2: UIImageView!
 //    var imageViewObject :UIImageView!
 
     
