@@ -8,6 +8,8 @@
 
 import UIKit
 import ImagePicker
+import Toucan
+
 
 class PostFeedModeSelectionViewController: UIViewController, UINavigationControllerDelegate, ImagePickerDelegate {
 
@@ -74,11 +76,15 @@ class PostFeedModeSelectionViewController: UIViewController, UINavigationControl
         
         
             let uploadLiamge:UIImage = images[0].fixOrientation()
-            CapturedImage = uploadLiamge
-            
+        
+        let cropedImage = Toucan(image: uploadLiamge).resize(CGSize(width: 100, height: 100), fitMode: Toucan.Resize.FitMode.Crop).image
+        CapturedImage = cropedImage
+
+        
             let storyboard: UIStoryboard = UIStoryboard (name: "Main", bundle: nil)
             let vc: PostFeedViewController = storyboard.instantiateViewControllerWithIdentifier("PostFeedViewController") as! PostFeedViewController
             vc.image1=CapturedImage
+        
             self.navigationController?.pushViewController(vc, animated: true)
         
 
