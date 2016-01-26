@@ -22,6 +22,7 @@
 		32CBF55D1C4F7E090064E91D /* GridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32CBF55C1C4F7E090064E91D /* GridView.swift */; };
 		32CBF55F1C4F7E350064E91D /* ImageSelectionVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32CBF55E1C4F7E350064E91D /* ImageSelectionVC.swift */; };
 		32CBF5631C4F7E850064E91D /* ALCropOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32CBF5621C4F7E850064E91D /* ALCropOverlay.swift */; };
+		32EBBD611C562C2600EF8149 /* RootFBClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32EBBD601C562C2600EF8149 /* RootFBClass.swift */; };
 		435EC4BF1C44E74B00CF88D4 /* GlobalFeedsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 435EC4BE1C44E74B00CF88D4 /* GlobalFeedsViewController.swift */; };
 		4391876C1C4E207C00022B38 /* validator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4391876B1C4E207C00022B38 /* validator.swift */; };
 		439738151C45F3E2001F344F /* PostFeedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439738141C45F3E2001F344F /* PostFeedViewController.swift */; };
@@ -59,6 +60,7 @@
 		32CBF55C1C4F7E090064E91D /* GridView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GridView.swift; sourceTree = "<group>"; };
 		32CBF55E1C4F7E350064E91D /* ImageSelectionVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageSelectionVC.swift; sourceTree = "<group>"; };
 		32CBF5621C4F7E850064E91D /* ALCropOverlay.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ALCropOverlay.swift; sourceTree = "<group>"; };
+		32EBBD601C562C2600EF8149 /* RootFBClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RootFBClass.swift; sourceTree = "<group>"; };
 		435EC4BE1C44E74B00CF88D4 /* GlobalFeedsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GlobalFeedsViewController.swift; sourceTree = "<group>"; };
 		4391876B1C4E207C00022B38 /* validator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = validator.swift; sourceTree = "<group>"; };
 		439738141C45F3E2001F344F /* PostFeedViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostFeedViewController.swift; sourceTree = "<group>"; };
@@ -158,6 +160,7 @@
 				43A0EE5E1C4CA7BC009C4E46 /* GlobalFeedTableViewCell.swift */,
 				43A0EE601C4CCBCB009C4E46 /* GlobalFeedCollectionViewCell.swift */,
 				43FBEE0B1C50D4EB00C25A7D /* GlobalFeedTableViewHeaderCell.swift */,
+				32EBBD601C562C2600EF8149 /* RootFBClass.swift */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -315,6 +318,7 @@
 				43BF1F1E1C48DDB7000980D5 /* ProfileCustomCollectionViewCell.swift in Sources */,
 				329B581C1C3E260600C1EE08 /* AppDelegate.swift in Sources */,
 				32CBF55D1C4F7E090064E91D /* GridView.swift in Sources */,
+				32EBBD611C562C2600EF8149 /* RootFBClass.swift in Sources */,
 				43A0EE5F1C4CA7BC009C4E46 /* GlobalFeedTableViewCell.swift in Sources */,
 				321B7F9B1C460E760017932E /* Reachability.swift in Sources */,
 				321BF4821C4D0EF50025CE64 /* SRWebClient.swift in Sources */,

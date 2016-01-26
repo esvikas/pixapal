@@ -7,8 +7,19 @@
 //
 
 import UIKit
+import FBSDKCoreKit
+import FBSDKLoginKit
+import Alamofire
+import SwiftyJSON
+
+
 
 class ViewController: UIViewController {
+    
+    
+    var dict : NSDictionary!
+
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .Plain, target: nil, action: nil)
@@ -39,5 +50,189 @@ class ViewController: UIViewController {
         self.navigationController?.navigationBarHidden = false
         UIApplication.sharedApplication().statusBarStyle = UIStatusBarStyle.LightContent
     }
+    
+    @IBAction func btnFbLogin(sender: AnyObject) {
+        
+            let reachability: Reachability
+            do {
+                reachability = try Reachability.reachabilityForInternetConnection()
+                if reachability.isReachable()  {
+                    
+             
+                    let fbLoginManager : FBSDKLoginManager = FBSDKLoginManager()
+                    
+                    fbLoginManager .logInWithReadPermissions(["public_profile", "email"], handler: {
+                        (result, error) -> Void in
+                        
+                        print("\n result :\(result)", terminator: "")
+                        print("\n error :\(error)", terminator: "")
+                        
+                        if result == nil{
+                            return
+                            
+                        }
+                        if result.isCancelled {
+                            // Handle cancellations
+                            fbLoginManager.logOut()
+                        }else if (error != nil) {
+                            print("\n ERROR IN FACEBOOK LOGIN", terminator: "")
+                        }else{
+                            let fbloginresult : FBSDKLoginManagerLoginResult = result
+                            
+                            //                print("token :\(FBSDKAccessToken.currentAccessToken())", terminator: "")
+                            
+                            //if FBSDKAccessToken.currentAccessToken() != nil{
+                            if(fbloginresult.grantedPermissions.contains("email"))
+                            {
+                                self.getFBUserData()
+                                //fbLoginManager.logOut()
+                            }
+                            //}
+                        }
+                    })
+                    
+                    
+                } else{
+                    
+
+                    return
+                    
+                }}catch{
+                    
+            }
+        }
+    
+    func getFBUserData(){
+        if((FBSDKAccessToken.currentAccessToken()) != nil){
+            
+            FBSDKGraphRequest(graphPath: "me", parameters: ["fields": "id, name, picture.type(large), email, age_range, gender, hometown, birthday"]).startWithCompletionHandler({ (connection, result, error) -> Void in
+                if (error == nil){
+                    self.dict = result as! NSDictionary
+                    //                    print(result, terminator: "")
+                    print(self.dict, terminator: "")
+                    
+                    
+                    print(self.dict["email"])
+                    print(self.dict["id"])
+                    print(self.dict["name"])
+                    print(self.dict["age_range"]!["min"])
+                    print(self.dict["gender"])
+                    print(self.dict["user_birthday"])
+                    
+                    
+                    
+                    self.loginFbUser()
+                    
+                    NSLog(self.dict.objectForKey("picture")?.objectForKey("data")?.objectForKey("url") as! String)
+                }
+            })
+        }
+        
+        
+        let FriendsgraphRequest: FBSDKGraphRequest = FBSDKGraphRequest(graphPath: "me/friends", parameters: ["fields": " gender, birthday"])
+        FriendsgraphRequest.startWithCompletionHandler({(connection,result,error)-> Void in
+            
+            print("\(result)", terminator: "")
+            
+            
+        })
+        
+        
+    }
+    
+    func loginFbUser(){
+        
+        
+        let reachability: Reachability
+        do {
+            reachability = try Reachability.reachabilityForInternetConnection()
+            if reachability.isReachable()  {
+                
+                
+                var registerUrlString = "\(apiUrl)api/v1/login"
+                
+                registerUrlString = registerUrlString.stringByAddingPercentEscapesUsingEncoding(NSUTF8StringEncoding)!
+                
+                let fbName: String = self.dict.objectForKey("name") as! String
+                
+
+                let fbId: String = self.dict.objectForKey("id") as! String
+                
+
+                
+                let defaults = NSUserDefaults.standardUserDefaults()
+                let userId = defaults.objectForKey("user_id") as? Int
+                String(stringInterpolationSegment: userId)
+                
+
+                
+                let parametersToPost = [
+                    "profileid": fbId,
+                    "name": fbName,
+                    "type":"facebook"
+                ]
+                
+                print(parametersToPost, terminator: "")
+
+                Alamofire.request(.POST, registerUrlString, parameters: parametersToPost)
+                    .responseJSON { response in
+                        debugPrint(response)     // prints detailed description of all response properties
+                        
+                        print(response.request)  // original URL request
+                        print(response.response) // URL response
+                        print(response.data)     // server data
+                        print(response.result)   // result of response serialization
+                        
+                        if let JSON = response.result.value {
+                            print("JSON: \(JSON)")
+                        }
+                        
+                        
+                        
+                        if let HTTPResponse = response.response {
+                            
+                            let statusCode = HTTPResponse.statusCode
+                            
+                            if statusCode==200{
+                                
+                                let json = JSON(response.result.value!)
+                                //let num = json["interest"].arrayObject
+                                // let userids = json["user_id"].intValue
+                                
+                                let userid = json["results"]["user_id"].intValue
+                                let fb_id = json["results"]["f_id"].stringValue
+   
+                                print(fb_id)
+                                //self.user_id = userid
+                                
+                                let defaults = NSUserDefaults.standardUserDefaults()
+                                defaults.setInteger(userid, forKey: "user_id")
+                                defaults.setValue(fb_id, forKey: "K_fb_id")
+                                defaults.setValue("", forKey: "K_token")
+                                
+                                
+                                defaults.synchronize()
+                                // print(self.user_id)
+
+                                
+                            }else {
+                                
+                                
+
+                            }
+                        }
+                }
+                
+                
+            } else{
+                
+
+                return
+                
+            }}catch{
+                
+        }
+
+}
 }
 

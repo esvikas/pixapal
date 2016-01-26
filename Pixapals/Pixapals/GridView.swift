@@ -23,11 +23,9 @@ class GridView: UIView {
         super.init(frame: frame)
         self.backgroundColor = UIColor.clearColor()
     }
-
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
     override func drawRect(rect: CGRect) {
         super.drawRect(rect)
         let context = UIGraphicsGetCurrentContext()
