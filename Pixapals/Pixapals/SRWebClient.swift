@@ -1,3 +1,4 @@
+
 //
 //  SRWebClient.swift
 //  SRWebClient
@@ -112,7 +113,8 @@ public class SRWebClient : NSObject
                 dataList.append("\(key)=\(value)")
             }
         }
-        return  dataList.joinWithSeparator("&").stringByAddingPercentEscapesUsingEncoding(NSUTF8StringEncoding)  //join("&", dataList).stringByAddingPercentEscapesUsingEncoding(NSUTF8StringEncoding)
+        return  dataList.joinWithSeparator("&").stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLQueryAllowedCharacterSet()
+        )//stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLQueryAllowedCharacterSet())!  //join("&", dataList).stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLQueryAllowedCharacterSet())!
     }
     
     /**
@@ -146,8 +148,8 @@ public class SRWebClient : NSObject
     *
     *  @return self instance to support function chaining
     */
-    public func data(image:NSData, fieldName:String, data:RequestData?) -> SRWebClient {
-        if(image.length > 0 && self.urlRequest!.HTTPMethod == "POST") {
+    public func data(image:[NSData], fieldName:[String], data:RequestData?) -> SRWebClient {
+        if(image.count > 0 && self.urlRequest!.HTTPMethod == "POST") {
             
             let uniqueId = NSProcessInfo.processInfo().globallyUniqueString
             
@@ -167,15 +169,19 @@ public class SRWebClient : NSObject
                     }
                 }
             }
-            postData += "--\(boundary)\r\n"
-            postData += "Content-Disposition: form-data; name=\"\(fieldName)\"; filename=\"\(Int64(NSDate().timeIntervalSince1970*1000)).jpg\"\r\n"
-            postData += "Content-Type: image/jpeg\r\n\r\n"
-            postBody.appendData(postData.dataUsingEncoding(NSUTF8StringEncoding)!)
-            postBody.appendData(image)
-            postData = String()
-            postData += "\r\n"
-            postData += "\r\n--\(boundary)--\r\n"
-            postBody.appendData(postData.dataUsingEncoding(NSUTF8StringEncoding)!)
+            
+            for index in 0...image.count-1 {
+                
+                postData += "--\(boundary)\r\n"
+                postData += "Content-Disposition: form-data; name=\"\(fieldName[index])\"; filename=\"\(Int64(NSDate().timeIntervalSince1970*1000)).jpg\"\r\n"
+                postData += "Content-Type: image/jpeg\r\n\r\n"
+                postBody.appendData(postData.dataUsingEncoding(NSUTF8StringEncoding)!)
+                postBody.appendData(image[index])
+                postData = String()
+                postData += "\r\n"
+                postData += "\r\n--\(boundary)--\r\n"
+                postBody.appendData(postData.dataUsingEncoding(NSUTF8StringEncoding)!)
+            }
             
             self.urlRequest!.HTTPBody = NSData(data: postBody)
         }
@@ -209,9 +215,13 @@ public class SRWebClient : NSObject
             var error:NSError?            
             let result:NSData?
             do {
+                
+                
                 result = try NSURLConnection.sendSynchronousRequest(self.urlRequest!, returningResponse: &response)
             } catch let error1 as NSError {
                 error = error1
+                
+                print("error is :::> \(error)")
                 result = nil
             } catch {
                 fatalError()
@@ -223,6 +233,7 @@ public class SRWebClient : NSObject
             var Ejson:AnyObject = ""
          
             do {
+                
                 if result?.description == nil{
                     return
                     
@@ -231,6 +242,8 @@ public class SRWebClient : NSObject
 
             } catch let errorOn as NSError {
                 error = errorOn
+                print("error is :::> \(error)")
+
             } catch {
                 fatalError()
             }
@@ -268,6 +281,8 @@ public class SRWebClient : NSObject
                             
                         } catch let errorOn as NSError {
                             error = errorOn
+                            print("error is :::> \(error)")
+
                         } catch {
                             fatalError()
                         }

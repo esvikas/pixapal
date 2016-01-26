@@ -10,11 +10,15 @@ import UIKit
 import Alamofire
 import SwiftyJSON
 import Kingfisher
+import MBProgressHUD
+
 
 class GlobalFeedsViewController: UIViewController {
     
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var collectionView: UICollectionView!
+    let blurEffectView = UIVisualEffectView(effect: UIBlurEffect(style: UIBlurEffectStyle.ExtraLight))
+
     
     
     var collectionViewHidden = false
@@ -27,6 +31,14 @@ class GlobalFeedsViewController: UIViewController {
         self.loadDataFromAPI()
         self.changeViewMode(self)
         self.tabBarController?.navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "square"), style: .Plain, target: self, action: "changeViewMode:")
+    
+        self.blurEffectView.alpha = 0.4
+        blurEffectView.frame = view.bounds
+        self.view.addSubview(self.blurEffectView)
+        let loadingNotification = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
+        loadingNotification.mode = MBProgressHUDMode.Indeterminate
+        loadingNotification.labelText = "Loading"
+    
     }
     
     override func didReceiveMemoryWarning() {
@@ -83,6 +95,8 @@ class GlobalFeedsViewController: UIViewController {
                    // print(self.feedsToShow)
                     self.tableView.reloadData()
                     self.collectionView.reloadData()
+                    MBProgressHUD.hideAllHUDsForView(self.view, animated: true)
+                    self.blurEffectView.removeFromSuperview()
                 } else {
                     print("Error: \(json["message"])")
                 }
@@ -128,10 +142,10 @@ extension GlobalFeedsViewController: UITableViewDataSource {
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCellWithIdentifier("globalFeedTableViewCell", forIndexPath: indexPath) as! GlobalFeedTableViewCell
-        cell.feedImage.kf_setImageWithURL(NSURL(string: feedsToShow[indexPath.section, "photo"].string!)!)
+        cell.feedImage.kf_setImageWithURL(NSURL(string: feedsToShow[indexPath.section, "photo"].string!)!, placeholderImage: UIImage(named: "loading.png"))
         if let imagePresent = feedsToShow[indexPath.section,"photo_two"].string?.isEmpty where imagePresent == false {
             cell.feedImage2.hidden = false
-            cell.feedImage2.kf_setImageWithURL(NSURL(string: feedsToShow[indexPath.section,"photo_two"].string!)!)
+            cell.feedImage2.kf_setImageWithURL(NSURL(string: feedsToShow[indexPath.section,"photo_two"].string!)! , placeholderImage: UIImage(named: "loading.png"))
         } else {
             cell.feedImage2.hidden = true
         }
@@ -141,7 +155,9 @@ extension GlobalFeedsViewController: UITableViewDataSource {
 //        cell.imageViewObject?.kf_setImageWithURL(NSURL(string: feedsToShow[indexPath.section, "photo"].string!)!)
 //        cell.DynamicView.addSubview(cell.feedImage)
         print(cell.feedImage.frame.height)
-        
+        print((string: feedsToShow[indexPath.section,"photo_two"].string!))
+        print((string: feedsToShow[indexPath.section,"photo"].string!))
+
         return cell
     }
     

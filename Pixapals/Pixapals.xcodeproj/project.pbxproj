@@ -10,7 +10,6 @@
 		320933FB1C50EF1100B092B1 /* WobbleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 320933FA1C50EF1100B092B1 /* WobbleView.swift */; };
 		321B7F9B1C460E760017932E /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 321B7F9A1C460E760017932E /* Reachability.swift */; };
 		321B7F9D1C465CEC0017932E /* HelperFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 321B7F9C1C465CEC0017932E /* HelperFile.swift */; };
-		321BF4821C4D0EF50025CE64 /* SRWebClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 321BF4811C4D0EF50025CE64 /* SRWebClient.swift */; };
 		327522801C4E1821002DED9C /* ProfileEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3275227F1C4E1821002DED9C /* ProfileEditViewController.swift */; };
 		329B581C1C3E260600C1EE08 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 329B581B1C3E260600C1EE08 /* AppDelegate.swift */; };
 		329B58211C3E260600C1EE08 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 329B581F1C3E260600C1EE08 /* Main.storyboard */; };
@@ -22,6 +21,7 @@
 		32CBF55D1C4F7E090064E91D /* GridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32CBF55C1C4F7E090064E91D /* GridView.swift */; };
 		32CBF55F1C4F7E350064E91D /* ImageSelectionVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32CBF55E1C4F7E350064E91D /* ImageSelectionVC.swift */; };
 		32CBF5631C4F7E850064E91D /* ALCropOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32CBF5621C4F7E850064E91D /* ALCropOverlay.swift */; };
+		32D784551C572D710027AE65 /* SRWebClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32D784541C572D710027AE65 /* SRWebClient.swift */; };
 		32EBBD611C562C2600EF8149 /* RootFBClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32EBBD601C562C2600EF8149 /* RootFBClass.swift */; };
 		435EC4BF1C44E74B00CF88D4 /* GlobalFeedsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 435EC4BE1C44E74B00CF88D4 /* GlobalFeedsViewController.swift */; };
 		4391876C1C4E207C00022B38 /* validator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4391876B1C4E207C00022B38 /* validator.swift */; };
@@ -46,7 +46,6 @@
 		320933FA1C50EF1100B092B1 /* WobbleView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WobbleView.swift; sourceTree = "<group>"; };
 		321B7F9A1C460E760017932E /* Reachability.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
 		321B7F9C1C465CEC0017932E /* HelperFile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HelperFile.swift; sourceTree = "<group>"; };
-		321BF4811C4D0EF50025CE64 /* SRWebClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SRWebClient.swift; sourceTree = "<group>"; };
 		3275227F1C4E1821002DED9C /* ProfileEditViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileEditViewController.swift; sourceTree = "<group>"; };
 		329B58181C3E260600C1EE08 /* Pixapals.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Pixapals.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		329B581B1C3E260600C1EE08 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -60,6 +59,7 @@
 		32CBF55C1C4F7E090064E91D /* GridView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GridView.swift; sourceTree = "<group>"; };
 		32CBF55E1C4F7E350064E91D /* ImageSelectionVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageSelectionVC.swift; sourceTree = "<group>"; };
 		32CBF5621C4F7E850064E91D /* ALCropOverlay.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ALCropOverlay.swift; sourceTree = "<group>"; };
+		32D784541C572D710027AE65 /* SRWebClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SRWebClient.swift; sourceTree = "<group>"; };
 		32EBBD601C562C2600EF8149 /* RootFBClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RootFBClass.swift; sourceTree = "<group>"; };
 		435EC4BE1C44E74B00CF88D4 /* GlobalFeedsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GlobalFeedsViewController.swift; sourceTree = "<group>"; };
 		4391876B1C4E207C00022B38 /* validator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = validator.swift; sourceTree = "<group>"; };
@@ -131,9 +131,9 @@
 		43C103391C44F242009512C2 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				32D784541C572D710027AE65 /* SRWebClient.swift */,
 				32CBF55E1C4F7E350064E91D /* ImageSelectionVC.swift */,
 				32CBF55C1C4F7E090064E91D /* GridView.swift */,
-				321BF4811C4D0EF50025CE64 /* SRWebClient.swift */,
 				321B7F9A1C460E760017932E /* Reachability.swift */,
 				329B582D1C3E267300C1EE08 /* ViewController.swift */,
 				43D2C75E1C4378A900F0E2C5 /* RegisterViewController.swift */,
@@ -321,7 +321,6 @@
 				32EBBD611C562C2600EF8149 /* RootFBClass.swift in Sources */,
 				43A0EE5F1C4CA7BC009C4E46 /* GlobalFeedTableViewCell.swift in Sources */,
 				321B7F9B1C460E760017932E /* Reachability.swift in Sources */,
-				321BF4821C4D0EF50025CE64 /* SRWebClient.swift in Sources */,
 				43C1033B1C44F276009512C2 /* LoginWithEmailViewController.swift in Sources */,
 				32CBF5631C4F7E850064E91D /* ALCropOverlay.swift in Sources */,
 				43C103381C44EF70009512C2 /* ProfileViewController.swift in Sources */,
@@ -332,6 +331,7 @@
 				439A350C1C4CFD5600A036E9 /* UserDataStruct.swift in Sources */,
 				43BF1F1A1C48B252000980D5 /* DoubleModeFeedImageSelectionViewController.swift in Sources */,
 				321B7F9D1C465CEC0017932E /* HelperFile.swift in Sources */,
+				32D784551C572D710027AE65 /* SRWebClient.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

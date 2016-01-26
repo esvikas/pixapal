@@ -9,6 +9,7 @@
 import UIKit
 import Alamofire
 import SwiftyJSON
+import MBProgressHUD
 
 enum imageMode: String {
     
@@ -31,6 +32,13 @@ class PostFeedViewController: UIViewController {
     var image1: UIImage!
     var image2: UIImage!
     var image3: UIImage!
+    
+    var fieldNameArray = ["photo"]
+    var imageData = [NSData]()
+    let blurEffectView = UIVisualEffectView(effect: UIBlurEffect(style: UIBlurEffectStyle.ExtraLight))
+
+
+
 
     
     var DynamicView:UIImageView!
@@ -47,12 +55,18 @@ class PostFeedViewController: UIViewController {
             doubleModeSwipeImageInstructionLabel.hidden = true
             singleModeImageView.hidden = false
             singleModeImageView.image=image1
+            imageData.append((data:(UIImageJPEGRepresentation(image1, 1))!))
             
         } else  {
             singleModeImageView.hidden = true
             doubleModeStackView.hidden = false
             doubleModeImageView1.image=image1
             doubleModeImageView2.image=image2
+            fieldNameArray.append("photo_two")
+            imageData.append((data:(UIImageJPEGRepresentation(image1, 1))!))
+            imageData.append((data:(UIImageJPEGRepresentation(image2, 1))!))
+
+
 
             doubleModeSwipeImageInstructionLabel.hidden = false
             
@@ -153,6 +167,13 @@ class PostFeedViewController: UIViewController {
     
     func PostFeed(){
         
+        self.blurEffectView.alpha = 0.4
+        blurEffectView.frame = view.bounds
+        self.view.addSubview(self.blurEffectView)
+        let loadingNotification = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
+        loadingNotification.mode = MBProgressHUDMode.Indeterminate
+        loadingNotification.labelText = "Loading"
+        
         let parameters = [
             "user_id" : "1",
             "comment" : commentTextField.text!
@@ -163,17 +184,17 @@ class PostFeedViewController: UIViewController {
         ]
         
         // example image data
-        let image = image1
-        let imageData = NSData(data:(UIImageJPEGRepresentation(image1, 1))!)
         
         print(parameters)
         print(headers)
+        print(imageData.count)
+        print(fieldNameArray)
         
         // CREATE AND SEND REQUEST ----------
         
         SRWebClient.POST("\(apiUrl)api/v1/feeds")
             
-            .data(imageData, fieldName:"photo", data:parameters)
+            .data(imageData, fieldName:fieldNameArray, data:parameters)
             .headers(headers)
             .send({(response:AnyObject!, status:Int) -> Void in
                 
@@ -191,7 +212,12 @@ class PostFeedViewController: UIViewController {
                     
                     
                     let viewControllers: [UIViewController] = self.navigationController!.viewControllers as [UIViewController];
-                    self.navigationController!.popToViewController(viewControllers[viewControllers.count - 2], animated: true);
+                    self.navigationController!.popToViewController(viewControllers[2], animated: true);
+                    self.tabBarController?.selectedIndex = 0
+                    MBProgressHUD.hideAllHUDsForView(self.view, animated: true)
+                    self.blurEffectView.removeFromSuperview()
+
+
                 }
                 alertController.addAction(cancelAction)
                 
@@ -204,6 +230,8 @@ class PostFeedViewController: UIViewController {
                 
                 
                 },failure:{(response:AnyObject!, error:NSError!) -> Void in
+                    MBProgressHUD.hideAllHUDsForView(self.view, animated: true)
+
                     
                     print("Failure")
                     print(response)

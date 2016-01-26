@@ -19,7 +19,7 @@ class GlobalFeedTableViewCell: UITableViewCell {
 //    var imageViewObject :UIImageView!
 
     
-    var DynamicView=WobbleView()
+    var DynamicView=UIView()
 
 
     
@@ -28,12 +28,7 @@ class GlobalFeedTableViewCell: UITableViewCell {
         // Initialization code
 
         
-        DynamicView.frame=(frame: CGRectMake(self.feedImage.layer.frame.origin.x, self.feedImage.layer.frame.origin.y, self.feedImage.frame.width, self.feedImage.frame.height))
-        //        DynamicView.layer.cornerRadius=25
-        //        DynamicView.layer.borderWidth=2
-        
-        DynamicView.edges=ViewEdge.None
-        self.addSubview(DynamicView)
+
         
         let swipeRight = UISwipeGestureRecognizer(target: self, action: "respondToSwipeGesture:")
         swipeRight.direction = UISwipeGestureRecognizerDirection.Right
@@ -49,7 +44,20 @@ class GlobalFeedTableViewCell: UITableViewCell {
 //        imageViewObject.image = UIImage(named:"afternoon")
         
 //        self.DynamicView.addSubview(imageViewObject)
+        
+         CreateScreen()
 
+    }
+    
+    func CreateScreen(){
+        self.layoutIfNeeded()
+        
+        DynamicView.frame=(frame: CGRectMake(self.feedImage.layer.frame.origin.x, self.feedImage.layer.frame.origin.y, self.feedImage.frame.width, self.feedImage.frame.height))
+        //        DynamicView.layer.cornerRadius=25
+        //        DynamicView.layer.borderWidth=2
+        
+        self.addSubview(DynamicView)
+        
     }
     
 
