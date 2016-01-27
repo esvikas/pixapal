@@ -20,14 +20,18 @@ class GlobalFeedsViewController: UIViewController {
     let blurEffectView = UIVisualEffectView(effect: UIBlurEffect(style: UIBlurEffectStyle.ExtraLight))
     
     @IBOutlet weak var tableViewFooterView: UIView!
+    @IBOutlet weak var loadMoreActivityIndicator: UIActivityIndicatorView!
     
     var refreshControl:UIRefreshControl!
-
+    var refreshingStatus = false
 
     
     
     var collectionViewHidden = false
     var feedsToShow: JSON!
+    
+    var pageNumber = 1
+    let postLimit = 15
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -87,13 +91,21 @@ class GlobalFeedsViewController: UIViewController {
         print("Swiped right")
     }
     
+    @IBAction func loadMore(sender: UIButton) {
+        self.pageNumber++
+        self.loadMoreActivityIndicator.startAnimating()
+        
+        self.loadDataFromAPI()
+    }
+    
     private func loadDataFromAPI(){
         guard let id = UserDataStruct().id else {
             print("no user id")
             return
         }
         
-        let apiURLString = "\(apiUrl)api/v1/feeds/global/\(id)"
+        let apiURLString = "\(apiUrl)api/v1/feeds/global/\(id)/\(self.pageNumber)/\(self.postLimit)"
+        print(apiURLString)
         guard let api_token = UserDataStruct().api_token else{
             print("no api token")
             return
@@ -107,10 +119,21 @@ class GlobalFeedsViewController: UIViewController {
             switch response.result {
             case .Success(let value):
                 let json = JSON(value)
-                
+                print(json)
                 if !json["error"].boolValue {
-                    self.feedsToShow = json
-                   // print(self.feedsToShow)
+                    if let _ = self.feedsToShow {
+                        if self.refreshingStatus == true {
+                            self.refreshingStatus = false
+                            self.feedsToShow = json
+                        } else {
+                            self.feedsToShow = JSON(self.feedsToShow.arrayObject! + json.arrayObject!)
+                            self.loadMoreActivityIndicator.stopAnimating()
+                            
+                        }
+                    } else {
+                        self.feedsToShow = json
+                    }
+                    
                     self.tableView.reloadData()
                     self.collectionView.reloadData()
                     MBProgressHUD.hideAllHUDsForView(self.view, animated: true)
@@ -156,7 +179,9 @@ class GlobalFeedsViewController: UIViewController {
     func refresh(sender:AnyObject)
     {
         // Code to refresh table view
-        loadDataFromAPI()
+        self.pageNumber = 1
+        self.refreshingStatus = true
+        self.loadDataFromAPI()
     }
 }
 
@@ -182,11 +207,6 @@ extension GlobalFeedsViewController: UITableViewDataSource {
         cell.loveCount.text = "\(feedsToShow[indexPath.section, "loveit"].string ?? "0") love it"
         cell.leftCount.text = "\(feedsToShow[indexPath.section, "leaveit"].string ?? "0") left it"
         cell.comment.text = "\(feedsToShow[indexPath.section, "comment"].string ?? "")"
-//        cell.imageViewObject?.kf_setImageWithURL(NSURL(string: feedsToShow[indexPath.section, "photo"].string!)!)
-//        cell.DynamicView.addSubview(cell.feedImage)
-        print(cell.feedImage.frame.height)
-        print((string: feedsToShow[indexPath.section,"photo_two"].string!))
-        print((string: feedsToShow[indexPath.section,"photo"].string!))
 
         return cell
     }
