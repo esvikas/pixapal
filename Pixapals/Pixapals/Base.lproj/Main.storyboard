@@ -703,13 +703,21 @@
                                                     <state key="normal" title="load more ...">
                                                         <color key="titleColor" red="0.074509803920000006" green="0.60392156860000001" blue="0.90980392160000001" alpha="1" colorSpace="calibratedRGB"/>
                                                     </state>
+                                                    <connections>
+                                                        <action selector="loadMore:" destination="rSs-SK-SEN" eventType="touchUpInside" id="maY-bP-3a7"/>
+                                                    </connections>
                                                 </button>
+                                                <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="MlA-Km-uFN">
+                                                    <rect key="frame" x="197" y="15" width="20" height="20"/>
+                                                </activityIndicatorView>
                                             </subviews>
                                             <color key="backgroundColor" red="0.86213596199999998" green="0.86213596199999998" blue="0.86213596199999998" alpha="1" colorSpace="calibratedRGB"/>
                                             <constraints>
                                                 <constraint firstAttribute="bottom" secondItem="OZp-u2-HTs" secondAttribute="bottom" id="7dP-ej-6Z4"/>
                                                 <constraint firstItem="OZp-u2-HTs" firstAttribute="centerY" secondItem="Drz-1J-qLK" secondAttribute="centerY" id="7hW-g2-Yts"/>
                                                 <constraint firstItem="OZp-u2-HTs" firstAttribute="top" secondItem="Drz-1J-qLK" secondAttribute="top" id="7oA-Wf-DI2"/>
+                                                <constraint firstItem="MlA-Km-uFN" firstAttribute="centerX" secondItem="OZp-u2-HTs" secondAttribute="centerX" id="TZU-hf-exl"/>
+                                                <constraint firstItem="MlA-Km-uFN" firstAttribute="centerY" secondItem="OZp-u2-HTs" secondAttribute="centerY" id="VjX-Sa-XWc"/>
                                                 <constraint firstItem="OZp-u2-HTs" firstAttribute="leading" secondItem="Drz-1J-qLK" secondAttribute="leading" id="kSj-UE-MM2"/>
                                                 <constraint firstAttribute="trailing" secondItem="OZp-u2-HTs" secondAttribute="trailing" id="njJ-9v-ykB"/>
                                                 <constraint firstItem="OZp-u2-HTs" firstAttribute="centerX" secondItem="Drz-1J-qLK" secondAttribute="centerX" id="pqx-bD-Nq7"/>
@@ -933,7 +941,9 @@
                     <size key="freeformSize" width="414" height="1050"/>
                     <connections>
                         <outlet property="collectionView" destination="90O-sY-FEp" id="0da-dL-IPl"/>
+                        <outlet property="loadMoreActivityIndicator" destination="MlA-Km-uFN" id="RPX-1b-1zh"/>
                         <outlet property="tableView" destination="SfV-l8-itb" id="T7U-ZF-u8l"/>
+                        <outlet property="tableViewFooterView" destination="Drz-1J-qLK" id="8Ju-hG-kv5"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="By2-JM-Okb" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -957,7 +967,6 @@
                                 <subviews>
                                     <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="lfb-7p-p8J">
                                         <rect key="frame" x="0.0" y="0.0" width="414" height="440"/>
-                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="440" id="5qd-Vt-8Je"/>
                                             <constraint firstAttribute="height" constant="294" id="6yw-Zc-YQb"/>
@@ -977,13 +986,12 @@
                                                     <rect key="frame" x="0.0" y="0.0" width="115" height="114"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <subviews>
-                                                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="post-feed-img" translatesAutoresizingMaskIntoConstraints="NO" id="FHf-4n-Mx7">
+                                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="post-feed-img" translatesAutoresizingMaskIntoConstraints="NO" id="FHf-4n-Mx7">
                                                             <rect key="frame" x="0.0" y="0.0" width="115" height="114"/>
                                                         </imageView>
                                                     </subviews>
                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                 </view>
-                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <constraints>
                                                     <constraint firstItem="FHf-4n-Mx7" firstAttribute="leading" secondItem="4UI-bF-Zpe" secondAttribute="leading" id="6aX-Lm-xpA"/>
                                                     <constraint firstAttribute="trailing" secondItem="FHf-4n-Mx7" secondAttribute="trailing" id="pfn-5d-uUl"/>

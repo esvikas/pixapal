@@ -19,21 +19,30 @@ class GlobalFeedsViewController: UIViewController {
     @IBOutlet weak var collectionView: UICollectionView!
     let blurEffectView = UIVisualEffectView(effect: UIBlurEffect(style: UIBlurEffectStyle.ExtraLight))
     
+    @IBOutlet weak var tableViewFooterView: UIView!
+    @IBOutlet weak var loadMoreActivityIndicator: UIActivityIndicatorView!
+    
     var refreshControl:UIRefreshControl!
-
+    var refreshingStatus = false
 
     
     
     var collectionViewHidden = false
     var feedsToShow: JSON!
     
+    var pageNumber = 1
+    let postLimit = 15
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         //self.navigationItem.hidesBackButton = true
         // Do any additional setup after loading the view.
+        
+        self.tableViewFooterView.hidden = true
+        
         self.loadDataFromAPI()
         self.changeViewMode(self)
-        self.tabBarController?.navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "square"), style: .Plain, target: self, action: "changeViewMode:")
+        
     
         self.blurEffectView.alpha = 0.4
         blurEffectView.frame = view.bounds
@@ -55,11 +64,15 @@ class GlobalFeedsViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     override func viewWillAppear(animated: Bool) {
+        self.tabBarController?.navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "square"), style: .Plain, target: self, action: "changeViewMode:")
+        
         self.tabBarController?.navigationItem.title = "Global Feed"
         self.tabBarController?.navigationItem.hidesBackButton = true
         self.tabBarController?.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .Plain, target: nil, action: nil)
     }
-    
+    override func viewWillDisappear(animated: Bool) {
+        self.tabBarController?.navigationItem.rightBarButtonItem = UIBarButtonItem()
+    }
     /*
     // MARK: - Navigation
     
@@ -78,13 +91,21 @@ class GlobalFeedsViewController: UIViewController {
         print("Swiped right")
     }
     
+    @IBAction func loadMore(sender: UIButton) {
+        self.pageNumber++
+        self.loadMoreActivityIndicator.startAnimating()
+        
+        self.loadDataFromAPI()
+    }
+    
     private func loadDataFromAPI(){
         guard let id = UserDataStruct().id else {
             print("no user id")
             return
         }
         
-        let apiURLString = "\(apiUrl)api/v1/feeds/global/\(id)"
+        let apiURLString = "\(apiUrl)api/v1/feeds/global/\(id)/\(self.pageNumber)/\(self.postLimit)"
+        print(apiURLString)
         guard let api_token = UserDataStruct().api_token else{
             print("no api token")
             return
@@ -98,15 +119,27 @@ class GlobalFeedsViewController: UIViewController {
             switch response.result {
             case .Success(let value):
                 let json = JSON(value)
-                
+                print(json)
                 if !json["error"].boolValue {
-                    self.feedsToShow = json
-                   // print(self.feedsToShow)
+                    if let _ = self.feedsToShow {
+                        if self.refreshingStatus == true {
+                            self.refreshingStatus = false
+                            self.feedsToShow = json
+                        } else {
+                            self.feedsToShow = JSON(self.feedsToShow.arrayObject! + json.arrayObject!)
+                            self.loadMoreActivityIndicator.stopAnimating()
+                            
+                        }
+                    } else {
+                        self.feedsToShow = json
+                    }
+                    
                     self.tableView.reloadData()
                     self.collectionView.reloadData()
                     MBProgressHUD.hideAllHUDsForView(self.view, animated: true)
                     self.blurEffectView.removeFromSuperview()
                     self.refreshControl.endRefreshing()
+                    self.tableViewFooterView.hidden = false
 
                 } else {
                     print("Error: \(json["message"])")
@@ -146,7 +179,9 @@ class GlobalFeedsViewController: UIViewController {
     func refresh(sender:AnyObject)
     {
         // Code to refresh table view
-        loadDataFromAPI()
+        self.pageNumber = 1
+        self.refreshingStatus = true
+        self.loadDataFromAPI()
     }
 }
 
@@ -172,11 +207,6 @@ extension GlobalFeedsViewController: UITableViewDataSource {
         cell.loveCount.text = "\(feedsToShow[indexPath.section, "loveit"].string ?? "0") love it"
         cell.leftCount.text = "\(feedsToShow[indexPath.section, "leaveit"].string ?? "0") left it"
         cell.comment.text = "\(feedsToShow[indexPath.section, "comment"].string ?? "")"
-//        cell.imageViewObject?.kf_setImageWithURL(NSURL(string: feedsToShow[indexPath.section, "photo"].string!)!)
-//        cell.DynamicView.addSubview(cell.feedImage)
-        print(cell.feedImage.frame.height)
-        print((string: feedsToShow[indexPath.section,"photo_two"].string!))
-        print((string: feedsToShow[indexPath.section,"photo"].string!))
 
         return cell
     }
@@ -208,11 +238,12 @@ extension GlobalFeedsViewController: UITableViewDelegate {
         cell.userProfilePic.kf_setImageWithURL(NSURL(string: feedsToShow[section, "user", "photo_thumb"].string!)!, placeholderImage: cell.userProfilePic.image)
         cell.username.text = feedsToShow[section, "user", "username"].string
         if let createdAt = feedsToShow[section, "created_at"].string {
+            print(createdAt)
             let dateFormatter = NSDateFormatter()
             dateFormatter.dateFormat = "y-MM-dd HH:mm:ss"
             if let date = dateFormatter.dateFromString(createdAt) {
                 var textTimeElapsed = ""
-                let timeInSecond = Int(NSDate().timeIntervalSinceDate(date))
+                let timeInSecond = Int(NSDate().timeIntervalSinceDate(date.dateByAddingTimeInterval(5*60*60 + 45 * 60)))
                 if timeInSecond/60 < 0 {
                     textTimeElapsed = "\(timeInSecond) sec ago"
                 } else if timeInSecond/(60*60) < 1 {
