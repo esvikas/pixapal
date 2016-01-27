@@ -252,10 +252,8 @@ extension GlobalFeedsViewController: UICollectionViewDelegate{
 }
 extension GlobalFeedsViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
-        return CGSizeMake((self.view.frame.width - 44)/2, (self.view.frame.width - 44)/2)
+        return CGSizeMake((self.view.frame.width - 8)/3, (self.view.frame.width - 8)/3)
     }
-    
-    
     
 }
 
