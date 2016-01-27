@@ -27,7 +27,10 @@ class LoginWithEmailViewController: UIViewController {
     }
     
     @IBAction func btnLogin(sender: AnyObject) {
+        
+        if appDelegate.internetConnected() == true{
         loginWithEmail()
+        }
     }
     
     func loginWithEmail(){

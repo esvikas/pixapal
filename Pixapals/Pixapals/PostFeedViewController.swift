@@ -33,8 +33,6 @@ class PostFeedViewController: UIViewController {
     var image2: UIImage!
     var image3: UIImage!
     
-    var fieldNameArray = ["photo"]
-    var imageData = [NSData]()
     let blurEffectView = UIVisualEffectView(effect: UIBlurEffect(style: UIBlurEffectStyle.ExtraLight))
 
 
@@ -55,20 +53,19 @@ class PostFeedViewController: UIViewController {
             doubleModeSwipeImageInstructionLabel.hidden = true
             singleModeImageView.hidden = false
             singleModeImageView.image=image1
-            imageData.append((data:(UIImageJPEGRepresentation(image1, 1))!))
             
         } else  {
             singleModeImageView.hidden = true
             doubleModeStackView.hidden = false
             doubleModeImageView1.image=image1
             doubleModeImageView2.image=image2
-            fieldNameArray.append("photo_two")
-            imageData.append((data:(UIImageJPEGRepresentation(image1, 1))!))
-            imageData.append((data:(UIImageJPEGRepresentation(image2, 1))!))
 
 
 
             doubleModeSwipeImageInstructionLabel.hidden = false
+
+
+
             
         }
 
@@ -87,6 +84,9 @@ class PostFeedViewController: UIViewController {
         let swipeLeft = UISwipeGestureRecognizer(target: self, action: "respondToSwipeGesture:")
         swipeLeft.direction = UISwipeGestureRecognizerDirection.Left
         self.view.addGestureRecognizer(swipeLeft)
+        
+
+
     }
     
     override func didReceiveMemoryWarning() {
@@ -167,12 +167,16 @@ class PostFeedViewController: UIViewController {
     
     func PostFeed(){
         
-        self.blurEffectView.alpha = 0.4
-        blurEffectView.frame = view.bounds
-        self.view.addSubview(self.blurEffectView)
-        let loadingNotification = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
-        loadingNotification.mode = MBProgressHUDMode.Indeterminate
-        loadingNotification.labelText = "Loading"
+//        self.blurEffectView.alpha = 0.4
+//        blurEffectView.frame = view.bounds
+//        self.view.addSubview(self.blurEffectView)
+//        let loadingNotification = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
+//        loadingNotification.mode = MBProgressHUDMode.Indeterminate
+//        loadingNotification.labelText = "Loading"
+        
+        let fieldNameArray = "photo"
+
+
         
         let parameters = [
             "user_id" : "1",
@@ -187,10 +191,31 @@ class PostFeedViewController: UIViewController {
         
         print(parameters)
         print(headers)
-        print(imageData.count)
-        print(fieldNameArray)
         
         // CREATE AND SEND REQUEST ----------
+        doubleModeStackView.layoutIfNeeded()
+        doubleModeImageView1.layoutIfNeeded()
+        
+        UIGraphicsBeginImageContextWithOptions(CGSizeMake(self.doubleModeStackView.frame.width-40,self.doubleModeStackView.layer.frame.height/2), false, 0);
+        self.view.drawViewHierarchyInRect(CGRectMake(self.doubleModeStackView.layer.frame.origin.x-20,self.doubleModeStackView.layer.frame.origin.y-44,self.doubleModeStackView.bounds.size.width,self.doubleModeStackView.layer.frame.height), afterScreenUpdates: true)
+        let imagex:UIImage = UIGraphicsGetImageFromCurrentImageContext();
+        UIGraphicsEndImageContext()
+        image1=imagex
+        
+        
+        UIGraphicsBeginImageContext(CGSizeMake(self.doubleModeStackView.frame.width-40, self.doubleModeStackView.layer.frame.height))
+
+        imagex.drawInRect(CGRectMake(0, 0, self.doubleModeStackView.frame.width-40, self.doubleModeStackView.layer.frame.height))
+        let newImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        
+        print(doubleModeStackView.frame.height)
+        print(doubleModeStackView.frame.width)
+
+        
+        let imageData=((data:(UIImageJPEGRepresentation(newImage, 1))!))
+
+
         
         SRWebClient.POST("\(apiUrl)api/v1/feeds")
             
@@ -237,6 +262,9 @@ class PostFeedViewController: UIViewController {
                     print(response)
                     print(error)
             })
+//        doubleModeStackView.hidden=true
+//        singleModeImageView.hidden=false
+//        singleModeImageView.image=imagex
         
     }
 }

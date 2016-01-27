@@ -72,6 +72,68 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 annotation: annotation)
             
     }
+    
+    func ShowAlertView(title:String, message:String){
+        
+        
+        let alertController = UIAlertController(title: title, message: message, preferredStyle: .Alert)
+        
+        let cancelAction = UIAlertAction(title: "Ok", style: .Cancel) { (action) in
+            print(action)
+            
+
+        }
+        alertController.addAction(cancelAction)
+        
+        
+        let currentController = self.getCurrentViewController()
+        
+        if (currentController?.isKindOfClass(UIAlertController) != true){
+            currentController?.presentViewController(alertController, animated: true, completion: nil)
+            
+        }
+        
+        
+    }
+    
+    func getCurrentViewController() -> UIViewController? {
+        
+        if let rootController = UIApplication.sharedApplication().keyWindow?.rootViewController {
+            
+            var currentController: UIViewController! = rootController
+            
+            while( currentController.presentedViewController != nil ) {
+                
+                currentController = currentController.presentedViewController
+            }
+            return currentController
+            
+        }
+        return nil
+        
+    }
+    
+    func internetConnected() -> Bool{
+        
+        
+        let reachability: Reachability
+        do {
+            reachability = try Reachability.reachabilityForInternetConnection()
+            if reachability.isReachable()  {
+                
+                return true
+
+            } else {
+                
+                ShowAlertView("Sorry ", message: "you are not conected with internet")
+            }
+            
+        } catch {
+            print("Unable to create Reachability")
+            return false
+        }
+        return false
+    }
 
 
 }

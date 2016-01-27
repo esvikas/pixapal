@@ -18,6 +18,9 @@ class GlobalFeedsViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var collectionView: UICollectionView!
     let blurEffectView = UIVisualEffectView(effect: UIBlurEffect(style: UIBlurEffectStyle.ExtraLight))
+    
+    var refreshControl:UIRefreshControl!
+
 
     
     
@@ -38,6 +41,12 @@ class GlobalFeedsViewController: UIViewController {
         let loadingNotification = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
         loadingNotification.mode = MBProgressHUDMode.Indeterminate
         loadingNotification.labelText = "Loading"
+        
+   
+        self.refreshControl = UIRefreshControl()
+        self.refreshControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
+        self.refreshControl.addTarget(self, action: "refresh:", forControlEvents: UIControlEvents.ValueChanged)
+        self.tableView.addSubview(refreshControl)
     
     }
     
@@ -97,11 +106,15 @@ class GlobalFeedsViewController: UIViewController {
                     self.collectionView.reloadData()
                     MBProgressHUD.hideAllHUDsForView(self.view, animated: true)
                     self.blurEffectView.removeFromSuperview()
+                    self.refreshControl.endRefreshing()
+
                 } else {
                     print("Error: \(json["message"])")
                 }
             case .Failure(let error):
                 print("ERROR: \(error)")
+                self.refreshControl.endRefreshing()
+
             }
             }.progress { (a, b, c) -> Void in
                 print("\(a) -- \(b) -- \(c)")
@@ -127,6 +140,13 @@ class GlobalFeedsViewController: UIViewController {
             
         }
         self.collectionViewHidden = !self.collectionViewHidden
+    }
+    
+    
+    func refresh(sender:AnyObject)
+    {
+        // Code to refresh table view
+        loadDataFromAPI()
     }
 }
 
@@ -209,6 +229,8 @@ extension GlobalFeedsViewController: UITableViewDelegate {
         }
         return cell
     }
+    
+ 
 }
 
 extension GlobalFeedsViewController: UICollectionViewDataSource{
