@@ -17,11 +17,13 @@ enum imageMode: String {
     case doubleImage
 }
 
-class PostFeedViewController: UIViewController {
+class PostFeedViewController: UIViewController, UITextViewDelegate {
     
     @IBOutlet weak var singleModeImageView: UIImageView!
     @IBOutlet weak var doubleModeImageView1: UIImageView!
     @IBOutlet weak var doubleModeImageView2: UIImageView!
+    @IBOutlet var commentViewHeightConstrant: NSLayoutConstraint!
+    @IBOutlet var scrollView: UIScrollView!
 
 
     @IBOutlet weak var doubleModeStackView: UIStackView!
@@ -32,6 +34,7 @@ class PostFeedViewController: UIViewController {
     var image1: UIImage!
     var image2: UIImage!
     var image3: UIImage!
+    
     
     let blurEffectView = UIVisualEffectView(effect: UIBlurEffect(style: UIBlurEffectStyle.ExtraLight))
 
@@ -48,6 +51,9 @@ class PostFeedViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        commentTextField.delegate=self
+
         if self.image2 == nil {
             doubleModeStackView.hidden = true
             doubleModeSwipeImageInstructionLabel.hidden = true
@@ -88,6 +94,8 @@ class PostFeedViewController: UIViewController {
 
 
     }
+    
+    
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -167,12 +175,6 @@ class PostFeedViewController: UIViewController {
     
     func PostFeed(){
         
-//        self.blurEffectView.alpha = 0.4
-//        blurEffectView.frame = view.bounds
-//        self.view.addSubview(self.blurEffectView)
-//        let loadingNotification = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
-//        loadingNotification.mode = MBProgressHUDMode.Indeterminate
-//        loadingNotification.labelText = "Loading"
         
         let fieldNameArray = "photo"
 
@@ -203,17 +205,17 @@ class PostFeedViewController: UIViewController {
         image1=imagex
         
         
-        UIGraphicsBeginImageContext(CGSizeMake(self.doubleModeStackView.frame.width-40, self.doubleModeStackView.layer.frame.height))
+//        UIGraphicsBeginImageContext(CGSizeMake(self.doubleModeStackView.frame.width-40, self.doubleModeStackView.layer.frame.height))
+//
+//        imagex.drawInRect(CGRectMake(0, 0, self.doubleModeStackView.frame.width-40, self.doubleModeStackView.layer.frame.height))
+//        let newImage = UIGraphicsGetImageFromCurrentImageContext()
+//        UIGraphicsEndImageContext()
+//        
+//        print(doubleModeStackView.frame.height)
+//        print(doubleModeStackView.frame.width)
 
-        imagex.drawInRect(CGRectMake(0, 0, self.doubleModeStackView.frame.width-40, self.doubleModeStackView.layer.frame.height))
-        let newImage = UIGraphicsGetImageFromCurrentImageContext()
-        UIGraphicsEndImageContext()
         
-        print(doubleModeStackView.frame.height)
-        print(doubleModeStackView.frame.width)
-
-        
-        let imageData=((data:(UIImageJPEGRepresentation(newImage, 1))!))
+        let imageData=((data:(UIImageJPEGRepresentation(imagex , 1))!))
 
 
         
@@ -267,6 +269,17 @@ class PostFeedViewController: UIViewController {
 //        singleModeImageView.image=imagex
         
     }
+    
+    
+    func textViewDidEndEditing(textView: UITextView) {
+        
+scrollView.contentOffset = CGPoint(x: 0, y: 0)
+
+        self.scrollView.layoutIfNeeded()
+    
+
+    }
 }
+
 
 

@@ -51,6 +51,17 @@ class ProfileViewController: UIViewController {
         let loadingNotification = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
         loadingNotification.mode = MBProgressHUDMode.Indeterminate
         loadingNotification.labelText = "Loading"
+        
+        navigationItem.setRightBarButtonItem(nil, animated: false)
+        let btnName = UIButton()
+        btnName.setImage(UIImage(named: "setting"), forState: .Normal)
+        btnName.frame = CGRectMake(0, 0, 30, 30)
+        btnName.addTarget(self, action: Selector("action"), forControlEvents: .TouchUpInside)
+        
+        //.... Set Right/Left Bar Button item
+        let rightBarButton = UIBarButtonItem()
+        rightBarButton.customView = btnName
+        self.navigationItem.rightBarButtonItem = rightBarButton
     }
 
     override func didReceiveMemoryWarning() {
