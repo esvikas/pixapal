@@ -828,6 +828,7 @@
                     <connections>
                         <outlet property="collectionView" destination="90O-sY-FEp" id="0da-dL-IPl"/>
                         <outlet property="tableView" destination="SfV-l8-itb" id="T7U-ZF-u8l"/>
+                        <outlet property="tableViewFooterView" destination="Drz-1J-qLK" id="8Ju-hG-kv5"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="By2-JM-Okb" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -851,7 +852,6 @@
                                 <subviews>
                                     <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="lfb-7p-p8J">
                                         <rect key="frame" x="0.0" y="0.0" width="414" height="440"/>
-                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="440" id="5qd-Vt-8Je"/>
                                             <constraint firstAttribute="height" constant="294" id="6yw-Zc-YQb"/>
@@ -877,7 +877,6 @@
                                                     </subviews>
                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                 </view>
-                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <constraints>
                                                     <constraint firstItem="FHf-4n-Mx7" firstAttribute="leading" secondItem="4UI-bF-Zpe" secondAttribute="leading" id="6aX-Lm-xpA"/>
                                                     <constraint firstAttribute="trailing" secondItem="FHf-4n-Mx7" secondAttribute="trailing" id="pfn-5d-uUl"/>

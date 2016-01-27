@@ -25,19 +25,24 @@ class ProfileViewController: UIViewController {
     
     @IBOutlet var collectionView: UICollectionView!
     @IBOutlet weak var tableView: UITableView!
+    
     let blurEffectView = UIVisualEffectView(effect: UIBlurEffect(style: UIBlurEffectStyle.ExtraLight))
+    let refreshControl = UIRefreshControl()
     
     var collectionViewHidden = false
     var feedsToShow: JSON!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-    
+        
+        //self.refreshControl = UIRefreshControl()
+        self.refreshControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
+        self.refreshControl.addTarget(self, action: "refresh:", forControlEvents: UIControlEvents.ValueChanged)
+        self.tableView.addSubview(refreshControl)
         
         
         
-        
-        tableViewFooterView.hidden = true
+        self.tableViewFooterView.hidden = true
         self.headerView.frame.size.width = self.view.frame.width
         
         self.loadDataFromAPI()
@@ -66,6 +71,7 @@ class ProfileViewController: UIViewController {
         collectionView.hidden = false
         tableView.hidden = true
         collectionView.reloadData()
+        collectionView.layoutIfNeeded()
     }
     @IBAction func listView(sender: AnyObject) {
         collectionView.hidden = true
@@ -109,8 +115,10 @@ class ProfileViewController: UIViewController {
                     self.tableViewFooterView.hidden = false
                     MBProgressHUD.hideAllHUDsForView(self.view, animated: true)
                     self.blurEffectView.removeFromSuperview()
+                    self.refreshControl.endRefreshing()
                 } else {
                     print("Error: \(json["message"])")
+                    self.refreshControl.endRefreshing()
                 }
             case .Failure(let error):
                 print("ERROR: \(error)")
@@ -131,6 +139,11 @@ class ProfileViewController: UIViewController {
         self.feeding.text = String(self.feedsToShow["feeding_count"].int!)
         self.feeders.text = String(self.feedsToShow["feeders_count"].int!)
         self.feeds.text = String(self.feedsToShow["feeds_count"].int!)
+    }
+    
+    func refresh(sender: AnyObject) {
+        // Code to refresh table view
+        loadDataFromAPI()
     }
 }
 

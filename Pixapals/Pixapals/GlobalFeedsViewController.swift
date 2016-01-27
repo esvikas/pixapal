@@ -19,6 +19,8 @@ class GlobalFeedsViewController: UIViewController {
     @IBOutlet weak var collectionView: UICollectionView!
     let blurEffectView = UIVisualEffectView(effect: UIBlurEffect(style: UIBlurEffectStyle.ExtraLight))
     
+    @IBOutlet weak var tableViewFooterView: UIView!
+    
     var refreshControl:UIRefreshControl!
 
 
@@ -31,9 +33,12 @@ class GlobalFeedsViewController: UIViewController {
         super.viewDidLoad()
         //self.navigationItem.hidesBackButton = true
         // Do any additional setup after loading the view.
+        
+        self.tableViewFooterView.hidden = true
+        
         self.loadDataFromAPI()
         self.changeViewMode(self)
-        self.tabBarController?.navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "square"), style: .Plain, target: self, action: "changeViewMode:")
+        
     
         self.blurEffectView.alpha = 0.4
         blurEffectView.frame = view.bounds
@@ -55,11 +60,15 @@ class GlobalFeedsViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     override func viewWillAppear(animated: Bool) {
+        self.tabBarController?.navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "square"), style: .Plain, target: self, action: "changeViewMode:")
+        
         self.tabBarController?.navigationItem.title = "Global Feed"
         self.tabBarController?.navigationItem.hidesBackButton = true
         self.tabBarController?.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .Plain, target: nil, action: nil)
     }
-    
+    override func viewWillDisappear(animated: Bool) {
+        self.tabBarController?.navigationItem.rightBarButtonItem = UIBarButtonItem()
+    }
     /*
     // MARK: - Navigation
     
@@ -107,6 +116,7 @@ class GlobalFeedsViewController: UIViewController {
                     MBProgressHUD.hideAllHUDsForView(self.view, animated: true)
                     self.blurEffectView.removeFromSuperview()
                     self.refreshControl.endRefreshing()
+                    self.tableViewFooterView.hidden = false
 
                 } else {
                     print("Error: \(json["message"])")
@@ -208,11 +218,12 @@ extension GlobalFeedsViewController: UITableViewDelegate {
         cell.userProfilePic.kf_setImageWithURL(NSURL(string: feedsToShow[section, "user", "photo_thumb"].string!)!, placeholderImage: cell.userProfilePic.image)
         cell.username.text = feedsToShow[section, "user", "username"].string
         if let createdAt = feedsToShow[section, "created_at"].string {
+            print(createdAt)
             let dateFormatter = NSDateFormatter()
             dateFormatter.dateFormat = "y-MM-dd HH:mm:ss"
             if let date = dateFormatter.dateFromString(createdAt) {
                 var textTimeElapsed = ""
-                let timeInSecond = Int(NSDate().timeIntervalSinceDate(date))
+                let timeInSecond = Int(NSDate().timeIntervalSinceDate(date.dateByAddingTimeInterval(5*60*60 + 45 * 60)))
                 if timeInSecond/60 < 0 {
                     textTimeElapsed = "\(timeInSecond) sec ago"
                 } else if timeInSecond/(60*60) < 1 {
