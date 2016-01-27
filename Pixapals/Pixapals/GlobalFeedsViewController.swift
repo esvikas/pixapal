@@ -70,9 +70,6 @@ class GlobalFeedsViewController: UIViewController {
         self.tabBarController?.navigationItem.hidesBackButton = true
         self.tabBarController?.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .Plain, target: nil, action: nil)
     }
-    override func viewWillDisappear(animated: Bool) {
-        self.tabBarController?.navigationItem.rightBarButtonItem = UIBarButtonItem()
-    }
     /*
     // MARK: - Navigation
     

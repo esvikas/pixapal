@@ -40,7 +40,8 @@ class ProfileViewController: UIViewController {
         self.refreshControl.addTarget(self, action: "refresh:", forControlEvents: UIControlEvents.ValueChanged)
         self.tableView.addSubview(refreshControl)
         
-        
+        self.navigationItem.hidesBackButton = false
+
         
         self.tableViewFooterView.hidden = true
         self.headerView.frame.size.width = self.view.frame.width
@@ -57,16 +58,8 @@ class ProfileViewController: UIViewController {
         loadingNotification.mode = MBProgressHUDMode.Indeterminate
         loadingNotification.labelText = "Loading"
         
-        navigationItem.setRightBarButtonItem(nil, animated: false)
-        let btnName = UIButton()
-        btnName.setImage(UIImage(named: "setting"), forState: .Normal)
-        btnName.frame = CGRectMake(0, 0, 30, 30)
-        btnName.addTarget(self, action: Selector("action"), forControlEvents: .TouchUpInside)
-        
-        //.... Set Right/Left Bar Button item
-        let rightBarButton = UIBarButtonItem()
-        rightBarButton.customView = btnName
-        self.navigationItem.rightBarButtonItem = rightBarButton
+//        navigationItem.setRightBarButtonItem(nil, animated: false)
+                    //UIBarButtonItem(image: UIImage(named: "post-feed-img"), style: .Plain, target: self, action: "loadDataFromAPI:")
     }
 
     override func didReceiveMemoryWarning() {
@@ -76,8 +69,21 @@ class ProfileViewController: UIViewController {
     
     override func viewWillAppear(animated: Bool) {
         self.tabBarController?.navigationItem.title = "User Profile"
-    }
+        
+        let btnName = UIButton()
+        btnName.setImage(UIImage(named: "setting"), forState: .Normal)
+        btnName.frame = CGRectMake(0, 0, 30, 30)
+        btnName.addTarget(self, action: Selector("action"), forControlEvents: .TouchUpInside)
+        
+        //.... Set Right/Left Bar Button item
+        let rightBarButton = UIBarButtonItem()
+        rightBarButton.customView = btnName
+        self.tabBarController?.navigationItem.rightBarButtonItem = rightBarButton
 
+//        let camera = UIBarButtonItem(barButtonSystemItem: .Camera, target: self, action: Selector("btnOpenCamera"))
+//        self.navigationItem.rightBarButtonItem = camera
+    }
+    
     @IBAction func gridView(sender: AnyObject) {
         collectionView.hidden = false
         tableView.hidden = true

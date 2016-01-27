@@ -36,6 +36,7 @@ class PostFeedModeSelectionViewController: UIViewController, UINavigationControl
     
     override func viewWillAppear(animated: Bool) {
         self.tabBarController?.navigationItem.title = "Select Post Mode"
+        self.tabBarController?.navigationItem.rightBarButtonItem = nil
     }
     @IBAction func btnChooseSingleImage(sender: AnyObject) {
         
