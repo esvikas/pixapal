@@ -737,13 +737,9 @@
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="j3B-8u-zXw">
                                 <rect key="frame" x="0.0" y="19" width="414" height="982"/>
                                 <subviews>
-                                    <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="90O-sY-FEp">
-                                        <rect key="frame" x="0.0" y="0.0" width="414" height="294"/>
+                                    <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="90O-sY-FEp">
+                                        <rect key="frame" x="0.0" y="0.0" width="414" height="264"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="294" id="0K0-ds-oZf"/>
-                                            <constraint firstAttribute="height" constant="250" id="w1r-Bt-Pdc"/>
-                                        </constraints>
                                         <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="2" minimumInteritemSpacing="2" id="u25-de-Db1">
                                             <size key="itemSize" width="115" height="114"/>
                                             <size key="headerReferenceSize" width="0.0" height="0.0"/>
@@ -773,47 +769,14 @@
                                                 </constraints>
                                             </collectionViewCell>
                                         </cells>
-                                        <variation key="default">
-                                            <mask key="constraints">
-                                                <exclude reference="w1r-Bt-Pdc"/>
-                                            </mask>
-                                        </variation>
                                         <connections>
                                             <outlet property="dataSource" destination="rSs-SK-SEN" id="xsu-X6-SIe"/>
                                             <outlet property="delegate" destination="rSs-SK-SEN" id="BNz-J1-IB8"/>
                                         </connections>
                                     </collectionView>
-                                    <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" style="plain" separatorStyle="none" allowsSelection="NO" rowHeight="50" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="SfV-l8-itb">
-                                        <rect key="frame" x="0.0" y="294" width="414" height="688"/>
+                                    <tableView clipsSubviews="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" style="plain" separatorStyle="none" allowsSelection="NO" rowHeight="50" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="SfV-l8-itb">
+                                        <rect key="frame" x="0.0" y="264" width="414" height="678"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                        <view key="tableFooterView" contentMode="scaleToFill" id="Drz-1J-qLK">
-                                            <rect key="frame" x="0.0" y="624" width="414" height="40"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <subviews>
-                                                <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="MlA-Km-uFN">
-                                                    <rect key="frame" x="197" y="10" width="20" height="20"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="width" constant="20" id="BHY-Qg-9Kd"/>
-                                                        <constraint firstAttribute="height" constant="20" id="qv6-jR-elR"/>
-                                                    </constraints>
-                                                </activityIndicatorView>
-                                                <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="R7A-6H-R2m">
-                                                    <rect key="frame" x="0.0" y="0.0" width="414" height="40"/>
-                                                    <state key="normal" title="Connection Error! Try again ..."/>
-                                                    <connections>
-                                                        <action selector="tryAgainPressed:" destination="rSs-SK-SEN" eventType="touchUpInside" id="jvh-c5-MyT"/>
-                                                    </connections>
-                                                </button>
-                                            </subviews>
-                                            <constraints>
-                                                <constraint firstItem="R7A-6H-R2m" firstAttribute="top" secondItem="Drz-1J-qLK" secondAttribute="top" id="9Wl-IY-5IR"/>
-                                                <constraint firstItem="R7A-6H-R2m" firstAttribute="leading" secondItem="Drz-1J-qLK" secondAttribute="leading" id="KRr-Ox-qR6"/>
-                                                <constraint firstAttribute="trailing" secondItem="R7A-6H-R2m" secondAttribute="trailing" id="WIf-gw-nT3"/>
-                                                <constraint firstItem="MlA-Km-uFN" firstAttribute="centerY" secondItem="Drz-1J-qLK" secondAttribute="centerY" id="lWm-hm-5o9"/>
-                                                <constraint firstAttribute="bottom" secondItem="R7A-6H-R2m" secondAttribute="bottom" id="mJI-O6-Yat"/>
-                                                <constraint firstItem="MlA-Km-uFN" firstAttribute="centerX" secondItem="Drz-1J-qLK" secondAttribute="centerX" id="wPM-D7-oLP"/>
-                                            </constraints>
-                                        </view>
                                         <prototypes>
                                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="globalFeedTableViewCell" rowHeight="546" id="4kb-tj-sj8" customClass="GlobalFeedTableViewCell" customModule="Pixapals" customModuleProvider="target">
                                                 <rect key="frame" x="0.0" y="28" width="414" height="546"/>
@@ -1001,6 +964,34 @@
                                             <outlet property="delegate" destination="rSs-SK-SEN" id="9p6-id-P1b"/>
                                         </connections>
                                     </tableView>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Drz-1J-qLK" userLabel="Footer View">
+                                        <rect key="frame" x="0.0" y="942" width="414" height="40"/>
+                                        <subviews>
+                                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="MlA-Km-uFN">
+                                                <rect key="frame" x="197" y="10" width="20" height="20"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" constant="20" id="BHY-Qg-9Kd"/>
+                                                    <constraint firstAttribute="height" constant="20" id="qv6-jR-elR"/>
+                                                </constraints>
+                                            </activityIndicatorView>
+                                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="R7A-6H-R2m">
+                                                <rect key="frame" x="0.0" y="0.0" width="414" height="40"/>
+                                                <state key="normal" title="Connection Error! Try again ..."/>
+                                                <connections>
+                                                    <action selector="tryAgainPressed:" destination="rSs-SK-SEN" eventType="touchUpInside" id="jvh-c5-MyT"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                        <constraints>
+                                            <constraint firstItem="R7A-6H-R2m" firstAttribute="top" secondItem="Drz-1J-qLK" secondAttribute="top" id="9Wl-IY-5IR"/>
+                                            <constraint firstItem="R7A-6H-R2m" firstAttribute="leading" secondItem="Drz-1J-qLK" secondAttribute="leading" id="KRr-Ox-qR6"/>
+                                            <constraint firstAttribute="bottom" secondItem="R7A-6H-R2m" secondAttribute="bottom" id="OMr-Bn-djn"/>
+                                            <constraint firstAttribute="height" constant="40" id="WDD-z3-d82"/>
+                                            <constraint firstAttribute="trailing" secondItem="R7A-6H-R2m" secondAttribute="trailing" id="WIf-gw-nT3"/>
+                                            <constraint firstItem="MlA-Km-uFN" firstAttribute="centerY" secondItem="Drz-1J-qLK" secondAttribute="centerY" id="lWm-hm-5o9"/>
+                                            <constraint firstItem="MlA-Km-uFN" firstAttribute="centerX" secondItem="Drz-1J-qLK" secondAttribute="centerX" id="wPM-D7-oLP"/>
+                                        </constraints>
+                                    </view>
                                 </subviews>
                             </stackView>
                         </subviews>
@@ -1026,9 +1017,9 @@
                     <size key="freeformSize" width="414" height="1050"/>
                     <connections>
                         <outlet property="collectionView" destination="90O-sY-FEp" id="0da-dL-IPl"/>
+                        <outlet property="footerView" destination="Drz-1J-qLK" id="Oh5-gF-1Fs"/>
                         <outlet property="loadMoreActivityIndicator" destination="MlA-Km-uFN" id="RPX-1b-1zh"/>
                         <outlet property="tableView" destination="SfV-l8-itb" id="T7U-ZF-u8l"/>
-                        <outlet property="tableViewFooterView" destination="Drz-1J-qLK" id="8Ju-hG-kv5"/>
                         <outlet property="tryAgainButton" destination="R7A-6H-R2m" id="pZe-oq-Gc3"/>
                     </connections>
                 </viewController>
@@ -1120,7 +1111,6 @@
                                                     <state key="normal" title="Connection Error! Try again ..."/>
                                                     <connections>
                                                         <action selector="tryAgainPressed:" destination="IbE-Kr-sMr" eventType="touchUpInside" id="MNO-mX-kFR"/>
-                                                        <action selector="tryAgainPressed:" destination="rSs-SK-SEN" eventType="touchUpInside" id="PMP-dX-m6E"/>
                                                     </connections>
                                                 </button>
                                             </subviews>

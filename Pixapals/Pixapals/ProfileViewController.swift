@@ -213,9 +213,12 @@ extension ProfileViewController: UICollectionViewDataSource {
     }
     
     func collectionView(collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, atIndexPath indexPath: NSIndexPath) -> UICollectionReusableView {
-        let header = collectionView.dequeueReusableSupplementaryViewOfKind(kind, withReuseIdentifier: "headerViewOfCollectionView", forIndexPath: indexPath)
-        header.addSubview(headerView)
-        return header
+        if kind == UICollectionElementKindSectionHeader {
+            let header = collectionView.dequeueReusableSupplementaryViewOfKind(kind, withReuseIdentifier: "headerViewOfCollectionView", forIndexPath: indexPath)
+            header.addSubview(headerView)
+            return header
+        }
+        return UICollectionReusableView()
     }
 }
 extension ProfileViewController: UITableViewDelegate {

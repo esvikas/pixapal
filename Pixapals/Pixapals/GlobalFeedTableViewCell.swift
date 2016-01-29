@@ -7,6 +7,10 @@
 //
 
 import UIKit
+protocol CellImageSwippedDelegate {
+    func imageSwipedLeft(indexPath: NSIndexPath?)
+    func imageSwipedRight(indexPath: NSIndexPath?)
+}
 
 class GlobalFeedTableViewCell: UITableViewCell {
 
@@ -16,6 +20,10 @@ class GlobalFeedTableViewCell: UITableViewCell {
     @IBOutlet weak var loveCount: UILabel!
     @IBOutlet weak var comment: UILabel!
     @IBOutlet weak var feedImage2: UIImageView!
+    
+    var indexPath: NSIndexPath!
+    var delegate: CellImageSwippedDelegate!
+    
 //    var imageViewObject :UIImageView!
 
     
@@ -26,7 +34,7 @@ class GlobalFeedTableViewCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
-
+        
         
 
         
@@ -67,7 +75,6 @@ class GlobalFeedTableViewCell: UITableViewCell {
         
         if let swipeGesture = gesture as? UISwipeGestureRecognizer {
             
-            
             switch swipeGesture.direction {
             case UISwipeGestureRecognizerDirection.Right:
                 DynamicView.backgroundColor=UIColor.blackColor()
@@ -88,6 +95,8 @@ class GlobalFeedTableViewCell: UITableViewCell {
                 
                 
                 print("Swiped right")
+                delegate.imageSwipedRight(self.indexPath)
+                
             case UISwipeGestureRecognizerDirection.Left:
                 DynamicView.backgroundColor=UIColor.redColor()
                 
@@ -100,8 +109,8 @@ class GlobalFeedTableViewCell: UITableViewCell {
                     }, completion: { (Bool) -> Void in
                         self.DynamicView.hidden=true
                 })
-                
-                print("Swiped left")
+                print("swipe left")
+                delegate.imageSwipedLeft(self.indexPath)
                 
             default:
                 break
