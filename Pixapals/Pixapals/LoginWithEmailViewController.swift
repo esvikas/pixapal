@@ -31,6 +31,15 @@ class LoginWithEmailViewController: UIViewController {
         if appDelegate.internetConnected() == true{
         loginWithEmail()
         }
+        
+        
+        
+        //////Delete It //////////
+        //////////////////////////
+        let storyBoard = UIStoryboard(name: "Main", bundle: nil)
+        let vc = storyBoard.instantiateViewControllerWithIdentifier("tabView")
+        self.navigationController?.pushViewController(vc, animated: true)
+        //////////////////////////
     }
     
     func loginWithEmail(){

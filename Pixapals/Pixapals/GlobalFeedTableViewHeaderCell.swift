@@ -26,3 +26,33 @@ class GlobalFeedTableViewHeaderCell: UITableViewCell {
     }
 
 }
+
+class InterestTableViewCell: UITableViewCell {
+    @IBOutlet var tikButton: UIButton!
+    @IBOutlet var InterestLael: UILabel!
+    
+    
+//    override func setSelected(selected: Bool, animated: Bool) {
+//        super.setSelected(selected, animated: animated)
+//        if selected {
+//            tikButton.setImage(UIImage(named: "tick_green"), forState: .Normal)
+//            tikButton.contentMode = UIViewContentMode.ScaleAspectFit
+//        }
+//        else {
+//              tikButton.setImage(UIImage(named: "tick"), forState: .Normal)
+//            
+//        }
+//        
+//    }
+    
+    //         override func setHighlighted(highlighted: Bool, animated: Bool) {
+    //            super.setHighlighted(highlighted, animated: animated)
+    //
+    //            if(highlighted) {
+    //                cellBackgroundView.backgroundColor = UIColor.greenColor()
+    //            }
+    //        }
+    
+    
+    
+}

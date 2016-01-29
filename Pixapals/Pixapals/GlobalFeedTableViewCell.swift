@@ -48,6 +48,7 @@ class GlobalFeedTableViewCell: UITableViewCell {
          CreateScreen()
 
     }
+
     
     func CreateScreen(){
         self.layoutIfNeeded()

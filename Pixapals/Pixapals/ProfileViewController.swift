@@ -102,6 +102,14 @@ class ProfileViewController: UIViewController {
         
     }
     
+    func action(){
+        
+        let storyboard: UIStoryboard = UIStoryboard (name: "Main", bundle: nil)
+        let vc: SettingsTableViewController = storyboard.instantiateViewControllerWithIdentifier("SettingsTableViewController") as! SettingsTableViewController
+        self.navigationController?.pushViewController(vc, animated: true)
+        
+    }
+    
     private func loadDataFromAPI(){
         guard let id = UserDataStruct().id else {
             print("no user id")
