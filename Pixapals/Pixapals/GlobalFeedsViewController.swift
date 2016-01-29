@@ -18,7 +18,7 @@ class GlobalFeedsViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var collectionView: UICollectionView!
     
-    @IBOutlet weak var tableViewFooterView: UIView!
+    @IBOutlet weak var footerView: UIView!
     @IBOutlet weak var loadMoreActivityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var tryAgainButton: UIButton!
     
@@ -40,10 +40,13 @@ class GlobalFeedsViewController: UIViewController {
         super.viewDidLoad()
         //self.navigationItem.hidesBackButton = true
         // Do any additional setup after loading the view.
-        self.tableViewFooterView.hidden = true
-        self.loadMoreActivityIndicator.hidesWhenStopped = true
+        //self.footerView.hidden = true
+        
+        //self.loadMoreActivityIndicator.hidesWhenStopped = true
         self.loadDataFromAPI()
         self.changeViewMode(self)
+        
+        
         
         self.blurEffectView.alpha = 0.4
         blurEffectView.frame = view.bounds
@@ -134,7 +137,7 @@ class GlobalFeedsViewController: UIViewController {
                             self.loadMoreActivityIndicator.stopAnimating()
                             if json.count == 0 {
                                 self.hasMoreDataInServer = false
-                                self.tableViewFooterView.hidden = true
+                                self.footerView.hidden = true
                             }
                         }
                     } else {
@@ -202,7 +205,7 @@ class GlobalFeedsViewController: UIViewController {
     }
     
     func loadMore() {
-        self.tableViewFooterView.hidden = false
+        //self.footerView.hidden = false
         self.pageNumber++
         self.loadMoreActivityIndicator.startAnimating()
         self.loadDataFromAPI()
@@ -228,6 +231,10 @@ extension GlobalFeedsViewController: UITableViewDataSource {
         } else {
             cell.feedImage2.hidden = true
         }
+        
+        cell.delegate = self
+        cell.indexPath = indexPath
+        
         cell.loveCount.text = "\(feedsToShow[indexPath.section, "loveit"].string ?? "0") love it"
         cell.leftCount.text = "\(feedsToShow[indexPath.section, "leaveit"].string ?? "0") left it"
         cell.comment.text = "\(feedsToShow[indexPath.section, "comment"].string ?? "")"
@@ -236,9 +243,7 @@ extension GlobalFeedsViewController: UITableViewDataSource {
     }
     
     func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
-        if indexPath.section == feedsToShow.count - 1 && hasMoreDataInServer {
-            self.loadMore()
-        }
+        
         
     }
     
@@ -315,14 +320,43 @@ extension GlobalFeedsViewController: UICollectionViewDataSource{
         
         return cell
     }
+//    func collectionView(collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, atIndexPath indexPath: NSIndexPath) -> UICollectionReusableView {
+//        if kind == UICollectionElementKindSectionFooter {
+//            let footer = collectionView.dequeueReusableSupplementaryViewOfKind(kind, withReuseIdentifier: "loadMoreCollectionReusableView", forIndexPath: indexPath)
+//            footer.addSubview(footerView)
+//            return footer
+//        }
+//        return UICollectionReusableView()
+//    }
 }
 extension GlobalFeedsViewController: UICollectionViewDelegate{
-    
+//    func collectionView(collectionView: UICollectionView, willDisplaySupplementaryView view: UICollectionReusableView, forElementKind elementKind: String, atIndexPath indexPath: NSIndexPath) {
+//        if elementKind == UICollectionElementKindSectionFooter {
+//            if hasMoreDataInServer {
+//                self.loadMore()
+//            }
+//        }
+//    }
+    func collectionView(collectionView: UICollectionView, willDisplayCell cell: UICollectionViewCell, forItemAtIndexPath indexPath: NSIndexPath) {
+        if indexPath.row == self.feedsToShow.count && self.hasMoreDataInServer {
+            self.loadMore()
+        }
+    }
 }
+
 extension GlobalFeedsViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
         return CGSizeMake((self.view.frame.width - 8)/3, (self.view.frame.width - 8)/3)
     }
     
+}
+
+extension GlobalFeedsViewController: CellImageSwippedDelegate {
+    func imageSwipedLeft(indexPath: NSIndexPath?) {
+        print("swipped Left")
+    }
+    func imageSwipedRight(indexPath: NSIndexPath?) {
+        print("swipped right")
+    }
 }
 
