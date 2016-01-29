@@ -21,6 +21,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         UINavigationBar.appearance().backIndicatorTransitionMaskImage = UIImage(named: "report_form_left_arrow")
         UIApplication.sharedApplication().statusBarStyle = .LightContent
         UITabBar.appearance().tintColor = UIColor.whiteColor()
+        
         // Override point for customization after application launch.
         
         return FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
@@ -70,21 +71,30 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 openURL: url,
                 sourceApplication: sourceApplication,
                 annotation: annotation)
-            
     }
     
-    func ShowAlertView(title:String, message:String){
+    func ShowAlertView(title:String, message:String, handlerForOk: ((UIAlertAction) -> Void)? = nil, handlerForCancel: ((UIAlertAction) -> Void)? = nil){
         
         
         let alertController = UIAlertController(title: title, message: message, preferredStyle: .Alert)
         
-        let cancelAction = UIAlertAction(title: "Ok", style: .Cancel) { (action) in
-            print(action)
-            
-
+        func okAction() {
+            let okAction = UIAlertAction(title: "Ok", style: .Cancel, handler: handlerForOk)
+            alertController.addAction(okAction)
         }
-        alertController.addAction(cancelAction)
         
+        if let _ = handlerForOk {
+            okAction()
+        }
+        
+        if let _ = handlerForCancel {
+            let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel, handler: handlerForCancel)
+            alertController.addAction(cancelAction)
+        }
+        
+        if handlerForCancel == nil && handlerForOk == nil {
+            okAction()
+        }
         
         let currentController = self.getCurrentViewController()
         
@@ -93,8 +103,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             
         }
         
-        
     }
+    
     
     func getCurrentViewController() -> UIViewController? {
         

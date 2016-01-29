@@ -17,14 +17,17 @@ class GlobalFeedsViewController: UIViewController {
     
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var collectionView: UICollectionView!
-    let blurEffectView = UIVisualEffectView(effect: UIBlurEffect(style: UIBlurEffectStyle.ExtraLight))
     
     @IBOutlet weak var tableViewFooterView: UIView!
     @IBOutlet weak var loadMoreActivityIndicator: UIActivityIndicatorView!
+    @IBOutlet weak var tryAgainButton: UIButton!
+    
+    let blurEffectView = UIVisualEffectView(effect: UIBlurEffect(style: UIBlurEffectStyle.ExtraLight))
     
     var refreshControl:UIRefreshControl!
+    
     var refreshingStatus = false
-
+    var hasMoreDataInServer = true
     
     
     var collectionViewHidden = false
@@ -37,13 +40,11 @@ class GlobalFeedsViewController: UIViewController {
         super.viewDidLoad()
         //self.navigationItem.hidesBackButton = true
         // Do any additional setup after loading the view.
-        
         self.tableViewFooterView.hidden = true
-        
+        self.loadMoreActivityIndicator.hidesWhenStopped = true
         self.loadDataFromAPI()
         self.changeViewMode(self)
         
-    
         self.blurEffectView.alpha = 0.4
         blurEffectView.frame = view.bounds
         self.view.addSubview(self.blurEffectView)
@@ -51,12 +52,11 @@ class GlobalFeedsViewController: UIViewController {
         loadingNotification.mode = MBProgressHUDMode.Indeterminate
         loadingNotification.labelText = "Loading"
         
-   
+        
         self.refreshControl = UIRefreshControl()
         self.refreshControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
         self.refreshControl.addTarget(self, action: "refresh:", forControlEvents: UIControlEvents.ValueChanged)
         self.tableView.addSubview(refreshControl)
-    
     }
     
     override func didReceiveMemoryWarning() {
@@ -66,7 +66,7 @@ class GlobalFeedsViewController: UIViewController {
     override func viewWillAppear(animated: Bool) {
         self.tabBarController?.navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "square"), style: .Plain, target: self, action: "changeViewMode:")
         
-        self.tabBarController?.navigationItem.title = "Global Feed"
+        self.tabBarController?.navigationItem.title = self.title ?? "Global Feed"
         self.tabBarController?.navigationItem.hidesBackButton = true
         self.tabBarController?.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .Plain, target: nil, action: nil)
     }
@@ -88,21 +88,28 @@ class GlobalFeedsViewController: UIViewController {
         print("Swiped right")
     }
     
-    @IBAction func loadMore(sender: UIButton) {
-        self.pageNumber++
-        self.loadMoreActivityIndicator.startAnimating()
-        
+    @IBAction func tryAgainPressed(sender: AnyObject) {
+        if let btn = sender as? UIButton {
+            btn.hidden = true
+        }
         self.loadDataFromAPI()
     }
-    
     private func loadDataFromAPI(){
         guard let id = UserDataStruct().id else {
             print("no user id")
             return
         }
         
-        let apiURLString = "\(apiUrl)api/v1/feeds/global/\(id)/\(self.pageNumber)/\(self.postLimit)"
-        print(apiURLString)
+        var apiURLString = ""
+        if let _ = self.title {
+            //api/v1/feeds/all/
+             apiURLString = "\(apiUrl)api/v1/feeds/all/\(id)/\(self.pageNumber)/\(self.postLimit)"
+        }
+            
+        else {
+             apiURLString = "\(apiUrl)api/v1/feeds/global/\(id)/\(self.pageNumber)/\(self.postLimit)"
+        }
+        //print(apiURLString)
         guard let api_token = UserDataStruct().api_token else{
             print("no api token")
             return
@@ -113,10 +120,10 @@ class GlobalFeedsViewController: UIViewController {
         ]
         
         Alamofire.request(.GET, apiURLString, parameters: nil, headers: headers).responseJSON { response -> Void in
+            
             switch response.result {
             case .Success(let value):
                 let json = JSON(value)
-                print(json)
                 if !json["error"].boolValue {
                     if let _ = self.feedsToShow {
                         if self.refreshingStatus == true {
@@ -125,7 +132,10 @@ class GlobalFeedsViewController: UIViewController {
                         } else {
                             self.feedsToShow = JSON(self.feedsToShow.arrayObject! + json.arrayObject!)
                             self.loadMoreActivityIndicator.stopAnimating()
-                            
+                            if json.count == 0 {
+                                self.hasMoreDataInServer = false
+                                self.tableViewFooterView.hidden = true
+                            }
                         }
                     } else {
                         self.feedsToShow = json
@@ -136,21 +146,31 @@ class GlobalFeedsViewController: UIViewController {
                     MBProgressHUD.hideAllHUDsForView(self.view, animated: true)
                     self.blurEffectView.removeFromSuperview()
                     self.refreshControl.endRefreshing()
-                    self.tableViewFooterView.hidden = false
-
+                    
                 } else {
+                    self.loadMoreActivityIndicator.stopAnimating()
+                    self.tryAgainButton.hidden = false
+//                    appDelegate.ShowAlertView("Connection Error", message: "Try Again", handlerForOk: { (action) -> Void in
+//                        self.loadDataFromAPI()
+//                        }, handlerForCancel: nil)
+                    
                     print("Error: \(json["message"])")
                 }
             case .Failure(let error):
+//                appDelegate.ShowAlertView("Connection Error", message: "Try Again", handlerForOk: { (action) -> Void in
+//                    self.loadDataFromAPI()
+//                    }, handlerForCancel: nil)
+                self.loadMoreActivityIndicator.stopAnimating()
+                self.tryAgainButton.hidden = false
                 print("ERROR: \(error)")
                 self.refreshControl.endRefreshing()
-
             }
+            
             }.progress { (a, b, c) -> Void in
-                print("\(a) -- \(b) -- \(c)")
+               // print("\(a) -- \(b) -- \(c)")
         }
     }
-
+    
     
     func changeViewMode(sender: AnyObject) {
         if self.collectionViewHidden {
@@ -180,6 +200,13 @@ class GlobalFeedsViewController: UIViewController {
         self.refreshingStatus = true
         self.loadDataFromAPI()
     }
+    
+    func loadMore() {
+        self.tableViewFooterView.hidden = false
+        self.pageNumber++
+        self.loadMoreActivityIndicator.startAnimating()
+        self.loadDataFromAPI()
+    }
 }
 
 extension GlobalFeedsViewController: UITableViewDataSource {
@@ -204,8 +231,15 @@ extension GlobalFeedsViewController: UITableViewDataSource {
         cell.loveCount.text = "\(feedsToShow[indexPath.section, "loveit"].string ?? "0") love it"
         cell.leftCount.text = "\(feedsToShow[indexPath.section, "leaveit"].string ?? "0") left it"
         cell.comment.text = "\(feedsToShow[indexPath.section, "comment"].string ?? "")"
-
+        
         return cell
+    }
+    
+    func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
+        if indexPath.section == feedsToShow.count - 1 && hasMoreDataInServer {
+            self.loadMore()
+        }
+        
     }
     
 }
@@ -213,8 +247,6 @@ extension GlobalFeedsViewController: UITableViewDataSource {
 extension GlobalFeedsViewController: UITableViewDelegate {
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
-        
-        
     }
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
@@ -235,7 +267,7 @@ extension GlobalFeedsViewController: UITableViewDelegate {
         cell.userProfilePic.kf_setImageWithURL(NSURL(string: feedsToShow[section, "user", "photo_thumb"].string!)!, placeholderImage: cell.userProfilePic.image)
         cell.username.text = feedsToShow[section, "user", "username"].string
         if let createdAt = feedsToShow[section, "created_at"].string {
-            print(createdAt)
+            //print(createdAt)
             let dateFormatter = NSDateFormatter()
             dateFormatter.dateFormat = "y-MM-dd HH:mm:ss"
             if let date = dateFormatter.dateFromString(createdAt) {
@@ -258,12 +290,21 @@ extension GlobalFeedsViewController: UITableViewDelegate {
         return cell
     }
     
- 
+//    func scrollViewDidScroll(scrollView: UIScrollView) {
+//        if let tblView = scrollView as? UITableView where tblView == self.tableView {
+//            if (scrollView.contentOffset.y + scrollView.frame.size.height == scrollView.contentSize.height && hasMoreDataInServer)
+//            {
+//                self.loadMore()
+//                print("here")
+//            }
+//        }
+//    }
+    
 }
 
 extension GlobalFeedsViewController: UICollectionViewDataSource{
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        print(feedsToShow?.count)
+        //print(feedsToShow?.count)
         return feedsToShow?.count ?? 0
     }
     
