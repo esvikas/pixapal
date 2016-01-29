@@ -16,6 +16,19 @@ class CustomTabBarController: UITabBarController {
         
         //self.selectedViewController?.tabBarItem
         // Do any additional setup after loading the view.
+        let storyBoard = UIStoryboard(name: "Main", bundle: nil)
+        let controller = storyBoard.instantiateViewControllerWithIdentifier("globalFeedVC")
+        
+        controller.title = "Personalized Feeds" //view = self.viewControllers?[0].view
+        
+        let icon1 = UITabBarItem(title: "", image: UIImage(named: "profile_menu"), selectedImage: nil)
+        icon1.imageInsets = UIEdgeInsets(top: 6, left: 0, bottom: -6, right: 0)
+        controller.tabBarItem = icon1
+        var controllers = self.viewControllers  //array of the root view controllers displayed by the tab bar interface
+        controllers?.insert(controller, atIndex: 1)
+        //controllers?.append(controller)
+        self.viewControllers = controllers
+
     }
 
     override func didReceiveMemoryWarning() {
@@ -23,20 +36,10 @@ class CustomTabBarController: UITabBarController {
         // Dispose of any resources that can be recreated.
     }
     
+    
     override func viewWillAppear(animated: Bool) {
         
-        let storyBoard = UIStoryboard(name: "Main", bundle: nil)
-        let controller = storyBoard.instantiateViewControllerWithIdentifier("globalFeedVC")
-        
-        controller.title = "Personalized Feeds" //view = self.viewControllers?[0].view
-        
-        let icon1 = UITabBarItem(title: "", image: UIImage(named: "profile_menu"), selectedImage: nil)
-        controller.tabBarItem = icon1
-        var controllers = self.viewControllers  //array of the root view controllers displayed by the tab bar interface
-        controllers?.insert(controller, atIndex: 1)
-        //controllers?.append(controller)
-        self.viewControllers = controllers
-    }
+            }
     
     /*
     // MARK: - Navigation

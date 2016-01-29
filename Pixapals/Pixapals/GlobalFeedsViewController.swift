@@ -40,9 +40,10 @@ class GlobalFeedsViewController: UIViewController {
         super.viewDidLoad()
         //self.navigationItem.hidesBackButton = true
         // Do any additional setup after loading the view.
-        //self.footerView.hidden = true
         
-        //self.loadMoreActivityIndicator.hidesWhenStopped = true
+        self.footerView.hidden = true
+        
+        self.loadMoreActivityIndicator.hidesWhenStopped = true
         self.loadDataFromAPI()
         self.changeViewMode(self)
         
@@ -95,6 +96,7 @@ class GlobalFeedsViewController: UIViewController {
         if let btn = sender as? UIButton {
             btn.hidden = true
         }
+        self.loadMoreActivityIndicator.startAnimating()
         self.loadDataFromAPI()
     }
     private func loadDataFromAPI(){
@@ -134,10 +136,8 @@ class GlobalFeedsViewController: UIViewController {
                             self.feedsToShow = json
                         } else {
                             self.feedsToShow = JSON(self.feedsToShow.arrayObject! + json.arrayObject!)
-                            self.loadMoreActivityIndicator.stopAnimating()
                             if json.count == 0 {
                                 self.hasMoreDataInServer = false
-                                self.footerView.hidden = true
                             }
                         }
                     } else {
@@ -149,7 +149,8 @@ class GlobalFeedsViewController: UIViewController {
                     MBProgressHUD.hideAllHUDsForView(self.view, animated: true)
                     self.blurEffectView.removeFromSuperview()
                     self.refreshControl.endRefreshing()
-                    
+                    self.loadMoreActivityIndicator.stopAnimating()
+                    self.footerView.hidden = true
                 } else {
                     self.loadMoreActivityIndicator.stopAnimating()
                     self.tryAgainButton.hidden = false
@@ -205,7 +206,7 @@ class GlobalFeedsViewController: UIViewController {
     }
     
     func loadMore() {
-        //self.footerView.hidden = false
+        self.footerView.hidden = false
         self.pageNumber++
         self.loadMoreActivityIndicator.startAnimating()
         self.loadDataFromAPI()
@@ -243,8 +244,12 @@ extension GlobalFeedsViewController: UITableViewDataSource {
     }
     
     func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
-        
-        
+       print( hasMoreDataInServer)
+        print(indexPath.section)
+        print(indexPath.section == self.feedsToShow.count)
+        if indexPath.section == self.feedsToShow.count - 1 && self.hasMoreDataInServer {
+            self.loadMore()
+        }
     }
     
 }
@@ -316,8 +321,11 @@ extension GlobalFeedsViewController: UICollectionViewDataSource{
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier("globalFeedCollectionViewCell", forIndexPath: indexPath) as! GlobalFeedCollectionViewCell
-        cell.feedImage.kf_setImageWithURL(NSURL(string: feedsToShow[indexPath.row, "photo_thumb"].string!)!, placeholderImage: UIImage(named: "post-feed-img"))
-        
+        if let image_url = feedsToShow[indexPath.row, "photo_thumb"].string {
+            cell.feedImage.kf_setImageWithURL(NSURL(string: image_url)!)
+        } else {
+            cell.feedImage.image = UIImage(named: "post-feed-img")
+        }
         return cell
     }
 //    func collectionView(collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, atIndexPath indexPath: NSIndexPath) -> UICollectionReusableView {
@@ -338,7 +346,7 @@ extension GlobalFeedsViewController: UICollectionViewDelegate{
 //        }
 //    }
     func collectionView(collectionView: UICollectionView, willDisplayCell cell: UICollectionViewCell, forItemAtIndexPath indexPath: NSIndexPath) {
-        if indexPath.row == self.feedsToShow.count && self.hasMoreDataInServer {
+        if indexPath.row == self.feedsToShow.count - 1 && self.hasMoreDataInServer {
             self.loadMore()
         }
     }

@@ -767,6 +767,9 @@
                                                     <constraint firstItem="fcN-4S-GPS" firstAttribute="top" secondItem="Gf9-W5-A0e" secondAttribute="top" id="Qoe-8H-7Sr"/>
                                                     <constraint firstItem="fcN-4S-GPS" firstAttribute="leading" secondItem="Gf9-W5-A0e" secondAttribute="leading" id="XKx-aM-R5b"/>
                                                 </constraints>
+                                                <connections>
+                                                    <outlet property="feedImage" destination="fcN-4S-GPS" id="kFs-Ic-3xp"/>
+                                                </connections>
                                             </collectionViewCell>
                                         </cells>
                                         <connections>
@@ -2058,7 +2061,7 @@
         <image name="home" width="36" height="30"/>
         <image name="logo" width="201" height="57"/>
         <image name="post-feed-img" width="100" height="88"/>
-        <image name="profile_menu" width="13" height="12"/>
+        <image name="profile_menu" width="27" height="27"/>
         <image name="rectangle" width="15" height="15"/>
         <image name="setting" width="15" height="15"/>
         <image name="setting_facebook" width="19" height="19"/>

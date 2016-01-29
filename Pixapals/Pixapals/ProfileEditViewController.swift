@@ -27,8 +27,10 @@ class ProfileEditViewController: UIViewController {
         super.viewDidLoad()
         userNameTextField.text=dataSource.username
         emailTextField.text=dataSource.email
-        
-        
+        bioTextField.text = dataSource.bio
+        phoneTextField.text = dataSource.phone
+        webSiteTextField.text = dataSource.website
+        genderTextField.text = dataSource.gender.rawValue
         
         //        self.navigationItem.hidesBackButton = true
         let newBackButton = UIBarButtonItem(image: UIImage(named: "tick_green"), style: UIBarButtonItemStyle.Plain, target: self, action: "back:")

@@ -22,6 +22,7 @@ struct UserDataStruct {
     let id: Int!
     let website: String!
     let bio: String!
+    let phone: String!
     
     init () {
         let nsUserDefault = NSUserDefaults.standardUserDefaults()
@@ -36,6 +37,7 @@ struct UserDataStruct {
         latitude = user_Info_Dict["latitude"]
         website = user_Info_Dict["website"]
         bio = user_Info_Dict["bio"]
+        phone = user_Info_Dict["phone"]
         
         if let gender = user_Info_Dict["gender"] {
             switch gender {
