@@ -22,15 +22,24 @@ class ProfileViewController: UIViewController {
     @IBOutlet weak var userImage: UIImageView!
     
     @IBOutlet weak var tableViewFooterView: UIView!
+    @IBOutlet weak var loadMoreActivityIndicator: UIActivityIndicatorView!
+    @IBOutlet weak var tryAgainButton: UIButton!
     
     @IBOutlet var collectionView: UICollectionView!
     @IBOutlet weak var tableView: UITableView!
     
     let blurEffectView = UIVisualEffectView(effect: UIBlurEffect(style: UIBlurEffectStyle.ExtraLight))
+    
     let refreshControl = UIRefreshControl()
     
     var collectionViewHidden = false
     var feedsToShow: JSON!
+    
+    var refreshingStatus = false
+    var hasMoreDataInServer = true
+    
+    var pageNumber = 1
+    let postLimit = 15
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -40,13 +49,15 @@ class ProfileViewController: UIViewController {
         self.refreshControl.addTarget(self, action: "refresh:", forControlEvents: UIControlEvents.ValueChanged)
         self.tableView.addSubview(refreshControl)
         
-        self.navigationItem.hidesBackButton = false
-
         
+        
+        
+        self.navigationItem.hidesBackButton = false
         self.tableViewFooterView.hidden = true
+        self.loadMoreActivityIndicator.hidesWhenStopped = true
+        self.loadDataFromAPI()
         self.headerView.frame.size.width = self.view.frame.width
         
-        self.loadDataFromAPI()
        // self.view.addSubview(collectionView)
         // Do any additional setup after loading the view.
         self.collectionView.hidden = true
@@ -108,6 +119,13 @@ class ProfileViewController: UIViewController {
         let vc: SettingsTableViewController = storyboard.instantiateViewControllerWithIdentifier("SettingsTableViewController") as! SettingsTableViewController
         self.navigationController?.pushViewController(vc, animated: true)
         
+    }
+    
+    @IBAction func tryAgainPressed(sender: AnyObject) {
+        if let btn = sender as? UIButton {
+            btn.hidden = true
+        }
+        self.loadDataFromAPI()
     }
     
     private func loadDataFromAPI(){
