@@ -234,12 +234,15 @@ extension GlobalFeedsViewController: UITableViewDataSource {
         }
         
         cell.delegate = self
-        cell.indexPath = indexPath
+        cell.id = feedsToShow[indexPath.section, "id"].int
+        cell.left=(feedsToShow[indexPath.section, "is_my_left"].bool)
+        cell.loved=(feedsToShow[indexPath.section, "is_my_love"].bool)
+
         
-        cell.loveCount.text = "\(feedsToShow[indexPath.section, "loveit"].string ?? "0") love it"
-        cell.leftCount.text = "\(feedsToShow[indexPath.section, "leaveit"].string ?? "0") left it"
+        cell.loveCount.text = "\(feedsToShow[indexPath.section, "loveit"].int ?? 0) love it"
+        cell.leftCount.text = "\(feedsToShow[indexPath.section, "leaveit"].int ?? 0) left it"
         cell.comment.text = "\(feedsToShow[indexPath.section, "comment"].string ?? "")"
-        
+        print(feedsToShow)
         return cell
     }
     
@@ -360,11 +363,107 @@ extension GlobalFeedsViewController: UICollectionViewDelegateFlowLayout {
 }
 
 extension GlobalFeedsViewController: CellImageSwippedDelegate {
-    func imageSwipedLeft(indexPath: NSIndexPath?) {
+    func imageSwipedLeft(id: Int, loved: Bool, var left:Bool) {
         print("swipped Left")
+        print(id)
+        print(loved)
+        print(left)
+        left=true
+        
+        leaveit(String(id))
     }
-    func imageSwipedRight(indexPath: NSIndexPath?) {
+    func imageSwipedRight(id: Int, var loved: Bool, var left: Bool) {
         print("swipped right")
+        print(loved)
+        print(left)
+        loved = true
+        left = false
+        loveFeed(String(id))
+    }
+    
+    func loveFeed(postId:String){
+        
+        let registerUrlString = "\(apiUrl)api/v1/feeds/loveit"
+        
+        _ = NSUserDefaults.standardUserDefaults()
+
+        let parameters: [String: AnyObject] =
+        [
+            "user_id": "1",
+            "post_id": postId
+  
+        ]
+        let headers = [
+            "X-Auth-Token" : "c353c462bb19d45f5d60d14ddf7ec3664c0eeaaaede6309c03dd8129df745b91",
+        ]
+        
+        
+        
+        
+        Alamofire.request(.POST, registerUrlString, parameters: parameters, headers:headers)
+            .responseJSON { response in
+                
+                switch response.result {
+                case .Success(let data):
+                    if let dict = data["user"] as? [String: AnyObject] {
+                        let userInfoStruct = UserDataStruct()
+                        userInfoStruct.saveUserInfoFromJSON(jsonContainingUserInfo: dict)
+                        
+                        print("LovedIt \(postId)")
+                    }
+                    else {
+                        print(data)
+                        print("Failed")
+                    }
+                case .Failure(let error):
+                    print("Error in connection \(error)")
+                }
+        }
+        
+        
+        }
+    
+    
+    func leaveit(postId:String){
+        
+        let registerUrlString = "\(apiUrl)api/v1/feeds/leaveit"
+        
+        _ = NSUserDefaults.standardUserDefaults()
+        
+        let parameters: [String: AnyObject] =
+        [
+            "user_id": "1",
+            "post_id": postId
+            
+        ]
+        let headers = [
+            "X-Auth-Token" : "c353c462bb19d45f5d60d14ddf7ec3664c0eeaaaede6309c03dd8129df745b91",
+        ]
+        
+        
+        
+        
+        Alamofire.request(.POST, registerUrlString, parameters: parameters, headers:headers)
+            .responseJSON { response in
+                
+                switch response.result {
+                case .Success(let data):
+                    if let dict = data["user"] as? [String: AnyObject] {
+                        let userInfoStruct = UserDataStruct()
+                        userInfoStruct.saveUserInfoFromJSON(jsonContainingUserInfo: dict)
+                        
+                        print("LovedIt \(postId)")
+                    }
+                    else {
+                        print(data)
+                        print("Failed")
+                    }
+                case .Failure(let error):
+                    print("Error in connection \(error)")
+                }
+        }
+        
+        
     }
 }
 
