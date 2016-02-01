@@ -8,8 +8,8 @@
 
 import UIKit
 protocol CellImageSwippedDelegate {
-    func imageSwipedLeft(indexPath: NSIndexPath?)
-    func imageSwipedRight(indexPath: NSIndexPath?)
+    func imageSwipedLeft(id: Int, loved: Bool, left: Bool)
+    func imageSwipedRight(id: Int, loved: Bool, left: Bool)
 }
 
 class GlobalFeedTableViewCell: UITableViewCell {
@@ -21,7 +21,11 @@ class GlobalFeedTableViewCell: UITableViewCell {
     @IBOutlet weak var comment: UILabel!
     @IBOutlet weak var feedImage2: UIImageView!
     
-    var indexPath: NSIndexPath!
+    var id: Int!
+    var loved : Bool!
+    var left : Bool!
+
+    
     var delegate: CellImageSwippedDelegate!
     
 //    var imageViewObject :UIImageView!
@@ -92,10 +96,12 @@ class GlobalFeedTableViewCell: UITableViewCell {
                 })
                 
                 
-                
+                print(id)
+                print(loved)
+                print(left)
                 
                 print("Swiped right")
-                delegate.imageSwipedRight(self.indexPath)
+                delegate.imageSwipedRight(self.id,loved: self.loved,left: self.left)
                 
             case UISwipeGestureRecognizerDirection.Left:
                 DynamicView.backgroundColor=UIColor.redColor()
@@ -110,7 +116,7 @@ class GlobalFeedTableViewCell: UITableViewCell {
                         self.DynamicView.hidden=true
                 })
                 print("swipe left")
-                delegate.imageSwipedLeft(self.indexPath)
+                delegate.imageSwipedLeft(self.id,loved: self.loved,left: self.left)
                 
             default:
                 break
