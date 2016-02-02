@@ -81,6 +81,13 @@ class GlobalFeedTableViewCell: UITableViewCell {
             
             switch swipeGesture.direction {
             case UISwipeGestureRecognizerDirection.Right:
+                
+                print(id)
+                print(loved)
+                print(left)
+                
+                if loved != true {
+                
                 DynamicView.backgroundColor=UIColor.blackColor()
                 
                 DynamicView.frame=(frame: CGRectMake(self.feedImage.layer.frame.origin.x, self.feedImage.layer.frame.origin.y, self.feedImage.frame.width, self.feedImage.frame.height))
@@ -96,14 +103,15 @@ class GlobalFeedTableViewCell: UITableViewCell {
                 })
                 
                 
-                print(id)
-                print(loved)
-                print(left)
+ 
                 
                 print("Swiped right")
                 delegate.imageSwipedRight(self.id,loved: self.loved,left: self.left)
+                }
                 
             case UISwipeGestureRecognizerDirection.Left:
+                if left != true {
+
                 DynamicView.backgroundColor=UIColor.redColor()
                 
                 DynamicView.frame=(frame: CGRectMake(self.feedImage.layer.frame.origin.x, self.feedImage.layer.frame.origin.y, self.feedImage.frame.width, self.feedImage.frame.height))
@@ -117,6 +125,7 @@ class GlobalFeedTableViewCell: UITableViewCell {
                 })
                 print("swipe left")
                 delegate.imageSwipedLeft(self.id,loved: self.loved,left: self.left)
+                }
                 
             default:
                 break

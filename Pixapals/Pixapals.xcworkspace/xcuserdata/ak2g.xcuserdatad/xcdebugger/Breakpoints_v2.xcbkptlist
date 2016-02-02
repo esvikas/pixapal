@@ -122,107 +122,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Pixapals/GlobalFeedTableViewCell.swift"
-            timestampString = "475758228.376631"
+            timestampString = "476011685.037074"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "100"
-            endingLineNumber = "100"
+            startingLineNumber = "85"
+            endingLineNumber = "85"
             landmarkName = "respondToSwipeGesture(_:)"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Pixapals/GlobalFeedsViewController.swift"
-            timestampString = "475757572.732812"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "359"
-            endingLineNumber = "359"
-            landmarkName = "imageSwipedLeft(_:loved:left:)"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Pixapals/GlobalFeedsViewController.swift"
-            timestampString = "475993259.277054"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "367"
-            endingLineNumber = "367"
-            landmarkName = "imageSwipedRight(_:loved:left:)"
-            landmarkType = "5">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Pixapals.GlobalFeedsViewController.imageSwipedRight (Pixapals.GlobalFeedsViewController)(Swift.Int, loved : Swift.Bool, left : Swift.Bool) -&gt; ()"
-                  moduleName = "Pixapals"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/ak2g/Documents/Pixapals/Pixapals/Pixapals/GlobalFeedsViewController.swift"
-                  timestampString = "475993009.891212"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "366"
-                  endingLineNumber = "366"
-                  offsetFromSymbolStart = "55">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "protocol witness for Pixapals.CellImageSwippedDelegate.imageSwipedRight &lt;A where A: Pixapals.CellImageSwippedDelegate&gt; (A)(Swift.Int, loved : Swift.Bool, left : Swift.Bool) -&gt; () in conformance Pixapals.GlobalFeedsViewController : Pixapals.CellImageSwippedDelegate in Pixapals"
-                  moduleName = "Pixapals"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/ak2g/Documents/Pixapals/Pixapals/Pixapals/GlobalFeedsViewController.swift"
-                  timestampString = "475993009.891351"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "365"
-                  endingLineNumber = "365"
-                  offsetFromSymbolStart = "13">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "dynamic Pixapals.GlobalFeedsViewController.imageSwipedRight (Pixapals.GlobalFeedsViewController)(Swift.Int, loved : Swift.Bool, left : Swift.Bool) -&gt; ()"
-                  moduleName = "Pixapals"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/ak2g/Documents/Pixapals/Pixapals/Pixapals/GlobalFeedsViewController.swift"
-                  timestampString = "475993009.891489"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "365"
-                  endingLineNumber = "365"
-                  offsetFromSymbolStart = "13">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Pixapals/GlobalFeedsViewController.swift"
-            timestampString = "475993259.277054"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "371"
-            endingLineNumber = "371"
-            landmarkName = "imageSwipedRight(_:loved:left:)"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

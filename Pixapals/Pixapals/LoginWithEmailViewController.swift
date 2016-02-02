@@ -32,14 +32,7 @@ class LoginWithEmailViewController: UIViewController {
         loginWithEmail()
         }
         
-        
-        
-        //////Delete It //////////
-        //////////////////////////
-        let storyBoard = UIStoryboard(name: "Main", bundle: nil)
-        let vc = storyBoard.instantiateViewControllerWithIdentifier("tabView")
-        self.navigationController?.pushViewController(vc, animated: true)
-        //////////////////////////
+
     }
     
     func loginWithEmail(){

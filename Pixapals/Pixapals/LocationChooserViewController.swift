@@ -12,7 +12,8 @@ class LocationChooserViewController: UIViewController {
 
     @IBOutlet var LocationChooserTable: UITableView!
     
-    var datasource = ["a","b"]
+    var datasource = ["Africa","Antarctic","Asia","Europe",
+        "North & Central America","Oceania","South America"]
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -53,7 +54,7 @@ extension LocationChooserViewController: UITableViewDelegate, UITableViewDataSou
 
         
 
-                        cell.textLabel?.text = (datasource[indexPath.row] as? String)
+                        cell.InterestLael?.text = (datasource[indexPath.row] as? String)
                         cell.selectionStyle =  UITableViewCellSelectionStyle.None
                         cell.tikButton.setImage(UIImage(named: "tick"), forState: .Normal)
                         
