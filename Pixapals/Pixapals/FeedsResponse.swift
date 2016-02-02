@@ -20,12 +20,9 @@ class FeedsResponseJSON: Mappable {
     }
     func mapping(map: Map) {
         error  <- map["error"]
-        if error == true {
-            message <- map["message"]
-            code <- map["code"]
-        } else {
-             feeds <- map
-        }
+        message <- map["message"]
+        code <- map["code"]
+        feeds <- map["feeds"]
     }
 }
 

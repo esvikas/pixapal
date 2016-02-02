@@ -760,10 +760,10 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="j3B-8u-zXw">
-                                <rect key="frame" x="0.0" y="19" width="414" height="982"/>
+                                <rect key="frame" x="0.0" y="20" width="414" height="981"/>
                                 <subviews>
                                     <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="90O-sY-FEp">
-                                        <rect key="frame" x="0.0" y="0.0" width="414" height="264"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="414" height="307"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="2" minimumInteritemSpacing="2" id="u25-de-Db1">
                                             <size key="itemSize" width="115" height="114"/>
@@ -803,7 +803,7 @@
                                         </connections>
                                     </collectionView>
                                     <tableView clipsSubviews="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" style="plain" separatorStyle="none" allowsSelection="NO" rowHeight="50" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="SfV-l8-itb">
-                                        <rect key="frame" x="0.0" y="264" width="414" height="678"/>
+                                        <rect key="frame" x="0.0" y="307" width="414" height="634"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <prototypes>
                                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="globalFeedTableViewCell" rowHeight="546" id="4kb-tj-sj8" customClass="GlobalFeedTableViewCell" customModule="Pixapals" customModuleProvider="target">
@@ -993,7 +993,7 @@
                                         </connections>
                                     </tableView>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Drz-1J-qLK" userLabel="Footer View">
-                                        <rect key="frame" x="0.0" y="942" width="414" height="40"/>
+                                        <rect key="frame" x="0.0" y="941" width="414" height="40"/>
                                         <subviews>
                                             <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="MlA-Km-uFN">
                                                 <rect key="frame" x="197" y="10" width="20" height="20"/>
@@ -1027,12 +1027,14 @@
                         <constraints>
                             <constraint firstAttribute="bottom" secondItem="j3B-8u-zXw" secondAttribute="bottom" constant="49" id="DcU-G8-Jfp"/>
                             <constraint firstAttribute="trailing" secondItem="j3B-8u-zXw" secondAttribute="trailing" id="Fkg-ic-ZOX"/>
-                            <constraint firstItem="j3B-8u-zXw" firstAttribute="top" secondItem="Tel-PW-hSD" secondAttribute="bottom" constant="-1" id="KpC-sZ-8mO"/>
+                            <constraint firstItem="j3B-8u-zXw" firstAttribute="top" secondItem="Tel-PW-hSD" secondAttribute="bottom" id="KpC-sZ-8mO"/>
                             <constraint firstAttribute="bottom" secondItem="j3B-8u-zXw" secondAttribute="bottom" constant="45" id="gFw-TH-ioj"/>
                             <constraint firstItem="j3B-8u-zXw" firstAttribute="leading" secondItem="a4j-UI-gBX" secondAttribute="leading" id="xXG-WL-sAf"/>
+                            <constraint firstItem="j3B-8u-zXw" firstAttribute="top" secondItem="Tel-PW-hSD" secondAttribute="bottom" id="y1e-og-csk"/>
                         </constraints>
                         <variation key="default">
                             <mask key="constraints">
+                                <exclude reference="KpC-sZ-8mO"/>
                                 <exclude reference="gFw-TH-ioj"/>
                             </mask>
                         </variation>
@@ -1054,24 +1056,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="By2-JM-Okb" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1601" y="1623"/>
-        </scene>
-        <!--View Controller-->
-        <scene sceneID="MFv-nF-fmX">
-            <objects>
-                <viewController id="OKh-vd-yob" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="lkm-Bn-cTr"/>
-                        <viewControllerLayoutGuide type="bottom" id="rwY-Ba-RQe"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="aXK-9q-F7X">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    </view>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="jkc-Jj-PIJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="2239" y="1722"/>
         </scene>
         <!--Username-->
         <scene sceneID="tZm-Gj-YLE">
@@ -1109,7 +1093,7 @@
                                                     <rect key="frame" x="0.0" y="0.0" width="115" height="114"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <subviews>
-                                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="post-feed-img" translatesAutoresizingMaskIntoConstraints="NO" id="FHf-4n-Mx7">
+                                                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="post-feed-img" translatesAutoresizingMaskIntoConstraints="NO" id="FHf-4n-Mx7">
                                                             <rect key="frame" x="0.0" y="0.0" width="115" height="114"/>
                                                         </imageView>
                                                     </subviews>
@@ -1141,35 +1125,6 @@
                                     <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" style="plain" separatorStyle="none" allowsSelection="NO" rowHeight="50" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="q1Q-6d-XVF">
                                         <rect key="frame" x="0.0" y="440" width="414" height="741"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                        <view key="tableFooterView" contentMode="scaleToFill" id="qaV-WD-BCy">
-                                            <rect key="frame" x="0.0" y="674" width="414" height="40"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <subviews>
-                                                <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="PyP-jq-IfO">
-                                                    <rect key="frame" x="197" y="10" width="20" height="20"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="height" constant="20" id="MfY-OY-T2C"/>
-                                                        <constraint firstAttribute="width" constant="20" id="joi-6I-6l6"/>
-                                                    </constraints>
-                                                </activityIndicatorView>
-                                                <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4zw-tI-tkR">
-                                                    <rect key="frame" x="0.0" y="0.0" width="414" height="40"/>
-                                                    <state key="normal" title="Connection Error! Try again ..."/>
-                                                    <connections>
-                                                        <action selector="tryAgainPressed:" destination="IbE-Kr-sMr" eventType="touchUpInside" id="MNO-mX-kFR"/>
-                                                    </connections>
-                                                </button>
-                                            </subviews>
-                                            <color key="backgroundColor" red="0.86213596199999998" green="0.86213596199999998" blue="0.86213596199999998" alpha="1" colorSpace="calibratedRGB"/>
-                                            <constraints>
-                                                <constraint firstAttribute="trailing" secondItem="4zw-tI-tkR" secondAttribute="trailing" id="R9A-fA-lEX"/>
-                                                <constraint firstItem="4zw-tI-tkR" firstAttribute="top" secondItem="qaV-WD-BCy" secondAttribute="top" id="Xqm-4i-LWy"/>
-                                                <constraint firstItem="PyP-jq-IfO" firstAttribute="centerX" secondItem="qaV-WD-BCy" secondAttribute="centerX" id="akp-I1-0hQ"/>
-                                                <constraint firstItem="4zw-tI-tkR" firstAttribute="leading" secondItem="qaV-WD-BCy" secondAttribute="leading" id="iLx-bI-pvf"/>
-                                                <constraint firstAttribute="bottom" secondItem="4zw-tI-tkR" secondAttribute="bottom" id="vvF-po-Ynx"/>
-                                                <constraint firstItem="PyP-jq-IfO" firstAttribute="centerY" secondItem="qaV-WD-BCy" secondAttribute="centerY" id="wrk-Mk-bFq"/>
-                                            </constraints>
-                                        </view>
                                         <prototypes>
                                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="globalFeedTableViewCell" rowHeight="546" id="tY9-fi-oLr" customClass="GlobalFeedTableViewCell" customModule="Pixapals" customModuleProvider="target">
                                                 <rect key="frame" x="0.0" y="28" width="414" height="546"/>
@@ -1390,20 +1345,12 @@
                         <outlet property="feeding" destination="J0G-xP-r7t" id="g3C-0D-VOl"/>
                         <outlet property="feeds" destination="alj-ri-RSD" id="bDi-Hc-iIu"/>
                         <outlet property="headerView" destination="P3g-Ku-W4B" id="6Td-N6-Psw"/>
-                        <outlet property="loadMoreActivityIndicator" destination="PyP-jq-IfO" id="DYo-TS-KDt"/>
                         <outlet property="tableView" destination="q1Q-6d-XVF" id="vFM-HJ-hQL"/>
-                        <outlet property="tableViewFooterView" destination="qaV-WD-BCy" id="Juf-3H-SAf"/>
-                        <outlet property="tryAgainButton" destination="4zw-tI-tkR" id="ZXG-hq-ogD"/>
                         <outlet property="userImage" destination="Grc-2q-jv7" id="OEj-yI-JIg"/>
                         <outlet property="username" destination="k4s-Qv-5tk" id="TLc-1O-vth"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gHe-HD-lAo" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <view contentMode="scaleToFill" id="YvW-nU-j4e">
-                    <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                </view>
                 <view contentMode="scaleToFill" id="P3g-Ku-W4B">
                     <rect key="frame" x="0.0" y="0.0" width="600" height="320"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -1566,7 +1513,7 @@
                     </constraints>
                 </view>
             </objects>
-            <point key="canvasLocation" x="2486" y="1732"/>
+            <point key="canvasLocation" x="2086" y="1723"/>
         </scene>
         <!--Double Mode-->
         <scene sceneID="gBy-hR-h2G">

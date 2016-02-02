@@ -32,7 +32,6 @@ class GlobalFeedsViewController: UIViewController {
     
     
     var collectionViewHidden = false
-    var feedsToShow: JSON!
     
     var feedsFromResponseAsObject: FeedsResponseJSON!
     
@@ -124,7 +123,7 @@ class GlobalFeedsViewController: UIViewController {
         }
         
         let headers = [
-            "X-Auth-Token" : "ddddd",
+            "X-Auth-Token" : api_token,
         ]
         //        let URL = "https://raw.githubusercontent.com/tristanhimmelman/AlamofireObjectMapper/2ee8f34d21e8febfdefb2b3a403f18a43818d70a/sample_keypath_json"
         //        Alamofire.request(.GET, URL).responseObject("data") { (response: Response<WeatherResponse, NSError>) in
@@ -148,7 +147,15 @@ class GlobalFeedsViewController: UIViewController {
                 
             case .Success(let feedsResponseJSON):
                 
-                if !feedsResponseJSON.error {
+                if let error = feedsResponseJSON.error where error == true {
+                    self.loadMoreActivityIndicator.stopAnimating()
+                    self.tryAgainButton.hidden = false
+                    //                    appDelegate.ShowAlertView("Connection Error", message: "Try Again", handlerForOk: { (action) -> Void in
+                    //                        self.loadDataFromAPI()
+                    //                        }, handlerForCancel: nil)
+                    
+                    print("Error: \(feedsResponseJSON.message)")
+                } else {
                     if let _ = self.feedsFromResponseAsObject {
                         if self.refreshingStatus == true {
                             self.refreshingStatus = false
@@ -172,14 +179,6 @@ class GlobalFeedsViewController: UIViewController {
                     self.refreshControl.endRefreshing()
                     self.loadMoreActivityIndicator.stopAnimating()
                     self.footerView.hidden = true
-                } else {
-                    self.loadMoreActivityIndicator.stopAnimating()
-                    self.tryAgainButton.hidden = false
-                    //                    appDelegate.ShowAlertView("Connection Error", message: "Try Again", handlerForOk: { (action) -> Void in
-                    //                        self.loadDataFromAPI()
-                    //                        }, handlerForCancel: nil)
-                    
-                    print("Error: \(feedsResponseJSON.message)")
                 }
                 
                 // self.feedsFromResponseAsObject = feedsResponseJSON
@@ -285,14 +284,14 @@ class GlobalFeedsViewController: UIViewController {
         if self.collectionViewHidden {
             self.collectionView.hidden = false
             self.tableView.hidden = true
-            if let _ = self.feedsFromResponseAsObject.feeds?.count {
+            if let _ = self.feedsFromResponseAsObject?.feeds?.count {
                 self.tableView.scrollToRowAtIndexPath(NSIndexPath(forRow: 0, inSection: 0), atScrollPosition: UITableViewScrollPosition.Top, animated: false)
             }
             self.tabBarController?.navigationItem.rightBarButtonItem?.image = UIImage(named: "global_feed_grid_menu")
         } else {
             self.collectionView.hidden = true
             self.tableView.hidden = false
-            if let _ = self.feedsFromResponseAsObject.feeds?.count {
+            if let _ = self.feedsFromResponseAsObject?.feeds?.count {
                 self.collectionView.scrollToItemAtIndexPath(NSIndexPath(forRow: 0, inSection: 0), atScrollPosition: UICollectionViewScrollPosition.Top, animated: false)
             }
             self.tabBarController?.navigationItem.rightBarButtonItem?.image = UIImage(named: "square")
@@ -320,7 +319,7 @@ class GlobalFeedsViewController: UIViewController {
 
 extension GlobalFeedsViewController: UITableViewDataSource {
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return self.feedsFromResponseAsObject.feeds?.count ?? 0
+        return self.feedsFromResponseAsObject?.feeds?.count ?? 0
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -330,32 +329,44 @@ extension GlobalFeedsViewController: UITableViewDataSource {
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCellWithIdentifier("globalFeedTableViewCell", forIndexPath: indexPath) as! GlobalFeedTableViewCell
-        cell.feedImage.kf_setImageWithURL(NSURL(string: feedsToShow[indexPath.section, "photo"].string!)!, placeholderImage: UIImage(named: "loading.png"))
-        if let imagePresent = feedsToShow[indexPath.section,"photo_two"].string?.isEmpty where imagePresent == false {
+        
+        let feed = (self.feedsFromResponseAsObject.feeds?[indexPath.section])!
+        
+        //cell.feedImage.kf_setImageWithURL(NSURL(string: feedsToShow[indexPath.section, "photo"].string!)!, placeholderImage: UIImage(named: "loading.png"))
+        cell.feedImage.kf_setImageWithURL(NSURL(string: feed.photo ?? "")!, placeholderImage: UIImage(named: "loading.png"))
+        
+        if let imagePresent = feed.photo_two?.isEmpty where imagePresent == false {
             cell.feedImage2.hidden = false
-            cell.feedImage2.kf_setImageWithURL(NSURL(string: feedsToShow[indexPath.section,"photo_two"].string!)! , placeholderImage: UIImage(named: "loading.png"))
+            cell.feedImage2.kf_setImageWithURL(NSURL(string: feed.photo_two ?? "")! , placeholderImage: UIImage(named: "loading.png"))
         } else {
             cell.feedImage2.hidden = true
         }
+//        if let imagePresent = feedsToShow[indexPath.section,"photo_two"].string?.isEmpty where imagePresent == false {
+//            cell.feedImage2.hidden = false
+//            cell.feedImage2.kf_setImageWithURL(NSURL(string: feedsToShow[indexPath.section,"photo_two"].string!)! , placeholderImage: UIImage(named: "loading.png"))
+//        } else {
+//            cell.feedImage2.hidden = true
+//        }
         
         cell.delegate = self
-        cell.id = feedsToShow[indexPath.section, "id"].int
-        cell.left=(feedsToShow[indexPath.section, "is_my_left"].bool)
-        cell.loved=(feedsToShow[indexPath.section, "is_my_love"].bool)
+        
+        cell.id = feed.id
+        cell.left = feed.is_my_left
+        cell.loved = feed.is_my_love
         
         
-        cell.loveCount.text = "\(feedsToShow[indexPath.section, "loveit"].int ?? 0) love it"
-        cell.leftCount.text = "\(feedsToShow[indexPath.section, "leaveit"].int ?? 0) left it"
-        cell.comment.text = "\(feedsToShow[indexPath.section, "comment"].string ?? "")"
-        print(feedsToShow)
+        cell.loveCount.text = "\(feed.loveit ?? 0) love it"
+        cell.leftCount.text = "\(feed.leaveit ?? 0) left it"
+        cell.comment.text = "\(feed.comment ?? "")"
+        //print(feedsToShow)
         return cell
     }
     
     func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
-        print( hasMoreDataInServer)
-        print(indexPath.section)
-        print(indexPath.section == self.feedsToShow.count)
-        if indexPath.section == self.feedsToShow.count - 1 && self.hasMoreDataInServer {
+        //print( hasMoreDataInServer)
+        //print(indexPath.section)
+        //print(indexPath.section == self.feedsFromResponseAsObject.feeds!.count)
+        if indexPath.section == self.feedsFromResponseAsObject.feeds!.count - 1 && self.hasMoreDataInServer {
             self.loadMore()
         }
     }
@@ -381,16 +392,16 @@ extension GlobalFeedsViewController: UITableViewDelegate {
     }
     
     func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let feed = self.feedsFromResponseAsObject.feeds![section]
         let cell = tableView.dequeueReusableCellWithIdentifier("globalFeedTableViewHeaderCell") as! GlobalFeedTableViewHeaderCell
-        cell.userProfilePic.kf_setImageWithURL(NSURL(string: feedsToShow[section, "user", "photo_thumb"].string!)!, placeholderImage: cell.userProfilePic.image)
-        cell.username.text = feedsToShow[section, "user", "username"].string
-        if let createdAt = feedsToShow[section, "created_at"].string {
-            //print(createdAt)
-            let dateFormatter = NSDateFormatter()
-            dateFormatter.dateFormat = "y-MM-dd HH:mm:ss"
-            if let date = dateFormatter.dateFromString(createdAt) {
+        cell.userProfilePic.kf_setImageWithURL(NSURL(string: feed.user!.photo_thumb!)!, placeholderImage: cell.userProfilePic.image)
+        cell.username.text = feed.user?.username
+        if let createdAt = feed.created_at {
+            //let dateFormatter = NSDateFormatter()
+            //dateFormatter.dateFormat = "y-MM-dd HH:mm:ss"
+           // if let date = dateFormatter.dateFromString(createdAt) {
                 var textTimeElapsed = ""
-                let timeInSecond = Int(NSDate().timeIntervalSinceDate(date.dateByAddingTimeInterval(5*60*60 + 45 * 60)))
+                let timeInSecond = Int(NSDate().timeIntervalSinceDate(createdAt))
                 if timeInSecond/60 < 0 {
                     textTimeElapsed = "\(timeInSecond) sec ago"
                 } else if timeInSecond/(60*60) < 1 {
@@ -403,7 +414,7 @@ extension GlobalFeedsViewController: UITableViewDelegate {
                     textTimeElapsed = "\(timeInSecond/(60*60*24*7)) weeks ago"
                 }
                 cell.timeElapsed.text = textTimeElapsed
-            }
+            //}
         }
         return cell
     }
@@ -423,13 +434,13 @@ extension GlobalFeedsViewController: UITableViewDelegate {
 extension GlobalFeedsViewController: UICollectionViewDataSource{
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         //print(feedsToShow?.count)
-        return feedsToShow?.count ?? 0
+        return self.feedsFromResponseAsObject?.feeds?.count ?? 0
     }
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier("globalFeedCollectionViewCell", forIndexPath: indexPath) as! GlobalFeedCollectionViewCell
-        if let image_url = feedsToShow[indexPath.row, "photo_thumb"].string {
+        if let image_url = self.feedsFromResponseAsObject.feeds?[indexPath.row].photo_thumb {
             cell.feedImage.kf_setImageWithURL(NSURL(string: image_url)!)
         } else {
             cell.feedImage.image = UIImage(named: "post-feed-img")
@@ -454,7 +465,7 @@ extension GlobalFeedsViewController: UICollectionViewDelegate{
     //        }
     //    }
     func collectionView(collectionView: UICollectionView, willDisplayCell cell: UICollectionViewCell, forItemAtIndexPath indexPath: NSIndexPath) {
-        if indexPath.row == self.feedsToShow.count - 1 && self.hasMoreDataInServer {
+        if indexPath.row == self.feedsFromResponseAsObject.feeds!.count - 1 && self.hasMoreDataInServer {
             self.loadMore()
         }
     }
