@@ -15,6 +15,7 @@ class ButtonWithCornerRadius: UIButton {
             layer.masksToBounds = cornerRadius > 0
         }
     }
+    var xyz: String = ""
     /*
     // Only override drawRect: if you perform custom drawing.
     // An empty implementation adversely affects performance during animation.

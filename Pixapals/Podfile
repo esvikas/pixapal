@@ -14,6 +14,7 @@ pod 'ImagePicker'
 pod 'DZNEmptyDataSet’
 pod ‘FBSDKLoginKit’
 pod ‘Toucan’
+pod 'AlamofireObjectMapper', '~> 2.1'
 
 
 end

@@ -11,7 +11,8 @@ import Alamofire
 import SwiftyJSON
 import Kingfisher
 import MBProgressHUD
-
+//import ObjectMapper
+import AlamofireObjectMapper
 
 class GlobalFeedsViewController: UIViewController {
     
@@ -32,6 +33,8 @@ class GlobalFeedsViewController: UIViewController {
     
     var collectionViewHidden = false
     var feedsToShow: JSON!
+    
+    var feedsFromResponseAsObject: FeedsResponseJSON!
     
     var pageNumber = 1
     let postLimit = 15
@@ -108,11 +111,11 @@ class GlobalFeedsViewController: UIViewController {
         var apiURLString = ""
         if let _ = self.title {
             //api/v1/feeds/all/
-             apiURLString = "\(apiUrl)api/v1/feeds/all/\(id)/\(self.pageNumber)/\(self.postLimit)"
+            apiURLString = "\(apiUrl)api/v1/feeds/all/\(id)/\(self.pageNumber)/\(self.postLimit)"
         }
             
         else {
-             apiURLString = "\(apiUrl)api/v1/feeds/global/\(id)/\(self.pageNumber)/\(self.postLimit)"
+            apiURLString = "\(apiUrl)api/v1/feeds/global/\(id)/\(self.pageNumber)/\(self.postLimit)"
         }
         //print(apiURLString)
         guard let api_token = UserDataStruct().api_token else{
@@ -121,27 +124,45 @@ class GlobalFeedsViewController: UIViewController {
         }
         
         let headers = [
-            "X-Auth-Token" : api_token,
+            "X-Auth-Token" : "ddddd",
         ]
+        //        let URL = "https://raw.githubusercontent.com/tristanhimmelman/AlamofireObjectMapper/2ee8f34d21e8febfdefb2b3a403f18a43818d70a/sample_keypath_json"
+        //        Alamofire.request(.GET, URL).responseObject("data") { (response: Response<WeatherResponse, NSError>) in
+        //
+        //            let weatherResponse = response.result.value
+        //            print(weatherResponse?.location)
+        //
+        //            if let threeDayForecast = weatherResponse?.threeDayForecast {
+        //                for forecast in threeDayForecast {
+        //                    print(forecast.day)
+        //                    print(forecast.temperature)
+        //                }
+        //            }
+        //        }
         
-        Alamofire.request(.GET, apiURLString, parameters: nil, headers: headers).responseJSON { response -> Void in
+        //Alamofire.request(.GET, apiURLString, parameters: nil, headers: headers).responseJSON { response -> Void in
+        //Alamofire.request(.GET, apiURLString, parameters: nil, headers: headers).responseArray { (response: Response<[FeedJSON], NSError>) -> Void in
+        Alamofire.request(.GET, apiURLString, parameters: nil, headers: headers).responseObject { (response: Response<FeedsResponseJSON, NSError>) -> Void in
             
             switch response.result {
-            case .Success(let value):
-                let json = JSON(value)
-                if !json["error"].boolValue {
-                    if let _ = self.feedsToShow {
+                
+            case .Success(let feedsResponseJSON):
+                
+                if !feedsResponseJSON.error {
+                    if let _ = self.feedsFromResponseAsObject {
                         if self.refreshingStatus == true {
                             self.refreshingStatus = false
-                            self.feedsToShow = json
+                            self.feedsFromResponseAsObject = feedsResponseJSON
                         } else {
-                            self.feedsToShow = JSON(self.feedsToShow.arrayObject! + json.arrayObject!)
-                            if json.count == 0 {
+                            if feedsResponseJSON.feeds?.count > 0 {
+                                self.feedsFromResponseAsObject.feeds?.appendContentsOf(feedsResponseJSON.feeds!)
+                            } else {
                                 self.hasMoreDataInServer = false
                             }
                         }
-                    } else {
-                        self.feedsToShow = json
+                    }
+                    else {
+                        self.feedsFromResponseAsObject = feedsResponseJSON
                     }
                     
                     self.tableView.reloadData()
@@ -154,16 +175,50 @@ class GlobalFeedsViewController: UIViewController {
                 } else {
                     self.loadMoreActivityIndicator.stopAnimating()
                     self.tryAgainButton.hidden = false
-//                    appDelegate.ShowAlertView("Connection Error", message: "Try Again", handlerForOk: { (action) -> Void in
-//                        self.loadDataFromAPI()
-//                        }, handlerForCancel: nil)
+                    //                    appDelegate.ShowAlertView("Connection Error", message: "Try Again", handlerForOk: { (action) -> Void in
+                    //                        self.loadDataFromAPI()
+                    //                        }, handlerForCancel: nil)
                     
-                    print("Error: \(json["message"])")
+                    print("Error: \(feedsResponseJSON.message)")
                 }
+                
+                // self.feedsFromResponseAsObject = feedsResponseJSON
+                //print(json)
+                //                if !json["error"].boolValue {
+                //                    if let _ = self.feedsToShow {
+                //                        if self.refreshingStatus == true {
+                //                            self.refreshingStatus = false
+                //                            self.feedsToShow = json
+                //                        } else {
+                //                            self.feedsToShow = JSON(self.feedsToShow.arrayObject! + json.arrayObject!)
+                //                            if json.count == 0 {
+                //                                self.hasMoreDataInServer = false
+                //                            }
+                //                        }
+                //                    } else {
+                //                        self.feedsToShow = json
+                //                    }
+                //
+                //                    self.tableView.reloadData()
+                //                    self.collectionView.reloadData()
+                //                    MBProgressHUD.hideAllHUDsForView(self.view, animated: true)
+                //                    self.blurEffectView.removeFromSuperview()
+                //                    self.refreshControl.endRefreshing()
+                //                    self.loadMoreActivityIndicator.stopAnimating()
+                //                    self.footerView.hidden = true
+                //                } else {
+                //                    self.loadMoreActivityIndicator.stopAnimating()
+                //                    self.tryAgainButton.hidden = false
+                //                    //                    appDelegate.ShowAlertView("Connection Error", message: "Try Again", handlerForOk: { (action) -> Void in
+                //                    //                        self.loadDataFromAPI()
+                //                    //                        }, handlerForCancel: nil)
+                //
+                //                    print("Error: \(json["message"])")
+                //                }
             case .Failure(let error):
-//                appDelegate.ShowAlertView("Connection Error", message: "Try Again", handlerForOk: { (action) -> Void in
-//                    self.loadDataFromAPI()
-//                    }, handlerForCancel: nil)
+                //                appDelegate.ShowAlertView("Connection Error", message: "Try Again", handlerForOk: { (action) -> Void in
+                //                    self.loadDataFromAPI()
+                //                    }, handlerForCancel: nil)
                 self.loadMoreActivityIndicator.stopAnimating()
                 self.tryAgainButton.hidden = false
                 print("ERROR: \(error)")
@@ -171,8 +226,58 @@ class GlobalFeedsViewController: UIViewController {
             }
             
             }.progress { (a, b, c) -> Void in
-               // print("\(a) -- \(b) -- \(c)")
+                // print("\(a) -- \(b) -- \(c)")
         }
+        //        Alamofire.request(.GET, apiURLString, parameters: nil, headers: headers).responseJSON { response -> Void in
+        //
+        //            switch response.result {
+        //            case .Success(let value):
+        //                let json = JSON(value)
+        //                print(json)
+        //                if !json["error"].boolValue {
+        //                    if let _ = self.feedsToShow {
+        //                        if self.refreshingStatus == true {
+        //                            self.refreshingStatus = false
+        //                            self.feedsToShow = json
+        //                        } else {
+        //                            self.feedsToShow = JSON(self.feedsToShow.arrayObject! + json.arrayObject!)
+        //                            if json.count == 0 {
+        //                                self.hasMoreDataInServer = false
+        //                            }
+        //                        }
+        //                    } else {
+        //                        self.feedsToShow = json
+        //                    }
+        //
+        //                    self.tableView.reloadData()
+        //                    self.collectionView.reloadData()
+        //                    MBProgressHUD.hideAllHUDsForView(self.view, animated: true)
+        //                    self.blurEffectView.removeFromSuperview()
+        //                    self.refreshControl.endRefreshing()
+        //                    self.loadMoreActivityIndicator.stopAnimating()
+        //                    self.footerView.hidden = true
+        //                } else {
+        //                    self.loadMoreActivityIndicator.stopAnimating()
+        //                    self.tryAgainButton.hidden = false
+        ////                    appDelegate.ShowAlertView("Connection Error", message: "Try Again", handlerForOk: { (action) -> Void in
+        ////                        self.loadDataFromAPI()
+        ////                        }, handlerForCancel: nil)
+        //
+        //                    print("Error: \(json["message"])")
+        //                }
+        //            case .Failure(let error):
+        ////                appDelegate.ShowAlertView("Connection Error", message: "Try Again", handlerForOk: { (action) -> Void in
+        ////                    self.loadDataFromAPI()
+        ////                    }, handlerForCancel: nil)
+        //                self.loadMoreActivityIndicator.stopAnimating()
+        //                self.tryAgainButton.hidden = false
+        //                print("ERROR: \(error)")
+        //                self.refreshControl.endRefreshing()
+        //            }
+        //
+        //            }.progress { (a, b, c) -> Void in
+        //               // print("\(a) -- \(b) -- \(c)")
+        //        }
     }
     
     
@@ -180,14 +285,14 @@ class GlobalFeedsViewController: UIViewController {
         if self.collectionViewHidden {
             self.collectionView.hidden = false
             self.tableView.hidden = true
-            if let _ = feedsToShow?.count {
+            if let _ = self.feedsFromResponseAsObject.feeds?.count {
                 self.tableView.scrollToRowAtIndexPath(NSIndexPath(forRow: 0, inSection: 0), atScrollPosition: UITableViewScrollPosition.Top, animated: false)
             }
             self.tabBarController?.navigationItem.rightBarButtonItem?.image = UIImage(named: "global_feed_grid_menu")
         } else {
             self.collectionView.hidden = true
             self.tableView.hidden = false
-            if let _ = feedsToShow?.count {
+            if let _ = self.feedsFromResponseAsObject.feeds?.count {
                 self.collectionView.scrollToItemAtIndexPath(NSIndexPath(forRow: 0, inSection: 0), atScrollPosition: UICollectionViewScrollPosition.Top, animated: false)
             }
             self.tabBarController?.navigationItem.rightBarButtonItem?.image = UIImage(named: "square")
@@ -215,7 +320,7 @@ class GlobalFeedsViewController: UIViewController {
 
 extension GlobalFeedsViewController: UITableViewDataSource {
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return feedsToShow?.count ?? 0
+        return self.feedsFromResponseAsObject.feeds?.count ?? 0
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -237,7 +342,7 @@ extension GlobalFeedsViewController: UITableViewDataSource {
         cell.id = feedsToShow[indexPath.section, "id"].int
         cell.left=(feedsToShow[indexPath.section, "is_my_left"].bool)
         cell.loved=(feedsToShow[indexPath.section, "is_my_love"].bool)
-
+        
         
         cell.loveCount.text = "\(feedsToShow[indexPath.section, "loveit"].int ?? 0) love it"
         cell.leftCount.text = "\(feedsToShow[indexPath.section, "leaveit"].int ?? 0) left it"
@@ -247,7 +352,7 @@ extension GlobalFeedsViewController: UITableViewDataSource {
     }
     
     func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
-       print( hasMoreDataInServer)
+        print( hasMoreDataInServer)
         print(indexPath.section)
         print(indexPath.section == self.feedsToShow.count)
         if indexPath.section == self.feedsToShow.count - 1 && self.hasMoreDataInServer {
@@ -303,15 +408,15 @@ extension GlobalFeedsViewController: UITableViewDelegate {
         return cell
     }
     
-//    func scrollViewDidScroll(scrollView: UIScrollView) {
-//        if let tblView = scrollView as? UITableView where tblView == self.tableView {
-//            if (scrollView.contentOffset.y + scrollView.frame.size.height == scrollView.contentSize.height && hasMoreDataInServer)
-//            {
-//                self.loadMore()
-//                print("here")
-//            }
-//        }
-//    }
+    //    func scrollViewDidScroll(scrollView: UIScrollView) {
+    //        if let tblView = scrollView as? UITableView where tblView == self.tableView {
+    //            if (scrollView.contentOffset.y + scrollView.frame.size.height == scrollView.contentSize.height && hasMoreDataInServer)
+    //            {
+    //                self.loadMore()
+    //                print("here")
+    //            }
+    //        }
+    //    }
     
 }
 
@@ -331,23 +436,23 @@ extension GlobalFeedsViewController: UICollectionViewDataSource{
         }
         return cell
     }
-//    func collectionView(collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, atIndexPath indexPath: NSIndexPath) -> UICollectionReusableView {
-//        if kind == UICollectionElementKindSectionFooter {
-//            let footer = collectionView.dequeueReusableSupplementaryViewOfKind(kind, withReuseIdentifier: "loadMoreCollectionReusableView", forIndexPath: indexPath)
-//            footer.addSubview(footerView)
-//            return footer
-//        }
-//        return UICollectionReusableView()
-//    }
+    //    func collectionView(collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, atIndexPath indexPath: NSIndexPath) -> UICollectionReusableView {
+    //        if kind == UICollectionElementKindSectionFooter {
+    //            let footer = collectionView.dequeueReusableSupplementaryViewOfKind(kind, withReuseIdentifier: "loadMoreCollectionReusableView", forIndexPath: indexPath)
+    //            footer.addSubview(footerView)
+    //            return footer
+    //        }
+    //        return UICollectionReusableView()
+    //    }
 }
 extension GlobalFeedsViewController: UICollectionViewDelegate{
-//    func collectionView(collectionView: UICollectionView, willDisplaySupplementaryView view: UICollectionReusableView, forElementKind elementKind: String, atIndexPath indexPath: NSIndexPath) {
-//        if elementKind == UICollectionElementKindSectionFooter {
-//            if hasMoreDataInServer {
-//                self.loadMore()
-//            }
-//        }
-//    }
+    //    func collectionView(collectionView: UICollectionView, willDisplaySupplementaryView view: UICollectionReusableView, forElementKind elementKind: String, atIndexPath indexPath: NSIndexPath) {
+    //        if elementKind == UICollectionElementKindSectionFooter {
+    //            if hasMoreDataInServer {
+    //                self.loadMore()
+    //            }
+    //        }
+    //    }
     func collectionView(collectionView: UICollectionView, willDisplayCell cell: UICollectionViewCell, forItemAtIndexPath indexPath: NSIndexPath) {
         if indexPath.row == self.feedsToShow.count - 1 && self.hasMoreDataInServer {
             self.loadMore()
@@ -386,12 +491,12 @@ extension GlobalFeedsViewController: CellImageSwippedDelegate {
         let registerUrlString = "\(apiUrl)api/v1/feeds/loveit"
         
         _ = NSUserDefaults.standardUserDefaults()
-
+        
         let parameters: [String: AnyObject] =
         [
             "user_id": "1",
             "post_id": postId
-  
+            
         ]
         let headers = [
             "X-Auth-Token" : "c353c462bb19d45f5d60d14ddf7ec3664c0eeaaaede6309c03dd8129df745b91",
@@ -421,7 +526,7 @@ extension GlobalFeedsViewController: CellImageSwippedDelegate {
         }
         
         
-        }
+    }
     
     
     func leaveit(postId:String){
