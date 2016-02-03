@@ -16,39 +16,36 @@ import AlamofireObjectMapper
 
 class GlobalFeedsViewController: UIViewController {
     
+    @IBOutlet weak var footerView: UIView!
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var collectionView: UICollectionView!
-    
-    @IBOutlet weak var footerView: UIView!
     @IBOutlet weak var loadMoreActivityIndicator: UIActivityIndicatorView!
+    
     @IBOutlet weak var tryAgainButton: UIButton!
     
     let blurEffectView = UIVisualEffectView(effect: UIBlurEffect(style: UIBlurEffectStyle.ExtraLight))
     
-    var refreshControl:UIRefreshControl!
+    var tableViewRefreshControl = UIRefreshControl()
+    var collectionViewRefreshControl = UIRefreshControl()
     
     var refreshingStatus = false
     var hasMoreDataInServer = true
-    
-    
     var collectionViewHidden = false
-    
-    var feedsFromResponseAsObject: FeedsResponseJSON!
     
     var pageNumber = 1
     let postLimit = 15
     
+    var feedsFromResponseAsObject: FeedsResponseJSON!
     override func viewDidLoad() {
         super.viewDidLoad()
-        //self.navigationItem.hidesBackButton = true
-        // Do any additional setup after loading the view.
+        
+        self.manageNavBar()
         
         self.footerView.hidden = true
         
         self.loadMoreActivityIndicator.hidesWhenStopped = true
         self.loadDataFromAPI()
         self.changeViewMode(self)
-        
         
         
         self.blurEffectView.alpha = 0.4
@@ -59,10 +56,13 @@ class GlobalFeedsViewController: UIViewController {
         loadingNotification.labelText = "Loading"
         
         
-        self.refreshControl = UIRefreshControl()
-        self.refreshControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
-        self.refreshControl.addTarget(self, action: "refresh:", forControlEvents: UIControlEvents.ValueChanged)
-        self.tableView.addSubview(refreshControl)
+        self.tableViewRefreshControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
+        self.tableViewRefreshControl.addTarget(self, action: "refresh:", forControlEvents: UIControlEvents.ValueChanged)
+        self.tableView.addSubview(tableViewRefreshControl)
+        
+        self.collectionViewRefreshControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
+        self.collectionViewRefreshControl.addTarget(self, action: "refresh:", forControlEvents: UIControlEvents.ValueChanged)
+        self.collectionView.addSubview(collectionViewRefreshControl)
     }
     
     override func didReceiveMemoryWarning() {
@@ -70,8 +70,19 @@ class GlobalFeedsViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     override func viewWillAppear(animated: Bool) {
-        self.tabBarController?.navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "square"), style: .Plain, target: self, action: "changeViewMode:")
+        self.manageNavBar()
+    }
+    
+    func manageNavBar() {
+        var nameOfNavbarButtonImage = ""
+        if self.tableView.hidden == true {
+            nameOfNavbarButtonImage = "global_feed_grid_menu"
+            
+        } else {
+            nameOfNavbarButtonImage = "square"
+        }
         
+        self.tabBarController?.navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: nameOfNavbarButtonImage), style: .Plain, target: self, action: "changeViewMode:")
         self.tabBarController?.navigationItem.title = self.title ?? "Global Feed"
         self.tabBarController?.navigationItem.hidesBackButton = true
         self.tabBarController?.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .Plain, target: nil, action: nil)
@@ -101,6 +112,7 @@ class GlobalFeedsViewController: UIViewController {
         self.loadMoreActivityIndicator.startAnimating()
         self.loadDataFromAPI()
     }
+    
     private func loadDataFromAPI(){
         guard let id = UserDataStruct().id else {
             print("no user id")
@@ -176,7 +188,8 @@ class GlobalFeedsViewController: UIViewController {
                     self.collectionView.reloadData()
                     MBProgressHUD.hideAllHUDsForView(self.view, animated: true)
                     self.blurEffectView.removeFromSuperview()
-                    self.refreshControl.endRefreshing()
+                    self.tableViewRefreshControl.endRefreshing()
+                    self.collectionViewRefreshControl.endRefreshing()
                     self.loadMoreActivityIndicator.stopAnimating()
                     self.footerView.hidden = true
                 }
@@ -221,7 +234,8 @@ class GlobalFeedsViewController: UIViewController {
                 self.loadMoreActivityIndicator.stopAnimating()
                 self.tryAgainButton.hidden = false
                 print("ERROR: \(error)")
-                self.refreshControl.endRefreshing()
+                self.tableViewRefreshControl.endRefreshing()
+                self.collectionViewRefreshControl.endRefreshing()
             }
             
             }.progress { (a, b, c) -> Void in
@@ -306,6 +320,7 @@ class GlobalFeedsViewController: UIViewController {
         // Code to refresh table view
         self.pageNumber = 1
         self.refreshingStatus = true
+        self.hasMoreDataInServer = true
         self.loadDataFromAPI()
     }
     
@@ -410,7 +425,7 @@ extension GlobalFeedsViewController: UITableViewDelegate {
                     textTimeElapsed = "\(timeInSecond/(60*60)) hrs ago"
                 }else if timeInSecond/(60*60*24*7) < 1 {
                     textTimeElapsed = "\(timeInSecond/(60*60*24)) days ago"
-                }else if timeInSecond/(60*60*24*7) > 1 {
+                }else if timeInSecond/(60*60*24*7) >= 1 {
                     textTimeElapsed = "\(timeInSecond/(60*60*24*7)) weeks ago"
                 }
                 cell.timeElapsed.text = textTimeElapsed
