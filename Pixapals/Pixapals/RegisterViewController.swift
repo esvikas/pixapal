@@ -10,18 +10,26 @@ import UIKit
 import Alamofire
 import SwiftyJSON
 
-class RegisterViewController: UIViewController {
+class RegisterViewController: UIViewController, UIPopoverControllerDelegate, UIPopoverPresentationControllerDelegate {
     
     @IBOutlet weak var textFieldFullName: UITextField!
     @IBOutlet weak var textFieldEmail: UITextField!
     @IBOutlet weak var textFieldUsername: UITextField!
     @IBOutlet weak var textFieldPassword: UITextField!
     @IBOutlet weak var textFieldConfirmPassword: UITextField!
+    @IBOutlet var btnGender: UIButton!
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // Do any additional setup after loading the view.
+        textFieldFullName.layer.sublayerTransform = CATransform3DMakeTranslation(5, 0, 10)
+        textFieldEmail.layer.sublayerTransform = CATransform3DMakeTranslation(5, 0, 10)
+        textFieldUsername.layer.sublayerTransform = CATransform3DMakeTranslation(5, 0, 10)
+        textFieldPassword.layer.sublayerTransform = CATransform3DMakeTranslation(5, 0, 10)
+        textFieldConfirmPassword.layer.sublayerTransform = CATransform3DMakeTranslation(5, 0, 10)
+
+
     }
     
     override func didReceiveMemoryWarning() {
@@ -30,6 +38,10 @@ class RegisterViewController: UIViewController {
     }
     override func viewWillAppear(animated: Bool) {
         //self.navigationController?.navigationBarHidden = false
+    }
+    @IBAction func btnGender(sender: AnyObject) {
+        
+        abc()
     }
     
     @IBAction func confirmButtonClicked(sender: AnyObject) {
@@ -90,14 +102,30 @@ class RegisterViewController: UIViewController {
         }
         
     }
-    /*
-    // MARK: - Navigation
-    
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-    // Get the new view controller using segue.destinationViewController.
-    // Pass the selected object to the new view controller.
+    func abc (){
+        
+
+        
+        let popoverContent = (self.storyboard?.instantiateViewControllerWithIdentifier("GenderSelectionView"))! as UIViewController
+        let nav = UINavigationController(rootViewController: popoverContent)
+        nav.modalPresentationStyle = UIModalPresentationStyle.Popover
+        let popover = nav.popoverPresentationController
+        popoverContent.preferredContentSize = CGSizeMake(self.view.layer.frame.width,120)
+        popover!.delegate = self
+        popover!.sourceView = self.btnGender
+        popover!.sourceRect = self.btnGender.frame
+        
+        self.presentViewController(nav, animated: false, completion: nil)
     }
-    */
+    
+    func adaptivePresentationStyleForPresentationController(
+        controller: UIPresentationController) -> UIModalPresentationStyle {
+            return .None
+    }
+    
+    func textFieldDidBeginEditing(textField: UITextField) {
+        
+        abc()
+    }
     
 }

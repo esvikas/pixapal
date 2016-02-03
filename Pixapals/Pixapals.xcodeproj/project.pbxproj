@@ -17,6 +17,7 @@
 		329B58231C3E260600C1EE08 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 329B58221C3E260600C1EE08 /* Assets.xcassets */; };
 		329B58261C3E260600C1EE08 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 329B58241C3E260600C1EE08 /* LaunchScreen.storyboard */; };
 		329B582E1C3E267300C1EE08 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 329B582D1C3E267300C1EE08 /* ViewController.swift */; };
+		329F01401C60C4BC008A01B2 /* GenderSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 329F013F1C60C4BC008A01B2 /* GenderSelectionView.swift */; };
 		32CBF5571C4F7D330064E91D /* CameraVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32CBF5561C4F7D330064E91D /* CameraVC.swift */; };
 		32CBF55B1C4F7DEC0064E91D /* UIColor+Hex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32CBF55A1C4F7DEC0064E91D /* UIColor+Hex.swift */; };
 		32CBF55D1C4F7E090064E91D /* GridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32CBF55C1C4F7E090064E91D /* GridView.swift */; };
@@ -58,6 +59,7 @@
 		329B58251C3E260600C1EE08 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		329B58271C3E260600C1EE08 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		329B582D1C3E267300C1EE08 /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ViewController.swift; path = ViewControllers/ViewController.swift; sourceTree = "<group>"; };
+		329F013F1C60C4BC008A01B2 /* GenderSelectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GenderSelectionView.swift; sourceTree = "<group>"; };
 		32CBF5561C4F7D330064E91D /* CameraVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraVC.swift; sourceTree = "<group>"; };
 		32CBF55A1C4F7DEC0064E91D /* UIColor+Hex.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIColor+Hex.swift"; sourceTree = "<group>"; };
 		32CBF55C1C4F7E090064E91D /* GridView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GridView.swift; sourceTree = "<group>"; };
@@ -163,6 +165,7 @@
 				32CBF55A1C4F7DEC0064E91D /* UIColor+Hex.swift */,
 				32E9C4011C58DED00055A270 /* SettingsTableViewController.swift */,
 				437969461C5F64B400CE136D /* ExtensionAlamofire.swift */,
+				329F013F1C60C4BC008A01B2 /* GenderSelectionView.swift */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -327,6 +330,7 @@
 				32CBF55B1C4F7DEC0064E91D /* UIColor+Hex.swift in Sources */,
 				320933FB1C50EF1100B092B1 /* WobbleView.swift in Sources */,
 				435EC4BF1C44E74B00CF88D4 /* GlobalFeedsViewController.swift in Sources */,
+				329F01401C60C4BC008A01B2 /* GenderSelectionView.swift in Sources */,
 				329B582E1C3E267300C1EE08 /* ViewController.swift in Sources */,
 				437969471C5F64B400CE136D /* ExtensionAlamofire.swift in Sources */,
 				43D2C7651C43B89800F0E2C5 /* PostFeedModeSelectionViewController.swift in Sources */,
