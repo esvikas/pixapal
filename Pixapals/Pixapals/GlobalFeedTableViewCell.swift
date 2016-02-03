@@ -33,7 +33,7 @@ class GlobalFeedTableViewCell: UITableViewCell {
 //    var imageViewObject :UIImageView!
 
     
-    var DynamicView=UIView()
+    var DynamicView=UIImageView()
 
 
     
@@ -70,7 +70,8 @@ class GlobalFeedTableViewCell: UITableViewCell {
         DynamicView.frame=(frame: CGRectMake(self.feedImage.layer.frame.origin.x, self.feedImage.layer.frame.origin.y, self.feedImage.frame.width, self.feedImage.frame.height))
         //        DynamicView.layer.cornerRadius=25
         //        DynamicView.layer.borderWidth=2
-        
+        DynamicView.contentMode = .ScaleAspectFit
+
         self.addSubview(DynamicView)
         
     }
@@ -90,7 +91,8 @@ class GlobalFeedTableViewCell: UITableViewCell {
                 
                 if loved != true {
                 
-                DynamicView.backgroundColor=UIColor.blackColor()
+                    DynamicView.image=UIImage(named: "loveit")
+
                 
                 DynamicView.frame=(frame: CGRectMake(self.feedImage.layer.frame.origin.x, self.feedImage.layer.frame.origin.y, self.feedImage.frame.width, self.feedImage.frame.height))
                 self.DynamicView.hidden=false
@@ -114,7 +116,8 @@ class GlobalFeedTableViewCell: UITableViewCell {
             case UISwipeGestureRecognizerDirection.Left:
                 if left != true {
 
-                DynamicView.backgroundColor=UIColor.redColor()
+//                DynamicView.backgroundColor=UIColor.redColor()
+                    DynamicView.image=UIImage(named: "leaveit")
                 
                 DynamicView.frame=(frame: CGRectMake(self.feedImage.layer.frame.origin.x, self.feedImage.layer.frame.origin.y, self.feedImage.frame.width, self.feedImage.frame.height))
                 self.DynamicView.hidden=false

@@ -11,6 +11,7 @@ import Alamofire
 import SwiftyJSON
 import Kingfisher
 import MBProgressHUD
+//import obje
 
 class ProfileViewController: UIViewController {
     
@@ -34,6 +35,10 @@ class ProfileViewController: UIViewController {
     let collectionViewRefreshContol = UIRefreshControl()
     
     var collectionViewHidden = false
+
+    
+    var feedsFromResponseAsObject: FeedsResponseJSON!
+    var feedsToShow: JSON!
     var refreshingStatus = false
     var hasMoreDataInServer = true
     

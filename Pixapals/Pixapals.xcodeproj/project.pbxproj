@@ -11,6 +11,7 @@
 		321B7F9B1C460E760017932E /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 321B7F9A1C460E760017932E /* Reachability.swift */; };
 		321B7F9D1C465CEC0017932E /* HelperFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 321B7F9C1C465CEC0017932E /* HelperFile.swift */; };
 		321F99D01C5A01A0006A39D0 /* LocationChooserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 321F99CF1C5A01A0006A39D0 /* LocationChooserViewController.swift */; };
+		325279581C62050900978C0C /* DetailVIewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 325279571C62050900978C0C /* DetailVIewViewController.swift */; };
 		327522801C4E1821002DED9C /* ProfileEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3275227F1C4E1821002DED9C /* ProfileEditViewController.swift */; };
 		329B581C1C3E260600C1EE08 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 329B581B1C3E260600C1EE08 /* AppDelegate.swift */; };
 		329B58211C3E260600C1EE08 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 329B581F1C3E260600C1EE08 /* Main.storyboard */; };
@@ -51,6 +52,7 @@
 		321B7F9A1C460E760017932E /* Reachability.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
 		321B7F9C1C465CEC0017932E /* HelperFile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HelperFile.swift; sourceTree = "<group>"; };
 		321F99CF1C5A01A0006A39D0 /* LocationChooserViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationChooserViewController.swift; sourceTree = "<group>"; };
+		325279571C62050900978C0C /* DetailVIewViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailVIewViewController.swift; sourceTree = "<group>"; };
 		3275227F1C4E1821002DED9C /* ProfileEditViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileEditViewController.swift; sourceTree = "<group>"; };
 		329B58181C3E260600C1EE08 /* Pixapals.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Pixapals.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		329B581B1C3E260600C1EE08 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -100,6 +102,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		325279561C62049E00978C0C /* Libs */ = {
+			isa = PBXGroup;
+			children = (
+				437969461C5F64B400CE136D /* ExtensionAlamofire.swift */,
+				32CBF55A1C4F7DEC0064E91D /* UIColor+Hex.swift */,
+				32D784561C579A480027AE65 /* SRWebClient.swift */,
+			);
+			name = Libs;
+			sourceTree = "<group>";
+		};
 		329B580F1C3E260600C1EE08 = {
 			isa = PBXGroup;
 			children = (
@@ -122,6 +134,7 @@
 			isa = PBXGroup;
 			children = (
 				437969431C5F4E5A00CE136D /* Model */,
+				325279561C62049E00978C0C /* Libs */,
 				43C1033C1C44F2A3009512C2 /* Views */,
 				43C103391C44F242009512C2 /* ViewControllers */,
 				329B581B1C3E260600C1EE08 /* AppDelegate.swift */,
@@ -149,7 +162,6 @@
 		43C103391C44F242009512C2 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
-				32D784561C579A480027AE65 /* SRWebClient.swift */,
 				32CBF55E1C4F7E350064E91D /* ImageSelectionVC.swift */,
 				32CBF55C1C4F7E090064E91D /* GridView.swift */,
 				329B582D1C3E267300C1EE08 /* ViewController.swift */,
@@ -162,10 +174,9 @@
 				439738141C45F3E2001F344F /* PostFeedViewController.swift */,
 				43BF1F191C48B252000980D5 /* DoubleModeFeedImageSelectionViewController.swift */,
 				3275227F1C4E1821002DED9C /* ProfileEditViewController.swift */,
-				32CBF55A1C4F7DEC0064E91D /* UIColor+Hex.swift */,
 				32E9C4011C58DED00055A270 /* SettingsTableViewController.swift */,
-				437969461C5F64B400CE136D /* ExtensionAlamofire.swift */,
 				329F013F1C60C4BC008A01B2 /* GenderSelectionView.swift */,
+				325279571C62050900978C0C /* DetailVIewViewController.swift */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -342,6 +353,7 @@
 				32E9C4021C58DED00055A270 /* SettingsTableViewController.swift in Sources */,
 				329B581C1C3E260600C1EE08 /* AppDelegate.swift in Sources */,
 				32CBF55D1C4F7E090064E91D /* GridView.swift in Sources */,
+				325279581C62050900978C0C /* DetailVIewViewController.swift in Sources */,
 				32EBBD611C562C2600EF8149 /* RootFBClass.swift in Sources */,
 				43A0EE5F1C4CA7BC009C4E46 /* GlobalFeedTableViewCell.swift in Sources */,
 				437969451C5F4E8200CE136D /* FeedsResponse.swift in Sources */,

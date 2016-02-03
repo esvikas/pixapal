@@ -33,6 +33,13 @@ class SettingsTableViewController: UITableViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    override func viewDidAppear(animated: Bool) {
+        
+      locationDetailText.text =  nsUserDefault.objectForKey("UserLocationForFilter") as? String
+      genderDetailText.text =  nsUserDefault.objectForKey("UserGenderForFilter") as? String
+
+    }
+    
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         switch(indexPath.section){
 
@@ -185,6 +192,8 @@ class SettingsTableViewController: UITableViewController {
     func pickerView(pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         
         genderDetailText.text=pickerDataSource[row]
+        nsUserDefault.setObject(pickerDataSource[row], forKey: "UserGenderForFilter")
+
 
     }
 

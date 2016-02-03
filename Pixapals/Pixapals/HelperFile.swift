@@ -12,6 +12,12 @@ let apiUrl = "http://192.168.0.77/API/public/"
 
 let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
 
-var UserLocationForFilter: String!
+var UserLocationForFilter = nsUserDefault.objectForKey("UserLocationForFilter") as! String
+var UserGenderForFilter = nsUserDefault.objectForKey("UserGenderForFilter") as! String
+
+var userGender:String!
+
+let nsUserDefault = NSUserDefaults.standardUserDefaults()
+
 
 
