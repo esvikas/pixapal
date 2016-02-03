@@ -26,12 +26,25 @@ class FeedsResponseJSON: Mappable {
     }
 }
 
+class ProfileResponseJSON: FeedsResponseJSON {
+    var user: UserInDetailJSON!
+    
+    required init(_ map: Map) {
+        super.init(map)!
+    }
+    
+    override func mapping(map: Map) {
+        super.mapping(map)
+        user <- map["user"]
+    }
+}
+
 class FeedJSON: Mappable {
     var id: Int?
     var leaveit: Int?
     var photo_thumb: String?
-    var leavers: [LeaverJSON]?
-    var lovers: [LoverJSON]?
+    var leavers: [UserJSON]?
+    var lovers: [UserJSON]?
     var created_at: NSDate?
     var error: Bool?
     var is_my_feed: Bool?
@@ -50,7 +63,8 @@ class FeedJSON: Mappable {
            return nil
         }
         set {
-            created_at = self.convertDateFromStringToPhoneTimeZone(newValue!)
+            let dateConverter = DateConverter()
+            created_at = dateConverter.convertDateFromStringToPhoneTimeZone(newValue!)
         }
     }
     
@@ -78,7 +92,96 @@ class FeedJSON: Mappable {
         photo <- map ["photo"]
         user <- map["user"]
     }
+}
+
+class UserJSON: Mappable {
+    var photo_thumb: String?
+    var id: Int?
+    var username: String?
+    var photo: String?
+    var is_my_fed = false
+    var is_my_profile = true
+
     
+    required init?(_ map: Map){
+    }
+    
+    func mapping(map: Map) {
+        photo_thumb <- map["photo_thumb"]
+        id <- map["id"]
+        username <- map["username"]
+        photo <- map["photo"]
+        is_my_fed <- map["is_my_fed"]
+        is_my_profile <- map["is_my_profile"]
+    }
+}
+
+class UserInDetailJSON: UserJSON {
+    
+    var bio: String?
+    
+    var created_at: NSDate?
+    var _created_at: String? {
+        get{
+            return nil
+        }
+        set {
+            let dateConverter = DateConverter()
+            self.created_at = dateConverter.convertDateFromStringToPhoneTimeZone(newValue!)
+        }
+    }
+    
+    var feeders: [UserJSON]?
+    var feeders_count: Int!
+    var feeds_count: Int!
+    
+    var _gender: Gender!
+    var gender: String {
+        get {
+            return _gender.rawValue
+        }
+        set {
+            if newValue == "male" || newValue == "Male" {
+                self._gender = Gender.Male
+            } else {
+                self._gender = Gender.Female
+            }
+        }
+    }
+    
+    var email: String?
+    var feeding: [UserJSON]?
+    var feeding_count: Int?
+    var latitude: Int?
+    var longitude: Int?
+    var name: String?
+    var phone: String?
+    var website: String?
+    
+    override func mapping(map: Map) {
+        super.mapping(map)
+        bio <- map["bio"]
+        created_at <- map["created_at"]
+        feeders <- map["feeders"]
+        feeders_count <- map["feeders_count"]
+        feeds_count <- map["feeds_count"]
+        _gender <- map["gender"]
+        email <- map["email"]
+        feeding <- map["feeding"]
+        feeding_count <- map["feeding_count"]
+        latitude <- map["latitude"]
+        longitude <- map["longitude"]
+        name <- map["name"]
+        phone <- map["phone"]
+        website <- map["website"]
+    }
+    
+    required init?(_ map: Map){
+        super.init(map)
+    }
+}
+
+class DateConverter {
     func getTimeDifferenceFromGMT() -> Int{
         return NSTimeZone.localTimeZone().secondsFromGMT
     }
@@ -94,74 +197,15 @@ class FeedJSON: Mappable {
     }
     
     func convertDateFromStringToPhoneTimeZone(dateString: String) -> NSDate? {
-       let date = convertDateFromString(dateString)
+        let date = convertDateFromString(dateString)
         return self.getDateConvertedToPhoneTimeZone(date)
     }
     
     func createStringFromDate (date: NSDate) -> String {
-       return self.dateFormatter().stringFromDate(date)
+        return self.dateFormatter().stringFromDate(date)
     }
     
     func getDateConvertedToPhoneTimeZone(date: NSDate?) -> NSDate? {
         return date?.dateByAddingTimeInterval(Double(self.getTimeDifferenceFromGMT()))
-    }
-}
-
-class LoverJSON: Mappable {
-    var photo_thumb: String?
-    var id: Int?
-    var username: String?
-    var is_my_profile: Bool?
-    var photo: String?
-    var is_my_fed: Bool?
-    
-    required init?(_ map: Map){
-    }
-    
-    func mapping(map: Map) {
-        photo_thumb <- map["photo_thumb"]
-        id <- map["id"]
-        username <- map["username"]
-        is_my_profile <- map["is_my_profile"]
-        photo <- map["photo"]
-        is_my_fed <- map["is_my_fed"]
-    }
-}
-
-class LeaverJSON: Mappable {
-    var photo_thumb: String?
-    var id: Int?
-    var username: String?
-    var is_my_profile: Bool?
-    var photo: String?
-    var feeding: Bool?
-    
-    required init?(_ map: Map){
-    }
-    
-    func mapping(map: Map) {
-        photo_thumb <- map["photo_thumb"]
-        id <- map["id"]
-        username <- map["username"]
-        is_my_profile <- map["is_my_profile"]
-        photo <- map[""]
-        feeding <- map["feeding"]
-    }
-}
-
-class UserJSON: Mappable {
-    var photo_thumb: String?
-    var id: Int?
-    var username: String?
-    var photo: String?
-    
-    required init?(_ map: Map){
-    }
-    
-    func mapping(map: Map) {
-        photo_thumb <- map["photo_thumb"]
-        id <- map["id"]
-        username <- map["username"]
-        photo <- map["photo"]
     }
 }
