@@ -376,6 +376,17 @@ extension GlobalFeedsViewController: UITableViewDataSource {
 extension GlobalFeedsViewController: UITableViewDelegate {
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
+        
+        let feed = (self.feedsFromResponseAsObject.feeds?[indexPath.section])!
+        
+        
+        let storyboard: UIStoryboard = UIStoryboard (name: "Main", bundle: nil)
+        let vc: DetailVIewViewController = storyboard.instantiateViewControllerWithIdentifier("DetailVIewViewController") as! DetailVIewViewController
+        vc.feed = feed
+        
+        self.navigationController?.pushViewController(vc, animated: true)
+
+        
     }
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
@@ -428,6 +439,8 @@ extension GlobalFeedsViewController: UITableViewDelegate {
     //            }
     //        }
     //    }
+    
+    
     
 }
 

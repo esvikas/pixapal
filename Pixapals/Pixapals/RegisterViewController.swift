@@ -19,6 +19,7 @@ class RegisterViewController: UIViewController, UIPopoverControllerDelegate, UIP
     @IBOutlet weak var textFieldConfirmPassword: UITextField!
     @IBOutlet var btnGender: UIButton!
 
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,20 +29,23 @@ class RegisterViewController: UIViewController, UIPopoverControllerDelegate, UIP
         textFieldUsername.layer.sublayerTransform = CATransform3DMakeTranslation(5, 0, 10)
         textFieldPassword.layer.sublayerTransform = CATransform3DMakeTranslation(5, 0, 10)
         textFieldConfirmPassword.layer.sublayerTransform = CATransform3DMakeTranslation(5, 0, 10)
-
-
+        
     }
+    
+ 
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    override func viewWillAppear(animated: Bool) {
-        //self.navigationController?.navigationBarHidden = false
+    override func viewDidAppear(animated: Bool) {
+        let btnTitle = userGender ?? "Sex"
+        btnGender.setTitle(btnTitle, forState: .Normal)
     }
     @IBAction func btnGender(sender: AnyObject) {
         
         abc()
+        
     }
     
     @IBAction func confirmButtonClicked(sender: AnyObject) {
@@ -106,15 +110,16 @@ class RegisterViewController: UIViewController, UIPopoverControllerDelegate, UIP
         
 
         
-        let popoverContent = (self.storyboard?.instantiateViewControllerWithIdentifier("GenderSelectionView"))! as UIViewController
+        let popoverContent = (self.storyboard?.instantiateViewControllerWithIdentifier("GenderSelectionView"))! as! GenderSelectionView
+        popoverContent.delegate = self
         let nav = UINavigationController(rootViewController: popoverContent)
         nav.modalPresentationStyle = UIModalPresentationStyle.Popover
         let popover = nav.popoverPresentationController
+
         popoverContent.preferredContentSize = CGSizeMake(self.view.layer.frame.width,120)
         popover!.delegate = self
         popover!.sourceView = self.btnGender
         popover!.sourceRect = self.btnGender.frame
-        
         self.presentViewController(nav, animated: false, completion: nil)
     }
     
@@ -123,9 +128,27 @@ class RegisterViewController: UIViewController, UIPopoverControllerDelegate, UIP
             return .None
     }
     
+
+    
+
+    
+ 
+    
+
+    
     func textFieldDidBeginEditing(textField: UITextField) {
         
         abc()
     }
     
+   
+    
+}
+extension RegisterViewController : funcDelegate {
+    func chooseSex(sex:String) {
+      
+        let btnTitle = sex ?? ""
+        btnGender.setTitle(btnTitle, forState: .Normal)
+      
+    }
 }
