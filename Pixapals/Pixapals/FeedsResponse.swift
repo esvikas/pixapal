@@ -16,7 +16,7 @@ class FeedsResponseJSON: Mappable {
     var code: Int?
     
     required init?(_ map: Map){
-        
+  
     }
     func mapping(map: Map) {
         error  <- map["error"]
@@ -69,7 +69,7 @@ class FeedJSON: Mappable {
     }
     
     required init?(_ map: Map){
-    
+       
     }
     
     func mapping(map: Map) {
@@ -99,8 +99,8 @@ class UserJSON: Mappable {
     var id: Int?
     var username: String?
     var photo: String?
-    var is_my_fed = false
-    var is_my_profile = true
+    var is_my_fed: Bool?
+    var is_my_profile: Bool?
 
     
     required init?(_ map: Map){
