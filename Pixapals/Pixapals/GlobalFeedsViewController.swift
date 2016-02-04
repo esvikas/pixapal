@@ -59,10 +59,12 @@ class GlobalFeedsViewController: UIViewController {
         self.tableViewRefreshControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
         self.tableViewRefreshControl.addTarget(self, action: "refresh:", forControlEvents: UIControlEvents.ValueChanged)
         self.tableView.addSubview(tableViewRefreshControl)
+        self.tableView.alwaysBounceVertical = true
         
         self.collectionViewRefreshControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
         self.collectionViewRefreshControl.addTarget(self, action: "refresh:", forControlEvents: UIControlEvents.ValueChanged)
         self.collectionView.addSubview(collectionViewRefreshControl)
+        self.collectionView.alwaysBounceVertical = true
     }
     
     override func didReceiveMemoryWarning() {
@@ -174,9 +176,13 @@ class GlobalFeedsViewController: UIViewController {
                             self.refreshingStatus = false
                             self.feedsFromResponseAsObject = feedsResponseJSON
                         } else {
-                            if feedsResponseJSON.feeds?.count > 0 {
+                            if feedsResponseJSON.feeds?.count < self.postLimit && feedsResponseJSON.feeds?.count > 0{
                                 self.feedsFromResponseAsObject.feeds?.appendContentsOf(feedsResponseJSON.feeds!)
-                            } else {
+                                self.hasMoreDataInServer = false
+                            } else if feedsResponseJSON.feeds?.count > 0 {
+                                self.feedsFromResponseAsObject.feeds?.appendContentsOf(feedsResponseJSON.feeds!)
+                            }
+                            else {
                                 self.hasMoreDataInServer = false
                             }
                         }

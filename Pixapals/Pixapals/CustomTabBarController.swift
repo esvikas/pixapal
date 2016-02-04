@@ -16,6 +16,17 @@ class CustomTabBarController: UITabBarController {
         
         //self.selectedViewController?.tabBarItem
         // Do any additional setup after loading the view.
+        
+
+    }
+
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
+    }
+    
+    
+    override func viewWillAppear(animated: Bool) {
         let storyBoard = UIStoryboard(name: "Main", bundle: nil)
         let controller = storyBoard.instantiateViewControllerWithIdentifier("globalFeedVC")
         
@@ -28,18 +39,7 @@ class CustomTabBarController: UITabBarController {
         controllers?.insert(controller, atIndex: 1)
         //controllers?.append(controller)
         self.viewControllers = controllers
-
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
-    
-    override func viewWillAppear(animated: Bool) {
-        
-            }
     
     /*
     // MARK: - Navigation
