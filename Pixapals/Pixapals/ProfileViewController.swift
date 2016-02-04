@@ -37,8 +37,6 @@ class ProfileViewController: UIViewController {
     var collectionViewHidden = false
 
     
-    var feedsFromResponseAsObject: FeedsResponseJSON!
-    var feedsToShow: JSON!
     var refreshingStatus = false
     var hasMoreDataInServer = true
     

@@ -44,21 +44,18 @@ class DetailVIewViewController: UIViewController {
         // Do any additional setup after loading the view.
         
         
-        
+        print(feed.id)
         
         
         self.blurEffectView.alpha = 0.4
         blurEffectView.frame = view.bounds
-        self.view.addSubview(self.blurEffectView)
-        let loadingNotification = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
-        loadingNotification.mode = MBProgressHUDMode.Indeterminate
-        loadingNotification.labelText = "Loading"
+//        self.view.addSubview(self.blurEffectView)
+//        let loadingNotification = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
+//        loadingNotification.mode = MBProgressHUDMode.Indeterminate
+//        loadingNotification.labelText = "Loading"
         
         
-        self.refreshControl = UIRefreshControl()
-        self.refreshControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
-        self.refreshControl.addTarget(self, action: "refresh:", forControlEvents: UIControlEvents.ValueChanged)
-        self.tableView.addSubview(refreshControl)
+
     }
     
     override func didReceiveMemoryWarning() {
@@ -91,6 +88,11 @@ class DetailVIewViewController: UIViewController {
     }
     
  
+    @IBAction func btnFollowUser(sender: AnyObject) {
+        
+        
+        
+    }
     
     
     
@@ -111,12 +113,10 @@ class DetailVIewViewController: UIViewController {
 }
 
 extension DetailVIewViewController: UITableViewDataSource {
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return self.feedsFromResponseAsObject?.feeds?.count ?? 0
-    }
+  
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 0
+        return 1
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
@@ -158,22 +158,20 @@ extension DetailVIewViewController: UITableViewDataSource {
 }
 
 extension DetailVIewViewController: UITableViewDelegate {
-//    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-//        tableView.deselectRowAtIndexPath(indexPath, animated: true)
-//    }
-//    
-//    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-//        return UITableViewAutomaticDimension
-//        //return self.view.frame.height - (20 + 44 + 49)
-//    }
-//    
-//    func tableView(tableView: UITableView, estimatedHeightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-//        return UITableViewAutomaticDimension
-//    }
-//    
-//    func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-//        return 35
-//    }
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        tableView.deselectRowAtIndexPath(indexPath, animated: true)
+    }
+    
+    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        return UITableViewAutomaticDimension
+        //return self.view.frame.height - (20 + 44 + 49)
+    }
+    
+    func tableView(tableView: UITableView, estimatedHeightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        return UITableViewAutomaticDimension
+    }
+    
+  
     
 //    func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
 //        let feed = self.feedsFromResponseAsObject.feeds![section]
@@ -203,15 +201,15 @@ extension DetailVIewViewController: UITableViewDelegate {
 //        return cell
 //    }
     
-    //    func scrollViewDidScroll(scrollView: UIScrollView) {
-    //        if let tblView = scrollView as? UITableView where tblView == self.tableView {
-    //            if (scrollView.contentOffset.y + scrollView.frame.size.height == scrollView.contentSize.height && hasMoreDataInServer)
-    //            {
-    //                self.loadMore()
-    //                print("here")
-    //            }
-    //        }
-    //    }
+        func scrollViewDidScroll(scrollView: UIScrollView) {
+            if let tblView = scrollView as? UITableView where tblView == self.tableView {
+                if (scrollView.contentOffset.y + scrollView.frame.size.height == scrollView.contentSize.height && hasMoreDataInServer)
+                {
+                    self.loadMore()
+                    print("here")
+                }
+            }
+        }
     
 }
 

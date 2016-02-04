@@ -11,6 +11,7 @@ import UIKit
 class GlobalFeedTableViewHeaderCell: UITableViewCell {
 
     @IBOutlet weak var userProfilePic: UIImageView!
+
     @IBOutlet weak var username: UILabel!
     @IBOutlet weak var timeElapsed: UILabel!
     
