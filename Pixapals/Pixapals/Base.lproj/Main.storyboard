@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9531" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="eWi-o4-zEa">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9531" systemVersion="15B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="eWi-o4-zEa">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
@@ -2417,10 +2417,10 @@
                                                     <rect key="frame" x="0.0" y="0.0" width="414" height="552"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <subviews>
-                                                        <stackView opaque="NO" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="aXO-Mk-nCJ">
+                                                        <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="aXO-Mk-nCJ">
                                                             <rect key="frame" x="0.0" y="0.0" width="414" height="414"/>
                                                             <subviews>
-                                                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="post-feed-img" translatesAutoresizingMaskIntoConstraints="NO" id="KaF-7l-aGr">
+                                                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="post-feed-img" translatesAutoresizingMaskIntoConstraints="NO" id="KaF-7l-aGr">
                                                                     <rect key="frame" x="0.0" y="0.0" width="207" height="414"/>
                                                                     <gestureRecognizers/>
                                                                     <constraints>
@@ -2433,7 +2433,7 @@
                                                                         </mask>
                                                                     </variation>
                                                                 </imageView>
-                                                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="post-feed-img" translatesAutoresizingMaskIntoConstraints="NO" id="XKt-oB-yNo">
+                                                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="post-feed-img" translatesAutoresizingMaskIntoConstraints="NO" id="XKt-oB-yNo">
                                                                     <rect key="frame" x="207" y="0.0" width="207" height="414"/>
                                                                 </imageView>
                                                             </subviews>
