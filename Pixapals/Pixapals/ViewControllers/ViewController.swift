@@ -11,14 +11,16 @@ import FBSDKCoreKit
 import FBSDKLoginKit
 import Alamofire
 import SwiftyJSON
+import CoreLocation
 
 
-
-class ViewController: UIViewController {
+class ViewController: UIViewController, CLLocationManagerDelegate {
     
+    var manager = CLLocationManager()
+    var location: CLLocationCoordinate2D!
     
     var dict : NSDictionary!
-
+    var loginUsingFB = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,7 +31,14 @@ class ViewController: UIViewController {
             let storyBoard = UIStoryboard(name: "Main", bundle: nil)
             let vc = storyBoard.instantiateViewControllerWithIdentifier("tabView")
             self.navigationController?.pushViewController(vc, animated: false)
+        } else {
+            manager.delegate = self
+            manager.desiredAccuracy = kCLLocationAccuracyThreeKilometers
+            manager.requestWhenInUseAuthorization()
+            manager.startUpdatingLocation()
         }
+        
+        
         
         //self.navigationController?.navigationBar.tintColor = UIColor(red:1.000, green:1.000, blue:1.000, alpha:1.00)
        // x.layer.borderColor
@@ -51,6 +60,28 @@ class ViewController: UIViewController {
         UIApplication.sharedApplication().statusBarStyle = UIStatusBarStyle.LightContent
     }
     
+    func locationManager(manager: CLLocationManager, didUpdateToLocation newLocation: CLLocation, fromLocation oldLocation: CLLocation) {
+        self.location = newLocation.coordinate
+        if loginUsingFB {
+            manager.stopUpdatingLocation()
+            self.loginFbUser()
+        }
+    }
+    
+    //    func locationManager(manager: CLLocationManager, didChangeAuthorizationStatus status: CLAuthorizationStatus) {
+    //        if case 0...2 = status.rawValue {
+    //            appDelegate.ShowAlertView("Access Denied", message: "Location access is denied. You can't proceed. Please change location preference to this app from setting.")
+    //        }
+    //    }
+    
+    func locationManager(manager: CLLocationManager, didFailWithError error: NSError) {
+        if error.code == CLError.Denied.rawValue {
+            appDelegate.ShowAlertView("Access Denied", message: "Location access is denied. You can't proceed. Please change location preference to this app from setting.")
+            self.manager.stopUpdatingLocation()
+        }
+    }
+    
+    
     @IBAction func btnFbLogin(sender: AnyObject) {
         
             let reachability: Reachability
@@ -58,7 +89,6 @@ class ViewController: UIViewController {
                 reachability = try Reachability.reachabilityForInternetConnection()
                 if reachability.isReachable()  {
                     
-             
                     let fbLoginManager : FBSDKLoginManager = FBSDKLoginManager()
                     
                     fbLoginManager .logInWithReadPermissions(["public_profile", "email"], handler: {
@@ -121,7 +151,7 @@ class ViewController: UIViewController {
                     
                     
                     
-                    self.loginFbUser()
+                    self.loginUsingFB = true
                     
                     NSLog(self.dict.objectForKey("picture")?.objectForKey("data")?.objectForKey("url") as! String)
                 }
@@ -164,16 +194,17 @@ class ViewController: UIViewController {
                 let userId = defaults.objectForKey("user_id") as? Int
                 String(stringInterpolationSegment: userId)
                 
-                let locManager = LocationManager()
+                //let locationManager =
+                //locationManager.requestWhenInUseAuthorization()
                 
-
-                if case .Either(let location) = locManager.getLocation() {
+                //LocationManager(manager:CLLocationManager(), afterLocationRetrived: { (locCoordinates) -> () in
+                
                     let parametersToPost: [String: AnyObject] = [
                         "profileid": fbId,
                         "name": fbName,
                         "type":"facebook",
-                        "latitude": location.0,
-                        "longitude": location.1
+                        "latitude": location.latitude,
+                        "longitude": location.longitude
                     ]
                     
                     print(parametersToPost, terminator: "")
@@ -226,15 +257,10 @@ class ViewController: UIViewController {
                                 }
                             }
                     }
-                } else {
-                    print("Cant get location")
-                }
-                
-                
                 
             } else{
                 
-
+                appDelegate.ShowAlertView("No Internet Connection", message: "Please enable internet connection.")
                 return
                 
             }}catch{

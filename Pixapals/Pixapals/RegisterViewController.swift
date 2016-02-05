@@ -9,6 +9,7 @@
 import UIKit
 import Alamofire
 import SwiftyJSON
+import CoreLocation
 
 class RegisterViewController: UIViewController, UIPopoverControllerDelegate, UIPopoverPresentationControllerDelegate {
     
@@ -31,13 +32,6 @@ class RegisterViewController: UIViewController, UIPopoverControllerDelegate, UIP
         textFieldConfirmPassword.layer.sublayerTransform = CATransform3DMakeTranslation(5, 0, 10)
         
     }
-<<<<<<< HEAD
-
-=======
-    
-    
-    
->>>>>>> master
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -72,7 +66,7 @@ class RegisterViewController: UIViewController, UIPopoverControllerDelegate, UIP
             return
         }
         //let location = LocationManager().getLocation()
-        if case .Either(let location) = LocationManager().getLocation() {
+        LocationManager(manager: CLLocationManager() ,afterLocationRetrived: { (location) -> () in
             let parameters: [String: AnyObject] =
             [
                 "name": self.textFieldFullName.text!,
@@ -80,8 +74,8 @@ class RegisterViewController: UIViewController, UIPopoverControllerDelegate, UIP
                 "username": self.textFieldUsername.text!,
                 "password": self.textFieldPassword.text!,
                 "password_confirmation": self.textFieldConfirmPassword.text!,
-                "latitude": location.0,
-                "longitude": location.1,
+                "latitude": location.latitude,
+                "longitude": location.longitude,
                 "website": "",
                 "bio": "",
                 "phone": "",
@@ -110,19 +104,10 @@ class RegisterViewController: UIViewController, UIPopoverControllerDelegate, UIP
                         print("Error in connection \(error)")
                     }
             }
-        } else {
-            print("Cant fetch location data")
-        }
+        })
         
     }
     func abc (){
-<<<<<<< HEAD
- 
-=======
-        
-        
-        
->>>>>>> master
         let popoverContent = (self.storyboard?.instantiateViewControllerWithIdentifier("GenderSelectionView"))! as! GenderSelectionView
         popoverContent.delegate = self
         let nav = UINavigationController(rootViewController: popoverContent)
@@ -142,16 +127,6 @@ class RegisterViewController: UIViewController, UIPopoverControllerDelegate, UIP
     }
     
     
-<<<<<<< HEAD
-=======
-    
-    
-    
-    
-    
-    
-    
->>>>>>> master
     func textFieldDidBeginEditing(textField: UITextField) {
         
         abc()

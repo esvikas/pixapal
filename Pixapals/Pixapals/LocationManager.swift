@@ -9,49 +9,46 @@
 import CoreLocation
 
 class LocationManager: NSObject, CLLocationManagerDelegate {
+    typealias afterLocationCompletes = (CLLocationCoordinate2D) -> ()
     
-    private let manager = CLLocationManager()
+    private let manager: CLLocationManager
     
-    private var location: CLLocation!
+    private var afterLocationGet: afterLocationCompletes!
     
-    private var authorised: Bool!
     
-    override init() {
+    init(manager: CLLocationManager, afterLocationRetrived: afterLocationCompletes) {
+        self.manager = manager
+        self.afterLocationGet = afterLocationRetrived
+        
         super.init()
+        
         manager.delegate = self
         manager.desiredAccuracy = kCLLocationAccuracyThreeKilometers
         manager.requestWhenInUseAuthorization()
         manager.startUpdatingLocation()
     }
     
+    
     func locationManager(manager: CLLocationManager, didUpdateToLocation newLocation: CLLocation, fromLocation oldLocation: CLLocation) {
-        self.location = newLocation
-        
+        self.afterLocationGet(newLocation.coordinate)
         manager.stopUpdatingLocation()
     }
     
-    func locationManager(manager: CLLocationManager, didChangeAuthorizationStatus status: CLAuthorizationStatus) {
-        if case 0...2 = status.rawValue {
-            authorised = false
-        } else {
-            authorised = true
-        }
-    }
+//    func locationManager(manager: CLLocationManager, didChangeAuthorizationStatus status: CLAuthorizationStatus) {
+//        if case 0...2 = status.rawValue {
+//            appDelegate.ShowAlertView("Access Denied", message: "Location access is denied. You can't proceed. Please change location preference to this app from setting.")
+//        }
+//    }
     
     func locationManager(manager: CLLocationManager, didFailWithError error: NSError) {
         if error.code == CLError.Denied.rawValue {
-            self.authorised = false
+            appDelegate.ShowAlertView("Access Denied", message: "Location access is denied. You can't proceed. Please change location preference to this app from setting.")
             self.manager.stopUpdatingLocation()
         }
     }
     
-    func getLocation() -> EitherOr <(Double, Double), Bool> {
-        if let authorised = authorised  where authorised == true {
-            return EitherOr.Either(self.location.coordinate.latitude, self.location.coordinate.longitude)
-        } else {
-            appDelegate.ShowAlertView("Location Not Enabled", message: "Please change location preference of app from settings.")
-            return EitherOr.Or(self.authorised)
-        }
+    func getLocation(afterLocationGet: afterLocationCompletes){
+        //self.afterLocationGet = afterLocationGet
     }
 }
 
