@@ -59,10 +59,12 @@ class GlobalFeedsViewController: UIViewController {
         self.tableViewRefreshControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
         self.tableViewRefreshControl.addTarget(self, action: "refresh:", forControlEvents: UIControlEvents.ValueChanged)
         self.tableView.addSubview(tableViewRefreshControl)
+        self.tableView.alwaysBounceVertical = true
         
         self.collectionViewRefreshControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
         self.collectionViewRefreshControl.addTarget(self, action: "refresh:", forControlEvents: UIControlEvents.ValueChanged)
         self.collectionView.addSubview(collectionViewRefreshControl)
+        self.collectionView.alwaysBounceVertical = true
     }
     
     override func didReceiveMemoryWarning() {
@@ -70,6 +72,7 @@ class GlobalFeedsViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     override func viewWillAppear(animated: Bool) {
+        self.tableView.reloadData()
         self.manageNavBar()
     }
     
@@ -173,9 +176,13 @@ class GlobalFeedsViewController: UIViewController {
                             self.refreshingStatus = false
                             self.feedsFromResponseAsObject = feedsResponseJSON
                         } else {
-                            if feedsResponseJSON.feeds?.count > 0 {
+                            if feedsResponseJSON.feeds?.count < self.postLimit && feedsResponseJSON.feeds?.count > 0{
                                 self.feedsFromResponseAsObject.feeds?.appendContentsOf(feedsResponseJSON.feeds!)
-                            } else {
+                                self.hasMoreDataInServer = false
+                            } else if feedsResponseJSON.feeds?.count > 0 {
+                                self.feedsFromResponseAsObject.feeds?.appendContentsOf(feedsResponseJSON.feeds!)
+                            }
+                            else {
                                 self.hasMoreDataInServer = false
                             }
                         }
@@ -330,6 +337,15 @@ class GlobalFeedsViewController: UIViewController {
         self.loadMoreActivityIndicator.startAnimating()
         self.loadDataFromAPI()
     }
+    
+    func goToDetailFeedView(feed: FeedJSON) {
+        
+        let storyboard: UIStoryboard = UIStoryboard (name: "Main", bundle: nil)
+        let vc: DetailVIewViewController = storyboard.instantiateViewControllerWithIdentifier("DetailVIewViewController") as! DetailVIewViewController
+        vc.feed = feed
+        vc.delegate = self
+        self.navigationController?.pushViewController(vc, animated: true)
+    }
 }
 
 extension GlobalFeedsViewController: UITableViewDataSource {
@@ -365,7 +381,7 @@ extension GlobalFeedsViewController: UITableViewDataSource {
         
         cell.delegate = self
         
-        cell.id = feed.id
+        cell.id = indexPath.section
         cell.left = feed.is_my_left
         cell.loved = feed.is_my_love
         
@@ -395,11 +411,7 @@ extension GlobalFeedsViewController: UITableViewDelegate {
         let feed = (self.feedsFromResponseAsObject.feeds?[indexPath.section])!
         
         
-        let storyboard: UIStoryboard = UIStoryboard (name: "Main", bundle: nil)
-        let vc: DetailVIewViewController = storyboard.instantiateViewControllerWithIdentifier("DetailVIewViewController") as! DetailVIewViewController
-        vc.feed = feed
-        
-        self.navigationController?.pushViewController(vc, animated: true)
+        self.goToDetailFeedView(feed)
 
         
     }
@@ -497,6 +509,11 @@ extension GlobalFeedsViewController: UICollectionViewDelegate{
             self.loadMore()
         }
     }
+    
+    func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+        let feed = self.feedsFromResponseAsObject.feeds?[indexPath.row]
+        self.goToDetailFeedView(feed!)
+    }
 }
 
 extension GlobalFeedsViewController: UICollectionViewDelegateFlowLayout {
@@ -508,106 +525,126 @@ extension GlobalFeedsViewController: UICollectionViewDelegateFlowLayout {
 
 extension GlobalFeedsViewController: CellImageSwippedDelegate {
     func imageSwipedLeft(id: Int, loved: Bool, var left:Bool) {
-        print("swipped Left")
-        print(id)
-        print(loved)
-        print(left)
-        left=true
+        print("swipped leave (left)")
+        //        print(id)
+        //        print(loved)
+        //        print(left)
+        //left=true
         
-        leaveit(String(id))
+        self.leaveit(id)
     }
     func imageSwipedRight(id: Int, var loved: Bool, var left: Bool) {
-        print("swipped right")
-        print(loved)
-        print(left)
-        loved = true
-        left = false
-        loveFeed(String(id))
+        print("swipped love (right)")
+        //        print(loved)
+        //        print(left)
+        //        loved = true
+        //        left = false
+        self.loveFeed(id)
     }
     
-    func loveFeed(postId:String){
+    func loveFeed(id:Int){
+        let feed = self.feedsFromResponseAsObject.feeds![id]
+        let user = UserDataStruct()
         
         let registerUrlString = "\(apiUrl)api/v1/feeds/loveit"
         
-        _ = NSUserDefaults.standardUserDefaults()
-        
         let parameters: [String: AnyObject] =
         [
-            "user_id": "1",
-            "post_id": postId
+            "user_id": user.id!,
+            "post_id": feed.id!
             
         ]
         let headers = [
-            "X-Auth-Token" : "c353c462bb19d45f5d60d14ddf7ec3664c0eeaaaede6309c03dd8129df745b91",
+            "X-Auth-Token" : user.api_token!,
         ]
         
         
         
-        
-        Alamofire.request(.POST, registerUrlString, parameters: parameters, headers:headers)
-            .responseJSON { response in
-                
-                switch response.result {
-                case .Success(let data):
-                    if let dict = data["user"] as? [String: AnyObject] {
-                        let userInfoStruct = UserDataStruct()
-                        userInfoStruct.saveUserInfoFromJSON(jsonContainingUserInfo: dict)
-                        
-                        print("LovedIt \(postId)")
+        //Alamofire.request(.GET, apiURLString, parameters: nil, headers: headers).responseObject { (response: Response<FeedsResponseJSON, NSError>) -> Void in
+        Alamofire.request(.POST, registerUrlString, parameters: parameters, headers: headers).responseObject { (response: Response<SuccessFailJSON, NSError>) -> Void in
+            switch response.result {
+            case .Success(let loveItObject):
+                if !loveItObject.error! {
+                    feed.is_my_love = true
+                    feed.loveit = feed.loveit! + 1
+                    if feed.is_my_left! {
+                        feed.is_my_left = false
+                        feed.leaveit = feed.leaveit! - 1
                     }
-                    else {
-                        print(data)
-                        print("Failed")
-                    }
-                case .Failure(let error):
-                    print("Error in connection \(error)")
+                    self.tableView.reloadData()
+                } else {
+                    print("Error: Love it error")
                 }
+            case .Failure(let error):
+                print("Error in connection \(error)")
+            }
         }
-        
+        //        Alamofire.request(.POST, registerUrlString, parameters: parameters, headers:headers).responseJSON { response in
+        //            switch response.result {
+        //            case .Failure(let error):
+        //                print(error)
+        //            case .Success(let value):
+        //                print(value)
+        //            }
+        //        }
         
     }
     
     
-    func leaveit(postId:String){
-        
+    func leaveit(id: Int){
+        let feed = self.feedsFromResponseAsObject.feeds![id]
+        let user = UserDataStruct()
         let registerUrlString = "\(apiUrl)api/v1/feeds/leaveit"
-        
-        _ = NSUserDefaults.standardUserDefaults()
         
         let parameters: [String: AnyObject] =
         [
-            "user_id": "1",
-            "post_id": postId
+            "user_id": user.id!,
+            "post_id": feed.id!
             
         ]
         let headers = [
-            "X-Auth-Token" : "c353c462bb19d45f5d60d14ddf7ec3664c0eeaaaede6309c03dd8129df745b91",
+            "X-Auth-Token" : user.api_token!,
         ]
         
         
         
         
-        Alamofire.request(.POST, registerUrlString, parameters: parameters, headers:headers)
-            .responseJSON { response in
-                
-                switch response.result {
-                case .Success(let data):
-                    if let dict = data["user"] as? [String: AnyObject] {
-                        let userInfoStruct = UserDataStruct()
-                        userInfoStruct.saveUserInfoFromJSON(jsonContainingUserInfo: dict)
-                        
-                        print("LovedIt \(postId)")
+        //        Alamofire.request(.POST, registerUrlString, parameters: parameters, headers:headers).responseJSON { response in
+        //            switch response.result {
+        //            case .Failure(let error):
+        //                print(error)
+        //            case .Success(let value):
+        //                print(value)
+        //            }
+        //        }
+        
+        Alamofire.request(.POST, registerUrlString, parameters: parameters, headers: headers).responseObject { (response: Response<SuccessFailJSON, NSError>) -> Void in
+            switch response.result {
+            case .Success(let leaveItObject):
+                if !leaveItObject.error! {
+                    feed.is_my_left = true
+                    feed.leaveit = feed.leaveit! + 1
+                    if feed.is_my_love! {
+                        feed.is_my_love = false
+                        feed.loveit = feed.loveit! - 1
                     }
-                    else {
-                        print(data)
-                        print("Failed")
-                    }
-                case .Failure(let error):
-                    print("Error in connection \(error)")
+                    self.tableView.reloadData()
+                } else {
+                    print("Error: Leave it error")
                 }
+            case .Failure(let error):
+                print("Error in connection \(error)")
+            }
         }
         
         
     }
 }
+
+extension GlobalFeedsViewController: DetailViewViewControllerProtocol {
+    func needReloadData() {
+        self.tableView.reloadData()
+    }
+}
+
 

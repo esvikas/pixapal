@@ -37,6 +37,8 @@ class ProfileViewController: UIViewController {
     var collectionViewHidden = false
 
     
+
+    var feedsToShow: JSON!
     var refreshingStatus = false
     var hasMoreDataInServer = true
     
@@ -64,10 +66,12 @@ class ProfileViewController: UIViewController {
         self.tableViewRefreshControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
         self.tableViewRefreshControl.addTarget(self, action: "refresh:", forControlEvents: UIControlEvents.ValueChanged)
         self.tableView.addSubview(tableViewRefreshControl)
+        self.tableView.alwaysBounceVertical = true
         
         self.collectionViewRefreshContol.attributedTitle = NSAttributedString(string: "Pull to refresh")
         self.collectionViewRefreshContol.addTarget(self, action: "refresh:", forControlEvents: UIControlEvents.ValueChanged)
         self.collectionView.addSubview(collectionViewRefreshContol)
+        self.collectionView.alwaysBounceVertical = true
         
         //FOR WHAT??
         self.navigationItem.hidesBackButton = false
@@ -82,6 +86,7 @@ class ProfileViewController: UIViewController {
     }
     
     override func viewWillAppear(animated: Bool) {
+        self.tableView.reloadData()
         self.tabBarController?.navigationItem.title = "User Profile"
         
         let btnName = UIButton()
@@ -148,7 +153,16 @@ class ProfileViewController: UIViewController {
             "X-Auth-Token" : api_token,
         ]
         
-        Alamofire.request(.GET, apiURLString, parameters: nil, headers: headers).responseObject { (response: Response<ProfileResponseJSON, NSError>) -> Void in
+        Alamofire.request(.GET, apiURLString, parameters: nil, headers: headers)
+//            .responseJSON { response in
+//                switch response.result {
+//                case .Failure(let error):
+//                    print(error)
+//                case .Success(let value):
+//                    print(value)
+//                }
+//            }
+            .responseObject { (response: Response<ProfileResponseJSON, NSError>) -> Void in
             switch response.result {
             case .Success(let feedsResponseJSON):
                 
@@ -166,9 +180,13 @@ class ProfileViewController: UIViewController {
                             self.refreshingStatus = false
                             self.feedsFromResponseAsObject = feedsResponseJSON
                         } else {
-                            if feedsResponseJSON.feeds?.count > 0 {
+                            if feedsResponseJSON.feeds?.count < self.postLimit && feedsResponseJSON.feeds?.count > 0{
                                 self.feedsFromResponseAsObject.feeds?.appendContentsOf(feedsResponseJSON.feeds!)
-                            } else {
+                                self.hasMoreDataInServer = false
+                            } else if feedsResponseJSON.feeds?.count > 0 {
+                                self.feedsFromResponseAsObject.feeds?.appendContentsOf(feedsResponseJSON.feeds!)
+                            }
+                            else {
                                 self.hasMoreDataInServer = false
                             }
                         }
@@ -244,9 +262,22 @@ class ProfileViewController: UIViewController {
         self.loadMoreActivityIndicator.startAnimating()
         self.loadDataFromAPI()
     }
+    
+    func goToDetailFeedView(feed: FeedJSON) {
+        
+        let storyboard: UIStoryboard = UIStoryboard (name: "Main", bundle: nil)
+        let vc: DetailVIewViewController = storyboard.instantiateViewControllerWithIdentifier("DetailVIewViewController") as! DetailVIewViewController
+        vc.feed = feed
+        vc.delegate = self
+        self.navigationController?.pushViewController(vc, animated: true)
+    }
 }
 
 extension ProfileViewController: UICollectionViewDelegate {
+    func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+        let feed = self.feedsFromResponseAsObject?.feeds?[indexPath.row]
+        self.goToDetailFeedView(feed!)
+    }
     func collectionView(collectionView: UICollectionView, willDisplayCell cell: UICollectionViewCell, forItemAtIndexPath indexPath: NSIndexPath) {
         if indexPath.row == self.feedsFromResponseAsObject.feeds!.count - 1 && self.hasMoreDataInServer {
             self.loadMore()
@@ -286,6 +317,8 @@ extension ProfileViewController: UITableViewDelegate {
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
+        let feed = self.feedsFromResponseAsObject.feeds![indexPath.row - 1]
+        self.goToDetailFeedView(feed)
     }
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
@@ -331,7 +364,7 @@ extension ProfileViewController: UITableViewDataSource {
                 cell.feedImage2.hidden = true
             }
             cell.delegate = self
-            cell.id = feed.id
+            cell.id = (indexPath.row - 1)
             cell.loved = feed.is_my_love
             cell.left = feed.is_my_left
             cell.loveCount.text = "\(feed.loveit ?? 0) love it"
@@ -384,105 +417,124 @@ extension ProfileViewController: UITableViewDataSource {
 }
 extension ProfileViewController: CellImageSwippedDelegate {
     func imageSwipedLeft(id: Int, loved: Bool, var left:Bool) {
-        print("swipped Left")
-        print(id)
-        print(loved)
-        print(left)
-        left=true
+        print("swipped leave (left)")
+        //        print(id)
+        //        print(loved)
+        //        print(left)
+        //left=true
         
-        leaveit(String(id))
+        self.leaveit(id)
     }
     func imageSwipedRight(id: Int, var loved: Bool, var left: Bool) {
-        print("swipped right")
-        print(loved)
-        print(left)
-        loved = true
-        left = false
-        loveFeed(String(id))
+        print("swipped love (right)")
+        //        print(loved)
+        //        print(left)
+        //        loved = true
+        //        left = false
+        self.loveFeed(id)
     }
     
-    func loveFeed(postId:String){
+    func loveFeed(id:Int){
+        let feed = self.feedsFromResponseAsObject.feeds![id]
+        let user = UserDataStruct()
         
         let registerUrlString = "\(apiUrl)api/v1/feeds/loveit"
         
-        _ = NSUserDefaults.standardUserDefaults()
-        
         let parameters: [String: AnyObject] =
         [
-            "user_id": "1",
-            "post_id": postId
+            "user_id": user.id!,
+            "post_id": feed.id!
             
         ]
         let headers = [
-            "X-Auth-Token" : "c353c462bb19d45f5d60d14ddf7ec3664c0eeaaaede6309c03dd8129df745b91",
+            "X-Auth-Token" : user.api_token!,
         ]
         
         
         
-        
-        Alamofire.request(.POST, registerUrlString, parameters: parameters, headers:headers)
-            .responseJSON { response in
-                
-                switch response.result {
-                case .Success(let data):
-                    if let dict = data["user"] as? [String: AnyObject] {
-                        let userInfoStruct = UserDataStruct()
-                        userInfoStruct.saveUserInfoFromJSON(jsonContainingUserInfo: dict)
-                        
-                        print("LovedIt \(postId)")
+        //Alamofire.request(.GET, apiURLString, parameters: nil, headers: headers).responseObject { (response: Response<FeedsResponseJSON, NSError>) -> Void in
+        Alamofire.request(.POST, registerUrlString, parameters: parameters, headers: headers).responseObject { (response: Response<SuccessFailJSON, NSError>) -> Void in
+            switch response.result {
+            case .Success(let loveItObject):
+                if !loveItObject.error! {
+                    feed.is_my_love = true
+                    feed.loveit = feed.loveit! + 1
+                    if feed.is_my_left! {
+                        feed.is_my_left = false
+                        feed.leaveit = feed.leaveit! - 1
                     }
-                    else {
-                        print(data)
-                        print("Failed")
-                    }
-                case .Failure(let error):
-                    print("Error in connection \(error)")
+                    self.tableView.reloadData()
+                } else {
+                    print("Error: Love it error")
                 }
+            case .Failure(let error):
+                print("Error in connection \(error)")
+            }
         }
-        
+        //        Alamofire.request(.POST, registerUrlString, parameters: parameters, headers:headers).responseJSON { response in
+        //            switch response.result {
+        //            case .Failure(let error):
+        //                print(error)
+        //            case .Success(let value):
+        //                print(value)
+        //            }
+        //        }
         
     }
     
     
-    func leaveit(postId:String){
-        
+    func leaveit(id: Int){
+        let feed = self.feedsFromResponseAsObject.feeds![id]
+        let user = UserDataStruct()
         let registerUrlString = "\(apiUrl)api/v1/feeds/leaveit"
-        
-        _ = NSUserDefaults.standardUserDefaults()
         
         let parameters: [String: AnyObject] =
         [
-            "user_id": "1",
-            "post_id": postId
+            "user_id": user.id!,
+            "post_id": feed.id!
             
         ]
         let headers = [
-            "X-Auth-Token" : "c353c462bb19d45f5d60d14ddf7ec3664c0eeaaaede6309c03dd8129df745b91",
+            "X-Auth-Token" : user.api_token!,
         ]
         
         
         
         
-        Alamofire.request(.POST, registerUrlString, parameters: parameters, headers:headers)
-            .responseJSON { response in
-                
-                switch response.result {
-                case .Success(let data):
-                    if let dict = data["user"] as? [String: AnyObject] {
-                        let userInfoStruct = UserDataStruct()
-                        userInfoStruct.saveUserInfoFromJSON(jsonContainingUserInfo: dict)
-                        
-                        print("LovedIt \(postId)")
+        //        Alamofire.request(.POST, registerUrlString, parameters: parameters, headers:headers).responseJSON { response in
+        //            switch response.result {
+        //            case .Failure(let error):
+        //                print(error)
+        //            case .Success(let value):
+        //                print(value)
+        //            }
+        //        }
+        
+        Alamofire.request(.POST, registerUrlString, parameters: parameters, headers: headers).responseObject { (response: Response<SuccessFailJSON, NSError>) -> Void in
+            switch response.result {
+            case .Success(let leaveItObject):
+                if !leaveItObject.error! {
+                    feed.is_my_left = true
+                    feed.leaveit = feed.leaveit! + 1
+                    if feed.is_my_love! {
+                        feed.is_my_love = false
+                        feed.loveit = feed.loveit! - 1
                     }
-                    else {
-                        print(data)
-                        print("Failed")
-                    }
-                case .Failure(let error):
-                    print("Error in connection \(error)")
+                    self.tableView.reloadData()
+                } else {
+                    print("Error: Leave it error")
                 }
+            case .Failure(let error):
+                print("Error in connection \(error)")
+            }
         }
         
         
+    }
+}
+
+extension ProfileViewController: DetailViewViewControllerProtocol {
+    func needReloadData() {
+        self.tableView.reloadData()
     }
 }

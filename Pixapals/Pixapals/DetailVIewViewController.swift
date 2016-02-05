@@ -12,50 +12,51 @@ import Kingfisher
 import MBProgressHUD
 //import ObjectMapper
 import AlamofireObjectMapper
+import Spring
 
+protocol DetailViewViewControllerProtocol {
+    func needReloadData();
+}
 
 class DetailVIewViewController: UIViewController {
-
-
-
     
     @IBOutlet weak var tableView: UITableView!
     
+    @IBOutlet weak var getFeedButton: DesignableButton!
     
-    let blurEffectView = UIVisualEffectView(effect: UIBlurEffect(style: UIBlurEffectStyle.ExtraLight))
+    var delegate: DetailViewViewControllerProtocol!
     
-    var refreshControl:UIRefreshControl!
+    //let blurEffectView = UIVisualEffectView(effect: UIBlurEffect(style: UIBlurEffectStyle.ExtraLight))
     
-    var refreshingStatus = false
-    var hasMoreDataInServer = true
+    //var refreshControl:UIRefreshControl!
+    
+    //var refreshingStatus = false
+    //var hasMoreDataInServer = true
     
     var feed: FeedJSON!
-
     
-    var collectionViewHidden = false
     
-    var feedsFromResponseAsObject: FeedsResponseJSON!
+    //var collectionViewHidden = false
     
-    var pageNumber = 1
+    //var feedsFromResponseAsObject: FeedsResponseJSON!
+    
+    //var pageNumber = 1
     
     override func viewDidLoad() {
         super.viewDidLoad()
+            //getFeedButton.enabled = false
+      
         //self.navigationItem.hidesBackButton = true
-        // Do any additional setup after loading the view.
+        // Do any additional setup after loading the view
         
         
-        print(feed.id)
+        //self.blurEffectView.alpha = 0.4
+        // blurEffectView.frame = view.bounds
+        //        self.view.addSubview(self.blurEffectView)
+        //        let loadingNotification = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
+        //        loadingNotification.mode = MBProgressHUDMode.Indeterminate
+        //        loadingNotification.labelText = "Loading"
         
-        
-        self.blurEffectView.alpha = 0.4
-        blurEffectView.frame = view.bounds
-//        self.view.addSubview(self.blurEffectView)
-//        let loadingNotification = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
-//        loadingNotification.mode = MBProgressHUDMode.Indeterminate
-//        loadingNotification.labelText = "Loading"
-        
-        
-
     }
     
     override func didReceiveMemoryWarning() {
@@ -63,11 +64,11 @@ class DetailVIewViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     override func viewWillAppear(animated: Bool) {
-        self.tabBarController?.navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "square"), style: .Plain, target: self, action: "changeViewMode:")
-        
-        self.tabBarController?.navigationItem.title = self.title ?? "Global Feed"
-        self.tabBarController?.navigationItem.hidesBackButton = true
-        self.tabBarController?.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .Plain, target: nil, action: nil)
+        //        self.tabBarController?.navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "square"), style: .Plain, target: self, action: "changeViewMode:")
+        //
+        //        self.tabBarController?.navigationItem.title = self.title ?? "Global Feed"
+        //        self.tabBarController?.navigationItem.hidesBackButton = true
+        //        self.tabBarController?.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .Plain, target: nil, action: nil)
     }
     /*
     // MARK: - Navigation
@@ -79,41 +80,55 @@ class DetailVIewViewController: UIViewController {
     }
     */
     
-    @IBAction func swipedLeft(sender: AnyObject) {
-        print("Swiped left")
-    }
     
-    @IBAction func swipedRight(sender: AnyObject) {
-        print("Swiped right")
-    }
-    
- 
     @IBAction func btnFollowUser(sender: AnyObject) {
         
+        let user = UserDataStruct()
         
+        let registerUrlString = "\(apiUrl)api/v1/profile/getfed"
+        
+        let parameters: [String: AnyObject] =
+        [
+            "user_id": user.id!,
+            "fed_id": (feed.user?.id!)!,
+        ]
+        let headers = [
+            "X-Auth-Token" : user.api_token!,
+        ]
+        
+        //        Alamofire.request(.POST, registerUrlString, parameters: parameters, headers:headers).responseJSON { response in
+        //            switch response.result {
+        //            case .Failure(let error):
+        //                print("ERROR: \(error)")
+        //            case .Success(let value):
+        //                print(value)
+        //            }
+        //        }
+        Alamofire.request(.POST, registerUrlString, parameters: parameters, headers: headers).responseObject { (response: Response<SuccessFailJSON, NSError>) -> Void in
+            switch response.result {
+            case .Success(let getFeed):
+                if !getFeed.error! {
+                    print("getting feed")
+                    self.getFeedButton.enabled = false
+                } else {
+                    print("Error: Love it error")
+                }
+            case .Failure(let error):
+                print("Error in connection \(error)")
+            }
+        }
         
     }
-    
-    
-    
-    
-
-    
-    
-    func refresh(sender:AnyObject)
-    {
-        // Code to refresh table view
-        self.pageNumber = 1
-        self.refreshingStatus = true
+    private func triggerDelegateNeedReloadData() {
+        if let _ = self.delegate {
+            self.delegate.needReloadData()
+        }
     }
     
-    func loadMore() {
-        self.pageNumber++
-    }
 }
 
 extension DetailVIewViewController: UITableViewDataSource {
-  
+    
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 1
@@ -154,7 +169,7 @@ extension DetailVIewViewController: UITableViewDataSource {
         return cell
     }
     
-
+    
 }
 
 extension DetailVIewViewController: UITableViewDelegate {
@@ -171,45 +186,44 @@ extension DetailVIewViewController: UITableViewDelegate {
         return UITableViewAutomaticDimension
     }
     
-  
     
-//    func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-//        let feed = self.feedsFromResponseAsObject.feeds![section]
-//        let cell = tableView.dequeueReusableCellWithIdentifier("globalFeedTableViewHeaderCell") as! GlobalFeedTableViewHeaderCell
-//        cell.userProfilePic.kf_setImageWithURL(NSURL(string: feed.user!.photo_thumb!)!, placeholderImage: cell.userProfilePic.image)
-//        cell.username.text = feed.user?.username
-//        if let createdAt = feed.created_at {
-//            //let dateFormatter = NSDateFormatter()
-//            //dateFormatter.dateFormat = "y-MM-dd HH:mm:ss"
-//            // if let date = dateFormatter.dateFromString(createdAt) {
-//            var textTimeElapsed = ""
-//            let timeInSecond = Int(NSDate().timeIntervalSinceDate(createdAt))
-//            if timeInSecond/60 < 0 {
-//                textTimeElapsed = "\(timeInSecond) sec ago"
-//            } else if timeInSecond/(60*60) < 1 {
-//                textTimeElapsed = "\(timeInSecond/60) mins ago"
-//            }else if timeInSecond/(60*60*24) < 1 {
-//                textTimeElapsed = "\(timeInSecond/(60*60)) hrs ago"
-//            }else if timeInSecond/(60*60*24*7) < 1 {
-//                textTimeElapsed = "\(timeInSecond/(60*60*24)) days ago"
-//            }else if timeInSecond/(60*60*24*7) > 1 {
-//                textTimeElapsed = "\(timeInSecond/(60*60*24*7)) weeks ago"
-//            }
-//            cell.timeElapsed.text = textTimeElapsed
-//            //}
-//        }
-//        return cell
-//    }
+    //    func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+    //        let feed = self.feedsFromResponseAsObject.feeds![section]
+    //        let cell = tableView.dequeueReusableCellWithIdentifier("globalFeedTableViewHeaderCell") as! GlobalFeedTableViewHeaderCell
+    //        cell.userProfilePic.kf_setImageWithURL(NSURL(string: feed.user!.photo_thumb!)!, placeholderImage: cell.userProfilePic.image)
+    //        cell.username.text = feed.user?.username
+    //        if let createdAt = feed.created_at {
+    //            //let dateFormatter = NSDateFormatter()
+    //            //dateFormatter.dateFormat = "y-MM-dd HH:mm:ss"
+    //            // if let date = dateFormatter.dateFromString(createdAt) {
+    //            var textTimeElapsed = ""
+    //            let timeInSecond = Int(NSDate().timeIntervalSinceDate(createdAt))
+    //            if timeInSecond/60 < 0 {
+    //                textTimeElapsed = "\(timeInSecond) sec ago"
+    //            } else if timeInSecond/(60*60) < 1 {
+    //                textTimeElapsed = "\(timeInSecond/60) mins ago"
+    //            }else if timeInSecond/(60*60*24) < 1 {
+    //                textTimeElapsed = "\(timeInSecond/(60*60)) hrs ago"
+    //            }else if timeInSecond/(60*60*24*7) < 1 {
+    //                textTimeElapsed = "\(timeInSecond/(60*60*24)) days ago"
+    //            }else if timeInSecond/(60*60*24*7) > 1 {
+    //                textTimeElapsed = "\(timeInSecond/(60*60*24*7)) weeks ago"
+    //            }
+    //            cell.timeElapsed.text = textTimeElapsed
+    //            //}
+    //        }
+    //        return cell
+    //    }
     
-        func scrollViewDidScroll(scrollView: UIScrollView) {
-            if let tblView = scrollView as? UITableView where tblView == self.tableView {
-                if (scrollView.contentOffset.y + scrollView.frame.size.height == scrollView.contentSize.height && hasMoreDataInServer)
-                {
-                    self.loadMore()
-                    print("here")
-                }
-            }
-        }
+    //        func scrollViewDidScroll(scrollView: UIScrollView) {
+    //            if let tblView = scrollView as? UITableView where tblView == self.tableView {
+    //                if (scrollView.contentOffset.y + scrollView.frame.size.height == scrollView.contentSize.height && hasMoreDataInServer)
+    //                {
+    //                    self.loadMore()
+    //                    print("here")
+    //                }
+    //            }
+    //        }
     
 }
 
@@ -218,103 +232,116 @@ extension DetailVIewViewController: UITableViewDelegate {
 
 extension DetailVIewViewController: CellImageSwippedDelegate {
     func imageSwipedLeft(id: Int, loved: Bool, var left:Bool) {
-        print("swipped Left")
-        print(id)
-        print(loved)
-        print(left)
-        left=true
+        print("swipped leave (left)")
+        //        print(id)
+        //        print(loved)
+        //        print(left)
+        //left=true
         
-        leaveit(String(id))
+        self.leaveit(String(id))
     }
     func imageSwipedRight(id: Int, var loved: Bool, var left: Bool) {
-        print("swipped right")
-        print(loved)
-        print(left)
-        loved = true
-        left = false
-        loveFeed(String(id))
+        print("swipped love (right)")
+        //        print(loved)
+        //        print(left)
+        //        loved = true
+        //        left = false
+        self.loveFeed(String(id))
     }
     
     func loveFeed(postId:String){
+        let user = UserDataStruct()
         
         let registerUrlString = "\(apiUrl)api/v1/feeds/loveit"
         
-        _ = NSUserDefaults.standardUserDefaults()
-        
         let parameters: [String: AnyObject] =
         [
-            "user_id": "1",
+            "user_id": user.id!,
             "post_id": postId
             
         ]
         let headers = [
-            "X-Auth-Token" : "c353c462bb19d45f5d60d14ddf7ec3664c0eeaaaede6309c03dd8129df745b91",
+            "X-Auth-Token" : user.api_token!,
         ]
         
         
         
-        
-        Alamofire.request(.POST, registerUrlString, parameters: parameters, headers:headers)
-            .responseJSON { response in
-                
-                switch response.result {
-                case .Success(let data):
-                    if let dict = data["user"] as? [String: AnyObject] {
-                        let userInfoStruct = UserDataStruct()
-                        userInfoStruct.saveUserInfoFromJSON(jsonContainingUserInfo: dict)
-                        
-                        print("LovedIt \(postId)")
+        //Alamofire.request(.GET, apiURLString, parameters: nil, headers: headers).responseObject { (response: Response<FeedsResponseJSON, NSError>) -> Void in
+        Alamofire.request(.POST, registerUrlString, parameters: parameters, headers: headers).responseObject { (response: Response<SuccessFailJSON, NSError>) -> Void in
+            switch response.result {
+            case .Success(let loveItObject):
+                if !loveItObject.error! {
+                    self.feed.is_my_love = true
+                    self.feed.loveit = self.feed.loveit! + 1
+                    if self.feed.is_my_left! {
+                        self.feed.is_my_left = false
+                        self.feed.leaveit = self.feed.leaveit! - 1
                     }
-                    else {
-                        print(data)
-                        print("Failed")
-                    }
-                case .Failure(let error):
-                    print("Error in connection \(error)")
+                    self.tableView.reloadData()
+                    self.triggerDelegateNeedReloadData()
+                } else {
+                    print("Error: Love it error")
                 }
+            case .Failure(let error):
+                print("Error in connection \(error)")
+            }
         }
-        
+        //        Alamofire.request(.POST, registerUrlString, parameters: parameters, headers:headers).responseJSON { response in
+        //            switch response.result {
+        //            case .Failure(let error):
+        //                print(error)
+        //            case .Success(let value):
+        //                print(value)
+        //            }
+        //        }
         
     }
     
     
     func leaveit(postId:String){
-        
+        let user = UserDataStruct()
         let registerUrlString = "\(apiUrl)api/v1/feeds/leaveit"
-        
-        _ = NSUserDefaults.standardUserDefaults()
         
         let parameters: [String: AnyObject] =
         [
-            "user_id": "1",
+            "user_id": user.id!,
             "post_id": postId
             
         ]
         let headers = [
-            "X-Auth-Token" : "c353c462bb19d45f5d60d14ddf7ec3664c0eeaaaede6309c03dd8129df745b91",
+            "X-Auth-Token" : user.api_token!,
         ]
         
         
         
         
-        Alamofire.request(.POST, registerUrlString, parameters: parameters, headers:headers)
-            .responseJSON { response in
-                
-                switch response.result {
-                case .Success(let data):
-                    if let dict = data["user"] as? [String: AnyObject] {
-                        let userInfoStruct = UserDataStruct()
-                        userInfoStruct.saveUserInfoFromJSON(jsonContainingUserInfo: dict)
-                        
-                        print("LovedIt \(postId)")
+        //        Alamofire.request(.POST, registerUrlString, parameters: parameters, headers:headers).responseJSON { response in
+        //            switch response.result {
+        //            case .Failure(let error):
+        //                print(error)
+        //            case .Success(let value):
+        //                print(value)
+        //            }
+        //        }
+        
+        Alamofire.request(.POST, registerUrlString, parameters: parameters, headers: headers).responseObject { (response: Response<SuccessFailJSON, NSError>) -> Void in
+            switch response.result {
+            case .Success(let leaveItObject):
+                if !leaveItObject.error! {
+                    self.feed.is_my_left = true
+                    self.feed.leaveit = self.feed.leaveit! + 1
+                    if self.feed.is_my_love! {
+                        self.feed.is_my_love = false
+                        self.feed.loveit = self.feed.loveit! - 1
                     }
-                    else {
-                        print(data)
-                        print("Failed")
-                    }
-                case .Failure(let error):
-                    print("Error in connection \(error)")
+                    self.tableView.reloadData()
+                    self.triggerDelegateNeedReloadData()
+                } else {
+                    print("Error: Leave it error")
                 }
+            case .Failure(let error):
+                print("Error in connection \(error)")
+            }
         }
         
         

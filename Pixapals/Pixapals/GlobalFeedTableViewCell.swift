@@ -13,7 +13,7 @@ protocol CellImageSwippedDelegate {
 }
 
 class GlobalFeedTableViewCell: UITableViewCell {
-
+    
     @IBOutlet weak var feedImage: UIImageView!
     @IBOutlet weak var loveIcon: UIImageView!
     @IBOutlet weak var leftCount: UILabel!
@@ -22,27 +22,27 @@ class GlobalFeedTableViewCell: UITableViewCell {
     @IBOutlet weak var feedImage2: UIImageView!
     
     @IBOutlet weak var timeElapsed: UILabel!
-
+    
     var id: Int!
     var loved : Bool!
     var left : Bool!
-
+    
     
     var delegate: CellImageSwippedDelegate!
     
-//    var imageViewObject :UIImageView!
-
+    //    var imageViewObject :UIImageView!
+    
     
     var DynamicView=UIImageView()
-
-
+    
+    
     
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
         
         
-
+        
         
         let swipeRight = UISwipeGestureRecognizer(target: self, action: "respondToSwipeGesture:")
         swipeRight.direction = UISwipeGestureRecognizerDirection.Right
@@ -53,16 +53,16 @@ class GlobalFeedTableViewCell: UITableViewCell {
         self.addGestureRecognizer(swipeLeft)
         
         
-//        imageViewObject = UIImageView(frame:CGRectMake(0, 0, self.DynamicView.frame.width, self.DynamicView.frame.height))
-
-//        imageViewObject.image = UIImage(named:"afternoon")
+        //        imageViewObject = UIImageView(frame:CGRectMake(0, 0, self.DynamicView.frame.width, self.DynamicView.frame.height))
         
-//        self.DynamicView.addSubview(imageViewObject)
+        //        imageViewObject.image = UIImage(named:"afternoon")
         
-         CreateScreen()
-
+        //        self.DynamicView.addSubview(imageViewObject)
+        
+        CreateScreen()
+        
     }
-
+    
     
     func CreateScreen(){
         self.layoutIfNeeded()
@@ -71,12 +71,12 @@ class GlobalFeedTableViewCell: UITableViewCell {
         //        DynamicView.layer.cornerRadius=25
         //        DynamicView.layer.borderWidth=2
         DynamicView.contentMode = .ScaleAspectFit
-
+        
         self.addSubview(DynamicView)
         
     }
     
-
+    
     
     func respondToSwipeGesture(gesture: UIGestureRecognizer) {
         
@@ -85,51 +85,51 @@ class GlobalFeedTableViewCell: UITableViewCell {
             switch swipeGesture.direction {
             case UISwipeGestureRecognizerDirection.Right:
                 
-                print(id)
-                print(loved)
-                print(left)
+                //                print(id)
+                //                print(loved)
+                //                print(left)
                 
                 if loved != true {
-                
+                    
                     DynamicView.image=UIImage(named: "loveit")
-
-                
-                DynamicView.frame=(frame: CGRectMake(self.feedImage.layer.frame.origin.x, self.feedImage.layer.frame.origin.y, self.feedImage.frame.width, self.feedImage.frame.height))
-                self.DynamicView.hidden=false
-                
-                UIView.animateWithDuration(0.5, delay: 0.1, options: .CurveEaseIn, animations: { () -> Void in
                     
-                    self.DynamicView.frame=(frame: CGRectMake( self.frame.width, self.feedImage.layer.frame.origin.y, self.feedImage.frame.width, self.feedImage.frame.height))
                     
-                    }, completion: { (Bool) -> Void in
-                        self.DynamicView.hidden=true
+                    DynamicView.frame=(frame: CGRectMake(self.feedImage.layer.frame.origin.x, self.feedImage.layer.frame.origin.y, self.feedImage.frame.width, self.feedImage.frame.height))
+                    self.DynamicView.hidden=false
+                    
+                    UIView.animateWithDuration(0.5, delay: 0.1, options: .CurveEaseIn, animations: { () -> Void in
                         
-                })
-                
-                
- 
-                
-                print("Swiped right")
-                delegate.imageSwipedRight(self.id,loved: self.loved,left: self.left)
+                        self.DynamicView.frame=(frame: CGRectMake( self.frame.width, self.feedImage.layer.frame.origin.y, self.feedImage.frame.width, self.feedImage.frame.height))
+                        
+                        }, completion: { (Bool) -> Void in
+                            self.DynamicView.hidden=true
+                            
+                    })
+                    
+                    
+                    
+                    
+                    //print("Swiped right")
+                    delegate.imageSwipedRight(self.id,loved: self.loved,left: self.left)
                 }
                 
             case UISwipeGestureRecognizerDirection.Left:
                 if left != true {
-
-//                DynamicView.backgroundColor=UIColor.redColor()
-                    DynamicView.image=UIImage(named: "leaveit")
-                
-                DynamicView.frame=(frame: CGRectMake(self.feedImage.layer.frame.origin.x, self.feedImage.layer.frame.origin.y, self.feedImage.frame.width, self.feedImage.frame.height))
-                self.DynamicView.hidden=false
-                
-                UIView.animateWithDuration(0.5, delay: 0.1, options: .CurveEaseIn, animations: { () -> Void in
-                    self.DynamicView.frame=(frame: CGRectMake( -self.frame.width, self.feedImage.layer.frame.origin.y, self.feedImage.frame.width, self.feedImage.frame.height))
                     
-                    }, completion: { (Bool) -> Void in
-                        self.DynamicView.hidden=true
-                })
-                print("swipe left")
-                delegate.imageSwipedLeft(self.id,loved: self.loved,left: self.left)
+                    //                DynamicView.backgroundColor=UIColor.redColor()
+                    DynamicView.image=UIImage(named: "leaveit")
+                    
+                    DynamicView.frame=(frame: CGRectMake(self.feedImage.layer.frame.origin.x, self.feedImage.layer.frame.origin.y, self.feedImage.frame.width, self.feedImage.frame.height))
+                    self.DynamicView.hidden=false
+                    
+                    UIView.animateWithDuration(0.5, delay: 0.1, options: .CurveEaseIn, animations: { () -> Void in
+                        self.DynamicView.frame=(frame: CGRectMake( -self.frame.width, self.feedImage.layer.frame.origin.y, self.feedImage.frame.width, self.feedImage.frame.height))
+                        
+                        }, completion: { (Bool) -> Void in
+                            self.DynamicView.hidden=true
+                    })
+                    //print("swipe left")
+                    delegate.imageSwipedLeft(self.id,loved: self.loved,left: self.left)
                 }
                 
             default:
