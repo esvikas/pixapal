@@ -31,9 +31,7 @@ class RegisterViewController: UIViewController, UIPopoverControllerDelegate, UIP
         textFieldConfirmPassword.layer.sublayerTransform = CATransform3DMakeTranslation(5, 0, 10)
         
     }
-    
- 
-    
+
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -107,9 +105,7 @@ class RegisterViewController: UIViewController, UIPopoverControllerDelegate, UIP
         
     }
     func abc (){
-        
-
-        
+ 
         let popoverContent = (self.storyboard?.instantiateViewControllerWithIdentifier("GenderSelectionView"))! as! GenderSelectionView
         popoverContent.delegate = self
         let nav = UINavigationController(rootViewController: popoverContent)
@@ -127,12 +123,6 @@ class RegisterViewController: UIViewController, UIPopoverControllerDelegate, UIP
         controller: UIPresentationController) -> UIModalPresentationStyle {
             return .None
     }
-    
-
-    
-
-    
- 
     
 
     

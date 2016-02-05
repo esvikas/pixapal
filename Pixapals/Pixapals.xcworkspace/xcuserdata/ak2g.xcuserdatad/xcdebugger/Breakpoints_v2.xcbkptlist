@@ -138,11 +138,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Pixapals/RegisterViewController.swift"
-            timestampString = "476181146.191714"
+            timestampString = "476350584.959485"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "51"
-            endingLineNumber = "51"
+            startingLineNumber = "49"
+            endingLineNumber = "49"
             landmarkName = "confirmButtonClicked(_:)"
             landmarkType = "5">
          </BreakpointContent>
@@ -154,11 +154,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Pixapals/RegisterViewController.swift"
-            timestampString = "476184011.863188"
+            timestampString = "476350584.959485"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "148"
-            endingLineNumber = "148"
+            startingLineNumber = "138"
+            endingLineNumber = "138"
             landmarkName = "chooseSex(_:)"
             landmarkType = "5">
             <Locations>
@@ -264,8 +264,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "114"
             endingLineNumber = "114"
-            landmarkName = "tableView(_:numberOfRowsInSection:)"
-            landmarkType = "5">
+            landmarkName = "DetailVIewViewController"
+            landmarkType = "3">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -280,7 +280,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "119"
             endingLineNumber = "119"
-            landmarkName = "tableView(_:cellForRowAtIndexPath:)"
+            landmarkName = "tableView(_:numberOfRowsInSection:)"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

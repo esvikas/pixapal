@@ -902,7 +902,7 @@
                                         <rect key="frame" x="0.0" y="307" width="414" height="634"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <prototypes>
-                                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="globalFeedTableViewCell" rowHeight="546" id="4kb-tj-sj8" customClass="GlobalFeedTableViewCell" customModule="Pixapals" customModuleProvider="target">
+                                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="globalFeedTableViewCell" rowHeight="546" id="4kb-tj-sj8" customClass="GlobalFeedTableViewCell" customModule="Pixapals" customModuleProvider="target">
                                                 <rect key="frame" x="0.0" y="28" width="414" height="546"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="4kb-tj-sj8" id="QPT-bG-X5L">
@@ -2361,7 +2361,7 @@
                                                         </mask>
                                                     </variation>
                                                 </imageView>
-                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PiL-y6-9ND" customClass="DesignableButton" customModule="Spring">
+                                                <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PiL-y6-9ND" customClass="DesignableButton" customModule="Spring">
                                                     <rect key="frame" x="309" y="16" width="77" height="27"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="78" id="Ieb-oR-QYX"/>
@@ -2438,7 +2438,7 @@
                                                                 <constraint firstAttribute="width" secondItem="h9Z-zR-BdX" secondAttribute="height" multiplier="1:1" id="yMz-nv-XV2"/>
                                                             </constraints>
                                                         </imageView>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="999 Loved It" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iGK-g2-cnS">
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="999 Loved It" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iGK-g2-cnS">
                                                             <rect key="frame" x="38" y="424" width="77" height="16"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -2453,7 +2453,7 @@
                                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NYf-mN-lpa">
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NYf-mN-lpa">
                                                             <rect key="frame" x="0.0" y="450" width="414" height="1"/>
                                                             <color key="backgroundColor" red="0.72941176470000002" green="0.72941176470000002" blue="0.72941176470000002" alpha="1" colorSpace="calibratedRGB"/>
                                                             <constraints>
@@ -2463,7 +2463,7 @@
                                                             <color key="textColor" red="0.72941176470000002" green="0.72941176470000002" blue="0.72941176470000002" alpha="1" colorSpace="calibratedRGB"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" textAlignment="justified" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bDb-1L-B82">
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="justified" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bDb-1L-B82">
                                                             <rect key="frame" x="8" y="459" width="398" height="63"/>
                                                             <string key="text">loreqwertyuioplkjhgf loreqwertyuioplkjhgf loreqwertyuioplkjhgf loreqwertyuioplkjhgf loreqwertyuioplkjhgf loreqwertyuioplkjhgf loreqwertyuioplkjhgf loreqwertyuioplkjhgf loreqwertyuioplkjhgf loreqwertyuioplkjhgf loreqwertyuioplkjhgf loreqwertyuioplkjhgf</string>
                                                             <fontDescription key="fontDescription" type="system" pointSize="13"/>
