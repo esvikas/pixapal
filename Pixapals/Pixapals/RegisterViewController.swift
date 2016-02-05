@@ -18,8 +18,8 @@ class RegisterViewController: UIViewController, UIPopoverControllerDelegate, UIP
     @IBOutlet weak var textFieldPassword: UITextField!
     @IBOutlet weak var textFieldConfirmPassword: UITextField!
     @IBOutlet var btnGender: UIButton!
-
-
+    
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,7 +32,7 @@ class RegisterViewController: UIViewController, UIPopoverControllerDelegate, UIP
         
     }
     
- 
+    
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -49,14 +49,14 @@ class RegisterViewController: UIViewController, UIPopoverControllerDelegate, UIP
     }
     
     @IBAction func confirmButtonClicked(sender: AnyObject) {
-//        let email = self.textFieldEmail.text
-//        let password = self.textFieldPassword.text
-//        let confirmPassword = self.textFieldConfirmPassword.text
-//        let name = self.textFieldFullName.text
-//        let username = self.textFieldUsername.text
-//        
-//        let validator = Validator()
-//        print(validator.isValidEmail(email!))
+        //        let email = self.textFieldEmail.text
+        //        let password = self.textFieldPassword.text
+        //        let confirmPassword = self.textFieldConfirmPassword.text
+        //        let name = self.textFieldFullName.text
+        //        let username = self.textFieldUsername.text
+        //
+        //        let validator = Validator()
+        //        print(validator.isValidEmail(email!))
         //let registerUrlString = "\(apiUrl)api/v1/login-using-email"
         let registerUrlString = "\(apiUrl)api/v1/register"
         
@@ -67,27 +67,29 @@ class RegisterViewController: UIViewController, UIPopoverControllerDelegate, UIP
             print("invalid email")
             return
         }
-        let parameters: [String: AnyObject] =
-        [
-            "name": self.textFieldFullName.text!,
-            "email": self.textFieldEmail.text!,
-            "username": self.textFieldUsername.text!,
-            "password": self.textFieldPassword.text!,
-            "password_confirmation": self.textFieldConfirmPassword.text!,
-            "latitude": "",
-            "longitude": "",
-            "website": "",
-            "bio": "",
-            "phone": "",
-            "gender":"",
-            "device_token" : deviceToken
-        ]
-        
-        Alamofire.request(.POST, registerUrlString, parameters: parameters)
-            .responseJSON { response in
-                
-                switch response.result {
-                case .Success(let data):
+        //let location = LocationManager().getLocation()
+        if case .Either(let location) = LocationManager().getLocation() {
+            let parameters: [String: AnyObject] =
+            [
+                "name": self.textFieldFullName.text!,
+                "email": self.textFieldEmail.text!,
+                "username": self.textFieldUsername.text!,
+                "password": self.textFieldPassword.text!,
+                "password_confirmation": self.textFieldConfirmPassword.text!,
+                "latitude": location.0,
+                "longitude": location.1,
+                "website": "",
+                "bio": "",
+                "phone": "",
+                "gender":"",
+                "device_token" : deviceToken
+            ]
+            
+            Alamofire.request(.POST, registerUrlString, parameters: parameters)
+                .responseJSON { response in
+                    
+                    switch response.result {
+                    case .Success(let data):
                         if let dict = data["user"] as? [String: AnyObject] {
                             let userInfoStruct = UserDataStruct()
                             userInfoStruct.saveUserInfoFromJSON(jsonContainingUserInfo: dict)
@@ -96,26 +98,29 @@ class RegisterViewController: UIViewController, UIPopoverControllerDelegate, UIP
                             let vc = storyBoard.instantiateViewControllerWithIdentifier("tabView")
                             self.navigationController?.pushViewController(vc, animated: true)
                         }
-                    else {
-                        print(data)
-                        print("Invalid Username/Password: \(data["message"])")
+                        else {
+                            print(data)
+                            print("Invalid Username/Password: \(data["message"])")
+                        }
+                    case .Failure(let error):
+                        print("Error in connection \(error)")
                     }
-                case .Failure(let error):
-                    print("Error in connection \(error)")
-                }
+            }
+        } else {
+            print("Cant fetch location data")
         }
         
     }
     func abc (){
         
-
+        
         
         let popoverContent = (self.storyboard?.instantiateViewControllerWithIdentifier("GenderSelectionView"))! as! GenderSelectionView
         popoverContent.delegate = self
         let nav = UINavigationController(rootViewController: popoverContent)
         nav.modalPresentationStyle = UIModalPresentationStyle.Popover
         let popover = nav.popoverPresentationController
-
+        
         popoverContent.preferredContentSize = CGSizeMake(self.view.layer.frame.width,120)
         popover!.delegate = self
         popover!.sourceView = self.btnGender
@@ -128,27 +133,27 @@ class RegisterViewController: UIViewController, UIPopoverControllerDelegate, UIP
             return .None
     }
     
-
     
-
     
- 
     
-
+    
+    
+    
+    
     
     func textFieldDidBeginEditing(textField: UITextField) {
         
         abc()
     }
     
-   
+    
     
 }
 extension RegisterViewController : funcDelegate {
     func chooseSex(sex:String) {
-      
+        
         let btnTitle = sex ?? ""
         btnGender.setTitle(btnTitle, forState: .Normal)
-      
+        
     }
 }

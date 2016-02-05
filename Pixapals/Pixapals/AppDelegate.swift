@@ -12,7 +12,7 @@ import FBSDKLoginKit
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
-
+    
     var window: UIWindow?
     var deviceTokenString: String!
 
@@ -125,7 +125,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func internetConnected() -> Bool{
         
-        
         let reachability: Reachability
         do {
             reachability = try Reachability.reachabilityForInternetConnection()
@@ -144,7 +143,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         return false
     }
-
-
+    
+    
 }
 

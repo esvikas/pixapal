@@ -25,7 +25,7 @@ class ViewController: UIViewController {
         self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .Plain, target: nil, action: nil)
                 let userInfo = UserDataStruct()
         
-        if !userInfo.username.isEmpty {
+        if let username = userInfo.username where !username.isEmpty {
             let storyBoard = UIStoryboard(name: "Main", bundle: nil)
             let vc = storyBoard.instantiateViewControllerWithIdentifier("tabView")
             self.navigationController?.pushViewController(vc, animated: false)
@@ -164,64 +164,72 @@ class ViewController: UIViewController {
                 let userId = defaults.objectForKey("user_id") as? Int
                 String(stringInterpolationSegment: userId)
                 
-
+                let locManager = LocationManager()
                 
-                let parametersToPost = [
-                    "profileid": fbId,
-                    "name": fbName,
-                    "type":"facebook"
-                ]
-                
-                print(parametersToPost, terminator: "")
 
-                Alamofire.request(.POST, registerUrlString, parameters: parametersToPost)
-                    .responseJSON { response in
-                        debugPrint(response)     // prints detailed description of all response properties
-                        
-                        print(response.request)  // original URL request
-                        print(response.response) // URL response
-                        print(response.data)     // server data
-                        print(response.result)   // result of response serialization
-                        
-                        if let JSON = response.result.value {
-                            print("JSON: \(JSON)")
-                        }
-                        
-                        
-                        
-                        if let HTTPResponse = response.response {
+                if case .Either(let location) = locManager.getLocation() {
+                    let parametersToPost: [String: AnyObject] = [
+                        "profileid": fbId,
+                        "name": fbName,
+                        "type":"facebook",
+                        "latitude": location.0,
+                        "longitude": location.1
+                    ]
+                    
+                    print(parametersToPost, terminator: "")
+                    
+                    Alamofire.request(.POST, registerUrlString, parameters: parametersToPost)
+                        .responseJSON { response in
+                            debugPrint(response)     // prints detailed description of all response properties
                             
-                            let statusCode = HTTPResponse.statusCode
+                            print(response.request)  // original URL request
+                            print(response.response) // URL response
+                            print(response.data)     // server data
+                            print(response.result)   // result of response serialization
                             
-                            if statusCode==200{
-                                
-                                let json = JSON(response.result.value!)
-                                //let num = json["interest"].arrayObject
-                                // let userids = json["user_id"].intValue
-                                
-                                let userid = json["results"]["user_id"].intValue
-                                let fb_id = json["results"]["f_id"].stringValue
-   
-                                print(fb_id)
-                                //self.user_id = userid
-                                
-                                let defaults = NSUserDefaults.standardUserDefaults()
-                                defaults.setInteger(userid, forKey: "user_id")
-                                defaults.setValue(fb_id, forKey: "K_fb_id")
-                                defaults.setValue("", forKey: "K_token")
-                                
-                                
-                                defaults.synchronize()
-                                // print(self.user_id)
-
-                                
-                            }else {
-                                
-                                
-
+                            if let JSON = response.result.value {
+                                print("JSON: \(JSON)")
                             }
-                        }
+                            
+                            
+                            
+                            if let HTTPResponse = response.response {
+                                
+                                let statusCode = HTTPResponse.statusCode
+                                
+                                if statusCode==200{
+                                    
+                                    let json = JSON(response.result.value!)
+                                    //let num = json["interest"].arrayObject
+                                    // let userids = json["user_id"].intValue
+                                    print(json)
+                                    let userid = json["results"]["user_id"].intValue
+                                    let fb_id = json["results"]["f_id"].stringValue
+                                    
+                                    print(fb_id)
+                                    //self.user_id = userid
+                                    
+                                    let defaults = NSUserDefaults.standardUserDefaults()
+                                    defaults.setInteger(userid, forKey: "user_id")
+                                    defaults.setValue(fb_id, forKey: "K_fb_id")
+                                    defaults.setValue("", forKey: "K_token")
+                                    
+                                    
+                                    defaults.synchronize()
+                                    // print(self.user_id)
+                                    
+                                    
+                                }else {
+                                    
+                                    
+                                    
+                                }
+                            }
+                    }
+                } else {
+                    print("Cant get location")
                 }
+                
                 
                 
             } else{
