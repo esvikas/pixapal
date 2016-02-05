@@ -23,13 +23,13 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .Plain, target: nil, action: nil)
-//        let userInfo = UserDataStruct()
-//        
-//        if !userInfo.username.isEmpty {
-//            let storyBoard = UIStoryboard(name: "Main", bundle: nil)
-//            let vc = storyBoard.instantiateViewControllerWithIdentifier("tabView")
-//            self.navigationController?.pushViewController(vc, animated: true)
-//        }
+                let userInfo = UserDataStruct()
+        
+        if !userInfo.username.isEmpty {
+            let storyBoard = UIStoryboard(name: "Main", bundle: nil)
+            let vc = storyBoard.instantiateViewControllerWithIdentifier("tabView")
+            self.navigationController?.pushViewController(vc, animated: false)
+        }
         
         //self.navigationController?.navigationBar.tintColor = UIColor(red:1.000, green:1.000, blue:1.000, alpha:1.00)
        // x.layer.borderColor
