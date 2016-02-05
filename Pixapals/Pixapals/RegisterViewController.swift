@@ -11,7 +11,11 @@ import Alamofire
 import SwiftyJSON
 import CoreLocation
 
-class RegisterViewController: UIViewController, UIPopoverControllerDelegate, UIPopoverPresentationControllerDelegate {
+class RegisterViewController: UIViewController, UIPopoverControllerDelegate, UIPopoverPresentationControllerDelegate, CLLocationManagerDelegate {
+    
+    var manager = CLLocationManager()
+    var location: CLLocationCoordinate2D!
+    var loginWithEmail = false
     
     @IBOutlet weak var textFieldFullName: UITextField!
     @IBOutlet weak var textFieldEmail: UITextField!
@@ -24,6 +28,10 @@ class RegisterViewController: UIViewController, UIPopoverControllerDelegate, UIP
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        manager.delegate = self
+        manager.desiredAccuracy = kCLLocationAccuracyThreeKilometers
+        manager.requestWhenInUseAuthorization()
+        manager.startUpdatingLocation()
         
         textFieldFullName.layer.sublayerTransform = CATransform3DMakeTranslation(5, 0, 10)
         textFieldEmail.layer.sublayerTransform = CATransform3DMakeTranslation(5, 0, 10)
@@ -40,6 +48,31 @@ class RegisterViewController: UIViewController, UIPopoverControllerDelegate, UIP
         let btnTitle = userGender ?? "Sex"
         btnGender.setTitle(btnTitle, forState: .Normal)
     }
+    
+    func locationManager(manager: CLLocationManager, didUpdateToLocation newLocation: CLLocation, fromLocation oldLocation: CLLocation) {
+        self.location = newLocation.coordinate
+        if loginWithEmail {
+            manager.stopUpdatingLocation()
+            let storyBoard = UIStoryboard(name: "Main", bundle: nil)
+            let vc = storyBoard.instantiateViewControllerWithIdentifier("tabView")
+            self.navigationController?.pushViewController(vc, animated: true)
+        }
+    }
+    
+    //    func locationManager(manager: CLLocationManager, didChangeAuthorizationStatus status: CLAuthorizationStatus) {
+    //        if case 0...2 = status.rawValue {
+    //            appDelegate.ShowAlertView("Access Denied", message: "Location access is denied. You can't proceed. Please change location preference to this app from setting.")
+    //        }
+    //    }
+    
+    func locationManager(manager: CLLocationManager, didFailWithError error: NSError) {
+        if error.code == CLError.Denied.rawValue {
+            appDelegate.ShowAlertView("Access Denied", message: "Location access is denied. You can't proceed. Please change location preference to this app from setting.")
+            self.manager.stopUpdatingLocation()
+        }
+    }
+
+    
     @IBAction func btnGender(sender: AnyObject) {
         
         abc()
@@ -92,9 +125,7 @@ class RegisterViewController: UIViewController, UIPopoverControllerDelegate, UIP
                             let userInfoStruct = UserDataStruct()
                             userInfoStruct.saveUserInfoFromJSON(jsonContainingUserInfo: dict)
                             
-                            let storyBoard = UIStoryboard(name: "Main", bundle: nil)
-                            let vc = storyBoard.instantiateViewControllerWithIdentifier("tabView")
-                            self.navigationController?.pushViewController(vc, animated: true)
+                            self.loginWithEmail = true
                         }
                         else {
                             print(data)
