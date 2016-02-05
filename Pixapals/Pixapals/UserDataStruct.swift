@@ -75,4 +75,9 @@ struct UserDataStruct {
         userDefaults.removeObjectForKey("user_info")
         userDefaults.setObject(dict, forKey: "user_info")
     }
+    
+    func removeUserInfo() {
+        let userDefaults = NSUserDefaults.standardUserDefaults()
+        userDefaults.removeObjectForKey("user_info")
+    }
 }

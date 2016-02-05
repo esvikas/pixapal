@@ -25,7 +25,6 @@ class CustomTabBarController: UITabBarController {
         // Dispose of any resources that can be recreated.
     }
     
-    
     override func viewWillAppear(animated: Bool) {
         if !counter {
             counter = !counter
@@ -39,7 +38,6 @@ class CustomTabBarController: UITabBarController {
             controller.tabBarItem = icon1
             var controllers = self.viewControllers  //array of the root view controllers displayed by the tab bar interface
             controllers?.insert(controller, atIndex: 1)
-            //controllers?.append(controller)
             self.viewControllers = controllers
         }
     }
