@@ -186,7 +186,7 @@ class PostFeedViewController: UIViewController, UITextViewDelegate {
             
         ]
         let headers = [
-            "X-Auth-Token" : "c353c462bb19d45f5d60d14ddf7ec3664c0eeaaaede6309c03dd8129df745b91",
+            "X-Auth-Token" : UserDataStruct().api_token!,
         ]
         
         // example image data
@@ -203,16 +203,6 @@ class PostFeedViewController: UIViewController, UITextViewDelegate {
         let imagex:UIImage = UIGraphicsGetImageFromCurrentImageContext();
         UIGraphicsEndImageContext()
         image1=imagex
-        
-        
-//        UIGraphicsBeginImageContext(CGSizeMake(self.doubleModeStackView.frame.width-40, self.doubleModeStackView.layer.frame.height))
-//
-//        imagex.drawInRect(CGRectMake(0, 0, self.doubleModeStackView.frame.width-40, self.doubleModeStackView.layer.frame.height))
-//        let newImage = UIGraphicsGetImageFromCurrentImageContext()
-//        UIGraphicsEndImageContext()
-//        
-//        print(doubleModeStackView.frame.height)
-//        print(doubleModeStackView.frame.width)
 
         
         let imageData=((data:(UIImageJPEGRepresentation(imagex , 1))!))
@@ -264,9 +254,6 @@ class PostFeedViewController: UIViewController, UITextViewDelegate {
                     print(response)
                     print(error)
             })
-//        doubleModeStackView.hidden=true
-//        singleModeImageView.hidden=false
-//        singleModeImageView.image=imagex
         
     }
     

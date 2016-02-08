@@ -151,7 +151,7 @@ class UserInDetailJSON: UserJSON {
     
     var email: String?
     var feeding: [UserJSON]?
-    var feeding_count: Int?
+    var feeding_count: Int!
     var latitude: Int?
     var longitude: Int?
     var name: String?

@@ -92,6 +92,7 @@ class DetailVIewViewController: UIViewController {
             "user_id": user.id!,
             "fed_id": (feed.user?.id!)!,
         ]
+        
         let headers = [
             "X-Auth-Token" : user.api_token!,
         ]
@@ -104,6 +105,7 @@ class DetailVIewViewController: UIViewController {
         //                print(value)
         //            }
         //        }
+        
         Alamofire.request(.POST, registerUrlString, parameters: parameters, headers: headers).responseObject { (response: Response<SuccessFailJSON, NSError>) -> Void in
             switch response.result {
             case .Success(let getFeed):

@@ -11,7 +11,6 @@ import Alamofire
 import SwiftyJSON
 import Kingfisher
 import MBProgressHUD
-//import ObjectMapper
 import AlamofireObjectMapper
 
 class GlobalFeedsViewController: UIViewController {
@@ -140,21 +139,16 @@ class GlobalFeedsViewController: UIViewController {
         let headers = [
             "X-Auth-Token" : api_token,
         ]
-        //        let URL = "https://raw.githubusercontent.com/tristanhimmelman/AlamofireObjectMapper/2ee8f34d21e8febfdefb2b3a403f18a43818d70a/sample_keypath_json"
-        //        Alamofire.request(.GET, URL).responseObject("data") { (response: Response<WeatherResponse, NSError>) in
-        //
-        //            let weatherResponse = response.result.value
-        //            print(weatherResponse?.location)
-        //
-        //            if let threeDayForecast = weatherResponse?.threeDayForecast {
-        //                for forecast in threeDayForecast {
-        //                    print(forecast.day)
-        //                    print(forecast.temperature)
-        //                }
-        //            }
-        //        }
         
-        //Alamofire.request(.GET, apiURLString, parameters: nil, headers: headers).responseJSON { response -> Void in
+//        Alamofire.request(.GET, apiURLString, parameters: nil, headers: headers).responseJSON { response -> Void in
+//            switch response.result {
+//            case .Success(let value):
+//                print(JSON(value))
+//            case .Failure(let error):
+//                    print(error)
+//            }
+//        }
+        
         //Alamofire.request(.GET, apiURLString, parameters: nil, headers: headers).responseArray { (response: Response<[FeedJSON], NSError>) -> Void in
         Alamofire.request(.GET, apiURLString, parameters: nil, headers: headers).responseObject { (response: Response<FeedsResponseJSON, NSError>) -> Void in
             
@@ -165,9 +159,6 @@ class GlobalFeedsViewController: UIViewController {
                 if let error = feedsResponseJSON.error where error == true {
                     self.loadMoreActivityIndicator.stopAnimating()
                     self.tryAgainButton.hidden = false
-                    //                    appDelegate.ShowAlertView("Connection Error", message: "Try Again", handlerForOk: { (action) -> Void in
-                    //                        self.loadDataFromAPI()
-                    //                        }, handlerForCancel: nil)
                     
                     print("Error: \(feedsResponseJSON.message)")
                 } else {
@@ -550,8 +541,8 @@ extension GlobalFeedsViewController: CellImageSwippedDelegate {
         
         let parameters: [String: AnyObject] =
         [
-            "user_id": user.id!,
-            "post_id": feed.id!
+            "user_id": String(user.id!),
+            "post_id": String(feed.id!)
             
         ]
         let headers = [
@@ -559,8 +550,6 @@ extension GlobalFeedsViewController: CellImageSwippedDelegate {
         ]
         
         
-        
-        //Alamofire.request(.GET, apiURLString, parameters: nil, headers: headers).responseObject { (response: Response<FeedsResponseJSON, NSError>) -> Void in
         Alamofire.request(.POST, registerUrlString, parameters: parameters, headers: headers).responseObject { (response: Response<SuccessFailJSON, NSError>) -> Void in
             switch response.result {
             case .Success(let loveItObject):
@@ -579,14 +568,14 @@ extension GlobalFeedsViewController: CellImageSwippedDelegate {
                 print("Error in connection \(error)")
             }
         }
-        //        Alamofire.request(.POST, registerUrlString, parameters: parameters, headers:headers).responseJSON { response in
-        //            switch response.result {
-        //            case .Failure(let error):
-        //                print(error)
-        //            case .Success(let value):
-        //                print(value)
-        //            }
-        //        }
+//                Alamofire.request(.POST, registerUrlString, parameters: parameters, headers:headers).responseJSON { response in
+//                    switch response.result {
+//                    case .Failure(let error):
+//                        print(error)
+//                    case .Success(let value):
+//                        print(value)
+//                    }
+//                }
         
     }
     
@@ -598,8 +587,8 @@ extension GlobalFeedsViewController: CellImageSwippedDelegate {
         
         let parameters: [String: AnyObject] =
         [
-            "user_id": user.id!,
-            "post_id": feed.id!
+            "user_id": String(user.id!),
+            "post_id": String(feed.id!)
             
         ]
         let headers = [
@@ -609,14 +598,15 @@ extension GlobalFeedsViewController: CellImageSwippedDelegate {
         
         
         
-        //        Alamofire.request(.POST, registerUrlString, parameters: parameters, headers:headers).responseJSON { response in
-        //            switch response.result {
-        //            case .Failure(let error):
-        //                print(error)
-        //            case .Success(let value):
-        //                print(value)
-        //            }
-        //        }
+//                Alamofire.request(.POST, registerUrlString, parameters: parameters, headers:headers).responseJSON { response in
+//                    print(response.request)
+//                    switch response.result {
+//                    case .Failure(let error):
+//                        print(error)
+//                    case .Success(let value):
+//                        print(value)
+//                    }
+//                }
         
         Alamofire.request(.POST, registerUrlString, parameters: parameters, headers: headers).responseObject { (response: Response<SuccessFailJSON, NSError>) -> Void in
             switch response.result {
