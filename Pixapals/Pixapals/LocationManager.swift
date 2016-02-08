@@ -15,7 +15,6 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
     
     private var afterLocationGet: afterLocationCompletes!
     
-    
     init(manager: CLLocationManager, afterLocationRetrived: afterLocationCompletes) {
         self.manager = manager
         self.afterLocationGet = afterLocationRetrived
@@ -50,9 +49,4 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
     func getLocation(afterLocationGet: afterLocationCompletes){
         //self.afterLocationGet = afterLocationGet
     }
-}
-
-enum EitherOr<T1, T2> {
-    case Either(T1)
-    case Or(T2)
 }

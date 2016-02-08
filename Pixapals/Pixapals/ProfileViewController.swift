@@ -209,7 +209,7 @@ class ProfileViewController: UIViewController {
 //                print(json)
 //                if !json["error"].boolValue {
 //                    self.feedsToShow = json
-//                    self.setHeader()
+                    self.setHeader()
 //                    // print(self.feedsToShow)
 //                    self.tableView.reloadData()
 //                    self.collectionView.reloadData()
@@ -237,6 +237,7 @@ class ProfileViewController: UIViewController {
         }
         
         self.userImage.kf_setImageWithURL(NSURL(string: self.feedsFromResponseAsObject.user.photo_thumb ?? "")!, placeholderImage: UIImage(named: "global_feed_user"))
+        //print(self.feedsFromResponseAsObject.user.feeding_count)
         self.feeding.text = String(self.feedsFromResponseAsObject.user.feeding_count)
         self.feeders.text = String(self.feedsFromResponseAsObject.user.feeders_count)
         self.feeds.text = String(self.feedsFromResponseAsObject.user.feeds_count)
@@ -316,9 +317,11 @@ extension ProfileViewController: UICollectionViewDataSource {
 extension ProfileViewController: UITableViewDelegate {
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        tableView.deselectRowAtIndexPath(indexPath, animated: true)
-        let feed = self.feedsFromResponseAsObject.feeds![indexPath.row - 1]
-        self.goToDetailFeedView(feed)
+        if indexPath.row != 0 {
+            //tableView.deselectRowAtIndexPath(indexPath, animated: true)
+            let feed = self.feedsFromResponseAsObject.feeds![indexPath.row - 1]
+            self.goToDetailFeedView(feed)
+        }
     }
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {

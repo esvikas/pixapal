@@ -27,7 +27,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .Plain, target: nil, action: nil)
                 let userInfo = UserDataStruct()
         
-        if let username = userInfo.username where !username.isEmpty {
+        if let _ = userInfo.id {
             let storyBoard = UIStoryboard(name: "Main", bundle: nil)
             let vc = storyBoard.instantiateViewControllerWithIdentifier("tabView")
             self.navigationController?.pushViewController(vc, animated: false)

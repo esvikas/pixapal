@@ -24,8 +24,6 @@ class RegisterViewController: UIViewController, UIPopoverControllerDelegate, UIP
     @IBOutlet weak var textFieldConfirmPassword: UITextField!
     @IBOutlet var btnGender: UIButton!
     
-    
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         manager.delegate = self
@@ -59,12 +57,6 @@ class RegisterViewController: UIViewController, UIPopoverControllerDelegate, UIP
         }
     }
     
-    //    func locationManager(manager: CLLocationManager, didChangeAuthorizationStatus status: CLAuthorizationStatus) {
-    //        if case 0...2 = status.rawValue {
-    //            appDelegate.ShowAlertView("Access Denied", message: "Location access is denied. You can't proceed. Please change location preference to this app from setting.")
-    //        }
-    //    }
-    
     func locationManager(manager: CLLocationManager, didFailWithError error: NSError) {
         if error.code == CLError.Denied.rawValue {
             appDelegate.ShowAlertView("Access Denied", message: "Location access is denied. You can't proceed. Please change location preference to this app from setting.")
@@ -80,15 +72,7 @@ class RegisterViewController: UIViewController, UIPopoverControllerDelegate, UIP
     }
     
     @IBAction func confirmButtonClicked(sender: AnyObject) {
-        //        let email = self.textFieldEmail.text
-        //        let password = self.textFieldPassword.text
-        //        let confirmPassword = self.textFieldConfirmPassword.text
-        //        let name = self.textFieldFullName.text
-        //        let username = self.textFieldUsername.text
-        //
-        //        let validator = Validator()
-        //        print(validator.isValidEmail(email!))
-        //let registerUrlString = "\(apiUrl)api/v1/login-using-email"
+    
         let registerUrlString = "\(apiUrl)api/v1/register"
         
         // let deviceToken = nsUserDefault.objectForKey("deviceTokenString") as! String
