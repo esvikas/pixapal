@@ -150,18 +150,20 @@ class ProfileViewController: UIViewController {
         }
         
         let headers = [
-            "X-Auth-Token" : api_token,
+            "X-Auth-Token" : String(api_token),
         ]
+        print(api_token)
+        
         
         Alamofire.request(.GET, apiURLString, parameters: nil, headers: headers)
-//            .responseJSON { response in
-//                switch response.result {
-//                case .Failure(let error):
-//                    print(error)
-//                case .Success(let value):
-//                    print(value)
-//                }
-//            }
+            .responseJSON { response in
+                switch response.result {
+                case .Failure(let error):
+                    print(error)
+                case .Success(let value):
+                    print(value)
+                }
+            }
             .responseObject { (response: Response<ProfileResponseJSON, NSError>) -> Void in
             switch response.result {
             case .Success(let feedsResponseJSON):
