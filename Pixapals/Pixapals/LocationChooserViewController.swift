@@ -16,7 +16,7 @@ class LocationChooserViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        self.navigationItem.title = "Select Region"
         // Do any additional setup after loading the view.
     }
     

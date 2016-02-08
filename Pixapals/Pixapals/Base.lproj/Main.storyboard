@@ -529,7 +529,7 @@
             </objects>
             <point key="canvasLocation" x="3682" y="459"/>
         </scene>
-        <!--Title-->
+        <!--Settings-->
         <scene sceneID="1bE-T1-pE1">
             <objects>
                 <tableViewController storyboardIdentifier="SettingsTableViewController" id="q9V-re-qr7" customClass="SettingsTableViewController" customModule="Pixapals" customModuleProvider="target" sceneMemberID="viewController">
@@ -653,7 +653,7 @@
                         </connections>
                     </tableView>
                     <toolbarItems/>
-                    <navigationItem key="navigationItem" title="Title" id="to3-o1-tSu"/>
+                    <navigationItem key="navigationItem" title="Settings" id="to3-o1-tSu"/>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>

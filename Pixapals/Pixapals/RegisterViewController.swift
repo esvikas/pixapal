@@ -15,7 +15,7 @@ class RegisterViewController: UIViewController, UIPopoverControllerDelegate, UIP
     
     var manager = CLLocationManager()
     var location: CLLocationCoordinate2D!
-    var loginWithEmail = false
+    var lo = false
     
     @IBOutlet weak var textFieldFullName: UITextField!
     @IBOutlet weak var textFieldEmail: UITextField!
@@ -49,12 +49,9 @@ class RegisterViewController: UIViewController, UIPopoverControllerDelegate, UIP
     
     func locationManager(manager: CLLocationManager, didUpdateToLocation newLocation: CLLocation, fromLocation oldLocation: CLLocation) {
         self.location = newLocation.coordinate
-        if loginWithEmail {
-            manager.stopUpdatingLocation()
-            let storyBoard = UIStoryboard(name: "Main", bundle: nil)
-            let vc = storyBoard.instantiateViewControllerWithIdentifier("tabView")
-            self.navigationController?.pushViewController(vc, animated: true)
-        }
+        print(newLocation.coordinate.longitude)
+        print(newLocation.coordinate.latitude)
+        manager.stopUpdatingLocation()
     }
     
     func locationManager(manager: CLLocationManager, didFailWithError error: NSError) {
@@ -63,7 +60,7 @@ class RegisterViewController: UIViewController, UIPopoverControllerDelegate, UIP
             self.manager.stopUpdatingLocation()
         }
     }
-
+    
     
     @IBAction func btnGender(sender: AnyObject) {
         
@@ -72,7 +69,13 @@ class RegisterViewController: UIViewController, UIPopoverControllerDelegate, UIP
     }
     
     @IBAction func confirmButtonClicked(sender: AnyObject) {
+        if let _ = location {
+            self.registerWithEmail()
+            //self.registerWithEmailStatus = true
+        }
+    }
     
+    func registerWithEmail(){
         let registerUrlString = "\(apiUrl)api/v1/register"
         
         // let deviceToken = nsUserDefault.objectForKey("deviceTokenString") as! String
@@ -82,43 +85,45 @@ class RegisterViewController: UIViewController, UIPopoverControllerDelegate, UIP
             return
         }
         //let location = LocationManager().getLocation()
-        LocationManager(manager: CLLocationManager() ,afterLocationRetrived: { (location) -> () in
-            let parameters: [String: AnyObject] =
-            [
-                "name": self.textFieldFullName.text!,
-                "email": self.textFieldEmail.text!,
-                "username": self.textFieldUsername.text!,
-                "password": self.textFieldPassword.text!,
-                "password_confirmation": self.textFieldConfirmPassword.text!,
-                "latitude": location.latitude,
-                "longitude": location.longitude,
-                "website": "",
-                "bio": "",
-                "phone": "",
-                "gender":"",
-                "device_token" : deviceToken
-            ]
-            
-            Alamofire.request(.POST, registerUrlString, parameters: parameters)
-                .responseJSON { response in
-                    
-                    switch response.result {
-                    case .Success(let data):
-                        if let dict = data["user"] as? [String: AnyObject] {
-                            let userInfoStruct = UserDataStruct()
-                            userInfoStruct.saveUserInfoFromJSON(jsonContainingUserInfo: dict)
-                            
-                            self.loginWithEmail = true
-                        }
-                        else {
-                            print(data)
-                            print("Invalid Username/Password: \(data["message"])")
-                        }
-                    case .Failure(let error):
-                        print("Error in connection \(error)")
+        //LocationManager(manager: CLLocationManager() ,afterLocationRetrived: { (location) -> () in
+        let parameters: [String: AnyObject] =
+        [
+            "name": self.textFieldFullName.text!,
+            "email": self.textFieldEmail.text!,
+            "username": self.textFieldUsername.text!,
+            "password": self.textFieldPassword.text!,
+            "password_confirmation": self.textFieldConfirmPassword.text!,
+            "latitude": location.latitude,
+            "longitude": location.longitude,
+            "website": "",
+            "bio": "",
+            "phone": "",
+            "gender": btnGender.titleLabel?.text ?? "",
+            "device_token" : deviceToken
+        ]
+        
+        Alamofire.request(.POST, registerUrlString, parameters: parameters)
+            .responseJSON { response in
+                
+                switch response.result {
+                case .Success(let data):
+                    if let dict = data["user"] as? [String: AnyObject] {
+                        print(dict)
+                        let userInfoStruct = UserDataStruct()
+                        userInfoStruct.saveUserInfoFromJSON(jsonContainingUserInfo: dict)
+                        
+                        let storyBoard = UIStoryboard(name: "Main", bundle: nil)
+                        let vc = storyBoard.instantiateViewControllerWithIdentifier("tabView")
+                        self.navigationController?.pushViewController(vc, animated: true)
                     }
-            }
-        })
+                    else {
+                        print(data)
+                        print("Invalid Username/Password: \(data["message"])")
+                    }
+                case .Failure(let error):
+                    print("Error in connection \(error)")
+                }
+        }
         
     }
     func abc (){

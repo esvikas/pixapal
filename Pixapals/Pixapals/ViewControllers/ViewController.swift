@@ -20,7 +20,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     var location: CLLocationCoordinate2D!
     
     var dict : NSDictionary!
-    var loginUsingFB = false
+    //var loginUsingFB = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -62,10 +62,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     
     func locationManager(manager: CLLocationManager, didUpdateToLocation newLocation: CLLocation, fromLocation oldLocation: CLLocation) {
         self.location = newLocation.coordinate
-        if loginUsingFB {
-            manager.stopUpdatingLocation()
-            self.loginFbUser()
-        }
+        manager.stopUpdatingLocation()
     }
     
     //    func locationManager(manager: CLLocationManager, didChangeAuthorizationStatus status: CLAuthorizationStatus) {
@@ -151,7 +148,9 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
                     
                     
                     
-                    self.loginUsingFB = true
+                    if let _ = self.location {
+                        self.loginFbUser()
+                    }
                     
                     NSLog(self.dict.objectForKey("picture")?.objectForKey("data")?.objectForKey("url") as! String)
                 }
@@ -184,8 +183,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
                 registerUrlString = registerUrlString.stringByAddingPercentEscapesUsingEncoding(NSUTF8StringEncoding)!
                 
                 let fbName: String = self.dict.objectForKey("name") as! String
-                
-
+                let userName = fbName.stringByReplacingOccurrencesOfString(" ", withString: "_")
                 let fbId: String = self.dict.objectForKey("id") as! String
                 
 
@@ -203,10 +201,25 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
                         "profileid": fbId,
                         "name": fbName,
                         "type":"facebook",
-                        "latitude": location.latitude,
-                        "longitude": location.longitude
+                        "gender": self.dict["gender"]!,
+                        "latitude": String(location.latitude),
+                        "longitude": String(location.longitude),
+                        "email": self.dict["email"]!,
+                        "username": userName
                     ]
-                    
+//                "name": self.textFieldFullName.text!,
+//                "email": self.textFieldEmail.text!,
+//                "username": self.textFieldUsername.text!,
+//                "password": self.textFieldPassword.text!,
+//                "password_confirmation": self.textFieldConfirmPassword.text!,
+//                "latitude": location.latitude,
+//                "longitude": location.longitude,
+//                "website": "",
+//                "bio": "",
+//                "phone": "",
+//                "gender": btnGender.titleLabel?.text ?? "",
+//                "device_token" : deviceToken
+                
                     print(parametersToPost, terminator: "")
                     
                     Alamofire.request(.POST, registerUrlString, parameters: parametersToPost)
@@ -218,44 +231,64 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
                             print(response.data)     // server data
                             print(response.result)   // result of response serialization
                             
-                            if let JSON = response.result.value {
-                                print("JSON: \(JSON)")
-                            }
+//                            if let JSON = response.result.value {
+//                                print("JSON: \(JSON)")
+//                            }
+//                            
+//                            
+//                            
+//                            if let HTTPResponse = response.response {
+//                                
+//                                let statusCode = HTTPResponse.statusCode
+//                                
+//                                if statusCode==200{
+//                                    
+//                                    let json = JSON(response.result.value!)
+//                                    //let num = json["interest"].arrayObject
+//                                    // let userids = json["user_id"].intValue
+//                                    print(json)
+//                                    let userid = json["results"]["user_id"].intValue
+//                                    let fb_id = json["results"]["f_id"].stringValue
+//                                    
+//                                    print(fb_id)
+//                                    //self.user_id = userid
+//                                    
+//                                    let defaults = NSUserDefaults.standardUserDefaults()
+//                                    defaults.setInteger(userid, forKey: "user_id")
+//                                    defaults.setValue(fb_id, forKey: "K_fb_id")
+//                                    defaults.setValue("", forKey: "K_token")
+//                                    
+//                                    
+//                                    defaults.synchronize()
+//                                    // print(self.user_id)
+//                                    
+//                                    
+//                                }else {
+//                                    
+//                                    
+//                                    
+//                                }
+//                            }
                             
-                            
-                            
-                            if let HTTPResponse = response.response {
-                                
-                                let statusCode = HTTPResponse.statusCode
-                                
-                                if statusCode==200{
+                            switch response.result {
+                            case .Success(let data):
+                                if let dict = data["user"] as? [String: AnyObject] {
+                                    print(dict)
+                                    let userInfoStruct = UserDataStruct()
+                                    userInfoStruct.saveUserInfoFromJSON(jsonContainingUserInfo: dict)
                                     
-                                    let json = JSON(response.result.value!)
-                                    //let num = json["interest"].arrayObject
-                                    // let userids = json["user_id"].intValue
-                                    print(json)
-                                    let userid = json["results"]["user_id"].intValue
-                                    let fb_id = json["results"]["f_id"].stringValue
-                                    
-                                    print(fb_id)
-                                    //self.user_id = userid
-                                    
-                                    let defaults = NSUserDefaults.standardUserDefaults()
-                                    defaults.setInteger(userid, forKey: "user_id")
-                                    defaults.setValue(fb_id, forKey: "K_fb_id")
-                                    defaults.setValue("", forKey: "K_token")
-                                    
-                                    
-                                    defaults.synchronize()
-                                    // print(self.user_id)
-                                    
-                                    
-                                }else {
-                                    
-                                    
-                                    
+                                    let storyBoard = UIStoryboard(name: "Main", bundle: nil)
+                                    let vc = storyBoard.instantiateViewControllerWithIdentifier("tabView")
+                                    self.navigationController?.pushViewController(vc, animated: true)
                                 }
+                                else {
+                                    print(data)
+                                    print("Invalid Username/Password: \(data["message"])")
+                                }
+                            case .Failure(let error):
+                                print("Error in connection \(error)")
                             }
+
                     }
                 
             } else{

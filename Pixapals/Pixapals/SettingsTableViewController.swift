@@ -18,13 +18,9 @@ class SettingsTableViewController: UITableViewController {
     var actionView: UIView = UIView()
     var window: UIWindow? = nil
 
-
-
-
-
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .Plain, target: nil, action: nil)
 
     }
 
@@ -41,6 +37,7 @@ class SettingsTableViewController: UITableViewController {
     }
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        tableView.deselectRowAtIndexPath(indexPath, animated: true)
         switch(indexPath.section){
 
         case 0:

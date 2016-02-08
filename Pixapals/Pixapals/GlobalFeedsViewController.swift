@@ -141,6 +141,7 @@ class GlobalFeedsViewController: UIViewController {
         ]
         
 //        Alamofire.request(.GET, apiURLString, parameters: nil, headers: headers).responseJSON { response -> Void in
+//            print(response.request)
 //            switch response.result {
 //            case .Success(let value):
 //                print(JSON(value))

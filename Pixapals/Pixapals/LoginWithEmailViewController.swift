@@ -56,7 +56,7 @@ class LoginWithEmailViewController: UIViewController {
                 switch response.result {
                 case .Success(let data):
                     if let dict = data["user"] as? [String: AnyObject] {
-                        
+                        print(dict)
                         let userInfoStruct = UserDataStruct()
                         userInfoStruct.saveUserInfoFromJSON(jsonContainingUserInfo: dict)
                         
