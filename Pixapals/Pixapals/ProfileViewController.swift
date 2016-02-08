@@ -420,7 +420,7 @@ extension ProfileViewController: UITableViewDataSource {
 
 }
 extension ProfileViewController: CellImageSwippedDelegate {
-    func imageSwipedLeft(id: Int, loved: Bool, var left:Bool) {
+    func imageSwipedLeft(id: Int, loved: Bool, left:Bool) {
         print("swipped leave (left)")
         //        print(id)
         //        print(loved)
@@ -429,7 +429,7 @@ extension ProfileViewController: CellImageSwippedDelegate {
         
         self.leaveit(id)
     }
-    func imageSwipedRight(id: Int, var loved: Bool, var left: Bool) {
+    func imageSwipedRight(id: Int,  loved: Bool,  left: Bool) {
         print("swipped love (right)")
         //        print(loved)
         //        print(left)

@@ -233,7 +233,7 @@ extension DetailVIewViewController: UITableViewDelegate {
 
 
 extension DetailVIewViewController: CellImageSwippedDelegate {
-    func imageSwipedLeft(id: Int, loved: Bool, var left:Bool) {
+    func imageSwipedLeft(id: Int, loved: Bool, left:Bool) {
         print("swipped leave (left)")
         //        print(id)
         //        print(loved)
@@ -242,7 +242,7 @@ extension DetailVIewViewController: CellImageSwippedDelegate {
         
         self.leaveit(String(id))
     }
-    func imageSwipedRight(id: Int, var loved: Bool, var left: Bool) {
+    func imageSwipedRight(id: Int, loved: Bool,  left: Bool) {
         print("swipped love (right)")
         //        print(loved)
         //        print(left)

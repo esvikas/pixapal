@@ -85,6 +85,7 @@ class RegisterViewController: UIViewController, UIPopoverControllerDelegate, UIP
             return
         }
         //let location = LocationManager().getLocation()
+<<<<<<< HEAD
         //LocationManager(manager: CLLocationManager() ,afterLocationRetrived: { (location) -> () in
         let parameters: [String: AnyObject] =
         [
@@ -125,6 +126,45 @@ class RegisterViewController: UIViewController, UIPopoverControllerDelegate, UIP
                 }
         }
         
+=======
+        LocationManager(manager: CLLocationManager() ,afterLocationRetrived: { (location) -> () in
+            let parameters: [String: AnyObject] =
+            [
+                "name": self.textFieldFullName.text!,
+                "email": self.textFieldEmail.text!,
+                "username": self.textFieldUsername.text!,
+                "password": self.textFieldPassword.text!,
+                "password_confirmation": self.textFieldConfirmPassword.text!,
+                "latitude": location.latitude,
+                "longitude": location.longitude,
+                "website": "",
+                "bio": "",
+                "phone": "",
+                "gender":"",
+                "device_token" : deviceToken
+            ]
+            print(parameters)
+            Alamofire.request(.POST, registerUrlString, parameters: parameters)
+                .responseJSON { response in
+                    
+                    switch response.result {
+                    case .Success(let data):
+                        if let dict = data["user"] as? [String: AnyObject] {
+                            let userInfoStruct = UserDataStruct()
+                            userInfoStruct.saveUserInfoFromJSON(jsonContainingUserInfo: dict)
+                            
+                            self.loginWithEmail = true
+                        }
+                        else {
+                            print(data)
+                            print("Invalid Username/Password: \(data["message"])")
+                        }
+                    case .Failure(let error):
+                        print("Error in connection \(error)")
+                    }
+            }
+        })
+>>>>>>> ak2g_Branch
     }
     func abc (){
         let popoverContent = (self.storyboard?.instantiateViewControllerWithIdentifier("GenderSelectionView"))! as! GenderSelectionView

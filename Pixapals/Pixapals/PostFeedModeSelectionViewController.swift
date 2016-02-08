@@ -87,6 +87,7 @@ class PostFeedModeSelectionViewController: UIViewController, UINavigationControl
             let storyboard: UIStoryboard = UIStoryboard (name: "Main", bundle: nil)
             let vc: PostFeedViewController = storyboard.instantiateViewControllerWithIdentifier("PostFeedViewController") as! PostFeedViewController
             vc.image1=CapturedImage
+            vc.imageMode=1
         
             self.navigationController?.pushViewController(vc, animated: true)
         
@@ -109,26 +110,9 @@ class PostFeedModeSelectionViewController: UIViewController, UINavigationControl
 extension PostFeedModeSelectionViewController: UIImagePickerControllerDelegate{
 
 
-
-
-
-
-
-
-
-
-
-
-
-
 func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]) {
 
-
-
-
 picker .dismissViewControllerAnimated(true, completion: nil)
-
-
 
 }
 
