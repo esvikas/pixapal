@@ -628,20 +628,27 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                         </tableViewCellContentView>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="Eoe-fE-d4b">
-                                        <rect key="frame" x="0.0" y="346" width="600" height="44"/>
+                                </cells>
+                            </tableViewSection>
+                            <tableViewSection headerTitle="User" id="L7u-pE-UI9">
+                                <cells>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="50" id="pfB-B2-bXm">
+                                        <rect key="frame" x="0.0" y="374" width="600" height="50"/>
                                         <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Eoe-fE-d4b" id="LIt-QR-RFx">
-                                            <rect key="frame" x="0.0" y="0.0" width="600" height="43"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="pfB-B2-bXm" id="e1H-49-S3I">
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="49"/>
                                             <autoresizingMask key="autoresizingMask"/>
-                                        </tableViewCellContentView>
-                                    </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="3Zu-px-kbW">
-                                        <rect key="frame" x="0.0" y="390" width="600" height="44"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="3Zu-px-kbW" id="z9q-fw-HCF">
-                                            <rect key="frame" x="0.0" y="0.0" width="600" height="43"/>
-                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="logout" translatesAutoresizingMaskIntoConstraints="NO" id="pBF-iG-IGw">
+                                                    <rect key="frame" x="20" y="8" width="27" height="28"/>
+                                                </imageView>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Logout" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="82i-dq-dPI">
+                                                    <rect key="frame" x="55" y="14" width="66" height="21"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                 </cells>
@@ -2282,8 +2289,11 @@
                     <size key="freeformSize" width="600" height="750"/>
                     <connections>
                         <outlet property="bioTextField" destination="toF-3f-7NL" id="w40-qO-x21"/>
+                        <outlet property="conformPasswordTextField" destination="7cd-P1-HAr" id="ZSb-kk-0tT"/>
                         <outlet property="emailTextField" destination="vWW-TN-lsC" id="B33-0V-jtp"/>
                         <outlet property="genderTextField" destination="TYY-i6-Tbd" id="ejg-Ni-D5o"/>
+                        <outlet property="newPasswordTextField" destination="aGX-IB-XTK" id="E3A-C0-mfs"/>
+                        <outlet property="oldPasswordTextField" destination="ZAx-09-WWz" id="P44-Qf-p9x"/>
                         <outlet property="phoneTextField" destination="ssD-KL-BUR" id="PHb-aO-jtl"/>
                         <outlet property="userNameTextField" destination="dtt-xH-fMB" id="Jex-h1-d4Q"/>
                         <outlet property="webSiteTextField" destination="Xln-hq-NnO" id="eB7-Zn-oz2"/>
@@ -2556,6 +2566,7 @@
         <image name="global_feed_user" width="20" height="20"/>
         <image name="home" width="36" height="30"/>
         <image name="logo" width="201" height="57"/>
+        <image name="logout" width="18" height="18"/>
         <image name="post-feed-img" width="100" height="88"/>
         <image name="profile_menu" width="27" height="27"/>
         <image name="setting" width="15" height="15"/>

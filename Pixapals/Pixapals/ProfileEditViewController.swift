@@ -17,7 +17,10 @@ class ProfileEditViewController: UIViewController {
     @IBOutlet var emailTextField: UITextField!
     @IBOutlet var phoneTextField: UITextField!
     @IBOutlet var genderTextField: UITextField!
+    @IBOutlet var oldPasswordTextField: UITextField!
     
+    @IBOutlet var conformPasswordTextField: UITextField!
+    @IBOutlet var newPasswordTextField: UITextField!
     let nsUserDefault = NSUserDefaults.standardUserDefaults()
     var dataSource=UserDataStruct()
     
@@ -46,7 +49,14 @@ class ProfileEditViewController: UIViewController {
     func back(sender: UIBarButtonItem) {
         
         
-        
+        if newPasswordTextField.text != conformPasswordTextField.text {
+            
+            appDelegate.ShowAlertView("Sorry", message: "Password didn't match")
+            conformPasswordTextField.text=""
+            newPasswordTextField.text=""
+            oldPasswordTextField.text=""
+            return
+        }
         
         let registerUrlString = "\(apiUrl)api/v1/profile/update"
         
@@ -61,11 +71,14 @@ class ProfileEditViewController: UIViewController {
             "bio": self.bioTextField.text!,
             "email": self.emailTextField.text!,
             "phone": self.phoneTextField.text!,
-            "gender": self.genderTextField.text!
+            "gender": self.genderTextField.text!,
+            "old_password" : oldPasswordTextField.text!,
+            "new_password" : newPasswordTextField.text!
+
         ]
         
         let headers = [
-            "X-Auth-Token" : "c353c462bb19d45f5d60d14ddf7ec3664c0eeaaaede6309c03dd8129df745b91",
+            "X-Auth-Token" : UserDataStruct().api_token!,
         ]
         
         

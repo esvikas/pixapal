@@ -95,6 +95,7 @@ class DoubleModeFeedImageSelectionViewController: UIViewController, ImagePickerD
         let storyboard: UIStoryboard = UIStoryboard (name: "Main", bundle: nil)
         let vc: PostFeedViewController = storyboard.instantiateViewControllerWithIdentifier("PostFeedViewController") as! PostFeedViewController
         vc.image1=CapturedImage
+            vc.imageMode=2
 
         vc.image2=CapturedImage2
         self.navigationController?.pushViewController(vc, animated: true)

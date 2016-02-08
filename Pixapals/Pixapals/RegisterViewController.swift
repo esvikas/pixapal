@@ -114,7 +114,7 @@ class RegisterViewController: UIViewController, UIPopoverControllerDelegate, UIP
                 "gender":"",
                 "device_token" : deviceToken
             ]
-            
+            print(parameters)
             Alamofire.request(.POST, registerUrlString, parameters: parameters)
                 .responseJSON { response in
                     
@@ -135,7 +135,6 @@ class RegisterViewController: UIViewController, UIPopoverControllerDelegate, UIP
                     }
             }
         })
-        
     }
     func abc (){
         let popoverContent = (self.storyboard?.instantiateViewControllerWithIdentifier("GenderSelectionView"))! as! GenderSelectionView

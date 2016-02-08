@@ -11,11 +11,7 @@ import Alamofire
 import SwiftyJSON
 import MBProgressHUD
 
-enum imageMode: String {
-    
-    case singleImage
-    case doubleImage
-}
+
 
 class PostFeedViewController: UIViewController, UITextViewDelegate {
     
@@ -34,18 +30,18 @@ class PostFeedViewController: UIViewController, UITextViewDelegate {
     var image1: UIImage!
     var image2: UIImage!
     var image3: UIImage!
+    var imageData : NSData!
     
     
     let blurEffectView = UIVisualEffectView(effect: UIBlurEffect(style: UIBlurEffectStyle.ExtraLight))
 
-
+    var imageMode: Int! // 1 single mode  2 double mode
 
 
     
     var DynamicView:UIImageView!
 
     
-    let imageModes = imageMode.singleImage
     
     
     
@@ -186,7 +182,7 @@ class PostFeedViewController: UIViewController, UITextViewDelegate {
             
         ]
         let headers = [
-            "X-Auth-Token" : "c353c462bb19d45f5d60d14ddf7ec3664c0eeaaaede6309c03dd8129df745b91",
+            "X-Auth-Token" : UserDataStruct().api_token!,
         ]
         
         // example image data
@@ -197,7 +193,7 @@ class PostFeedViewController: UIViewController, UITextViewDelegate {
         // CREATE AND SEND REQUEST ----------
         doubleModeStackView.layoutIfNeeded()
         doubleModeImageView1.layoutIfNeeded()
-        
+        if imageMode==2{
         UIGraphicsBeginImageContextWithOptions(CGSizeMake(self.doubleModeStackView.frame.width-40,self.doubleModeStackView.layer.frame.height/2), false, 0);
         self.view.drawViewHierarchyInRect(CGRectMake(self.doubleModeStackView.layer.frame.origin.x-20,self.doubleModeStackView.layer.frame.origin.y-44,self.doubleModeStackView.bounds.size.width,self.doubleModeStackView.layer.frame.height), afterScreenUpdates: true)
         let imagex:UIImage = UIGraphicsGetImageFromCurrentImageContext();
@@ -215,19 +211,25 @@ class PostFeedViewController: UIViewController, UITextViewDelegate {
 //        print(doubleModeStackView.frame.width)
 
         
-        let imageData=((data:(UIImageJPEGRepresentation(imagex , 1))!))
+         imageData=((data:(UIImageJPEGRepresentation(imagex , 1))!))
+        }else{
+            
+             imageData=((data:(UIImageJPEGRepresentation(image1 , 1))!))
 
+        }
 
         
         SRWebClient.POST("\(apiUrl)api/v1/feeds")
             
             .data(imageData, fieldName:fieldNameArray, data:parameters)
             .headers(headers)
+            
             .send({(response:AnyObject!, status:Int) -> Void in
                 
                 //                    _ = JSON(response)
                 print(response)
-                
+                print(self.imageData)
+
                 print("Sucess")
                 self.image1=nil
                 self.image2=nil

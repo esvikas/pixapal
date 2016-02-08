@@ -60,12 +60,26 @@ class SettingsTableViewController: UITableViewController {
         case 1:
         appDelegate.ShowAlertView("Sorry ", message: "Not available")
             
+        case 2:
+logOut()
+            
         default:
             print("Error")
             
         }
     }
 
+    
+    func logOut(){
+        
+        
+        
+        let appDomain = NSBundle.mainBundle().bundleIdentifier!
+        NSUserDefaults.standardUserDefaults().removePersistentDomainForName(appDomain)
+        let viewControllers: [UIViewController] = self.navigationController!.viewControllers as [UIViewController];
+        self.navigationController!.popToViewController(viewControllers[0], animated: true);
+
+    }
     
     func PickerAction(){
         
@@ -156,8 +170,7 @@ class SettingsTableViewController: UITableViewController {
     }
     
     func countryDoneClicked(sender: UIBarButtonItem) {
-        print(genderDetailText.text)
-        if (genderDetailText.text)?.characters.count != 0 || genderDetailText.text != nil {
+        if (genderDetailText.text)?.characters.count != 0 && genderDetailText.text != nil {
 
         UIView.animateWithDuration(0.2, animations: {
             
