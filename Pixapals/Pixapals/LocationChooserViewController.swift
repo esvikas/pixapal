@@ -57,7 +57,8 @@ extension LocationChooserViewController: UITableViewDelegate, UITableViewDataSou
         cell.InterestLael?.text = (datasource[indexPath.row] as String)
         cell.selectionStyle =  UITableViewCellSelectionStyle.None
         cell.tikButton.setImage(UIImage(named: "tick"), forState: .Normal)
-        
+        cell.selectionStyle =  UITableViewCellSelectionStyle.None
+
         return cell
         
     }

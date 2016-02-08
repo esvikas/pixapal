@@ -156,11 +156,11 @@ extension DetailVIewViewController: UITableViewDataSource {
         //        }
         
         cell.delegate = self
-        
+        cell.selectionStyle =  UITableViewCellSelectionStyle.None
+
         cell.id = feed.id
         cell.left = feed.is_my_left
         cell.loved = feed.is_my_love
-        
         
         cell.loveCount.text = "\(feed.loveit ?? 0) love it"
         cell.leftCount.text = "\(feed.leaveit ?? 0) left it"

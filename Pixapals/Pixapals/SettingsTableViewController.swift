@@ -156,8 +156,8 @@ class SettingsTableViewController: UITableViewController {
     }
     
     func countryDoneClicked(sender: UIBarButtonItem) {
-        
-        
+        print(genderDetailText.text)
+        if (genderDetailText.text)?.characters.count != 0 || genderDetailText.text != nil {
 
         UIView.animateWithDuration(0.2, animations: {
             
@@ -171,6 +171,7 @@ class SettingsTableViewController: UITableViewController {
                     }
                 }
         })
+        }
     }
     
     func cancelPickerSelectionButtonClicked(sender: UIBarButtonItem) {

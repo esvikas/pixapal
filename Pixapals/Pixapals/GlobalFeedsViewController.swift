@@ -384,7 +384,8 @@ extension GlobalFeedsViewController: UITableViewDataSource {
         cell.id = indexPath.section
         cell.left = feed.is_my_left
         cell.loved = feed.is_my_love
-        
+        cell.selectionStyle =  UITableViewCellSelectionStyle.None
+
         
         cell.loveCount.text = "\(feed.loveit ?? 0) love it"
         cell.leftCount.text = "\(feed.leaveit ?? 0) left it"

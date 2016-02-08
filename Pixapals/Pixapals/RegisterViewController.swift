@@ -91,7 +91,6 @@ class RegisterViewController: UIViewController, UIPopoverControllerDelegate, UIP
         //let registerUrlString = "\(apiUrl)api/v1/login-using-email"
         let registerUrlString = "\(apiUrl)api/v1/register"
         
-        let nsUserDefault = NSUserDefaults.standardUserDefaults()
         // let deviceToken = nsUserDefault.objectForKey("deviceTokenString") as! String
         let deviceToken = "ff34dsft53fsdds33"
         if !Validator().isValidEmail(self.textFieldEmail.text!) {

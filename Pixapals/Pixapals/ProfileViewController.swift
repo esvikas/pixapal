@@ -300,7 +300,7 @@ extension ProfileViewController: UICollectionViewDataSource {
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier("globalFeedCollectionViewCell", forIndexPath: indexPath) as! GlobalFeedCollectionViewCell
      
         cell.feedImage.kf_setImageWithURL(NSURL(string: self.feedsFromResponseAsObject?.feeds?[indexPath.row].photo_thumb ?? "")!, placeholderImage: UIImage(named: "post-feed-img"))
-        
+
         return cell
     }
     
@@ -370,7 +370,8 @@ extension ProfileViewController: UITableViewDataSource {
             cell.loveCount.text = "\(feed.loveit ?? 0) love it"
             cell.leftCount.text = "\(feed.leaveit ?? 0) left it"
             cell.comment.text = "\(feed.comment ?? "")"
-            
+            cell.selectionStyle =  UITableViewCellSelectionStyle.None
+
             if let createdAt = feed.created_at {
                 //let dateFormatter = NSDateFormatter()
                 //dateFormatter.dateFormat = "y-MM-dd HH:mm:ss"
