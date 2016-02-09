@@ -22,6 +22,7 @@ class DoubleModeFeedImageSelectionViewController: UIViewController, ImagePickerD
     var image1Selected:Bool!
     var image2Selected:Bool!
 
+    @IBOutlet weak var instructionLbl: UILabel!
 
     
     
@@ -40,8 +41,12 @@ class DoubleModeFeedImageSelectionViewController: UIViewController, ImagePickerD
         let gestureRecognizer2 = UITapGestureRecognizer(target: self, action: Selector("image2Pressed"))
         image2.addGestureRecognizer(gestureRecognizer2)
         
+<<<<<<< HEAD
         self.view.backgroundColor=UIColor(red: 240/255, green: 240/255, blue: 240/255, alpha: 1)
 
+=======
+        self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .Plain, target: nil, action: nil)
+>>>>>>> a6aaa90ccbd0ec0cf139b373de14a0b308b4ba71
         
         
 
@@ -126,6 +131,7 @@ class DoubleModeFeedImageSelectionViewController: UIViewController, ImagePickerD
         self.dismissViewControllerAnimated(false, completion: nil)
         
         if image1Selected==true{
+            image1.contentMode = UIViewContentMode.ScaleAspectFit
             let uploadLiamge:UIImage = images[0].fixOrientation()
             
             
@@ -133,16 +139,25 @@ class DoubleModeFeedImageSelectionViewController: UIViewController, ImagePickerD
             image1.image = uploadLiamge
 
             
-
+            if let _ = CapturedImage, let _ = CapturedImage2 {
+                instructionLbl.text = "Both image successfully captured."
+            } else {
+                instructionLbl.text = "First image successfully captured. Take or upload second image."
+            }
         }else{
+            if let _ = CapturedImage, let _ = CapturedImage2 {
+                instructionLbl.text = "Both image successfully captured."
+            } else {
+                instructionLbl.text = "First image successfully captured. Take or upload second image."
+            }
             
             let uploadLiamge:UIImage = images[0].fixOrientation()
-            
+            image2.contentMode = UIViewContentMode.ScaleAspectFit
             
             CapturedImage2 = uploadLiamge
             image2.image = uploadLiamge
 
-            
+
         }
         
     }

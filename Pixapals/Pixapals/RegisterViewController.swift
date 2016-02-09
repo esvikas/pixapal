@@ -83,7 +83,7 @@ class RegisterViewController: UIViewController, UIPopoverControllerDelegate, UIP
         let registerUrlString = "\(apiUrl)api/v1/register"
         
         // let deviceToken = nsUserDefault.objectForKey("deviceTokenString") as! String
-        let deviceToken = appDelegate.deviceTokenString!
+        let deviceToken = appDelegate.deviceTokenString ?? "wewrwer"
         
         if self.textFieldFullName.text!.isEmpty {
             appDelegate.ShowAlertView("Full Name Empty", message: "Fullname field is empty.")
