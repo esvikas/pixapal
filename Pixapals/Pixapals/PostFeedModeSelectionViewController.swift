@@ -22,6 +22,11 @@ class PostFeedModeSelectionViewController: UIViewController, UINavigationControl
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        singleModeButton.contentMode = .Center
+        doubleModeButton.contentMode = .Center
+        //singleModeButton.imageView.co
+        //doubleModeButton.imageView?.contentMode = .Center
+        
         // Do any additional setup after loading the view.
         singleModeButton.layer.borderColor = UIColor(red:0.914, green:0.910, blue:0.922, alpha:1.00).CGColor
         singleModeButton.layer.borderWidth = 3

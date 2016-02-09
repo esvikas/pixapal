@@ -205,6 +205,7 @@ class ProfileViewController: UIViewController {
                     self.collectionViewRefreshContol.endRefreshing()
                     self.loadMoreActivityIndicator.stopAnimating()
                     self.footerView.hidden = true
+                    self.tabBarController?.navigationItem.title = feedsResponseJSON.user.username
                 }
 
 //                let json = JSON(value)
@@ -378,7 +379,7 @@ extension ProfileViewController: UITableViewDataSource {
             cell.id = (indexPath.row - 1)
             cell.loved = feed.is_my_love
             cell.left = feed.is_my_left
-            cell.loveCount.text = "\(feed.loveit ?? 0) love it"
+            cell.loveCount.text = "\(feed.loveit ?? 0) loved it"
             cell.leftCount.text = "\(feed.leaveit ?? 0) left it"
             cell.comment.text = "\(feed.comment ?? "")"
             cell.selectionStyle =  UITableViewCellSelectionStyle.None

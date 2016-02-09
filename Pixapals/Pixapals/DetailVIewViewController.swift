@@ -24,6 +24,8 @@ class DetailVIewViewController: UIViewController {
     
     @IBOutlet weak var getFeedButton: DesignableButton!
     
+    @IBOutlet weak var usernameLbl: UILabel!
+    
     var delegate: DetailViewViewControllerProtocol!
     
     //let blurEffectView = UIVisualEffectView(effect: UIBlurEffect(style: UIBlurEffectStyle.ExtraLight))
@@ -44,6 +46,12 @@ class DetailVIewViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.usernameLbl.text = feed.user?.username
+        if (self.feed.is_my_feed)! || (self.feed.user?.is_my_fed)! {
+            self.getFeedButton.titleLabel?.text = "Feeding"
+            self.getFeedButton.enabled = false
+        }
             //getFeedButton.enabled = false
       
         //self.navigationItem.hidesBackButton = true
@@ -112,6 +120,7 @@ class DetailVIewViewController: UIViewController {
                 if !getFeed.error! {
                     print("getting feed")
                     self.getFeedButton.enabled = false
+                    self.getFeedButton.titleLabel?.text = "Feeding"
                 } else {
                     print("Error: Love it error")
                 }
@@ -164,7 +173,7 @@ extension DetailVIewViewController: UITableViewDataSource {
         cell.left = feed.is_my_left
         cell.loved = feed.is_my_love
         
-        cell.loveCount.text = "\(feed.loveit ?? 0) love it"
+        cell.loveCount.text = "\(feed.loveit ?? 0) loved it"
         cell.leftCount.text = "\(feed.leaveit ?? 0) left it"
         cell.comment.text = "\(feed.comment ?? "")"
         //print(feedsToShow)

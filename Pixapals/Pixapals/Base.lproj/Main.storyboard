@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9531" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="eWi-o4-zEa">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9531" systemVersion="15B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="eWi-o4-zEa">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
@@ -317,7 +317,7 @@
             </objects>
             <point key="canvasLocation" x="2497" y="414"/>
         </scene>
-        <!--Post Feed View Controller-->
+        <!--Post Feed-->
         <scene sceneID="u1C-WL-vSf">
             <objects>
                 <viewController storyboardIdentifier="PostFeedViewController" automaticallyAdjustsScrollViewInsets="NO" id="Oua-YF-O5O" customClass="PostFeedViewController" customModule="Pixapals" customModuleProvider="target" sceneMemberID="viewController">
@@ -512,6 +512,7 @@
                             </mask>
                         </variation>
                     </view>
+                    <navigationItem key="navigationItem" title="Post Feed" id="3vI-gZ-kf5"/>
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <size key="freeformSize" width="600" height="1326"/>
                     <connections>
@@ -626,7 +627,7 @@
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Logout" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Phr-pB-pK4">
                                                     <rect key="frame" x="51" y="11" width="54" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="logout" translatesAutoresizingMaskIntoConstraints="NO" id="zPs-gd-oy7">
@@ -1661,7 +1662,7 @@
                             <stackView opaque="NO" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="uuF-b9-MTg">
                                 <rect key="frame" x="20" y="84" width="384" height="347"/>
                                 <subviews>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="double_mode_camera" translatesAutoresizingMaskIntoConstraints="NO" id="Wxb-DU-qTC">
+                                    <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="double_mode_camera" translatesAutoresizingMaskIntoConstraints="NO" id="Wxb-DU-qTC">
                                         <rect key="frame" x="0.0" y="0.0" width="167" height="347"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <constraints>
@@ -1714,7 +1715,7 @@
                                             <constraint firstItem="1f1-g2-TRU" firstAttribute="width" secondItem="Z6s-ME-EeC" secondAttribute="width" multiplier="0.9" id="upp-At-nHt"/>
                                         </constraints>
                                     </view>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="double_mode_camera" translatesAutoresizingMaskIntoConstraints="NO" id="wxS-DX-afK">
+                                    <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="double_mode_camera" translatesAutoresizingMaskIntoConstraints="NO" id="wxS-DX-afK">
                                         <rect key="frame" x="218" y="0.0" width="166" height="347"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     </imageView>
@@ -1726,8 +1727,8 @@
                                     <constraint firstAttribute="width" secondItem="uuF-b9-MTg" secondAttribute="height" multiplier="335:303" id="kNR-gN-fbj"/>
                                 </constraints>
                             </stackView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Select on either thumbnail to take a picture or upload image." textAlignment="justified" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pXe-up-hCR">
-                                <rect key="frame" x="20" y="407" width="335" height="41"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Select on either thumbnail to take a picture or upload image." textAlignment="justified" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pXe-up-hCR">
+                                <rect key="frame" x="20" y="407" width="384" height="41"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
@@ -1797,6 +1798,7 @@
                         <outlet property="horizontalSeparatorView" destination="Z6s-ME-EeC" id="XgN-sY-Ihd"/>
                         <outlet property="image1" destination="Wxb-DU-qTC" id="O1v-Tl-su9"/>
                         <outlet property="image2" destination="wxS-DX-afK" id="FXH-0O-mRM"/>
+                        <outlet property="instructionLbl" destination="pXe-up-hCR" id="rdY-re-86z"/>
                         <outlet property="stackView" destination="uuF-b9-MTg" id="XCh-FZ-NBR"/>
                         <outlet property="verticalSeparatorView" destination="Ukq-Mq-1Gw" id="crE-jR-Cex"/>
                     </connections>
@@ -2119,7 +2121,7 @@
             </objects>
             <point key="canvasLocation" x="258" y="419"/>
         </scene>
-        <!--Profile Edit View Controller-->
+        <!--Edit Profile-->
         <scene sceneID="evv-oV-mmg">
             <objects>
                 <viewController storyboardIdentifier="ProfileEditViewController" id="Y2x-dP-U0e" customClass="ProfileEditViewController" customModule="Pixapals" customModuleProvider="target" sceneMemberID="viewController">
@@ -2266,7 +2268,7 @@
                         </constraints>
                     </view>
                     <extendedEdge key="edgesForExtendedLayout" bottom="YES"/>
-                    <navigationItem key="navigationItem" id="2kF-3s-Fbg"/>
+                    <navigationItem key="navigationItem" title="Edit Profile" id="2kF-3s-Fbg"/>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
@@ -2283,24 +2285,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4vF-JI-Egd" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="3150" y="1623"/>
-        </scene>
-        <!--Navigation Controller-->
-        <scene sceneID="lRN-Wl-wPH">
-            <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="CUn-Mh-s0T" sceneMemberID="viewController">
-                    <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="D1I-rj-B9M">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </navigationBar>
-                    <nil name="viewControllers"/>
-                    <connections>
-                        <segue destination="q9V-re-qr7" kind="relationship" relationship="rootViewController" id="YBQ-1S-bZr"/>
-                    </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="N0h-tH-2fa" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="3778" y="1623"/>
         </scene>
         <!--Feed-->
         <scene sceneID="pru-Ij-dW5">
@@ -2527,6 +2511,7 @@
                     <connections>
                         <outlet property="getFeedButton" destination="PiL-y6-9ND" id="x71-NE-yuF"/>
                         <outlet property="tableView" destination="hWV-nY-fxv" id="4zP-uT-Ovg"/>
+                        <outlet property="usernameLbl" destination="Fr6-5V-0DI" id="0Uw-Sv-1rO"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hUF-sk-zqe" userLabel="First Responder" sceneMemberID="firstResponder"/>

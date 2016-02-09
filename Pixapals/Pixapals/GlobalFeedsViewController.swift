@@ -46,10 +46,10 @@ class GlobalFeedsViewController: UIViewController {
         self.loadMoreActivityIndicator.hidesWhenStopped = true
         self.loadDataFromAPI()
         self.changeViewMode(self)
-        tableView.emptyDataSetDelegate=self
-        tableView.emptyDataSetSource=self
-        collectionView.emptyDataSetSource=self
-        collectionView.emptyDataSetDelegate=self
+//        tableView.emptyDataSetDelegate=self
+//        tableView.emptyDataSetSource=self
+//        collectionView.emptyDataSetSource=self
+//        collectionView.emptyDataSetDelegate=self
         
         
         self.blurEffectView.alpha = 0.4
@@ -384,7 +384,7 @@ extension GlobalFeedsViewController: UITableViewDataSource {
         cell.selectionStyle =  UITableViewCellSelectionStyle.None
 
         
-        cell.loveCount.text = "\(feed.loveit ?? 0) love it"
+        cell.loveCount.text = "\(feed.loveit ?? 0) loved it"
         cell.leftCount.text = "\(feed.leaveit ?? 0) left it"
         cell.comment.text = "\(feed.comment ?? "")"
         //print(feedsToShow)
@@ -644,36 +644,36 @@ extension GlobalFeedsViewController: DetailViewViewControllerProtocol {
     }
 }
 
-extension GlobalFeedsViewController : DZNEmptyDataSetDelegate, DZNEmptyDataSetSource {
-    
-    
-    func titleForEmptyDataSet(scrollView: UIScrollView!) -> NSAttributedString! {
-        let str = "Sorrry"
-        let attrs = [NSFontAttributeName: UIFont.preferredFontForTextStyle(UIFontTextStyleHeadline)]
-        return NSAttributedString(string: str, attributes: attrs)
-    }
-    
-    func descriptionForEmptyDataSet(scrollView: UIScrollView!) -> NSAttributedString! {
-        let str = "There are no posts to show"
-        let attrs = [NSFontAttributeName: UIFont.preferredFontForTextStyle(UIFontTextStyleBody)]
-        return NSAttributedString(string: str, attributes: attrs)
-    }
-    
-    func imageForEmptyDataSet(scrollView: UIScrollView!) -> UIImage! {
-        return UIImage(named: "logo")
-    }
-    
-//    func buttonTitleForEmptyDataSet(scrollView: UIScrollView!, forState state: UIControlState) -> NSAttributedString! {
-//        let str = "More info"
+//extension GlobalFeedsViewController : DZNEmptyDataSetDelegate, DZNEmptyDataSetSource {
+//    
+//    
+//    func titleForEmptyDataSet(scrollView: UIScrollView!) -> NSAttributedString! {
+//        let str = "Sorrry"
+//        let attrs = [NSFontAttributeName: UIFont.preferredFontForTextStyle(UIFontTextStyleHeadline)]
+//        return NSAttributedString(string: str, attributes: attrs)
+//    }
+//    
+//    func descriptionForEmptyDataSet(scrollView: UIScrollView!) -> NSAttributedString! {
+//        let str = "There are no posts to show"
 //        let attrs = [NSFontAttributeName: UIFont.preferredFontForTextStyle(UIFontTextStyleBody)]
 //        return NSAttributedString(string: str, attributes: attrs)
 //    }
-    
-    func emptyDataSetDidTapButton(scrollView: UIScrollView!) {
-        let ac = UIAlertController(title: "Info will be listed here", message: nil, preferredStyle: .Alert)
-        ac.addAction(UIAlertAction(title: "ok", style: .Default, handler: nil))
-        presentViewController(ac, animated: true, completion: nil)
-    }
-}
+//    
+//    func imageForEmptyDataSet(scrollView: UIScrollView!) -> UIImage! {
+//        return UIImage(named: "logo")
+//    }
+//    
+////    func buttonTitleForEmptyDataSet(scrollView: UIScrollView!, forState state: UIControlState) -> NSAttributedString! {
+////        let str = "More info"
+////        let attrs = [NSFontAttributeName: UIFont.preferredFontForTextStyle(UIFontTextStyleBody)]
+////        return NSAttributedString(string: str, attributes: attrs)
+////    }
+//    
+//    func emptyDataSetDidTapButton(scrollView: UIScrollView!) {
+//        let ac = UIAlertController(title: "Info will be listed here", message: nil, preferredStyle: .Alert)
+//        ac.addAction(UIAlertAction(title: "ok", style: .Default, handler: nil))
+//        presentViewController(ac, animated: true, completion: nil)
+//    }
+//}
 
 
