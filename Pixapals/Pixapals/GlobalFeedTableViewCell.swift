@@ -83,7 +83,7 @@ class GlobalFeedTableViewCell: UITableViewCell {
         if let swipeGesture = gesture as? UISwipeGestureRecognizer {
             
             switch swipeGesture.direction {
-            case UISwipeGestureRecognizerDirection.Right:
+            case UISwipeGestureRecognizerDirection.Left:
                 
                 //                print(id)
                 //                print(loved)
@@ -113,7 +113,7 @@ class GlobalFeedTableViewCell: UITableViewCell {
                     delegate.imageSwipedRight(self.id,loved: self.loved,left: self.left)
                 }
                 
-            case UISwipeGestureRecognizerDirection.Left:
+            case UISwipeGestureRecognizerDirection.Right:
                 if left != true {
                     
                     //                DynamicView.backgroundColor=UIColor.redColor()

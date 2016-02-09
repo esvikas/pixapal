@@ -171,6 +171,14 @@ class PostFeedViewController: UIViewController, UITextViewDelegate {
     
     func PostFeed(){
         
+        self.blurEffectView.alpha = 0.4
+        self.blurEffectView.frame = view.bounds
+        self.view.addSubview(self.blurEffectView)
+        let loadingNotification = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
+        loadingNotification.mode = MBProgressHUDMode.Indeterminate
+        loadingNotification.labelText = "Loading"
+
+        
         
         let fieldNameArray = "photo"
 
@@ -230,13 +238,17 @@ class PostFeedViewController: UIViewController, UITextViewDelegate {
                     print(action)
                     
                     
-                    let viewControllers: [UIViewController] = self.navigationController!.viewControllers as [UIViewController];
-                    self.navigationController!.popToViewController(viewControllers[2], animated: true);
-                    self.tabBarController?.selectedIndex = 0
+//                    let viewControllers: [UIViewController] = self.navigationController!.viewControllers as [UIViewController];
+//                    self.navigationController!.popToViewController(viewControllers[2], animated: true);
+//                    self.tabBarController?.selectedIndex = 0
                     MBProgressHUD.hideAllHUDsForView(self.view, animated: true)
                     self.blurEffectView.removeFromSuperview()
 
 
+                    let storyboard: UIStoryboard = UIStoryboard (name: "Main", bundle: nil)
+                    let vc: CustomTabBarController = storyboard.instantiateViewControllerWithIdentifier("tabView") as! CustomTabBarController
+                    self.navigationController?.pushViewController(vc, animated: true)
+                    
                 }
                 alertController.addAction(cancelAction)
                 

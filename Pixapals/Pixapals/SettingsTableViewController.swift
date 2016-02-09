@@ -43,10 +43,7 @@ class SettingsTableViewController: UITableViewController {
         
     }
     
-    override func viewDidDisappear(animated: Bool) {
-        
-        preference()
-    }
+ 
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
@@ -82,6 +79,8 @@ class SettingsTableViewController: UITableViewController {
         if genderDetailText.text != nil && locationDetailText.text != nil {
             preference()
         }
+                self.navigationController?.popViewControllerAnimated(true)
+
         
     }
     
@@ -93,6 +92,8 @@ class SettingsTableViewController: UITableViewController {
         NSUserDefaults.standardUserDefaults().removePersistentDomainForName(appDomain)
         let viewControllers: [UIViewController] = self.navigationController!.viewControllers as [UIViewController];
         self.navigationController!.popToViewController(viewControllers[0], animated: true);
+        
+        
         
     }
     
