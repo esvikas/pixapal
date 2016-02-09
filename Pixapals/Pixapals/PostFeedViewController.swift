@@ -174,10 +174,10 @@ class PostFeedViewController: UIViewController, UITextViewDelegate {
         
         let fieldNameArray = "photo"
 
-
+        
         
         let parameters = [
-            "user_id" : "1",
+            "user_id" : String(UserDataStruct().id!),
             "comment" : commentTextField.text!
             
         ]

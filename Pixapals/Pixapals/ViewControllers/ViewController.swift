@@ -54,6 +54,10 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         self.navigationController?.navigationBarHidden = true
         UIApplication.sharedApplication().statusBarStyle = UIStatusBarStyle.Default
     }
+    override func viewWillDisappear(animated: Bool) {
+        self.navigationController?.navigationBarHidden = false
+         UIApplication.sharedApplication().statusBarStyle = UIStatusBarStyle.LightContent
+    }
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
 
         self.navigationController?.navigationBarHidden = false

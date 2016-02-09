@@ -297,14 +297,14 @@ class GlobalFeedsViewController: UIViewController {
         if self.collectionViewHidden {
             self.collectionView.hidden = false
             self.tableView.hidden = true
-            if let _ = self.feedsFromResponseAsObject?.feeds?.count {
+            if let count = self.feedsFromResponseAsObject?.feeds?.count where count > 0 {
                 self.tableView.scrollToRowAtIndexPath(NSIndexPath(forRow: 0, inSection: 0), atScrollPosition: UITableViewScrollPosition.Top, animated: false)
             }
             self.tabBarController?.navigationItem.rightBarButtonItem?.image = UIImage(named: "global_feed_grid_menu")
         } else {
             self.collectionView.hidden = true
             self.tableView.hidden = false
-            if let _ = self.feedsFromResponseAsObject?.feeds?.count {
+            if let count = self.feedsFromResponseAsObject?.feeds?.count where count > 0 {
                 self.collectionView.scrollToItemAtIndexPath(NSIndexPath(forRow: 0, inSection: 0), atScrollPosition: UICollectionViewScrollPosition.Top, animated: false)
             }
             self.tabBarController?.navigationItem.rightBarButtonItem?.image = UIImage(named: "square")

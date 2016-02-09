@@ -255,6 +255,14 @@
 					329B58171C3E260600C1EE08 = {
 						CreatedOnToolsVersion = 7.2;
 						DevelopmentTeam = VTPR87BH28;
+						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
+							com.apple.Push = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
