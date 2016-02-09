@@ -24,6 +24,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // Override point for customization after application launch.
         
+        let types: UIUserNotificationType = [UIUserNotificationType.Badge,
+            UIUserNotificationType.Alert,
+            UIUserNotificationType.Sound]
+        
+        let settings: UIUserNotificationSettings = UIUserNotificationSettings( forTypes: types, categories: nil )
+        application.registerUserNotificationSettings( settings )
+        application.registerForRemoteNotifications()
+        
+        
+        
         return FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
     }
     

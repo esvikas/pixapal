@@ -72,6 +72,8 @@ class RegisterViewController: UIViewController, UIPopoverControllerDelegate, UIP
         if let _ = location {
             self.registerWithEmail()
             //self.registerWithEmailStatus = true
+        } else {
+            appDelegate.ShowAlertView("Location not Enabled", message: "Please enable location. Also allow app to access location from settings.")
         }
     }
     
@@ -79,11 +81,38 @@ class RegisterViewController: UIViewController, UIPopoverControllerDelegate, UIP
         let registerUrlString = "\(apiUrl)api/v1/register"
         
         // let deviceToken = nsUserDefault.objectForKey("deviceTokenString") as! String
-        let deviceToken = "ff34dsft53fsdds33"
-        if !Validator().isValidEmail(self.textFieldEmail.text!) {
-            print("invalid email")
+        let deviceToken = appDelegate.deviceTokenString!
+        
+        if self.textFieldFullName.text!.isEmpty {
+            appDelegate.ShowAlertView("Full Name Empty", message: "Fullname field is empty.")
             return
         }
+        
+        if !Validator().isValidEmail(self.textFieldEmail.text!) {
+            appDelegate.ShowAlertView("Invalid Email", message: "Please enter valid email address.")
+            return
+        }
+        
+        if self.textFieldUsername.text!.isEmpty {
+            appDelegate.ShowAlertView("Username Empty", message: "Username field is empty.")
+            return
+        }
+       
+        if self.textFieldPassword.text!.isEmpty {
+            appDelegate.ShowAlertView("Password Empty", message: "Password field is empty.")
+            return
+        }
+        
+        if self.textFieldPassword.text! != self.textFieldConfirmPassword.text! {
+            appDelegate.ShowAlertView("Password Not Confirmed", message: "Password and Confirm Password doesn't match.")
+            return
+        }
+        
+        if (self.btnGender.titleLabel?.text)!.isEmpty {
+            appDelegate.ShowAlertView("Gender Not Selected", message: "Gender is not selected.")
+            return
+        }
+        
         //let location = LocationManager().getLocation()
         //LocationManager(manager: CLLocationManager() ,afterLocationRetrived: { (location) -> () in
         let parameters: [String: AnyObject] =
@@ -98,7 +127,7 @@ class RegisterViewController: UIViewController, UIPopoverControllerDelegate, UIP
             "website": "",
             "bio": "",
             "phone": "",
-            "gender": btnGender.titleLabel?.text ?? "",
+            "gender": self.btnGender.titleLabel?.text ?? "",
             "device_token" : deviceToken
         ]
         

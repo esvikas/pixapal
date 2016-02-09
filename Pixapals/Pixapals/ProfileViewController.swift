@@ -297,7 +297,8 @@ extension ProfileViewController: UICollectionViewDelegateFlowLayout {
 
 extension ProfileViewController: UICollectionViewDataSource {
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return self.feedsFromResponseAsObject?.feeds?.count ?? 0
+        let ret =  self.feedsFromResponseAsObject?.feeds?.count ?? 0
+        return ret
     }
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier("globalFeedCollectionViewCell", forIndexPath: indexPath) as! GlobalFeedCollectionViewCell
@@ -349,7 +350,11 @@ extension ProfileViewController: UITableViewDataSource {
 //    }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.feedsFromResponseAsObject?.feeds?.count ?? 0
+        let ret = self.feedsFromResponseAsObject?.feeds?.count ?? 0
+        if ret > 0 {
+            return ret + 1
+        }
+        return 1
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
@@ -358,6 +363,7 @@ extension ProfileViewController: UITableViewDataSource {
             cell?.addSubview(headerView)
             return cell!
         } else {
+            print(indexPath.row)
             let feed = self.feedsFromResponseAsObject.feeds![indexPath.row - 1]
             let cell = tableView.dequeueReusableCellWithIdentifier("globalFeedTableViewCell", forIndexPath: indexPath) as! GlobalFeedTableViewCell
             cell.feedImage.kf_setImageWithURL(NSURL(string: feed.photo ?? "" )!, placeholderImage: UIImage(named: "loading.png"))
@@ -415,6 +421,9 @@ extension ProfileViewController: UITableViewDataSource {
         //print((indexPath.row) == (self.feedsFromResponseAsObject.feeds!.count - 1))
         //print("\(indexPath.row) == \(self.feedsFromResponseAsObject.feeds!.count - 1)")
 //        print(hasMoreDataInServer)
+        if indexPath.row == 0 {
+            return
+        }
         if (indexPath.row) == (self.feedsFromResponseAsObject.feeds!.count - 1) && self.hasMoreDataInServer {
             self.loadMore()
         }
