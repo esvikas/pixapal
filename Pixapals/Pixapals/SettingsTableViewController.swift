@@ -7,9 +7,10 @@
 //
 
 import UIKit
+import Alamofire
 
 class SettingsTableViewController: UITableViewController {
-
+    
     @IBOutlet var genderDetailText: UILabel!
     @IBOutlet var locationDetailText: UILabel!
     var pickerDataSource = ["All", "Male", "Female"];
@@ -17,13 +18,19 @@ class SettingsTableViewController: UITableViewController {
     var pickerDateToolbar:UIToolbar?
     var actionView: UIView = UIView()
     var window: UIWindow? = nil
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .Plain, target: nil, action: nil)
-
+        
+        self.navigationItem.hidesBackButton = true
+        let newBackButton = UIBarButtonItem(image: UIImage(named: "tick_green"), style: UIBarButtonItemStyle.Plain, target: self, action: "back:")
+        UIBarButtonItem.appearance().tintColor = UIColor.whiteColor()
+        
+        self.navigationItem.leftBarButtonItem = newBackButton;
+        
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -31,41 +38,52 @@ class SettingsTableViewController: UITableViewController {
     
     override func viewDidAppear(animated: Bool) {
         
-      locationDetailText.text =  nsUserDefault.objectForKey("UserLocationForFilter") as? String
-      genderDetailText.text =  nsUserDefault.objectForKey("UserGenderForFilter") as? String
-
+        locationDetailText.text =  nsUserDefault.objectForKey("UserLocationForFilter") as? String
+        genderDetailText.text =  nsUserDefault.objectForKey("UserGenderForFilter") as? String
+        
+    }
+    
+    override func viewDidDisappear(animated: Bool) {
+        
+        preference()
     }
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
         switch(indexPath.section){
-
-        case 0:
-
-        print(indexPath.row)
-        if indexPath.row==1{
-            uiPickerMaker()
-            PickerAction()
-
-        } else {
             
-            let storyboard: UIStoryboard = UIStoryboard (name: "Main", bundle: nil)
-            let vc: LocationChooserViewController = storyboard.instantiateViewControllerWithIdentifier("LocationChooserViewController") as! LocationChooserViewController
-            self.navigationController?.pushViewController(vc, animated: true)
+        case 0:
+            
+            print(indexPath.row)
+            if indexPath.row==1{
+                uiPickerMaker()
+                PickerAction()
+                
+            } else {
+                
+                let storyboard: UIStoryboard = UIStoryboard (name: "Main", bundle: nil)
+                let vc: LocationChooserViewController = storyboard.instantiateViewControllerWithIdentifier("LocationChooserViewController") as! LocationChooserViewController
+                self.navigationController?.pushViewController(vc, animated: true)
             }
             
         case 1:
-        appDelegate.ShowAlertView("Sorry ", message: "Not available")
+            appDelegate.ShowAlertView("Sorry ", message: "Not available")
             
         case 2:
-logOut()
+            logOut()
             
         default:
             print("Error")
             
         }
     }
-
+    
+    func back(sender: UIBarButtonItem) {
+        if genderDetailText.text != nil && locationDetailText.text != nil {
+            preference()
+        }
+        
+    }
     
     func logOut(){
         
@@ -75,7 +93,7 @@ logOut()
         NSUserDefaults.standardUserDefaults().removePersistentDomainForName(appDomain)
         let viewControllers: [UIViewController] = self.navigationController!.viewControllers as [UIViewController];
         self.navigationController!.popToViewController(viewControllers[0], animated: true);
-
+        
     }
     
     func PickerAction(){
@@ -168,19 +186,19 @@ logOut()
     
     func countryDoneClicked(sender: UIBarButtonItem) {
         if (genderDetailText.text)?.characters.count != 0 && genderDetailText.text != nil {
-
-        UIView.animateWithDuration(0.2, animations: {
             
-            self.actionView.frame = CGRectMake(0, UIScreen.mainScreen().bounds.size.height, UIScreen.mainScreen().bounds.size.width, 260.0)
-            
-            }, completion: { _ in
-                for obj: AnyObject in self.actionView.subviews {
-                    if let view = obj as? UIView
-                    {
-                        view.removeFromSuperview()
+            UIView.animateWithDuration(0.2, animations: {
+                
+                self.actionView.frame = CGRectMake(0, UIScreen.mainScreen().bounds.size.height, UIScreen.mainScreen().bounds.size.width, 260.0)
+                
+                }, completion: { _ in
+                    for obj: AnyObject in self.actionView.subviews {
+                        if let view = obj as? UIView
+                        {
+                            view.removeFromSuperview()
+                        }
                     }
-                }
-        })
+            })
         }
     }
     
@@ -204,10 +222,53 @@ logOut()
         
         genderDetailText.text=pickerDataSource[row]
         nsUserDefault.setObject(pickerDataSource[row], forKey: "UserGenderForFilter")
-
-
+        
+        
     }
-
+    
+    func preference(){
+        let user = UserDataStruct()
+        let registerUrlString = "\(apiUrl)api/v1/preference/set"
+        
+        let parameters: [String: AnyObject] =
+        [
+            "user_id": String(user.id!),
+            "gender": String(genderDetailText.text!),
+            "region": String(locationDetailText.text!)
+            
+            
+        ]
+        let headers = [
+            "X-Auth-Token" : user.api_token!,
+        ]
+        
+        
+        
+        
+        //                Alamofire.request(.POST, registerUrlString, parameters: parameters, headers:headers).responseJSON { response in
+        //                    print(response.request)
+        //                    switch response.result {
+        //                    case .Failure(let error):
+        //                        print(error)
+        //                    case .Success(let value):
+        //                        print(value)
+        //                    }
+        //                }
+        
+        Alamofire.request(.POST, registerUrlString, parameters: parameters, headers: headers).responseObject { (response: Response<SuccessFailJSON, NSError>) -> Void in
+            switch response.result {
+            case .Success(let leaveItObject):
+                print("Error: Leave it error")
+                
+            case .Failure(let error):
+                print("Error in connection \(error)")
+            }
+        }
+        
+        
+    }
+    
+    
 }
 extension SettingsTableViewController : UIPickerViewDataSource, UIPickerViewDelegate {
     
