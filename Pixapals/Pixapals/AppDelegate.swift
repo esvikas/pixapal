@@ -9,6 +9,9 @@
 import UIKit
 import FBSDKCoreKit
 import FBSDKLoginKit
+import Fabric
+import Crashlytics
+
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -31,6 +34,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let settings: UIUserNotificationSettings = UIUserNotificationSettings( forTypes: types, categories: nil )
         application.registerUserNotificationSettings( settings )
         application.registerForRemoteNotifications()
+        
+        Fabric.with([Crashlytics.self])
         
         
         

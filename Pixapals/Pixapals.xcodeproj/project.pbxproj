@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3202929E1C69E645007AD662 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3202929C1C69E645007AD662 /* Crashlytics.framework */; };
+		3202929F1C69E645007AD662 /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3202929D1C69E645007AD662 /* Fabric.framework */; };
 		320933FB1C50EF1100B092B1 /* WobbleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 320933FA1C50EF1100B092B1 /* WobbleView.swift */; };
 		321B7F9B1C460E760017932E /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 321B7F9A1C460E760017932E /* Reachability.swift */; };
 		321B7F9D1C465CEC0017932E /* HelperFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 321B7F9C1C465CEC0017932E /* HelperFile.swift */; };
@@ -50,6 +52,8 @@
 
 /* Begin PBXFileReference section */
 		25D925DA979295FB8DE10432 /* Pods-Pixapals.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Pixapals.release.xcconfig"; path = "Pods/Target Support Files/Pods-Pixapals/Pods-Pixapals.release.xcconfig"; sourceTree = "<group>"; };
+		3202929C1C69E645007AD662 /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
+		3202929D1C69E645007AD662 /* Fabric.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Fabric.framework; sourceTree = "<group>"; };
 		320933FA1C50EF1100B092B1 /* WobbleView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WobbleView.swift; sourceTree = "<group>"; };
 		321B7F9A1C460E760017932E /* Reachability.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
 		321B7F9C1C465CEC0017932E /* HelperFile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HelperFile.swift; sourceTree = "<group>"; };
@@ -99,7 +103,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3202929E1C69E645007AD662 /* Crashlytics.framework in Frameworks */,
 				D794CCBE85986CD3C38B5435 /* Pods_Pixapals.framework in Frameworks */,
+				3202929F1C69E645007AD662 /* Fabric.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -214,6 +220,8 @@
 		D8434C931E6A53BF2AD08086 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				3202929C1C69E645007AD662 /* Crashlytics.framework */,
+				3202929D1C69E645007AD662 /* Fabric.framework */,
 				9EAB444B124BDE822F19ED75 /* Pods_Pixapals.framework */,
 			);
 			name = Frameworks;
@@ -232,6 +240,7 @@
 				329B58161C3E260600C1EE08 /* Resources */,
 				48B8AB27A5431D8328D8348D /* Embed Pods Frameworks */,
 				76AEDD47274244E8D28E84DE /* Copy Pods Resources */,
+				3202929B1C69E623007AD662 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -298,6 +307,19 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		3202929B1C69E623007AD662 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "./Fabric.framework/run c331a488c0f64d5d5647e92d4524396ebd297bf3 08ea02cdb31310e332cf11aef870a2118dbffb2244b4e934c03e157a5e1f0d0d";
+		};
 		3E069F0DE5A7FD8B648A1D56 /* Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -502,6 +524,11 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/Pixapals",
+				);
 				INFOPLIST_FILE = Pixapals/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.Pixapals;
@@ -517,6 +544,11 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/Pixapals",
+				);
 				INFOPLIST_FILE = Pixapals/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.Pixapals;
