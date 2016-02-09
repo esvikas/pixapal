@@ -66,6 +66,7 @@ class PostFeedViewController: UIViewController, UITextViewDelegate {
 
             doubleModeSwipeImageInstructionLabel.hidden = false
 
+            self.view.backgroundColor=UIColor(red: 240/255, green: 240/255, blue: 240/255, alpha: 1)
 
 
             
@@ -176,7 +177,7 @@ class PostFeedViewController: UIViewController, UITextViewDelegate {
         self.view.addSubview(self.blurEffectView)
         let loadingNotification = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
         loadingNotification.mode = MBProgressHUDMode.Indeterminate
-        loadingNotification.labelText = "Loading"
+        loadingNotification.labelText = "Posting"
 
         
         
@@ -228,11 +229,11 @@ class PostFeedViewController: UIViewController, UITextViewDelegate {
                 print(response)
                 print(self.imageData)
 
-                print("Sucess")
+                print("success")
                 self.image1=nil
                 self.image2=nil
 
-                let alertController = UIAlertController(title: "Sucess", message: "Your post sucessfuly posted", preferredStyle: .Alert)
+                let alertController = UIAlertController(title: "success", message: "Your post successfully posted", preferredStyle: .Alert)
                 
                 let cancelAction = UIAlertAction(title: "Ok", style: .Cancel) { (action) in
                     print(action)
@@ -279,6 +280,11 @@ scrollView.contentOffset = CGPoint(x: 0, y: 0)
         self.scrollView.layoutIfNeeded()
     
 
+    }
+    
+    func textViewDidBeginEditing(textView: UITextView) {
+        
+        commentTextField.text=""
     }
 }
 

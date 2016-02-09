@@ -56,6 +56,8 @@ class DetailVIewViewController: UIViewController {
         //        let loadingNotification = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
         //        loadingNotification.mode = MBProgressHUDMode.Indeterminate
         //        loadingNotification.labelText = "Loading"
+        self.view.backgroundColor=UIColor(red: 240/255, green: 240/255, blue: 240/255, alpha: 1)
+
         
     }
     
@@ -111,6 +113,8 @@ class DetailVIewViewController: UIViewController {
             case .Success(let getFeed):
                 if !getFeed.error! {
                     print("getting feed")
+                    
+                    appDelegate.ShowAlertView("Success", message: "You are now following to \( self.feed.user?.id)")
                     self.getFeedButton.enabled = false
                 } else {
                     print("Error: Love it error")

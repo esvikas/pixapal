@@ -79,6 +79,9 @@ class ProfileViewController: UIViewController {
         
         self.headerView.frame.size.width = self.view.frame.width
         self.collectionView.hidden = true
+        
+        self.view.backgroundColor=UIColor(red: 240/255, green: 240/255, blue: 240/255, alpha: 1)
+
     }
 
     override func didReceiveMemoryWarning() {

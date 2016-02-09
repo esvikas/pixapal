@@ -16,7 +16,8 @@ class CustomTabBarController: UITabBarController {
         
         //self.selectedViewController?.tabBarItem
         // Do any additional setup after loading the view.
-        
+        self.view.backgroundColor=UIColor(red: 240/255, green: 240/255, blue: 240/255, alpha: 1)
+
         
     }
     

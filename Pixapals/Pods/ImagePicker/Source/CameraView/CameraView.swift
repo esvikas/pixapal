@@ -93,6 +93,7 @@ class CameraView: UIViewController {
 
     view.backgroundColor = Configuration.mainColor
     previewLayer?.backgroundColor = Configuration.mainColor.CGColor
+    
   }
 
   // MARK: - Layout

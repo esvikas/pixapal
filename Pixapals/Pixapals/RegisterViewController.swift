@@ -36,6 +36,8 @@ class RegisterViewController: UIViewController, UIPopoverControllerDelegate, UIP
         textFieldUsername.layer.sublayerTransform = CATransform3DMakeTranslation(5, 0, 10)
         textFieldPassword.layer.sublayerTransform = CATransform3DMakeTranslation(5, 0, 10)
         textFieldConfirmPassword.layer.sublayerTransform = CATransform3DMakeTranslation(5, 0, 10)
+        self.view.backgroundColor=UIColor(red: 240/255, green: 240/255, blue: 240/255, alpha: 1)
+
         
     }
     override func didReceiveMemoryWarning() {

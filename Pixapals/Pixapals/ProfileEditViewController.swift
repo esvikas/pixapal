@@ -40,7 +40,8 @@ class ProfileEditViewController: UIViewController {
         UIBarButtonItem.appearance().tintColor = UIColor.whiteColor()
         
         self.navigationItem.rightBarButtonItem = newBackButton;
-        
+        self.view.backgroundColor=UIColor(red: 240/255, green: 240/255, blue: 240/255, alpha: 1)
+
     }
     
     
@@ -48,7 +49,7 @@ class ProfileEditViewController: UIViewController {
     
     func back(sender: UIBarButtonItem) {
         
-        
+        if newPasswordTextField != nil && conformPasswordTextField != nil {
         if newPasswordTextField.text != conformPasswordTextField.text {
             
             appDelegate.ShowAlertView("Sorry", message: "Password didn't match")
@@ -56,6 +57,19 @@ class ProfileEditViewController: UIViewController {
             newPasswordTextField.text=""
             oldPasswordTextField.text=""
             return
+            }}
+        
+        if newPasswordTextField == nil {
+           newPasswordTextField.text=""
+        }
+        
+       if conformPasswordTextField == nil {
+        conformPasswordTextField.text=""
+
+        }
+        if oldPasswordTextField == nil {
+            oldPasswordTextField.text=""
+
         }
         
         let registerUrlString = "\(apiUrl)api/v1/profile/update"
@@ -78,7 +92,7 @@ class ProfileEditViewController: UIViewController {
         ]
         
         let headers = [
-            "X-Auth-Token" : UserDataStruct().api_token!,
+            "X-Auth-Token" : String(UserDataStruct().api_token!),
         ]
         
         

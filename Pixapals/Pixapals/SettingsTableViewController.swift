@@ -24,10 +24,12 @@ class SettingsTableViewController: UITableViewController {
         self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .Plain, target: nil, action: nil)
         
         self.navigationItem.hidesBackButton = true
-        let newBackButton = UIBarButtonItem(image: UIImage(named: "tick_green"), style: UIBarButtonItemStyle.Plain, target: self, action: "back:")
+        let newBackButton = UIBarButtonItem(image: UIImage(named: "report_form_left_arrow"), style: UIBarButtonItemStyle.Plain, target: self, action: "back:")
         UIBarButtonItem.appearance().tintColor = UIColor.whiteColor()
         
         self.navigationItem.leftBarButtonItem = newBackButton;
+        
+        self.view.backgroundColor=UIColor(red: 240/255, green: 240/255, blue: 240/255, alpha: 1)
         
     }
     

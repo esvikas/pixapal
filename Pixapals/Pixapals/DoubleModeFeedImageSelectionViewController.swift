@@ -40,6 +40,8 @@ class DoubleModeFeedImageSelectionViewController: UIViewController, ImagePickerD
         let gestureRecognizer2 = UITapGestureRecognizer(target: self, action: Selector("image2Pressed"))
         image2.addGestureRecognizer(gestureRecognizer2)
         
+        self.view.backgroundColor=UIColor(red: 240/255, green: 240/255, blue: 240/255, alpha: 1)
+
         
         
 

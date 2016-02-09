@@ -30,7 +30,7 @@
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="ZpS-wD-Y0v">
                                 <rect key="frame" x="20" y="240" width="560" height="90"/>
                                 <subviews>
-                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="vikas@esignature.com.np" borderStyle="roundedRect" placeholder="Email" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="nvE-uy-Io7">
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Email" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="nvE-uy-Io7">
                                         <rect key="frame" x="0.0" y="0.0" width="560" height="40"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="40" id="XM7-AQ-Kf1"/>
@@ -38,7 +38,7 @@
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits"/>
                                     </textField>
-                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="123456" borderStyle="roundedRect" placeholder="Password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="fpm-7l-Xqn">
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="fpm-7l-Xqn">
                                         <rect key="frame" x="0.0" y="50" width="560" height="40"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="40" id="NC2-7E-Ex9"/>
@@ -446,16 +446,27 @@
                                             <constraint firstItem="mD0-Ia-83p" firstAttribute="width" secondItem="1dH-mx-jfq" secondAttribute="width" id="icl-AM-WNb"/>
                                         </constraints>
                                     </stackView>
-                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" pagingEnabled="YES" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="4kA-Dl-dQR">
-                                        <rect key="frame" x="20" y="1173" width="560" height="62"/>
+                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" pagingEnabled="YES" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="4kA-Dl-dQR" customClass="DesignableTextView" customModule="Spring">
+                                        <rect key="frame" x="20" y="1180" width="560" height="55"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="62" id="jmq-pa-McQ"/>
-                                            <constraint firstAttribute="height" priority="250" constant="62" id="uH6-0P-UTP"/>
+                                            <constraint firstAttribute="height" priority="250" constant="55" id="uH6-0P-UTP"/>
                                         </constraints>
                                         <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut oque civiuda.</string>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences" autocorrectionType="no"/>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
+                                                <real key="value" value="1"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
+                                                <color key="value" red="0.68993373690000004" green="0.68993373690000004" blue="0.68993373690000004" alpha="1" colorSpace="calibratedRGB"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                <real key="value" value="9"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
                                         <variation key="default">
                                             <mask key="constraints">
                                                 <exclude reference="jmq-pa-McQ"/>
@@ -464,7 +475,7 @@
                                     </textView>
                                 </subviews>
                                 <constraints>
-                                    <constraint firstItem="4kA-Dl-dQR" firstAttribute="top" secondItem="Xxg-6A-bM8" secondAttribute="bottom" constant="8" id="01h-4T-HeR"/>
+                                    <constraint firstItem="4kA-Dl-dQR" firstAttribute="top" secondItem="Xxg-6A-bM8" secondAttribute="bottom" constant="15" id="01h-4T-HeR"/>
                                     <constraint firstItem="1dH-mx-jfq" firstAttribute="centerX" secondItem="Xxg-6A-bM8" secondAttribute="centerX" id="0bw-S3-Apf"/>
                                     <constraint firstItem="Xxg-6A-bM8" firstAttribute="centerX" secondItem="1dH-mx-jfq" secondAttribute="centerX" id="6tR-RW-8RG"/>
                                     <constraint firstItem="1dH-mx-jfq" firstAttribute="top" secondItem="4kA-Dl-dQR" secondAttribute="bottom" constant="8" id="A1I-Lb-7PI"/>
@@ -2273,8 +2284,11 @@
                     <size key="freeformSize" width="600" height="750"/>
                     <connections>
                         <outlet property="bioTextField" destination="toF-3f-7NL" id="w40-qO-x21"/>
+                        <outlet property="conformPasswordTextField" destination="7cd-P1-HAr" id="hOE-4u-YC7"/>
                         <outlet property="emailTextField" destination="vWW-TN-lsC" id="B33-0V-jtp"/>
                         <outlet property="genderTextField" destination="TYY-i6-Tbd" id="ejg-Ni-D5o"/>
+                        <outlet property="newPasswordTextField" destination="aGX-IB-XTK" id="KrX-yD-IY8"/>
+                        <outlet property="oldPasswordTextField" destination="ZAx-09-WWz" id="WMb-AL-Hrj"/>
                         <outlet property="phoneTextField" destination="ssD-KL-BUR" id="PHb-aO-jtl"/>
                         <outlet property="userNameTextField" destination="dtt-xH-fMB" id="Jex-h1-d4Q"/>
                         <outlet property="webSiteTextField" destination="Xln-hq-NnO" id="eB7-Zn-oz2"/>

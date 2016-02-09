@@ -27,6 +27,9 @@ class PostFeedModeSelectionViewController: UIViewController, UINavigationControl
         singleModeButton.layer.borderWidth = 3
         doubleModeButton.layer.borderColor = UIColor(red:0.914, green:0.910, blue:0.922, alpha:1.00).CGColor
         doubleModeButton.layer.borderWidth = 3
+        
+        self.view.backgroundColor=UIColor(red: 240/255, green: 240/255, blue: 240/255, alpha: 1)
+
     }
 
     override func didReceiveMemoryWarning() {

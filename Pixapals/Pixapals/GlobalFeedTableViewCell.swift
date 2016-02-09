@@ -83,7 +83,7 @@ class GlobalFeedTableViewCell: UITableViewCell {
         if let swipeGesture = gesture as? UISwipeGestureRecognizer {
             
             switch swipeGesture.direction {
-            case UISwipeGestureRecognizerDirection.Left:
+            case UISwipeGestureRecognizerDirection.Right:
                 
                 //                print(id)
                 //                print(loved)
@@ -91,8 +91,8 @@ class GlobalFeedTableViewCell: UITableViewCell {
                 
                 if loved != true {
                     
-                    DynamicView.image=UIImage(named: "loveit")
-                    
+                    DynamicView.image=UIImage(named: "leaveit")
+
                     
                     DynamicView.frame=(frame: CGRectMake(self.feedImage.layer.frame.origin.x, self.feedImage.layer.frame.origin.y, self.feedImage.frame.width, self.feedImage.frame.height))
                     self.DynamicView.hidden=false
@@ -113,11 +113,12 @@ class GlobalFeedTableViewCell: UITableViewCell {
                     delegate.imageSwipedRight(self.id,loved: self.loved,left: self.left)
                 }
                 
-            case UISwipeGestureRecognizerDirection.Right:
+            case UISwipeGestureRecognizerDirection.Left:
                 if left != true {
                     
                     //                DynamicView.backgroundColor=UIColor.redColor()
-                    DynamicView.image=UIImage(named: "leaveit")
+                    DynamicView.image=UIImage(named: "loveit")
+
                     
                     DynamicView.frame=(frame: CGRectMake(self.feedImage.layer.frame.origin.x, self.feedImage.layer.frame.origin.y, self.feedImage.frame.width, self.feedImage.frame.height))
                     self.DynamicView.hidden=false

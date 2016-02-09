@@ -69,6 +69,8 @@ class GlobalFeedsViewController: UIViewController {
         self.collectionViewRefreshControl.addTarget(self, action: "refresh:", forControlEvents: UIControlEvents.ValueChanged)
         self.collectionView.addSubview(collectionViewRefreshControl)
         self.collectionView.alwaysBounceVertical = true
+        self.view.backgroundColor=UIColor(red: 240/255, green: 240/255, blue: 240/255, alpha: 1)
+
     }
     
     override func didReceiveMemoryWarning() {
@@ -145,15 +147,15 @@ class GlobalFeedsViewController: UIViewController {
             "X-Auth-Token" : api_token,
         ]
         
-//        Alamofire.request(.GET, apiURLString, parameters: nil, headers: headers).responseJSON { response -> Void in
-//            print(response.request)
-//            switch response.result {
-//            case .Success(let value):
-//                print(JSON(value))
-//            case .Failure(let error):
-//                    print(error)
-//            }
-//        }
+        Alamofire.request(.GET, apiURLString, parameters: nil, headers: headers).responseJSON { response -> Void in
+            print(response.request)
+            switch response.result {
+            case .Success(let value):
+                print(JSON(value))
+            case .Failure(let error):
+                    print(error)
+            }
+        }
         
         //Alamofire.request(.GET, apiURLString, parameters: nil, headers: headers).responseArray { (response: Response<[FeedJSON], NSError>) -> Void in
         Alamofire.request(.GET, apiURLString, parameters: nil, headers: headers).responseObject { (response: Response<FeedsResponseJSON, NSError>) -> Void in
@@ -187,7 +189,7 @@ class GlobalFeedsViewController: UIViewController {
                     else {
                         self.feedsFromResponseAsObject = feedsResponseJSON
                     }
-                    
+                    print(feedsResponseJSON.feeds?.count)
                     self.tableView.reloadData()
                     self.collectionView.reloadData()
                     MBProgressHUD.hideAllHUDsForView(self.view, animated: true)
@@ -347,6 +349,8 @@ class GlobalFeedsViewController: UIViewController {
 
 extension GlobalFeedsViewController: UITableViewDataSource {
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+        
+        print(self.feedsFromResponseAsObject?.feeds?.count)
         return self.feedsFromResponseAsObject?.feeds?.count ?? 0
     }
     
@@ -528,8 +532,9 @@ extension GlobalFeedsViewController: CellImageSwippedDelegate {
         //        print(loved)
         //        print(left)
         //left=true
+        self.loveFeed(id)
+
         
-        self.leaveit(id)
     }
     func imageSwipedRight(id: Int, loved: Bool, left: Bool) {
         print("swipped love (right)")
@@ -537,7 +542,8 @@ extension GlobalFeedsViewController: CellImageSwippedDelegate {
         //        print(left)
         //        loved = true
         //        left = false
-        self.loveFeed(id)
+        self.leaveit(id)
+
     }
     
     func loveFeed(id:Int){
@@ -558,18 +564,21 @@ extension GlobalFeedsViewController: CellImageSwippedDelegate {
         
         
         Alamofire.request(.POST, registerUrlString, parameters: parameters, headers: headers).responseObject { (response: Response<SuccessFailJSON, NSError>) -> Void in
+
+            
+            
             switch response.result {
-            case .Success(let loveItObject):
-                if !loveItObject.error! {
-                    feed.is_my_love = true
-                    feed.loveit = feed.loveit! + 1
-                    if feed.is_my_left! {
-                        feed.is_my_left = false
-                        feed.leaveit = feed.leaveit! - 1
+            case .Success(let leaveItObject):
+                if !leaveItObject.error! {
+                    feed.is_my_left = true
+                    feed.leaveit = feed.leaveit! + 1
+                    if feed.is_my_love! {
+                        feed.is_my_love = false
+                        feed.loveit = feed.loveit! - 1
                     }
                     self.tableView.reloadData()
                 } else {
-                    print("Error: Love it error")
+                    print("Error: Leave it error")
                 }
             case .Failure(let error):
                 print("Error in connection \(error)")
@@ -617,17 +626,17 @@ extension GlobalFeedsViewController: CellImageSwippedDelegate {
         
         Alamofire.request(.POST, registerUrlString, parameters: parameters, headers: headers).responseObject { (response: Response<SuccessFailJSON, NSError>) -> Void in
             switch response.result {
-            case .Success(let leaveItObject):
-                if !leaveItObject.error! {
-                    feed.is_my_left = true
-                    feed.leaveit = feed.leaveit! + 1
-                    if feed.is_my_love! {
-                        feed.is_my_love = false
-                        feed.loveit = feed.loveit! - 1
+            case .Success(let loveItObject):
+                if !loveItObject.error! {
+                    feed.is_my_love = true
+                    feed.loveit = feed.loveit! + 1
+                    if feed.is_my_left! {
+                        feed.is_my_left = false
+                        feed.leaveit = feed.leaveit! - 1
                     }
                     self.tableView.reloadData()
                 } else {
-                    print("Error: Leave it error")
+                    print("Error: Love it error")
                 }
             case .Failure(let error):
                 print("Error in connection \(error)")
