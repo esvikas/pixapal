@@ -47,7 +47,8 @@ class LoginWithEmailViewController: UIViewController {
         
         let parametersToPost = [
             "email": emailTextfield.text!,
-            "password": passwordTextfield.text!
+            "password": passwordTextfield.text!,
+            "device_token" : appDelegate.deviceTokenString ?? "werrrrrr"
         ]
         
         Alamofire.request(.POST, loginUrlString, parameters: parametersToPost)

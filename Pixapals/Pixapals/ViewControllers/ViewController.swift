@@ -211,7 +211,8 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
                         "latitude": String(location.latitude),
                         "longitude": String(location.longitude),
                         "email": self.dict["email"]!,
-                        "username": userName
+                        "username": userName,
+                        "device_token" : appDelegate.deviceTokenString ?? "werrrrrr"
                     ]
 //                "name": self.textFieldFullName.text!,
 //                "email": self.textFieldEmail.text!,
