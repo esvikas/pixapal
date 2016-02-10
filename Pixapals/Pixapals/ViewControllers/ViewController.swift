@@ -211,8 +211,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
                         "latitude": String(location.latitude),
                         "longitude": String(location.longitude),
                         "email": self.dict["email"]!,
-                        "username": userName,
-                        "device_token" : appDelegate.deviceTokenString ?? "werrrrrr"
+                        "username": userName
                     ]
 //                "name": self.textFieldFullName.text!,
 //                "email": self.textFieldEmail.text!,
@@ -229,7 +228,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
                 
                     print(parametersToPost, terminator: "")
                     
-                    Alamofire.request(.POST, registerUrlString, parameters: parametersToPost)
+                    requestWithDeviceTokenInParam(.POST, registerUrlString, parameters: parametersToPost)
                         .responseJSON { response in
                             debugPrint(response)     // prints detailed description of all response properties
                             

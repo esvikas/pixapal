@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Alamofire
 
 let apiUrl = "http://pixapals.com/API/public/"
 
@@ -18,6 +19,70 @@ var UserGenderForFilter = nsUserDefault.objectForKey("UserGenderForFilter") as! 
 var userGender:String!
 
 let nsUserDefault = NSUserDefaults.standardUserDefaults()
+
+
+public func requestWithHeaderXAuthToken(
+    method: Alamofire.Method,
+    _ URLString: URLStringConvertible,
+    parameters: [String: AnyObject]? = nil,
+    encoding: ParameterEncoding = .URL,
+    var headers: [String: String])
+    -> Alamofire.Request
+{
+    let token = UserDataStruct().api_token ?? "NO TOKEN"
+    headers["X-Auth-Token"] = token
+    return Alamofire.Manager.sharedInstance.request(
+        method,
+        URLString,
+        parameters: parameters,
+        encoding: encoding,
+        headers: headers
+    )
+}
+
+public func requestWithHeaderXAuthTokenAndDeviceTokenInParam(
+    method: Alamofire.Method,
+    _ URLString: URLStringConvertible,
+    var parameters: [String: AnyObject],
+    encoding: ParameterEncoding = .URL,
+    var headers: [String: String])
+    -> Alamofire.Request
+{
+    let token = UserDataStruct().api_token ?? "NO TOKEN"
+    headers["X-Auth-Token"] = token
+    
+    let deviceToken = appDelegate.deviceTokenString ?? "No Device Token"
+    parameters["device_token"] = deviceToken
+    
+    return Alamofire.Manager.sharedInstance.request(
+        method,
+        URLString,
+        parameters: parameters,
+        encoding: encoding,
+        headers: headers
+    )
+}
+
+public func requestWithDeviceTokenInParam(
+    method: Alamofire.Method,
+    _ URLString: URLStringConvertible,
+    var parameters: [String: AnyObject],
+    encoding: ParameterEncoding = .URL,
+    headers: [String: String]? = nil)
+    -> Alamofire.Request
+{
+    let deviceToken = appDelegate.deviceTokenString ?? "No Device Token"
+    parameters["device_token"] = deviceToken
+    
+    return Alamofire.Manager.sharedInstance.request(
+        method,
+        URLString,
+        parameters: parameters,
+        encoding: encoding,
+        headers: headers
+    )
+}
+
 
 
 
