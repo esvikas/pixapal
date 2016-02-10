@@ -19,6 +19,8 @@ class SettingsTableViewController: UITableViewController {
     var actionView: UIView = UIView()
     var window: UIWindow? = nil
     
+    var dataChanged = false
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .Plain, target: nil, action: nil)
@@ -30,7 +32,7 @@ class SettingsTableViewController: UITableViewController {
         self.navigationItem.leftBarButtonItem = newBackButton;
         
         self.view.backgroundColor=UIColor(red: 240/255, green: 240/255, blue: 240/255, alpha: 1)
-        
+        reloadView()
     }
     
     override func didReceiveMemoryWarning() {
@@ -40,12 +42,16 @@ class SettingsTableViewController: UITableViewController {
     
     override func viewDidAppear(animated: Bool) {
         
+        reloadView()
+        
+    }
+    
+    func reloadView(){
+        
         locationDetailText.text =  nsUserDefault.objectForKey("UserLocationForFilter") as? String
         genderDetailText.text =  nsUserDefault.objectForKey("UserGenderForFilter") as? String
         
     }
-    
- 
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
@@ -63,6 +69,8 @@ class SettingsTableViewController: UITableViewController {
                 let storyboard: UIStoryboard = UIStoryboard (name: "Main", bundle: nil)
                 let vc: LocationChooserViewController = storyboard.instantiateViewControllerWithIdentifier("LocationChooserViewController") as! LocationChooserViewController
                 self.navigationController?.pushViewController(vc, animated: true)
+                dataChanged=true
+                
             }
             
         case 1:
@@ -78,11 +86,15 @@ class SettingsTableViewController: UITableViewController {
     }
     
     func back(sender: UIBarButtonItem) {
-        if genderDetailText.text != nil && locationDetailText.text != nil {
-            preference()
+        
+        if  dataChanged == true {
+            
+            if genderDetailText.text != nil && locationDetailText.text != nil {
+                preference()
+            }
         }
-                self.navigationController?.popViewControllerAnimated(true)
-
+        self.navigationController?.popViewControllerAnimated(true)
+        
         
     }
     
@@ -225,6 +237,8 @@ class SettingsTableViewController: UITableViewController {
         
         genderDetailText.text=pickerDataSource[row]
         nsUserDefault.setObject(pickerDataSource[row], forKey: "UserGenderForFilter")
+        dataChanged=true
+        reloadView()
         
         
     }
@@ -238,14 +252,11 @@ class SettingsTableViewController: UITableViewController {
             "user_id": String(user.id!),
             "gender": String(genderDetailText.text!),
             "region": String(locationDetailText.text!)
-            
-            
         ]
+        
         let headers = [
             "X-Auth-Token" : user.api_token!,
         ]
-        
-        
         
         
         //                Alamofire.request(.POST, registerUrlString, parameters: parameters, headers:headers).responseJSON { response in
@@ -267,11 +278,7 @@ class SettingsTableViewController: UITableViewController {
                 print("Error in connection \(error)")
             }
         }
-        
-        
     }
-    
-    
 }
 extension SettingsTableViewController : UIPickerViewDataSource, UIPickerViewDelegate {
     

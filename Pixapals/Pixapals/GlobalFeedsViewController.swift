@@ -23,6 +23,7 @@ class GlobalFeedsViewController: UIViewController {
     
     @IBOutlet weak var tryAgainButton: UIButton!
     
+    
     let blurEffectView = UIVisualEffectView(effect: UIBlurEffect(style: UIBlurEffectStyle.ExtraLight))
     
     var tableViewRefreshControl = UIRefreshControl()
@@ -144,7 +145,7 @@ class GlobalFeedsViewController: UIViewController {
         }
         
         let headers = [
-            "X-Auth-Token" : api_token,
+            "X-Auth-Token" : String(api_token),
         ]
         
         Alamofire.request(.GET, apiURLString, parameters: nil, headers: headers).responseJSON { response -> Void in
@@ -556,74 +557,10 @@ extension GlobalFeedsViewController: CellImageSwippedDelegate {
         [
             "user_id": String(user.id!),
             "post_id": String(feed.id!)
-            
         ]
         let headers = [
             "X-Auth-Token" : user.api_token!,
         ]
-        
-        
-        Alamofire.request(.POST, registerUrlString, parameters: parameters, headers: headers).responseObject { (response: Response<SuccessFailJSON, NSError>) -> Void in
-
-            
-            
-            switch response.result {
-            case .Success(let leaveItObject):
-                if !leaveItObject.error! {
-                    feed.is_my_left = true
-                    feed.leaveit = feed.leaveit! + 1
-                    if feed.is_my_love! {
-                        feed.is_my_love = false
-                        feed.loveit = feed.loveit! - 1
-                    }
-                    self.tableView.reloadData()
-                } else {
-                    print("Error: Leave it error")
-                }
-            case .Failure(let error):
-                print("Error in connection \(error)")
-            }
-        }
-//                Alamofire.request(.POST, registerUrlString, parameters: parameters, headers:headers).responseJSON { response in
-//                    switch response.result {
-//                    case .Failure(let error):
-//                        print(error)
-//                    case .Success(let value):
-//                        print(value)
-//                    }
-//                }
-        
-    }
-    
-    
-    func leaveit(id: Int){
-        let feed = self.feedsFromResponseAsObject.feeds![id]
-        let user = UserDataStruct()
-        let registerUrlString = "\(apiUrl)api/v1/feeds/leaveit"
-        
-        let parameters: [String: AnyObject] =
-        [
-            "user_id": String(user.id!),
-            "post_id": String(feed.id!)
-            
-        ]
-        let headers = [
-            "X-Auth-Token" : user.api_token!,
-        ]
-        
-        
-        
-        
-//                Alamofire.request(.POST, registerUrlString, parameters: parameters, headers:headers).responseJSON { response in
-//                    print(response.request)
-//                    switch response.result {
-//                    case .Failure(let error):
-//                        print(error)
-//                    case .Success(let value):
-//                        print(value)
-//                    }
-//                }
-        
         Alamofire.request(.POST, registerUrlString, parameters: parameters, headers: headers).responseObject { (response: Response<SuccessFailJSON, NSError>) -> Void in
             switch response.result {
             case .Success(let loveItObject):
@@ -642,8 +579,44 @@ extension GlobalFeedsViewController: CellImageSwippedDelegate {
                 print("Error in connection \(error)")
             }
         }
+    }
+    
+    
+    func leaveit(id: Int){
+        let feed = self.feedsFromResponseAsObject.feeds![id]
+        let user = UserDataStruct()
+        let registerUrlString = "\(apiUrl)api/v1/feeds/leaveit"
+        
+        let parameters: [String: AnyObject] =
+        [
+            "user_id": String(user.id!),
+            "post_id": String(feed.id!)
+        ]
+        let headers = [
+            "X-Auth-Token" : user.api_token!,
+        ]
         
         
+        Alamofire.request(.POST, registerUrlString, parameters: parameters, headers: headers).responseObject { (response: Response<SuccessFailJSON, NSError>) -> Void in
+
+        
+        switch response.result {
+        case .Success(let leaveItObject):
+            if !leaveItObject.error! {
+                feed.is_my_left = true
+                feed.leaveit = feed.leaveit! + 1
+                if feed.is_my_love! {
+                    feed.is_my_love = false
+                    feed.loveit = feed.loveit! - 1
+                }
+                self.tableView.reloadData()
+            } else {
+                print("Error: Leave it error")
+            }
+        case .Failure(let error):
+            print("Error in connection \(error)")
+        }
+        }
     }
 }
 

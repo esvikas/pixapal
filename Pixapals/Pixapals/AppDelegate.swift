@@ -88,6 +88,31 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 annotation: annotation)
     }
     
+    
+    func application(application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject : AnyObject]) {
+        if application.applicationState == UIApplicationState.Inactive || application.applicationState == UIApplicationState.Background {
+            
+            
+            
+        }
+        
+        
+//        let alertController = UIAlertController(title: userInfo["aps"]?["alert"]?!["title"] as? String, message: userInfo["aps"]?["alert"]?!["body"] as? String, preferredStyle: .Alert)
+//        
+//        
+//        
+//        let OKAction = UIAlertAction(title: "Ok", style: .Default) { (action) in
+//        
+//        }
+//        alertController.addAction(OKAction)
+//        let currentController = self.getCurrentViewController()
+//        
+//        currentController?.presentViewController(alertController, animated: true, completion: nil)
+        
+        
+        
+    }
+    
     func ShowAlertView(title:String, message:String, handlerForOk: ((UIAlertAction) -> Void)? = nil, handlerForCancel: ((UIAlertAction) -> Void)? = nil){
         
         
