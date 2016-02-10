@@ -42,6 +42,8 @@ class ProfileViewController: UIViewController {
     var refreshingStatus = false
     var hasMoreDataInServer = true
     
+    var userId: Int?
+    
     var pageNumber = 1
     let postLimit = 3
     
@@ -140,11 +142,13 @@ class ProfileViewController: UIViewController {
     }
     
     private func loadDataFromAPI(){
-        guard let id = UserDataStruct().id else {
+        guard var id = UserDataStruct().id else {
             print("no user id")
             return
         }
-        
+        if let _ = self.userId {
+            id = self.userId!
+        }
         let apiURLString = "\(apiUrl)api/v1/profile/\(id)/\(self.pageNumber)/\(self.postLimit)"
         print(apiURLString)
         guard let api_token = UserDataStruct().api_token else{
@@ -158,8 +162,9 @@ class ProfileViewController: UIViewController {
         print(api_token)
         
         
-        Alamofire.request(.GET, apiURLString, parameters: nil, headers: headers)
+       requestWithHeaderXAuthToken(.GET, apiURLString)
             .responseJSON { response in
+                print(response.request)
                 switch response.result {
                 case .Failure(let error):
                     print(error)
@@ -472,7 +477,7 @@ extension ProfileViewController: CellImageSwippedDelegate {
         
         
         //Alamofire.request(.GET, apiURLString, parameters: nil, headers: headers).responseObject { (response: Response<FeedsResponseJSON, NSError>) -> Void in
-        Alamofire.request(.POST, registerUrlString, parameters: parameters, headers: headers).responseObject { (response: Response<SuccessFailJSON, NSError>) -> Void in
+       requestWithHeaderXAuthToken(.POST, registerUrlString, parameters: parameters).responseObject { (response: Response<SuccessFailJSON, NSError>) -> Void in
             switch response.result {
             case .Success(let loveItObject):
                 if !loveItObject.error! {
@@ -529,7 +534,7 @@ extension ProfileViewController: CellImageSwippedDelegate {
         //            }
         //        }
         
-        Alamofire.request(.POST, registerUrlString, parameters: parameters, headers: headers).responseObject { (response: Response<SuccessFailJSON, NSError>) -> Void in
+        requestWithHeaderXAuthToken(.POST, registerUrlString, parameters: parameters).responseObject { (response: Response<SuccessFailJSON, NSError>) -> Void in
             switch response.result {
             case .Success(let leaveItObject):
                 if !leaveItObject.error! {

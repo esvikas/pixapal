@@ -254,7 +254,7 @@
                             <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Dhp-77-j9S">
                                 <rect key="frame" x="20" y="80" width="560" height="224"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <state key="normal" image="post-feed-img">
+                                <state key="normal" image="double-mode-thumbnail">
                                     <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
                                 <userDefinedRuntimeAttributes>
@@ -2537,6 +2537,7 @@
         <image name="camera" width="36" height="42"/>
         <image name="clock" width="9" height="9"/>
         <image name="dislike" width="14" height="13"/>
+        <image name="double-mode-thumbnail" width="230" height="100"/>
         <image name="double_image_menu" width="20" height="20"/>
         <image name="double_mode_camera" width="55" height="50"/>
         <image name="double_mode_thumbnail" width="230" height="100"/>

@@ -144,10 +144,12 @@ class GlobalFeedsViewController: UIViewController {
         }
         
         let headers = [
-            "X-Auth-Token" : api_token,
+            "X-Auth-Token" : String(api_token),
         ]
         
-        Alamofire.request(.GET, apiURLString, parameters: nil, headers: headers).responseJSON { response -> Void in
+        Alamofire.request(.GET, apiURLString, parameters: nil, headers: headers)
+        //requestWithHeaderXAuthToken(.GET, apiURLString)
+            .responseJSON { response -> Void in
             print(response.request)
             switch response.result {
             case .Success(let value):
@@ -158,7 +160,7 @@ class GlobalFeedsViewController: UIViewController {
         }
         
         //Alamofire.request(.GET, apiURLString, parameters: nil, headers: headers).responseArray { (response: Response<[FeedJSON], NSError>) -> Void in
-        Alamofire.request(.GET, apiURLString, parameters: nil, headers: headers).responseObject { (response: Response<FeedsResponseJSON, NSError>) -> Void in
+        requestWithHeaderXAuthToken(.GET, apiURLString).responseObject { (response: Response<FeedsResponseJSON, NSError>) -> Void in
             
             switch response.result {
                 
@@ -563,7 +565,7 @@ extension GlobalFeedsViewController: CellImageSwippedDelegate {
         ]
         
         
-        Alamofire.request(.POST, registerUrlString, parameters: parameters, headers: headers).responseObject { (response: Response<SuccessFailJSON, NSError>) -> Void in
+        requestWithHeaderXAuthToken(.POST, registerUrlString, parameters: parameters).responseObject { (response: Response<SuccessFailJSON, NSError>) -> Void in
 
             
             
@@ -624,7 +626,7 @@ extension GlobalFeedsViewController: CellImageSwippedDelegate {
 //                    }
 //                }
         
-        Alamofire.request(.POST, registerUrlString, parameters: parameters, headers: headers).responseObject { (response: Response<SuccessFailJSON, NSError>) -> Void in
+       requestWithHeaderXAuthToken(.POST, registerUrlString, parameters: parameters).responseObject { (response: Response<SuccessFailJSON, NSError>) -> Void in
             switch response.result {
             case .Success(let loveItObject):
                 if !loveItObject.error! {

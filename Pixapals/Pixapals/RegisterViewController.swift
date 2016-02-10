@@ -130,10 +130,9 @@ class RegisterViewController: UIViewController, UIPopoverControllerDelegate, UIP
             "bio": "",
             "phone": "",
             "gender": self.btnGender.titleLabel?.text ?? "",
-            "device_token" : deviceToken
         ]
         
-        Alamofire.request(.POST, registerUrlString, parameters: parameters)
+        requestWithDeviceTokenInParam(.POST, registerUrlString, parameters: parameters)
             .responseJSON { response in
                 
                 switch response.result {
