@@ -77,7 +77,7 @@ class SettingsTableViewController: UITableViewController {
             appDelegate.ShowAlertView("Sorry ", message: "Not available")
             
         case 2:
-            logOut()
+            logoutRequest()
             
         default:
             print("Error")
@@ -98,18 +98,7 @@ class SettingsTableViewController: UITableViewController {
         
     }
     
-    func logOut(){
-        
-        
-        
-        let appDomain = NSBundle.mainBundle().bundleIdentifier!
-        NSUserDefaults.standardUserDefaults().removePersistentDomainForName(appDomain)
-        let viewControllers: [UIViewController] = self.navigationController!.viewControllers as [UIViewController];
-        self.navigationController!.popToViewController(viewControllers[0], animated: true);
-        
-        
-        
-    }
+
     
     func PickerAction(){
         
@@ -278,6 +267,47 @@ class SettingsTableViewController: UITableViewController {
                 print("Error in connection \(error)")
             }
         }
+    }
+    
+    
+    func logoutRequest(){
+        let user = UserDataStruct()
+        let registerUrlString = "\(apiUrl)api/v1/profile/logout"
+        
+        
+        let headers = [
+            "X-Auth-Token" : String(user.api_token!),
+        ]
+        
+        
+                        Alamofire.request(.GET, registerUrlString, parameters: nil, headers:headers).responseJSON { response in
+                            print(response.request)
+                            switch response.result {
+                            case .Success( _ ):
+                                
+                                self.logOut()
+                                
+                                
+                            case .Failure(let error):
+                                print("Error in connection \(error)")
+                                appDelegate.ShowAlertView("Error", message: "Please Try Again Later")
+                            }
+                        }
+        print(headers)
+  
+    }
+    func logOut(){
+        
+        
+        
+        let appDomain = NSBundle.mainBundle().bundleIdentifier!
+        NSUserDefaults.standardUserDefaults().removePersistentDomainForName(appDomain)
+        
+        let viewControllers: [UIViewController] = self.navigationController!.viewControllers as [UIViewController];
+        self.navigationController!.popToViewController(viewControllers[0], animated: true);
+        
+        
+        
     }
 }
 extension SettingsTableViewController : UIPickerViewDataSource, UIPickerViewDelegate {

@@ -42,8 +42,19 @@ class GlobalFeedTableViewCell: UITableViewCell {
         self.addGestureRecognizer(swipeLeft)
         CreateScreen()
 
+        loveCount.userInteractionEnabled = true
+        loveIcon.userInteractionEnabled = true
+        let gestureRecognizer = UITapGestureRecognizer(target: self, action: Selector("labelPressed"))
+        loveCount.addGestureRecognizer(gestureRecognizer)
+        let gestureRecognizer2 = UITapGestureRecognizer(target: self, action: Selector("labelPressed"))
+
+        loveIcon.addGestureRecognizer(gestureRecognizer2)
+
     }
     
+    func labelPressed(){
+
+    }
     
     func CreateScreen(){
         self.layoutIfNeeded()
