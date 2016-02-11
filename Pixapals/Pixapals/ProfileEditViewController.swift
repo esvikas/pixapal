@@ -8,6 +8,7 @@
 
 import UIKit
 import Alamofire
+import MBProgressHUD
 
 class ProfileEditViewController: UIViewController {
     
@@ -24,7 +25,8 @@ class ProfileEditViewController: UIViewController {
     let nsUserDefault = NSUserDefaults.standardUserDefaults()
     var dataSource=UserDataStruct()
     
-    
+    let blurEffectView = UIVisualEffectView(effect: UIBlurEffect(style: UIBlurEffectStyle.ExtraLight))
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -35,6 +37,8 @@ class ProfileEditViewController: UIViewController {
         webSiteTextField.text = dataSource.website
         genderTextField.text = dataSource.gender.rawValue
         
+        print(dataSource.website)
+        
         //        self.navigationItem.hidesBackButton = true
         let newBackButton = UIBarButtonItem(image: UIImage(named: "tick_green"), style: UIBarButtonItemStyle.Plain, target: self, action: "back:")
         UIBarButtonItem.appearance().tintColor = UIColor.whiteColor()
@@ -42,10 +46,9 @@ class ProfileEditViewController: UIViewController {
         self.navigationItem.rightBarButtonItem = newBackButton;
         self.view.backgroundColor=UIColor(red: 240/255, green: 240/255, blue: 240/255, alpha: 1)
 
+        
     }
-    
-    
-    
+
     
     func back(sender: UIBarButtonItem) {
         
@@ -71,11 +74,16 @@ class ProfileEditViewController: UIViewController {
             oldPasswordTextField.text=""
 
         }
+ 
+        self.blurEffectView.alpha = 0.4
+        self.blurEffectView.frame = view.bounds
+        self.view.addSubview(self.blurEffectView)
+        let loadingNotification = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
+        loadingNotification.mode = MBProgressHUDMode.Indeterminate
+        loadingNotification.labelText = "Posting"
         
         let registerUrlString = "\(apiUrl)api/v1/profile/update"
-        
-        
-        
+
         
         let parameters: [String: AnyObject] =
         [
@@ -118,13 +126,14 @@ class ProfileEditViewController: UIViewController {
                     let statusCode = HTTPResponse.statusCode
                     
                     if statusCode==200{
-                        
+                        MBProgressHUD.hideAllHUDsForView(self.view, animated: true)
+                        self.blurEffectView.removeFromSuperview()
                         self.navigationController!.popViewControllerAnimated(true)
-                        
                     }else  {
                         
                     
-                        
+                        MBProgressHUD.hideAllHUDsForView(self.view, animated: true)
+                        self.blurEffectView.removeFromSuperview()
                         
                     }
                 }

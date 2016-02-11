@@ -351,7 +351,7 @@
                                             <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="eoR-bn-l7p">
                                                 <rect key="frame" x="0.0" y="565" width="560" height="560"/>
                                                 <subviews>
-                                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo" translatesAutoresizingMaskIntoConstraints="NO" id="1H6-vp-Suw">
+                                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo" translatesAutoresizingMaskIntoConstraints="NO" id="1H6-vp-Suw">
                                                         <rect key="frame" x="0.0" y="0.0" width="280" height="560"/>
                                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                         <constraints>
@@ -385,7 +385,7 @@
                                                             <constraint firstItem="xwF-hL-x36" firstAttribute="height" secondItem="cOf-l2-BJE" secondAttribute="height" multiplier="0.9" id="rWE-NT-opS"/>
                                                         </constraints>
                                                     </view>
-                                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo" translatesAutoresizingMaskIntoConstraints="NO" id="ute-E4-3pi">
+                                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo" translatesAutoresizingMaskIntoConstraints="NO" id="ute-E4-3pi">
                                                         <rect key="frame" x="281" y="0.0" width="279" height="560"/>
                                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     </imageView>
@@ -446,14 +446,13 @@
                                             <constraint firstItem="mD0-Ia-83p" firstAttribute="width" secondItem="1dH-mx-jfq" secondAttribute="width" id="icl-AM-WNb"/>
                                         </constraints>
                                     </stackView>
-                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" pagingEnabled="YES" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="4kA-Dl-dQR" customClass="DesignableTextView" customModule="Spring">
+                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" pagingEnabled="YES" text="Comments" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="4kA-Dl-dQR" customClass="DesignableTextView" customModule="Spring">
                                         <rect key="frame" x="20" y="1180" width="560" height="55"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="62" id="jmq-pa-McQ"/>
                                             <constraint firstAttribute="height" priority="250" constant="55" id="uH6-0P-UTP"/>
                                         </constraints>
-                                        <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut oque civiuda.</string>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences" autocorrectionType="no"/>
                                         <userDefinedRuntimeAttributes>
@@ -527,6 +526,7 @@
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <size key="freeformSize" width="600" height="1326"/>
                     <connections>
+                        <outlet property="btnPostFeed" destination="mD0-Ia-83p" id="xhJ-6a-Tn9"/>
                         <outlet property="commentTextField" destination="4kA-Dl-dQR" id="bQg-AL-gZD"/>
                         <outlet property="commentViewHeightConstrant" destination="uH6-0P-UTP" id="LRG-uu-kBl"/>
                         <outlet property="doubleModeImageView1" destination="1H6-vp-Suw" id="hHt-cq-lkS"/>
@@ -918,7 +918,7 @@
                                                         <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Lxi-Yj-R7n">
                                                             <rect key="frame" x="0.0" y="0.0" width="414" height="414"/>
                                                             <subviews>
-                                                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="post-feed-img" translatesAutoresizingMaskIntoConstraints="NO" id="nvk-VH-qRZ">
+                                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="post-feed-img" translatesAutoresizingMaskIntoConstraints="NO" id="nvk-VH-qRZ">
                                                                     <rect key="frame" x="0.0" y="0.0" width="207" height="414"/>
                                                                     <gestureRecognizers/>
                                                                     <constraints>
@@ -930,7 +930,7 @@
                                                                         </mask>
                                                                     </variation>
                                                                 </imageView>
-                                                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="post-feed-img" translatesAutoresizingMaskIntoConstraints="NO" id="Yrd-wb-Ygs">
+                                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="post-feed-img" translatesAutoresizingMaskIntoConstraints="NO" id="Yrd-wb-Ygs">
                                                                     <rect key="frame" x="207" y="0.0" width="207" height="414"/>
                                                                 </imageView>
                                                             </subviews>
@@ -1268,7 +1268,7 @@
                                                         <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dn4-kc-f9x">
                                                             <rect key="frame" x="0.0" y="31" width="414" height="414"/>
                                                             <subviews>
-                                                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="post-feed-img" translatesAutoresizingMaskIntoConstraints="NO" id="NMi-3y-tYA">
+                                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="post-feed-img" translatesAutoresizingMaskIntoConstraints="NO" id="NMi-3y-tYA">
                                                                     <rect key="frame" x="0.0" y="0.0" width="207" height="414"/>
                                                                     <gestureRecognizers/>
                                                                     <constraints>
@@ -1280,7 +1280,7 @@
                                                                         </mask>
                                                                     </variation>
                                                                 </imageView>
-                                                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="post-feed-img" translatesAutoresizingMaskIntoConstraints="NO" id="0Dw-sA-HGc">
+                                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="post-feed-img" translatesAutoresizingMaskIntoConstraints="NO" id="0Dw-sA-HGc">
                                                                     <rect key="frame" x="207" y="0.0" width="207" height="414"/>
                                                                 </imageView>
                                                             </subviews>
@@ -1701,11 +1701,11 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="550"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <stackView opaque="NO" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="uuF-b9-MTg">
-                                <rect key="frame" x="20" y="84" width="384" height="347"/>
+                            <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uuF-b9-MTg">
+                                <rect key="frame" x="20" y="84" width="335" height="303"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="double_mode_camera" translatesAutoresizingMaskIntoConstraints="NO" id="Wxb-DU-qTC">
-                                        <rect key="frame" x="0.0" y="0.0" width="167" height="347"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="142" height="303"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="Wxb-DU-qTC" secondAttribute="height" multiplier="1:1" priority="750" id="7Dm-AX-L0y"/>
@@ -1719,9 +1719,9 @@
                                         </variation>
                                     </imageView>
                                     <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Ukq-Mq-1Gw" userLabel="View Vertical Separator">
-                                        <rect key="frame" x="167" y="0.0" width="1" height="347"/>
+                                        <rect key="frame" x="142" y="0.0" width="1" height="303"/>
                                         <subviews>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zke-Nd-NHg">
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zke-Nd-NHg">
                                                 <rect key="frame" x="0.0" y="15" width="1" height="273"/>
                                                 <color key="backgroundColor" red="0.92549019610000005" green="0.92549019610000005" blue="0.92549019610000005" alpha="1" colorSpace="calibratedRGB"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -1739,9 +1739,9 @@
                                         </constraints>
                                     </view>
                                     <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Z6s-ME-EeC" userLabel="View Horizontal Separator">
-                                        <rect key="frame" x="168" y="0.0" width="50" height="347"/>
+                                        <rect key="frame" x="143" y="0.0" width="50" height="303"/>
                                         <subviews>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1f1-g2-TRU">
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1f1-g2-TRU">
                                                 <rect key="frame" x="0.0" y="0.0" width="0.0" height="303"/>
                                                 <color key="backgroundColor" red="0.92549019610000005" green="0.92549019610000005" blue="0.92549019610000005" alpha="1" colorSpace="calibratedRGB"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -1758,7 +1758,7 @@
                                         </constraints>
                                     </view>
                                     <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="double_mode_camera" translatesAutoresizingMaskIntoConstraints="NO" id="wxS-DX-afK">
-                                        <rect key="frame" x="218" y="0.0" width="166" height="347"/>
+                                        <rect key="frame" x="193" y="0.0" width="142" height="303"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     </imageView>
                                 </subviews>
@@ -1769,7 +1769,7 @@
                                     <constraint firstAttribute="width" secondItem="uuF-b9-MTg" secondAttribute="height" multiplier="335:303" id="kNR-gN-fbj"/>
                                 </constraints>
                             </stackView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Select on either thumbnail to take a picture or upload image." textAlignment="justified" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pXe-up-hCR">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Select on either thumbnail to take a picture or upload image." textAlignment="justified" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pXe-up-hCR">
                                 <rect key="frame" x="20" y="407" width="384" height="41"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -1784,9 +1784,12 @@
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aRF-5H-YbU">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aRF-5H-YbU">
                                 <rect key="frame" x="0.0" y="500" width="375" height="50"/>
                                 <color key="backgroundColor" red="0.47843137254901963" green="0.71372549019607845" blue="0.18431372549019609" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="ctV-9g-d1n"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                 <state key="normal" title="Next">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -1817,12 +1820,11 @@
                         <constraints>
                             <constraint firstItem="aRF-5H-YbU" firstAttribute="leading" secondItem="GHy-hb-Mwr" secondAttribute="leading" id="3G9-Zf-VCJ"/>
                             <constraint firstItem="Iur-BM-wqO" firstAttribute="top" secondItem="Wxb-DU-qTC" secondAttribute="bottom" constant="-50" id="7vL-ul-C1q"/>
-                            <constraint firstAttribute="bottom" secondItem="uuF-b9-MTg" secondAttribute="bottom" constant="163" id="HKD-99-JEi"/>
                             <constraint firstItem="uuF-b9-MTg" firstAttribute="leading" secondItem="GHy-hb-Mwr" secondAttribute="leadingMargin" constant="4" id="LxE-Hi-XHp"/>
-                            <constraint firstItem="uuF-b9-MTg" firstAttribute="top" secondItem="fHJ-HR-geK" secondAttribute="bottom" constant="20" id="NWg-7O-tRX"/>
                             <constraint firstItem="LYO-nW-ROj" firstAttribute="top" secondItem="wxS-DX-afK" secondAttribute="bottom" constant="-50" id="OCv-AI-hfG"/>
                             <constraint firstItem="uuF-b9-MTg" firstAttribute="leading" secondItem="pXe-up-hCR" secondAttribute="leading" id="OwH-qD-TTs"/>
                             <constraint firstAttribute="trailing" secondItem="aRF-5H-YbU" secondAttribute="trailing" id="Qf9-E1-Svt"/>
+                            <constraint firstItem="uuF-b9-MTg" firstAttribute="top" secondItem="fHJ-HR-geK" secondAttribute="bottom" priority="750" constant="64" id="TzG-te-BYT"/>
                             <constraint firstItem="pXe-up-hCR" firstAttribute="top" secondItem="uuF-b9-MTg" secondAttribute="bottom" constant="20" id="ckO-AJ-ZU9"/>
                             <constraint firstItem="Iur-BM-wqO" firstAttribute="centerX" secondItem="Wxb-DU-qTC" secondAttribute="centerX" constant="13" id="elE-Lb-koF"/>
                             <constraint firstItem="LYO-nW-ROj" firstAttribute="centerX" secondItem="wxS-DX-afK" secondAttribute="centerX" constant="-12.5" id="jZc-lb-kWG"/>
@@ -2421,7 +2423,7 @@
                                                         <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mIS-kk-tnP">
                                                             <rect key="frame" x="0.0" y="0.0" width="414" height="414"/>
                                                             <subviews>
-                                                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="post-feed-img" translatesAutoresizingMaskIntoConstraints="NO" id="K9T-K5-YRv">
+                                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="post-feed-img" translatesAutoresizingMaskIntoConstraints="NO" id="K9T-K5-YRv">
                                                                     <rect key="frame" x="0.0" y="0.0" width="207" height="414"/>
                                                                     <gestureRecognizers/>
                                                                     <constraints>
@@ -2433,7 +2435,7 @@
                                                                         </mask>
                                                                     </variation>
                                                                 </imageView>
-                                                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="post-feed-img" translatesAutoresizingMaskIntoConstraints="NO" id="PaG-Hv-wtz">
+                                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="post-feed-img" translatesAutoresizingMaskIntoConstraints="NO" id="PaG-Hv-wtz">
                                                                     <rect key="frame" x="207" y="0.0" width="207" height="414"/>
                                                                 </imageView>
                                                             </subviews>

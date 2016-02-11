@@ -90,6 +90,7 @@ class ProfileViewController: UIViewController {
            btnEdit.hidden = true
         }
 
+
     }
 
     override func didReceiveMemoryWarning() {
