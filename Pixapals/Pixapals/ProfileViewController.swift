@@ -22,6 +22,7 @@ class ProfileViewController: UIViewController {
     @IBOutlet weak var userImage: UIImageView!
     @IBOutlet weak var loadMoreActivityIndicator: UIActivityIndicatorView!
 
+    @IBOutlet var btnEdit: UIButton!
     @IBOutlet weak var username: UILabel!
     @IBOutlet weak var feeding: UILabel!
     @IBOutlet weak var feeders: UILabel!
@@ -277,6 +278,21 @@ class ProfileViewController: UIViewController {
         vc.feed = feed
         vc.delegate = self
         self.navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    func SegueToLoverList() {
+        let storyBoard = UIStoryboard(name: "Main", bundle: nil)
+        let vc = storyBoard.instantiateViewControllerWithIdentifier("LoverListViewController")
+        self.navigationController?.pushViewController(vc, animated: true)
+        
+    }
+    func SegueToProfile() {
+        let storyBoard = UIStoryboard(name: "Main", bundle: nil)
+        let vc: ProfileViewController = storyBoard.instantiateViewControllerWithIdentifier("ProfileViewController") as! ProfileViewController
+        vc.btnEdit.hidden=false
+        
+        self.navigationController?.pushViewController(vc, animated: true)
+        
     }
 }
 

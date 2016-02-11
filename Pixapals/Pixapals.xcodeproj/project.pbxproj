@@ -28,6 +28,8 @@
 		32D784571C579A480027AE65 /* SRWebClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32D784561C579A480027AE65 /* SRWebClient.swift */; };
 		32E9C4021C58DED00055A270 /* SettingsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32E9C4011C58DED00055A270 /* SettingsTableViewController.swift */; };
 		32EBBD611C562C2600EF8149 /* RootFBClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32EBBD601C562C2600EF8149 /* RootFBClass.swift */; };
+		32FE7AA51C6C702C00C767BC /* LoverListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32FE7AA41C6C702C00C767BC /* LoverListViewController.swift */; };
+		32FE7AA71C6C753400C767BC /* LoverListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32FE7AA61C6C753400C767BC /* LoverListTableViewCell.swift */; };
 		43324F1E1C6480E200E5095E /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43324F1D1C6480E200E5095E /* LocationManager.swift */; };
 		435EC4BF1C44E74B00CF88D4 /* GlobalFeedsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 435EC4BE1C44E74B00CF88D4 /* GlobalFeedsViewController.swift */; };
 		437969451C5F4E8200CE136D /* FeedsResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 437969441C5F4E8200CE136D /* FeedsResponse.swift */; };
@@ -75,6 +77,8 @@
 		32D784561C579A480027AE65 /* SRWebClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SRWebClient.swift; sourceTree = "<group>"; };
 		32E9C4011C58DED00055A270 /* SettingsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsTableViewController.swift; sourceTree = "<group>"; };
 		32EBBD601C562C2600EF8149 /* RootFBClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RootFBClass.swift; sourceTree = "<group>"; };
+		32FE7AA41C6C702C00C767BC /* LoverListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoverListViewController.swift; sourceTree = "<group>"; };
+		32FE7AA61C6C753400C767BC /* LoverListTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoverListTableViewCell.swift; sourceTree = "<group>"; };
 		43324F1D1C6480E200E5095E /* LocationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		435EC4BE1C44E74B00CF88D4 /* GlobalFeedsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GlobalFeedsViewController.swift; sourceTree = "<group>"; };
 		437969441C5F4E8200CE136D /* FeedsResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedsResponse.swift; sourceTree = "<group>"; };
@@ -190,6 +194,7 @@
 				329F013F1C60C4BC008A01B2 /* GenderSelectionView.swift */,
 				325279571C62050900978C0C /* DetailVIewViewController.swift */,
 				321F99CF1C5A01A0006A39D0 /* LocationChooserViewController.swift */,
+				32FE7AA41C6C702C00C767BC /* LoverListViewController.swift */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -204,6 +209,7 @@
 				43A0EE5E1C4CA7BC009C4E46 /* GlobalFeedTableViewCell.swift */,
 				43A0EE601C4CCBCB009C4E46 /* GlobalFeedCollectionViewCell.swift */,
 				43FBEE0B1C50D4EB00C25A7D /* GlobalFeedTableViewHeaderCell.swift */,
+				32FE7AA61C6C753400C767BC /* LoverListTableViewCell.swift */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -386,6 +392,7 @@
 				43FBEE0C1C50D4EB00C25A7D /* GlobalFeedTableViewHeaderCell.swift in Sources */,
 				439738151C45F3E2001F344F /* PostFeedViewController.swift in Sources */,
 				321F99D01C5A01A0006A39D0 /* LocationChooserViewController.swift in Sources */,
+				32FE7AA71C6C753400C767BC /* LoverListTableViewCell.swift in Sources */,
 				43BF1F1E1C48DDB7000980D5 /* ProfileCustomCollectionViewCell.swift in Sources */,
 				32E9C4021C58DED00055A270 /* SettingsTableViewController.swift in Sources */,
 				329B581C1C3E260600C1EE08 /* AppDelegate.swift in Sources */,
@@ -403,6 +410,7 @@
 				43C1033E1C450BEF009512C2 /* CustomTabBarController.swift in Sources */,
 				32CBF5571C4F7D330064E91D /* CameraVC.swift in Sources */,
 				43A0EE611C4CCBCB009C4E46 /* GlobalFeedCollectionViewCell.swift in Sources */,
+				32FE7AA51C6C702C00C767BC /* LoverListViewController.swift in Sources */,
 				439A350C1C4CFD5600A036E9 /* UserDataStruct.swift in Sources */,
 				43BF1F1A1C48B252000980D5 /* DoubleModeFeedImageSelectionViewController.swift in Sources */,
 				32D784571C579A480027AE65 /* SRWebClient.swift in Sources */,
@@ -472,7 +480,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				PROVISIONING_PROFILE = "896dc9f7-527d-4d66-98d2-abf8b94918c9";
+				PROVISIONING_PROFILE = "9aeecaea-4ae4-4101-985c-61aeb2e662c1";
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
@@ -511,7 +519,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
 				MTL_ENABLE_DEBUG_INFO = NO;
-				PROVISIONING_PROFILE = "896dc9f7-527d-4d66-98d2-abf8b94918c9";
+				PROVISIONING_PROFILE = "9aeecaea-4ae4-4101-985c-61aeb2e662c1";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -522,8 +530,8 @@
 			baseConfigurationReference = CD4AF32D5D95BBDC56CB9EDA /* Pods-Pixapals.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Bandhu Raj (888Q9QB6VC)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Bandhu Raj (888Q9QB6VC)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -531,9 +539,9 @@
 				);
 				INFOPLIST_FILE = Pixapals/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.Pixapals;
+				PRODUCT_BUNDLE_IDENTIFIER = com.webbedstudio.Pixapals;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "9aeecaea-4ae4-4101-985c-61aeb2e662c1";
 			};
 			name = Debug;
 		};
@@ -542,8 +550,8 @@
 			baseConfigurationReference = 25D925DA979295FB8DE10432 /* Pods-Pixapals.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Bandhu Raj (888Q9QB6VC)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Bandhu Raj (888Q9QB6VC)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -551,9 +559,9 @@
 				);
 				INFOPLIST_FILE = Pixapals/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.Pixapals;
+				PRODUCT_BUNDLE_IDENTIFIER = com.webbedstudio.Pixapals;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "9aeecaea-4ae4-4101-985c-61aeb2e662c1";
 			};
 			name = Release;
 		};

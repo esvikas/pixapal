@@ -10,6 +10,10 @@ import UIKit
 protocol CellImageSwippedDelegate {
     func imageSwipedLeft(id: Int, loved: Bool, left: Bool)
     func imageSwipedRight(id: Int, loved: Bool, left: Bool)
+    
+    func SegueToProfile()
+    func SegueToLoverList()
+
 }
 
 class GlobalFeedTableViewCell: UITableViewCell {
@@ -53,6 +57,13 @@ class GlobalFeedTableViewCell: UITableViewCell {
     }
     
     func labelPressed(){
+        
+        delegate.SegueToLoverList()
+    }
+    
+ func   UserIconAndLabelPressed(){
+    
+    delegate.SegueToProfile()
 
     }
     

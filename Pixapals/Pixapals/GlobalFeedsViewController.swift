@@ -301,6 +301,23 @@ class GlobalFeedsViewController: UIViewController {
     }
     
     
+   func SegueToLoverList(){
+    
+    let storyBoard = UIStoryboard(name: "Main", bundle: nil)
+    let vc = storyBoard.instantiateViewControllerWithIdentifier("LoverListViewController")
+    self.navigationController?.pushViewController(vc, animated: true)
+    
+    
+    }
+    
+    func SegueToProfile() {
+        let storyBoard = UIStoryboard(name: "Main", bundle: nil)
+        let vc: ProfileViewController = storyBoard.instantiateViewControllerWithIdentifier("ProfileViewController") as! ProfileViewController
+        vc.btnEdit.hidden=false
+        self.navigationController?.pushViewController(vc, animated: true)
+        
+    }
+    
     func changeViewMode(sender: AnyObject) {
         if self.collectionViewHidden {
             self.collectionView.hidden = false
