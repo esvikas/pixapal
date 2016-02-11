@@ -258,7 +258,7 @@ class SettingsTableViewController: UITableViewController {
         //                    }
         //                }
         
-        Alamofire.request(.POST, registerUrlString, parameters: parameters, headers: headers).responseObject { (response: Response<SuccessFailJSON, NSError>) -> Void in
+        requestWithHeaderXAuthToken(.POST, registerUrlString, parameters: parameters).responseObject { (response: Response<SuccessFailJSON, NSError>) -> Void in
             switch response.result {
             case .Success(let leaveItObject):
                 print("Error: Leave it error")
@@ -309,6 +309,7 @@ class SettingsTableViewController: UITableViewController {
         
         
     }
+
 }
 extension SettingsTableViewController : UIPickerViewDataSource, UIPickerViewDelegate {
     

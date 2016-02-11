@@ -26,10 +26,11 @@ public func requestWithHeaderXAuthToken(
     _ URLString: URLStringConvertible,
     parameters: [String: AnyObject]? = nil,
     encoding: ParameterEncoding = .URL,
-    var headers: [String: String])
+    var headers: [String: String] = [String:String]())
     -> Alamofire.Request
 {
     let token = UserDataStruct().api_token ?? "NO TOKEN"
+    
     headers["X-Auth-Token"] = token
     return Alamofire.Manager.sharedInstance.request(
         method,
@@ -43,9 +44,9 @@ public func requestWithHeaderXAuthToken(
 public func requestWithHeaderXAuthTokenAndDeviceTokenInParam(
     method: Alamofire.Method,
     _ URLString: URLStringConvertible,
-    var parameters: [String: AnyObject],
+    var parameters: [String: AnyObject] = [String: AnyObject]() ,
     encoding: ParameterEncoding = .URL,
-    var headers: [String: String])
+    var headers: [String: String] = [String: String]())
     -> Alamofire.Request
 {
     let token = UserDataStruct().api_token ?? "NO TOKEN"
@@ -66,7 +67,7 @@ public func requestWithHeaderXAuthTokenAndDeviceTokenInParam(
 public func requestWithDeviceTokenInParam(
     method: Alamofire.Method,
     _ URLString: URLStringConvertible,
-    var parameters: [String: AnyObject],
+    var parameters: [String: AnyObject] = [String: AnyObject](),
     encoding: ParameterEncoding = .URL,
     headers: [String: String]? = nil)
     -> Alamofire.Request
@@ -83,6 +84,31 @@ public func requestWithDeviceTokenInParam(
     )
 }
 
+func showAlertView(title:String, message:String, controller: UIViewController, handlerForOk: ((UIAlertAction) -> Void)? = nil, handlerForCancel: ((UIAlertAction) -> Void)? = nil){
+    
+    
+    let alertController = UIAlertController(title: title, message: message, preferredStyle: .Alert)
+    
+    func okAction() {
+        let okAction = UIAlertAction(title: "Ok", style: .Cancel, handler: handlerForOk)
+        alertController.addAction(okAction)
+    }
+    
+    if let _ = handlerForOk {
+        okAction()
+    }
+    
+    if let _ = handlerForCancel {
+        let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel, handler: handlerForCancel)
+        alertController.addAction(cancelAction)
+    }
+    
+    if handlerForCancel == nil && handlerForOk == nil {
+        okAction()
+    }
+    
+    controller.presentViewController(alertController, animated: true, completion: nil)
+}
 
 
 
