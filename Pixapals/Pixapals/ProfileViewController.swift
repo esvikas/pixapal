@@ -84,6 +84,11 @@ class ProfileViewController: UIViewController {
         self.collectionView.hidden = true
         
         self.view.backgroundColor=UIColor(red: 240/255, green: 240/255, blue: 240/255, alpha: 1)
+        
+        
+        if let userId = userId  where userId != UserDataStruct().id{
+           btnEdit.hidden = true
+        }
 
     }
 
@@ -214,14 +219,17 @@ class ProfileViewController: UIViewController {
                     self.collectionViewRefreshContol.endRefreshing()
                     self.loadMoreActivityIndicator.stopAnimating()
                     self.footerView.hidden = true
+                    //print(feedsResponseJSON.user.username)
+                    self.navigationItem.title = feedsResponseJSON.user.username
                     self.tabBarController?.navigationItem.title = feedsResponseJSON.user.username
+                    self.setHeader()
                 }
 
 //                let json = JSON(value)
 //                print(json)
 //                if !json["error"].boolValue {
 //                    self.feedsToShow = json
-                    self.setHeader()
+                
 //                    // print(self.feedsToShow)
 //                    self.tableView.reloadData()
 //                    self.collectionView.reloadData()
@@ -242,11 +250,7 @@ class ProfileViewController: UIViewController {
     }
     
     func setHeader() {
-        if let username = UserDataStruct().username {
-          self.username.text = username
-        }else {
-            print("no username")
-        }
+        self.username.text = (self.feedsFromResponseAsObject.user.name)!
         
         self.userImage.kf_setImageWithURL(NSURL(string: self.feedsFromResponseAsObject.user.photo_thumb ?? "")!, placeholderImage: UIImage(named: "global_feed_user"))
         //print(self.feedsFromResponseAsObject.user.feeding_count)
@@ -283,21 +287,6 @@ class ProfileViewController: UIViewController {
         vc.feed = feed
         vc.delegate = self
         self.navigationController?.pushViewController(vc, animated: true)
-    }
-    
-    func SegueToLoverList() {
-        let storyBoard = UIStoryboard(name: "Main", bundle: nil)
-        let vc = storyBoard.instantiateViewControllerWithIdentifier("LoverListViewController")
-        self.navigationController?.pushViewController(vc, animated: true)
-        
-    }
-    func SegueToProfile() {
-        let storyBoard = UIStoryboard(name: "Main", bundle: nil)
-        let vc: ProfileViewController = storyBoard.instantiateViewControllerWithIdentifier("ProfileViewController") as! ProfileViewController
-        vc.btnEdit.hidden=false
-        
-        self.navigationController?.pushViewController(vc, animated: true)
-        
     }
 }
 
@@ -494,6 +483,25 @@ extension ProfileViewController: CellImageSwippedDelegate {
         //        loved = true
         //        left = false
         self.leaveit(id)
+    }
+    
+    func SegueToLoverList(id: Int?) {
+        let feed = self.feedsFromResponseAsObject.feeds![id!]
+        
+        let storyBoard = UIStoryboard(name: "Main", bundle: nil)
+        let vc = storyBoard.instantiateViewControllerWithIdentifier("LoverListViewController") as! LoverListViewController
+        vc.users = feed.lovers
+        self.navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    func SegueToProfile(id: Int?) {
+        let feed = self.feedsFromResponseAsObject.feeds![id!]
+        let storyBoard = UIStoryboard(name: "Main", bundle: nil)
+        let vc: ProfileViewController = storyBoard.instantiateViewControllerWithIdentifier("ProfileViewController") as! ProfileViewController
+        vc.userId = feed.user?.id
+        
+        self.navigationController?.pushViewController(vc, animated: true)
+        
     }
     
     func loveFeed(id:Int){

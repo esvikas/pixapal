@@ -480,11 +480,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
-<<<<<<< HEAD
 				PROVISIONING_PROFILE = "9aeecaea-4ae4-4101-985c-61aeb2e662c1";
-=======
-				PROVISIONING_PROFILE = "";
->>>>>>> Dari
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
@@ -523,11 +519,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
 				MTL_ENABLE_DEBUG_INFO = NO;
-<<<<<<< HEAD
 				PROVISIONING_PROFILE = "9aeecaea-4ae4-4101-985c-61aeb2e662c1";
-=======
-				PROVISIONING_PROFILE = "";
->>>>>>> Dari
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};

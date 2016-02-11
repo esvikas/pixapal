@@ -11,9 +11,9 @@ protocol CellImageSwippedDelegate {
     func imageSwipedLeft(id: Int, loved: Bool, left: Bool)
     func imageSwipedRight(id: Int, loved: Bool, left: Bool)
     
-    func SegueToProfile()
-    func SegueToLoverList()
-
+    func SegueToProfile(id: Int?)
+    func SegueToLoverList(id: Int?)
+    
 }
 
 class GlobalFeedTableViewCell: UITableViewCell {
@@ -33,7 +33,7 @@ class GlobalFeedTableViewCell: UITableViewCell {
     
     var delegate: CellImageSwippedDelegate!
     var DynamicView=UIImageView()
-
+    
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -46,26 +46,26 @@ class GlobalFeedTableViewCell: UITableViewCell {
         swipeLeft.direction = UISwipeGestureRecognizerDirection.Left
         self.addGestureRecognizer(swipeLeft)
         CreateScreen()
-
+        
         loveCount.userInteractionEnabled = true
         loveIcon.userInteractionEnabled = true
         let gestureRecognizer = UITapGestureRecognizer(target: self, action: Selector("labelPressed"))
         loveCount.addGestureRecognizer(gestureRecognizer)
         let gestureRecognizer2 = UITapGestureRecognizer(target: self, action: Selector("labelPressed"))
-
+        
         loveIcon.addGestureRecognizer(gestureRecognizer2)
-
+        
     }
     
     func labelPressed(){
         
-        delegate.SegueToLoverList()
+        delegate.SegueToLoverList(id)
     }
     
- func   UserIconAndLabelPressed(){
-    
-    delegate.SegueToProfile()
-
+    func   UserIconAndLabelPressed(){
+        
+        delegate.SegueToProfile(id)
+        
     }
     
     func CreateScreen(){
@@ -76,7 +76,7 @@ class GlobalFeedTableViewCell: UITableViewCell {
         self.addSubview(DynamicView)
         
     }
-
+    
     func respondToSwipeGesture(gesture: UIGestureRecognizer) {
         
         if let swipeGesture = gesture as? UISwipeGestureRecognizer {

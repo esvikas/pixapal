@@ -717,8 +717,11 @@
                                                             <real key="value" value="1"/>
                                                         </userDefinedRuntimeAttribute>
                                                     </userDefinedRuntimeAttributes>
+                                                    <connections>
+                                                        <action selector="getFeedButtonAction:" destination="osO-h7-O4a" eventType="touchUpInside" id="foA-Ky-ptk"/>
+                                                    </connections>
                                                 </button>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="global_feed_user" translatesAutoresizingMaskIntoConstraints="NO" id="vco-cw-Jto" customClass="DesignableImageView" customModule="Spring">
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="global_feed_user" translatesAutoresizingMaskIntoConstraints="NO" id="vco-cw-Jto">
                                                     <rect key="frame" x="17" y="11" width="34" height="28"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="34" id="5XA-4c-eIP"/>
@@ -744,6 +747,11 @@
                                                 <constraint firstItem="paO-us-J3P" firstAttribute="leading" secondItem="vco-cw-Jto" secondAttribute="trailing" constant="8" symbolic="YES" id="zbU-eC-94G"/>
                                             </constraints>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="getFeedButton" destination="HCB-FQ-xFI" id="scg-dD-VzR"/>
+                                            <outlet property="profileImageView" destination="vco-cw-Jto" id="QCA-RX-p6z"/>
+                                            <outlet property="username" destination="paO-us-J3P" id="0l0-po-aBc"/>
+                                        </connections>
                                     </tableViewCell>
                                 </prototypes>
                                 <connections>

@@ -7,9 +7,12 @@
 //
 
 import UIKit
+import Alamofire
 
 class LoverListViewController: UIViewController {
-
+    
+    var users: [UserJSON]!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -36,19 +39,21 @@ class LoverListViewController: UIViewController {
 
 
 extension LoverListViewController: UITableViewDataSource {
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        
-        return 1
-    }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 1
+        return self.users.count ?? 0
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCellWithIdentifier("LoverListTableViewCell", forIndexPath: indexPath) as! LoverListTableViewCell
-        
+        let user = users[indexPath.row]
+        cell.user = user
+        cell.username.text = user.username
+        if (user.is_my_fed)! {
+            cell.getFeedButton.enabled = false
+        }
+        cell.delegate = self
 //        let feed = (self.feedsFromResponseAsObject.feeds?[indexPath.section])!
 //        
 //        //cell.feedImage.kf_setImageWithURL(NSURL(string: feedsToShow[indexPath.section, "photo"].string!)!, placeholderImage: UIImage(named: "loading.png"))
@@ -90,16 +95,46 @@ extension LoverListViewController: UITableViewDelegate {
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
         
-
-        
-        
     }
     
+}
 
+extension LoverListViewController: loverListTableViewCellDelegate {
+    func getFeedClicked(sender: UIButton, user: UserJSON) {
+        
+        sender.enabled = false
+        
+        let LoggedInUser = UserDataStruct()
+        
+        let registerUrlString = "\(apiUrl)api/v1/profile/getfed"
+        
+        let parameters: [String: AnyObject] =
+        [
+            "user_id": LoggedInUser.id!,
+            "fed_id": user.id!,
+        ]
+        
+        requestWithHeaderXAuthToken(.POST, registerUrlString, parameters: parameters).responseObject { (response: Response<SuccessFailJSON, NSError>) -> Void in
+            switch response.result {
+            case .Success(let getFeed):
+                if !getFeed.error! {
+                    user.is_my_fed = true
+                    print("Getting feed")
+                } else {
+                    sender.enabled = true
+                    print("Error: Love it error")
+                }
+            case .Failure(let error):
+                sender.enabled = true
+                print("Error in connection \(error)")
+            }
+        }
+    }
     
-
-    
-    
-    
-    
+    func usernameClicked(id: Int?) {
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let vc = storyboard.instantiateViewControllerWithIdentifier("ProfileViewController") as! ProfileViewController
+        vc.userId = id
+        self.navigationController?.pushViewController(vc, animated: true)
+    }
 }

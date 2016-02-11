@@ -302,24 +302,6 @@ class GlobalFeedsViewController: UIViewController {
         //        }
     }
     
-    
-   func SegueToLoverList(){
-    
-    let storyBoard = UIStoryboard(name: "Main", bundle: nil)
-    let vc = storyBoard.instantiateViewControllerWithIdentifier("LoverListViewController")
-    self.navigationController?.pushViewController(vc, animated: true)
-    
-    
-    }
-    
-    func SegueToProfile() {
-        let storyBoard = UIStoryboard(name: "Main", bundle: nil)
-        let vc: ProfileViewController = storyBoard.instantiateViewControllerWithIdentifier("ProfileViewController") as! ProfileViewController
-        vc.btnEdit.hidden=false
-        self.navigationController?.pushViewController(vc, animated: true)
-        
-    }
-    
     func changeViewMode(sender: AnyObject) {
         if self.collectionViewHidden {
             self.collectionView.hidden = false
@@ -586,6 +568,25 @@ extension GlobalFeedsViewController: CellImageSwippedDelegate {
         //        loved = true
         //        left = false
         self.leaveit(id)
+        
+    }
+    
+    func SegueToLoverList(id: Int?) {
+        let feed = self.feedsFromResponseAsObject.feeds![id!]
+        
+        let storyBoard = UIStoryboard(name: "Main", bundle: nil)
+        let vc = storyBoard.instantiateViewControllerWithIdentifier("LoverListViewController") as! LoverListViewController
+        vc.users = feed.lovers
+        self.navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    func SegueToProfile(id: Int?) {
+        let feed = self.feedsFromResponseAsObject.feeds![id!]
+        let storyBoard = UIStoryboard(name: "Main", bundle: nil)
+        let vc: ProfileViewController = storyBoard.instantiateViewControllerWithIdentifier("ProfileViewController") as! ProfileViewController
+        vc.userId = feed.user?.id
+        
+        self.navigationController?.pushViewController(vc, animated: true)
         
     }
     
