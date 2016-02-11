@@ -42,6 +42,8 @@ class ProfileViewController: UIViewController {
     var refreshingStatus = false
     var hasMoreDataInServer = true
     
+    var userId: Int?
+    
     var pageNumber = 1
     let postLimit = 3
     
@@ -89,8 +91,8 @@ class ProfileViewController: UIViewController {
     }
     
     override func viewWillAppear(animated: Bool) {
-        self.tableView.reloadData()
-        self.tabBarController?.navigationItem.title = "User Profile"
+        //self.tableView.reloadData()
+        self.tabBarController?.navigationItem.title = "Profile"
         
         let btnName = UIButton()
         btnName.setImage(UIImage(named: "setting"), forState: .Normal)
@@ -140,11 +142,13 @@ class ProfileViewController: UIViewController {
     }
     
     private func loadDataFromAPI(){
-        guard let id = UserDataStruct().id else {
+        guard var id = UserDataStruct().id else {
             print("no user id")
             return
         }
-        
+        if let _ = self.userId {
+            id = self.userId!
+        }
         let apiURLString = "\(apiUrl)api/v1/profile/\(id)/\(self.pageNumber)/\(self.postLimit)"
         print(apiURLString)
         guard let api_token = UserDataStruct().api_token else{
@@ -158,8 +162,9 @@ class ProfileViewController: UIViewController {
         print(api_token)
         
         
-        Alamofire.request(.GET, apiURLString, parameters: nil, headers: headers)
+       requestWithHeaderXAuthToken(.GET, apiURLString)
             .responseJSON { response in
+                print(response.request)
                 switch response.result {
                 case .Failure(let error):
                     print(error)
@@ -383,7 +388,9 @@ extension ProfileViewController: UITableViewDataSource {
             cell.loved = feed.is_my_love
             cell.left = feed.is_my_left
             cell.loveCount.text = "\(feed.loveit ?? 0) loved it"
+            cell.loveIcon.image = UIImage(named: self.getIconName(feed.loveit ?? 0))
             cell.leftCount.text = "\(feed.leaveit ?? 0) left it"
+            cell.leftIcon.image = UIImage(named: self.getIconName(feed.leaveit ?? 0, love: false))
             cell.comment.text = "\(feed.comment ?? "")"
             cell.selectionStyle =  UITableViewCellSelectionStyle.None
 
@@ -415,6 +422,26 @@ extension ProfileViewController: UITableViewDataSource {
 
         }
     }
+    func getIconName(count: Int, love: Bool = true) -> String {
+        var iconName = ""
+        if love {
+            iconName = "love"
+        } else {
+            iconName = "left"
+        }
+        if count <= 10 {
+            iconName += "1"
+        } else if count <= 50 {
+            iconName += "2"
+        } else if count <= 100 {
+            iconName += "3"
+        } else if count <= 200 {
+            iconName += "4"
+        } else {
+            iconName += "5"
+        }
+        return iconName
+    }
     
     func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
         //print(indexPath.row)
@@ -442,7 +469,7 @@ extension ProfileViewController: CellImageSwippedDelegate {
         //        print(left)
         //left=true
         
-        self.leaveit(id)
+        self.loveFeed(id)
     }
     func imageSwipedRight(id: Int,  loved: Bool,  left: Bool) {
         print("swipped love (right)")
@@ -450,7 +477,7 @@ extension ProfileViewController: CellImageSwippedDelegate {
         //        print(left)
         //        loved = true
         //        left = false
-        self.loveFeed(id)
+        self.leaveit(id)
     }
     
     func loveFeed(id:Int){
@@ -461,44 +488,29 @@ extension ProfileViewController: CellImageSwippedDelegate {
         
         let parameters: [String: AnyObject] =
         [
-            "user_id": user.id!,
-            "post_id": feed.id!
-            
+            "user_id": String(user.id!),
+            "post_id": String(feed.id!)
         ]
         let headers = [
             "X-Auth-Token" : user.api_token!,
         ]
         
+        self.loveCountIncrease(feed)
         
-        
-        //Alamofire.request(.GET, apiURLString, parameters: nil, headers: headers).responseObject { (response: Response<FeedsResponseJSON, NSError>) -> Void in
-        Alamofire.request(.POST, registerUrlString, parameters: parameters, headers: headers).responseObject { (response: Response<SuccessFailJSON, NSError>) -> Void in
+        requestWithHeaderXAuthToken(.POST, registerUrlString, parameters: parameters).responseObject { (response: Response<SuccessFailJSON, NSError>) -> Void in
             switch response.result {
             case .Success(let loveItObject):
                 if !loveItObject.error! {
-                    feed.is_my_love = true
-                    feed.loveit = feed.loveit! + 1
-                    if feed.is_my_left! {
-                        feed.is_my_left = false
-                        feed.leaveit = feed.leaveit! - 1
-                    }
-                    self.tableView.reloadData()
+                    
                 } else {
+                    self.leaveCountIncrease(feed)
                     print("Error: Love it error")
                 }
             case .Failure(let error):
+                self.leaveCountIncrease(feed)
                 print("Error in connection \(error)")
             }
         }
-        //        Alamofire.request(.POST, registerUrlString, parameters: parameters, headers:headers).responseJSON { response in
-        //            switch response.result {
-        //            case .Failure(let error):
-        //                print(error)
-        //            case .Success(let value):
-        //                print(value)
-        //            }
-        //        }
-        
     }
     
     
@@ -509,46 +521,62 @@ extension ProfileViewController: CellImageSwippedDelegate {
         
         let parameters: [String: AnyObject] =
         [
-            "user_id": user.id!,
-            "post_id": feed.id!
-            
+            "user_id": String(user.id!),
+            "post_id": String(feed.id!)
         ]
         let headers = [
             "X-Auth-Token" : user.api_token!,
         ]
         
+        self.leaveCountIncrease(feed)
         
+        //                Alamofire.request(.POST, registerUrlString, parameters: parameters, headers:headers).responseJSON { response in
+        //                    print(response.request)
+        //                    switch response.result {
+        //                    case .Failure(let error):
+        //                        print(error)
+        //                    case .Success(let value):
+        //                        print(value)
+        //                    }
+        //                }
         
-        
-        //        Alamofire.request(.POST, registerUrlString, parameters: parameters, headers:headers).responseJSON { response in
-        //            switch response.result {
-        //            case .Failure(let error):
-        //                print(error)
-        //            case .Success(let value):
-        //                print(value)
-        //            }
-        //        }
-        
-        Alamofire.request(.POST, registerUrlString, parameters: parameters, headers: headers).responseObject { (response: Response<SuccessFailJSON, NSError>) -> Void in
+        requestWithHeaderXAuthToken(.POST, registerUrlString, parameters: parameters).responseObject { (response: Response<SuccessFailJSON, NSError>) -> Void in
             switch response.result {
-            case .Success(let leaveItObject):
-                if !leaveItObject.error! {
-                    feed.is_my_left = true
-                    feed.leaveit = feed.leaveit! + 1
-                    if feed.is_my_love! {
-                        feed.is_my_love = false
-                        feed.loveit = feed.loveit! - 1
-                    }
-                    self.tableView.reloadData()
+            case .Success(let loveItObject):
+                if !loveItObject.error! {
+                    
                 } else {
-                    print("Error: Leave it error")
+                    print("Error: Love it error")
+                    self.loveCountIncrease(feed)
                 }
+                
             case .Failure(let error):
                 print("Error in connection \(error)")
+                self.loveCountIncrease(feed)
+                
             }
         }
+    }
+    
+    func loveCountIncrease(feed: FeedJSON){
+        feed.is_my_love = true
+        feed.loveit = feed.loveit! + 1
+        if feed.is_my_left! {
+            feed.is_my_left = false
+            feed.leaveit = feed.leaveit! - 1
+        }
+        self.tableView.reloadData()
         
-        
+    }
+    
+    func leaveCountIncrease(feed: FeedJSON){
+        feed.is_my_left = true
+        feed.leaveit = feed.leaveit! + 1
+        if feed.is_my_love! {
+            feed.is_my_love = false
+            feed.loveit = feed.loveit! - 1
+        }
+        self.tableView.reloadData()
     }
 }
 

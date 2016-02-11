@@ -98,7 +98,7 @@ class ProfileEditViewController: UIViewController {
         
         
         
-        Alamofire.request(.POST, registerUrlString, parameters: parameters, headers:headers)
+        requestWithHeaderXAuthToken(.POST, registerUrlString, parameters: parameters)
             .responseJSON { response in
                 debugPrint(response)     // prints detailed description of all response properties
                 

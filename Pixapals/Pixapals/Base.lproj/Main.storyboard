@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9531" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="eWi-o4-zEa">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9531" systemVersion="15B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="eWi-o4-zEa">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
@@ -254,7 +254,7 @@
                             <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Dhp-77-j9S">
                                 <rect key="frame" x="20" y="80" width="560" height="224"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <state key="normal" image="post-feed-img">
+                                <state key="normal" image="double-mode-thumbnail">
                                     <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
                                 <userDefinedRuntimeAttributes>
@@ -1007,6 +1007,7 @@
                                                     <outlet property="feedImage" destination="nvk-VH-qRZ" id="qZW-VO-qBZ"/>
                                                     <outlet property="feedImage2" destination="Yrd-wb-Ygs" id="gYs-W6-hKZ"/>
                                                     <outlet property="leftCount" destination="1nE-wU-Dsu" id="uIV-pi-9XY"/>
+                                                    <outlet property="leftIcon" destination="ReM-xb-dqT" id="fHt-4f-RnL"/>
                                                     <outlet property="loveCount" destination="yYH-mH-cpc" id="QC8-cV-8Gz"/>
                                                     <outlet property="loveIcon" destination="fkc-4b-Ble" id="0lJ-FX-eY1"/>
                                                 </connections>
@@ -1351,6 +1352,7 @@
                                                     <outlet property="feedImage" destination="NMi-3y-tYA" id="aig-gu-aaY"/>
                                                     <outlet property="feedImage2" destination="0Dw-sA-HGc" id="hQW-Gt-93h"/>
                                                     <outlet property="leftCount" destination="ikl-KP-7IN" id="TWT-m2-95T"/>
+                                                    <outlet property="leftIcon" destination="lah-Xn-F8Q" id="Ol9-Bv-nxh"/>
                                                     <outlet property="loveCount" destination="rVd-w2-vmQ" id="i2s-Rj-SQN"/>
                                                     <outlet property="loveIcon" destination="YmR-Tv-EOP" id="fE1-52-kj4"/>
                                                     <outlet property="timeElapsed" destination="7Gq-xb-gek" id="HbM-6t-ptZ"/>
@@ -1506,7 +1508,48 @@
                     <rect key="frame" x="0.0" y="0.0" width="600" height="320"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <subviews>
-                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rQr-kF-d4Q">
+                        <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tvr-ha-yzX">
+                            <rect key="frame" x="248" y="268" width="44" height="44"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="44" id="1Vp-t4-wNi"/>
+                                <constraint firstAttribute="height" constant="44" id="3lV-2D-jzU"/>
+                                <constraint firstAttribute="width" constant="44" id="EJD-QE-zVR"/>
+                                <constraint firstAttribute="width" constant="44" id="l5b-vy-uM8"/>
+                            </constraints>
+                            <state key="normal" image="double_image_menu"/>
+                            <variation key="default">
+                                <mask key="constraints">
+                                    <exclude reference="1Vp-t4-wNi"/>
+                                    <exclude reference="l5b-vy-uM8"/>
+                                </mask>
+                            </variation>
+                            <connections>
+                                <action selector="gridView:" destination="IbE-Kr-sMr" eventType="touchUpInside" id="jug-YU-uMI"/>
+                            </connections>
+                        </button>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ypG-j4-akK">
+                            <rect key="frame" x="300" y="268" width="1" height="44"/>
+                            <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="1" id="VfW-P7-hV5"/>
+                                <constraint firstAttribute="height" constant="44" id="ffS-Re-u34"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="T5d-66-gm3">
+                            <rect key="frame" x="309" y="268" width="44" height="44"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="44" id="jui-xx-RnW"/>
+                                <constraint firstAttribute="width" constant="44" id="viP-p1-Ylg"/>
+                            </constraints>
+                            <state key="normal" image="global_feed_grid_menu_dark@"/>
+                            <connections>
+                                <action selector="listView:" destination="IbE-Kr-sMr" eventType="touchUpInside" id="u9v-xL-04x"/>
+                            </connections>
+                        </button>
+                        <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="rQr-kF-d4Q">
                             <rect key="frame" x="0.0" y="0.0" width="600" height="260"/>
                             <subviews>
                                 <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="global_feed_user" translatesAutoresizingMaskIntoConstraints="NO" id="Grc-2q-jv7">
@@ -1522,7 +1565,7 @@
                                         </mask>
                                     </variation>
                                 </imageView>
-                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WDM-QL-bhU">
+                                <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WDM-QL-bhU">
                                     <rect key="frame" x="250" y="157" width="100" height="30"/>
                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     <constraints>
@@ -1541,7 +1584,7 @@
                                         <action selector="btnEditProgileSender:" destination="IbE-Kr-sMr" eventType="touchUpInside" id="sXp-ac-DZr"/>
                                     </connections>
                                 </button>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="USERNAME" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="k4s-Qv-5tk">
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="k4s-Qv-5tk">
                                     <rect key="frame" x="20" y="128" width="560" height="21"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -1559,7 +1602,7 @@
                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                     <nil key="highlightedColor"/>
                                 </label>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="198" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="J0G-xP-r7t">
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="J0G-xP-r7t">
                                     <rect key="frame" x="20" y="212" width="187" height="29"/>
                                     <fontDescription key="fontDescription" type="boldSystem" pointSize="24"/>
                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -1571,13 +1614,13 @@
                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                     <nil key="highlightedColor"/>
                                 </label>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="445" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="alj-ri-RSD">
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="alj-ri-RSD">
                                     <rect key="frame" x="393" y="212" width="187" height="29"/>
                                     <fontDescription key="fontDescription" type="boldSystem" pointSize="24"/>
                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                     <nil key="highlightedColor"/>
                                 </label>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="267" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kEv-AS-Fbh">
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kEv-AS-Fbh">
                                     <rect key="frame" x="207" y="211" width="186" height="29"/>
                                     <fontDescription key="fontDescription" type="boldSystem" pointSize="24"/>
                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -1616,39 +1659,6 @@
                                 <constraint firstItem="Grc-2q-jv7" firstAttribute="centerX" secondItem="rQr-kF-d4Q" secondAttribute="centerX" id="j3x-xA-fOV"/>
                             </constraints>
                         </view>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tvr-ha-yzX">
-                            <rect key="frame" x="248" y="268" width="44" height="44"/>
-                            <constraints>
-                                <constraint firstAttribute="height" constant="44" id="1Vp-t4-wNi"/>
-                                <constraint firstAttribute="width" constant="44" id="EJD-QE-zVR"/>
-                            </constraints>
-                            <state key="normal" image="double_image_menu"/>
-                            <connections>
-                                <action selector="gridView:" destination="IbE-Kr-sMr" eventType="touchUpInside" id="jug-YU-uMI"/>
-                            </connections>
-                        </button>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ypG-j4-akK">
-                            <rect key="frame" x="300" y="268" width="1" height="44"/>
-                            <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
-                            <constraints>
-                                <constraint firstAttribute="width" constant="1" id="VfW-P7-hV5"/>
-                                <constraint firstAttribute="height" constant="44" id="ffS-Re-u34"/>
-                            </constraints>
-                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                            <nil key="highlightedColor"/>
-                        </label>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="T5d-66-gm3">
-                            <rect key="frame" x="309" y="268" width="44" height="44"/>
-                            <constraints>
-                                <constraint firstAttribute="height" constant="44" id="jui-xx-RnW"/>
-                                <constraint firstAttribute="width" constant="44" id="viP-p1-Ylg"/>
-                            </constraints>
-                            <state key="normal" image="profile_menu"/>
-                            <connections>
-                                <action selector="listView:" destination="IbE-Kr-sMr" eventType="touchUpInside" id="u9v-xL-04x"/>
-                            </connections>
-                        </button>
                     </subviews>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <constraints>
@@ -2499,6 +2509,7 @@
                                                     <outlet property="feedImage" destination="K9T-K5-YRv" id="JbI-4C-LEW"/>
                                                     <outlet property="feedImage2" destination="PaG-Hv-wtz" id="ym5-Ux-e0x"/>
                                                     <outlet property="leftCount" destination="71z-UE-5BL" id="T1M-Tc-QTY"/>
+                                                    <outlet property="leftIcon" destination="EKi-3l-otn" id="DSn-ZN-xYp"/>
                                                     <outlet property="loveCount" destination="iGK-g2-cnS" id="vJN-Hw-nav"/>
                                                     <outlet property="loveIcon" destination="h9Z-zR-BdX" id="CuM-IU-Elf"/>
                                                 </connections>
@@ -2550,18 +2561,19 @@
         <image name="camera" width="36" height="42"/>
         <image name="clock" width="9" height="9"/>
         <image name="dislike" width="14" height="13"/>
-        <image name="double_image_menu" width="20" height="20"/>
+        <image name="double-mode-thumbnail" width="230" height="100"/>
+        <image name="double_image_menu" width="27" height="27"/>
         <image name="double_mode_camera" width="55" height="50"/>
         <image name="double_mode_thumbnail" width="230" height="100"/>
         <image name="email" width="34" height="34"/>
         <image name="facebook" width="17" height="17"/>
         <image name="favorite" width="14" height="12"/>
+        <image name="global_feed_grid_menu_dark@" width="27" height="27"/>
         <image name="global_feed_user" width="20" height="20"/>
         <image name="home" width="36" height="30"/>
         <image name="logo" width="201" height="57"/>
         <image name="logout" width="18" height="18"/>
         <image name="post-feed-img" width="100" height="88"/>
-        <image name="profile_menu" width="27" height="27"/>
         <image name="setting" width="15" height="15"/>
         <image name="setting_facebook" width="19" height="19"/>
         <image name="tick" width="15" height="15"/>

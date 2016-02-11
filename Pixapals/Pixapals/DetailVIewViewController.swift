@@ -48,8 +48,8 @@ class DetailVIewViewController: UIViewController {
         super.viewDidLoad()
         
         self.usernameLbl.text = feed.user?.username
+        self.getFeedButton.setTitle("Feeding", forState: UIControlState.Disabled)
         if (self.feed.is_my_feed)! || (self.feed.user?.is_my_fed)! {
-            self.getFeedButton.titleLabel?.text = "Feeding"
             self.getFeedButton.enabled = false
         }
             //getFeedButton.enabled = false
@@ -102,10 +102,11 @@ class DetailVIewViewController: UIViewController {
             "user_id": user.id!,
             "fed_id": (feed.user?.id!)!,
         ]
-        
-        let headers = [
-            "X-Auth-Token" : user.api_token!,
-        ]
+        self.getFeedButton.enabled = false
+        self.feed.is_my_feed = true
+//        let headers = [
+//            "X-Auth-Token" : user.api_token!,
+//        ]
         
         //        Alamofire.request(.POST, registerUrlString, parameters: parameters, headers:headers).responseJSON { response in
         //            switch response.result {
@@ -115,20 +116,21 @@ class DetailVIewViewController: UIViewController {
         //                print(value)
         //            }
         //        }
-        
-        Alamofire.request(.POST, registerUrlString, parameters: parameters, headers: headers).responseObject { (response: Response<SuccessFailJSON, NSError>) -> Void in
+        requestWithHeaderXAuthToken(.POST, registerUrlString, parameters: parameters).responseObject { (response: Response<SuccessFailJSON, NSError>) -> Void in
             switch response.result {
             case .Success(let getFeed):
                 if !getFeed.error! {
                     print("getting feed")
                     
-                    appDelegate.ShowAlertView("Success", message: "You are now following to \( self.feed.user?.id)")
-                    self.getFeedButton.enabled = false
-                    self.getFeedButton.titleLabel?.text = "Feeding"
+                    //appDelegate.ShowAlertView("Success", message: "You are now following to \( (self.feed.user?.username)!)")
                 } else {
+                    self.getFeedButton.enabled = true
+                    self.feed.is_my_feed = false
                     print("Error: Love it error")
                 }
             case .Failure(let error):
+                self.getFeedButton.enabled = true
+                self.feed.is_my_feed = false
                 print("Error in connection \(error)")
             }
         }
@@ -178,10 +180,33 @@ extension DetailVIewViewController: UITableViewDataSource {
         cell.loved = feed.is_my_love
         
         cell.loveCount.text = "\(feed.loveit ?? 0) loved it"
+        cell.loveIcon.image = UIImage(named: self.getIconName(feed.loveit ?? 0))
         cell.leftCount.text = "\(feed.leaveit ?? 0) left it"
+        cell.leftIcon.image = UIImage(named: self.getIconName(feed.leaveit ?? 0, love: false))
         cell.comment.text = "\(feed.comment ?? "")"
         //print(feedsToShow)
         return cell
+    }
+    
+    func getIconName(count: Int, love: Bool = true) -> String {
+        var iconName = ""
+        if love {
+            iconName = "love"
+        } else {
+            iconName = "left"
+        }
+        if count <= 10 {
+            iconName += "1"
+        } else if count <= 50 {
+            iconName += "2"
+        } else if count <= 100 {
+            iconName += "3"
+        } else if count <= 200 {
+            iconName += "4"
+        } else {
+            iconName += "5"
+        }
+        return iconName
     }
     
     
@@ -253,7 +278,7 @@ extension DetailVIewViewController: CellImageSwippedDelegate {
         //        print(left)
         //left=true
         
-        self.leaveit(String(id))
+        self.loveFeed(String(id))
     }
     func imageSwipedRight(id: Int, loved: Bool,  left: Bool) {
         print("swipped love (right)")
@@ -261,7 +286,7 @@ extension DetailVIewViewController: CellImageSwippedDelegate {
         //        print(left)
         //        loved = true
         //        left = false
-        self.loveFeed(String(id))
+        self.leaveit(String(id))
     }
     
     func loveFeed(postId:String){
@@ -279,26 +304,21 @@ extension DetailVIewViewController: CellImageSwippedDelegate {
             "X-Auth-Token" : user.api_token!,
         ]
         
-        
+        self.loveCountIncrease()
         
         //Alamofire.request(.GET, apiURLString, parameters: nil, headers: headers).responseObject { (response: Response<FeedsResponseJSON, NSError>) -> Void in
-        Alamofire.request(.POST, registerUrlString, parameters: parameters, headers: headers).responseObject { (response: Response<SuccessFailJSON, NSError>) -> Void in
+        requestWithHeaderXAuthToken(.POST, registerUrlString, parameters: parameters).responseObject { (response: Response<SuccessFailJSON, NSError>) -> Void in
             switch response.result {
             case .Success(let loveItObject):
                 if !loveItObject.error! {
-                    self.feed.is_my_love = true
-                    self.feed.loveit = self.feed.loveit! + 1
-                    if self.feed.is_my_left! {
-                        self.feed.is_my_left = false
-                        self.feed.leaveit = self.feed.leaveit! - 1
-                    }
-                    self.tableView.reloadData()
-                    self.triggerDelegateNeedReloadData()
+                    
                 } else {
                     print("Error: Love it error")
+                    self.leaveCountIncrease()
                 }
             case .Failure(let error):
                 print("Error in connection \(error)")
+                self.leaveCountIncrease()
             }
         }
         //        Alamofire.request(.POST, registerUrlString, parameters: parameters, headers:headers).responseJSON { response in
@@ -327,7 +347,7 @@ extension DetailVIewViewController: CellImageSwippedDelegate {
             "X-Auth-Token" : user.api_token!,
         ]
         
-        
+        self.leaveCountIncrease()
         
         
         //        Alamofire.request(.POST, registerUrlString, parameters: parameters, headers:headers).responseJSON { response in
@@ -339,27 +359,44 @@ extension DetailVIewViewController: CellImageSwippedDelegate {
         //            }
         //        }
         
-        Alamofire.request(.POST, registerUrlString, parameters: parameters, headers: headers).responseObject { (response: Response<SuccessFailJSON, NSError>) -> Void in
+        requestWithHeaderXAuthToken(.POST, registerUrlString, parameters: parameters).responseObject { (response: Response<SuccessFailJSON, NSError>) -> Void in
             switch response.result {
             case .Success(let leaveItObject):
                 if !leaveItObject.error! {
-                    self.feed.is_my_left = true
-                    self.feed.leaveit = self.feed.leaveit! + 1
-                    if self.feed.is_my_love! {
-                        self.feed.is_my_love = false
-                        self.feed.loveit = self.feed.loveit! - 1
-                    }
-                    self.tableView.reloadData()
-                    self.triggerDelegateNeedReloadData()
+                    
                 } else {
                     print("Error: Leave it error")
+                    self.loveCountIncrease()
                 }
             case .Failure(let error):
+                self.loveCountIncrease()
                 print("Error in connection \(error)")
             }
         }
         
         
+    }
+    
+    func loveCountIncrease(){
+        self.feed.is_my_love = true
+        self.feed.loveit = self.feed.loveit! + 1
+        if self.feed.is_my_left! {
+            self.feed.is_my_left = false
+            self.feed.leaveit = self.feed.leaveit! - 1
+        }
+        self.tableView.reloadData()
+        self.triggerDelegateNeedReloadData()
+    }
+    
+    func leaveCountIncrease(){
+        self.feed.is_my_left = true
+        self.feed.leaveit = self.feed.leaveit! + 1
+        if self.feed.is_my_love! {
+            self.feed.is_my_love = false
+            self.feed.loveit = self.feed.loveit! - 1
+        }
+        self.tableView.reloadData()
+        self.triggerDelegateNeedReloadData()
     }
 }
 

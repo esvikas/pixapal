@@ -47,10 +47,10 @@ class GlobalFeedsViewController: UIViewController {
         self.loadMoreActivityIndicator.hidesWhenStopped = true
         self.loadDataFromAPI()
         self.changeViewMode(self)
-//        tableView.emptyDataSetDelegate=self
-//        tableView.emptyDataSetSource=self
-//        collectionView.emptyDataSetSource=self
-//        collectionView.emptyDataSetDelegate=self
+        //        tableView.emptyDataSetDelegate=self
+        //        tableView.emptyDataSetSource=self
+        //        collectionView.emptyDataSetSource=self
+        //        collectionView.emptyDataSetDelegate=self
         
         
         self.blurEffectView.alpha = 0.4
@@ -71,7 +71,7 @@ class GlobalFeedsViewController: UIViewController {
         self.collectionView.addSubview(collectionViewRefreshControl)
         self.collectionView.alwaysBounceVertical = true
         self.view.backgroundColor=UIColor(red: 240/255, green: 240/255, blue: 240/255, alpha: 1)
-
+        
     }
     
     override func didReceiveMemoryWarning() {
@@ -148,18 +148,20 @@ class GlobalFeedsViewController: UIViewController {
             "X-Auth-Token" : String(api_token),
         ]
         
-        Alamofire.request(.GET, apiURLString, parameters: nil, headers: headers).responseJSON { response -> Void in
-            print(response.request)
-            switch response.result {
-            case .Success(let value):
-                print(JSON(value))
-            case .Failure(let error):
+        Alamofire.request(.GET, apiURLString, parameters: nil, headers: headers)
+            //requestWithHeaderXAuthToken(.GET, apiURLString)
+            .responseJSON { response -> Void in
+                print(response.request)
+                switch response.result {
+                case .Success(let value):
+                    print(JSON(value))
+                case .Failure(let error):
                     print(error)
-            }
+                }
         }
         
         //Alamofire.request(.GET, apiURLString, parameters: nil, headers: headers).responseArray { (response: Response<[FeedJSON], NSError>) -> Void in
-        Alamofire.request(.GET, apiURLString, parameters: nil, headers: headers).responseObject { (response: Response<FeedsResponseJSON, NSError>) -> Void in
+        requestWithHeaderXAuthToken(.GET, apiURLString).responseObject { (response: Response<FeedsResponseJSON, NSError>) -> Void in
             
             switch response.result {
                 
@@ -374,12 +376,12 @@ extension GlobalFeedsViewController: UITableViewDataSource {
         } else {
             cell.feedImage2.hidden = true
         }
-//        if let imagePresent = feedsToShow[indexPath.section,"photo_two"].string?.isEmpty where imagePresent == false {
-//            cell.feedImage2.hidden = false
-//            cell.feedImage2.kf_setImageWithURL(NSURL(string: feedsToShow[indexPath.section,"photo_two"].string!)! , placeholderImage: UIImage(named: "loading.png"))
-//        } else {
-//            cell.feedImage2.hidden = true
-//        }
+        //        if let imagePresent = feedsToShow[indexPath.section,"photo_two"].string?.isEmpty where imagePresent == false {
+        //            cell.feedImage2.hidden = false
+        //            cell.feedImage2.kf_setImageWithURL(NSURL(string: feedsToShow[indexPath.section,"photo_two"].string!)! , placeholderImage: UIImage(named: "loading.png"))
+        //        } else {
+        //            cell.feedImage2.hidden = true
+        //        }
         
         cell.delegate = self
         
@@ -387,13 +389,35 @@ extension GlobalFeedsViewController: UITableViewDataSource {
         cell.left = feed.is_my_left
         cell.loved = feed.is_my_love
         cell.selectionStyle =  UITableViewCellSelectionStyle.None
-
         
         cell.loveCount.text = "\(feed.loveit ?? 0) loved it"
+        cell.loveIcon.image = UIImage(named: self.getIconName(feed.loveit ?? 0))
         cell.leftCount.text = "\(feed.leaveit ?? 0) left it"
+        cell.leftIcon.image = UIImage(named: self.getIconName(feed.leaveit ?? 0, love: false))
         cell.comment.text = "\(feed.comment ?? "")"
         //print(feedsToShow)
         return cell
+    }
+    
+    func getIconName(count: Int, love: Bool = true) -> String {
+        var iconName = ""
+        if love {
+            iconName = "love"
+        } else {
+            iconName = "left"
+        }
+        if count <= 10 {
+            iconName += "1"
+        } else if count <= 50 {
+            iconName += "2"
+        } else if count <= 100 {
+            iconName += "3"
+        } else if count <= 200 {
+            iconName += "4"
+        } else {
+            iconName += "5"
+        }
+        return iconName
     }
     
     func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
@@ -415,7 +439,7 @@ extension GlobalFeedsViewController: UITableViewDelegate {
         
         
         self.goToDetailFeedView(feed)
-
+        
         
     }
     
@@ -440,23 +464,24 @@ extension GlobalFeedsViewController: UITableViewDelegate {
         if let createdAt = feed.created_at {
             //let dateFormatter = NSDateFormatter()
             //dateFormatter.dateFormat = "y-MM-dd HH:mm:ss"
-           // if let date = dateFormatter.dateFromString(createdAt) {
-                var textTimeElapsed = ""
-                let timeInSecond = Int(NSDate().timeIntervalSinceDate(createdAt))
-                if timeInSecond/60 < 0 {
-                    textTimeElapsed = "\(timeInSecond) sec ago"
-                } else if timeInSecond/(60*60) < 1 {
-                    textTimeElapsed = "\(timeInSecond/60) mins ago"
-                }else if timeInSecond/(60*60*24) < 1 {
-                    textTimeElapsed = "\(timeInSecond/(60*60)) hrs ago"
-                }else if timeInSecond/(60*60*24*7) < 1 {
-                    textTimeElapsed = "\(timeInSecond/(60*60*24)) days ago"
-                }else if timeInSecond/(60*60*24*7) >= 1 {
-                    textTimeElapsed = "\(timeInSecond/(60*60*24*7)) weeks ago"
-                }
-                cell.timeElapsed.text = textTimeElapsed
+            // if let date = dateFormatter.dateFromString(createdAt) {
+            var textTimeElapsed = ""
+            let timeInSecond = Int(NSDate().timeIntervalSinceDate(createdAt))
+            if timeInSecond/60 < 0 {
+                textTimeElapsed = "\(timeInSecond) sec ago"
+            } else if timeInSecond/(60*60) < 1 {
+                textTimeElapsed = "\(timeInSecond/60) mins ago"
+            }else if timeInSecond/(60*60*24) < 1 {
+                textTimeElapsed = "\(timeInSecond/(60*60)) hrs ago"
+            }else if timeInSecond/(60*60*24*7) < 1 {
+                textTimeElapsed = "\(timeInSecond/(60*60*24)) days ago"
+            }else if timeInSecond/(60*60*24*7) >= 1 {
+                textTimeElapsed = "\(timeInSecond/(60*60*24*7)) weeks ago"
+            }
+            cell.timeElapsed.text = textTimeElapsed
             //}
         }
+        
         return cell
     }
     
@@ -534,7 +559,7 @@ extension GlobalFeedsViewController: CellImageSwippedDelegate {
         //        print(left)
         //left=true
         self.loveFeed(id)
-
+        
         
     }
     func imageSwipedRight(id: Int, loved: Bool, left: Bool) {
@@ -544,7 +569,7 @@ extension GlobalFeedsViewController: CellImageSwippedDelegate {
         //        loved = true
         //        left = false
         self.leaveit(id)
-
+        
     }
     
     func loveFeed(id:Int){
@@ -561,21 +586,20 @@ extension GlobalFeedsViewController: CellImageSwippedDelegate {
         let headers = [
             "X-Auth-Token" : user.api_token!,
         ]
-        Alamofire.request(.POST, registerUrlString, parameters: parameters, headers: headers).responseObject { (response: Response<SuccessFailJSON, NSError>) -> Void in
+        
+        self.loveCountIncrease(feed)
+        
+        requestWithHeaderXAuthToken(.POST, registerUrlString, parameters: parameters).responseObject { (response: Response<SuccessFailJSON, NSError>) -> Void in
             switch response.result {
             case .Success(let loveItObject):
                 if !loveItObject.error! {
-                    feed.is_my_love = true
-                    feed.loveit = feed.loveit! + 1
-                    if feed.is_my_left! {
-                        feed.is_my_left = false
-                        feed.leaveit = feed.leaveit! - 1
-                    }
-                    self.tableView.reloadData()
+                    
                 } else {
+                    self.leaveCountIncrease(feed)
                     print("Error: Love it error")
                 }
             case .Failure(let error):
+                self.leaveCountIncrease(feed)
                 print("Error in connection \(error)")
             }
         }
@@ -596,27 +620,55 @@ extension GlobalFeedsViewController: CellImageSwippedDelegate {
             "X-Auth-Token" : user.api_token!,
         ]
         
+        self.leaveCountIncrease(feed)
         
-        Alamofire.request(.POST, registerUrlString, parameters: parameters, headers: headers).responseObject { (response: Response<SuccessFailJSON, NSError>) -> Void in
-
+        //                Alamofire.request(.POST, registerUrlString, parameters: parameters, headers:headers).responseJSON { response in
+        //                    print(response.request)
+        //                    switch response.result {
+        //                    case .Failure(let error):
+        //                        print(error)
+        //                    case .Success(let value):
+        //                        print(value)
+        //                    }
+        //                }
         
-        switch response.result {
-        case .Success(let leaveItObject):
-            if !leaveItObject.error! {
-                feed.is_my_left = true
-                feed.leaveit = feed.leaveit! + 1
-                if feed.is_my_love! {
-                    feed.is_my_love = false
-                    feed.loveit = feed.loveit! - 1
+        requestWithHeaderXAuthToken(.POST, registerUrlString, parameters: parameters).responseObject { (response: Response<SuccessFailJSON, NSError>) -> Void in
+            switch response.result {
+            case .Success(let loveItObject):
+                if !loveItObject.error! {
+                    
+                } else {
+                    print("Error: Love it error")
+                    self.loveCountIncrease(feed)
                 }
-                self.tableView.reloadData()
-            } else {
-                print("Error: Leave it error")
+                
+            case .Failure(let error):
+                print("Error in connection \(error)")
+                self.loveCountIncrease(feed)
+                
             }
-        case .Failure(let error):
-            print("Error in connection \(error)")
         }
+    }
+    
+    func loveCountIncrease(feed: FeedJSON){
+        feed.is_my_love = true
+        feed.loveit = feed.loveit! + 1
+        if feed.is_my_left! {
+            feed.is_my_left = false
+            feed.leaveit = feed.leaveit! - 1
         }
+        self.tableView.reloadData()
+        
+    }
+    
+    func leaveCountIncrease(feed: FeedJSON){
+        feed.is_my_left = true
+        feed.leaveit = feed.leaveit! + 1
+        if feed.is_my_love! {
+            feed.is_my_love = false
+            feed.loveit = feed.loveit! - 1
+        }
+        self.tableView.reloadData()
     }
 }
 
@@ -627,30 +679,30 @@ extension GlobalFeedsViewController: DetailViewViewControllerProtocol {
 }
 
 //extension GlobalFeedsViewController : DZNEmptyDataSetDelegate, DZNEmptyDataSetSource {
-//    
-//    
+//
+//
 //    func titleForEmptyDataSet(scrollView: UIScrollView!) -> NSAttributedString! {
 //        let str = "Sorrry"
 //        let attrs = [NSFontAttributeName: UIFont.preferredFontForTextStyle(UIFontTextStyleHeadline)]
 //        return NSAttributedString(string: str, attributes: attrs)
 //    }
-//    
+//
 //    func descriptionForEmptyDataSet(scrollView: UIScrollView!) -> NSAttributedString! {
 //        let str = "There are no posts to show"
 //        let attrs = [NSFontAttributeName: UIFont.preferredFontForTextStyle(UIFontTextStyleBody)]
 //        return NSAttributedString(string: str, attributes: attrs)
 //    }
-//    
+//
 //    func imageForEmptyDataSet(scrollView: UIScrollView!) -> UIImage! {
 //        return UIImage(named: "logo")
 //    }
-//    
+//
 ////    func buttonTitleForEmptyDataSet(scrollView: UIScrollView!, forState state: UIControlState) -> NSAttributedString! {
 ////        let str = "More info"
 ////        let attrs = [NSFontAttributeName: UIFont.preferredFontForTextStyle(UIFontTextStyleBody)]
 ////        return NSAttributedString(string: str, attributes: attrs)
 ////    }
-//    
+//
 //    func emptyDataSetDidTapButton(scrollView: UIScrollView!) {
 //        let ac = UIAlertController(title: "Info will be listed here", message: nil, preferredStyle: .Alert)
 //        ac.addAction(UIAlertAction(title: "ok", style: .Default, handler: nil))

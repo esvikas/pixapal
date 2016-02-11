@@ -21,6 +21,7 @@ class GlobalFeedTableViewCell: UITableViewCell {
     @IBOutlet weak var comment: UILabel!
     @IBOutlet weak var feedImage2: UIImageView!
     @IBOutlet weak var timeElapsed: UILabel!
+    @IBOutlet weak var leftIcon: UIImageView!
     
     var id: Int!
     var loved : Bool!
@@ -88,9 +89,11 @@ class GlobalFeedTableViewCell: UITableViewCell {
                         
                         }, completion: { (Bool) -> Void in
                             self.DynamicView.hidden=true
+                            self.delegate.imageSwipedRight(self.id,loved: self.loved,left: self.left)
                     })
+                    self.left = true
                     
-                    delegate.imageSwipedRight(self.id,loved: self.loved,left: self.left)
+                    
                 }
                 
             case UISwipeGestureRecognizerDirection.Left:
@@ -103,9 +106,12 @@ class GlobalFeedTableViewCell: UITableViewCell {
                         self.DynamicView.frame=(frame: CGRectMake( -self.frame.width, self.feedImage.layer.frame.origin.y, self.feedImage.frame.width, self.feedImage.frame.height))
                         }, completion: { (Bool) -> Void in
                             self.DynamicView.hidden=true
+                            
+                            self.delegate.imageSwipedLeft(self.id,loved: self.loved,left: self.left)
                     })
+                    self.loved = true
                     //print("swipe left")
-                    delegate.imageSwipedLeft(self.id,loved: self.loved,left: self.left)
+                    
                 }
             default:
                 break
