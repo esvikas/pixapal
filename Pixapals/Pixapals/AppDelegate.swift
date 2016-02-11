@@ -31,6 +31,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             UIUserNotificationType.Alert,
             UIUserNotificationType.Sound]
         
+        
+        
+
+        
         let settings: UIUserNotificationSettings = UIUserNotificationSettings( forTypes: types, categories: nil )
         application.registerUserNotificationSettings( settings )
         application.registerForRemoteNotifications()

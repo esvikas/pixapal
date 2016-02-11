@@ -15,6 +15,7 @@ import MBProgressHUD
 
 class PostFeedViewController: UIViewController, UITextViewDelegate {
     
+    @IBOutlet var btnPostFeed: UIButton!
     @IBOutlet weak var singleModeImageView: UIImageView!
     @IBOutlet weak var doubleModeImageView1: UIImageView!
     @IBOutlet weak var doubleModeImageView2: UIImageView!
@@ -69,7 +70,6 @@ class PostFeedViewController: UIViewController, UITextViewDelegate {
             self.view.backgroundColor=UIColor(red: 240/255, green: 240/255, blue: 240/255, alpha: 1)
 
 
-            
         }
 
     
@@ -172,12 +172,7 @@ class PostFeedViewController: UIViewController, UITextViewDelegate {
     
     func PostFeed(){
         
-        self.blurEffectView.alpha = 0.4
-        self.blurEffectView.frame = view.bounds
-        self.view.addSubview(self.blurEffectView)
-        let loadingNotification = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
-        loadingNotification.mode = MBProgressHUDMode.Indeterminate
-        loadingNotification.labelText = "Posting"
+btnPostFeed.enabled=false
 
         
         
@@ -203,11 +198,12 @@ class PostFeedViewController: UIViewController, UITextViewDelegate {
         doubleModeStackView.layoutIfNeeded()
         doubleModeImageView1.layoutIfNeeded()
         if imageMode==2{
-        UIGraphicsBeginImageContextWithOptions(CGSizeMake(self.doubleModeStackView.frame.width-40,self.doubleModeStackView.layer.frame.height/2), false, 0);
+        UIGraphicsBeginImageContextWithOptions(CGSizeMake(self.doubleModeStackView.frame.width-40,self.doubleModeStackView.layer.frame.height), false, 0);
         self.view.drawViewHierarchyInRect(CGRectMake(self.doubleModeStackView.layer.frame.origin.x-20,self.doubleModeStackView.layer.frame.origin.y-44,self.doubleModeStackView.bounds.size.width,self.doubleModeStackView.layer.frame.height), afterScreenUpdates: true)
         let imagex:UIImage = UIGraphicsGetImageFromCurrentImageContext();
         UIGraphicsEndImageContext()
         image1=imagex
+
 
         
          imageData=((data:(UIImageJPEGRepresentation(imagex , 1))!))
@@ -216,6 +212,13 @@ class PostFeedViewController: UIViewController, UITextViewDelegate {
              imageData=((data:(UIImageJPEGRepresentation(image1 , 1))!))
 
         }
+        
+        self.blurEffectView.alpha = 0.4
+        self.blurEffectView.frame = view.bounds
+        self.view.addSubview(self.blurEffectView)
+        let loadingNotification = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
+        loadingNotification.mode = MBProgressHUDMode.Indeterminate
+        loadingNotification.labelText = "Posting"
 
         
         SRWebClient.POST("\(apiUrl)api/v1/feeds")
@@ -244,6 +247,8 @@ class PostFeedViewController: UIViewController, UITextViewDelegate {
 //                    self.tabBarController?.selectedIndex = 0
                     MBProgressHUD.hideAllHUDsForView(self.view, animated: true)
                     self.blurEffectView.removeFromSuperview()
+                    self.btnPostFeed.enabled=true
+
 
 
                     let storyboard: UIStoryboard = UIStoryboard (name: "Main", bundle: nil)
@@ -263,8 +268,10 @@ class PostFeedViewController: UIViewController, UITextViewDelegate {
                 
                 },failure:{(response:AnyObject!, error:NSError!) -> Void in
                     MBProgressHUD.hideAllHUDsForView(self.view, animated: true)
-
+                    self.blurEffectView.removeFromSuperview()
+                    self.btnPostFeed.enabled=true
                     
+                    appDelegate.ShowAlertView("Sorry", message: "Something Went Wrong")
                     print("Failure")
                     print(response)
                     print(error)

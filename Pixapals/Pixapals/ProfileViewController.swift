@@ -82,6 +82,7 @@ class ProfileViewController: UIViewController {
         self.collectionView.hidden = true
         
         self.view.backgroundColor=UIColor(red: 240/255, green: 240/255, blue: 240/255, alpha: 1)
+        
 
     }
 
