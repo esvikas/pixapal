@@ -48,6 +48,12 @@ class ProfileViewController: UIViewController {
     var pageNumber = 1
     let postLimit = 3
     
+    var navTitle: String? = "Profile" {
+        didSet {
+            self.changeNavTitle()
+        }
+    }
+    
     var feedsFromResponseAsObject: ProfileResponseJSON!
     
     override func viewDidLoad() {
@@ -99,7 +105,7 @@ class ProfileViewController: UIViewController {
     
     override func viewWillAppear(animated: Bool) {
         //self.tableView.reloadData()
-        self.tabBarController?.navigationItem.title = "Profile"
+        self.changeNavTitle()
         
         let btnName = UIButton()
         btnName.setImage(UIImage(named: "setting"), forState: .Normal)
@@ -114,6 +120,7 @@ class ProfileViewController: UIViewController {
 //        let camera = UIBarButtonItem(barButtonSystemItem: .Camera, target: self, action: Selector("btnOpenCamera"))
 //        self.navigationItem.rightBarButtonItem = camera
     }
+
     
     @IBAction func gridView(sender: AnyObject) {
         collectionView.hidden = false
@@ -131,6 +138,11 @@ class ProfileViewController: UIViewController {
         let vc: ProfileEditViewController = storyboard.instantiateViewControllerWithIdentifier("ProfileEditViewController") as! ProfileEditViewController
         self.navigationController?.pushViewController(vc, animated: true)
         
+    }
+    
+    func changeNavTitle(){
+        self.tabBarController?.navigationItem.title = self.navTitle
+        self.navigationItem.title = self.navTitle
     }
     
     func action(){
@@ -221,8 +233,7 @@ class ProfileViewController: UIViewController {
                     self.loadMoreActivityIndicator.stopAnimating()
                     self.footerView.hidden = true
                     //print(feedsResponseJSON.user.username)
-                    self.navigationItem.title = feedsResponseJSON.user.username
-                    self.tabBarController?.navigationItem.title = feedsResponseJSON.user.username
+                    self.navTitle = feedsResponseJSON.user.username
                     self.setHeader()
                 }
 

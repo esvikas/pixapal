@@ -13,8 +13,14 @@ class LoverListViewController: UIViewController {
     
     var users: [UserJSON]!
     
+    @IBOutlet weak var tableView: UITableView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        tableView.tableFooterView = UIView(frame: CGRect.zero)
+        self.tableView.tableFooterView?.hidden = true
+        self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .Plain, target: nil, action: nil)
+        
         
         // Do any additional setup after loading the view.
     }
