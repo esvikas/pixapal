@@ -148,17 +148,17 @@ class GlobalFeedsViewController: UIViewController {
             "X-Auth-Token" : String(api_token),
         ]
         
-        Alamofire.request(.GET, apiURLString, parameters: nil, headers: headers)
-            //requestWithHeaderXAuthToken(.GET, apiURLString)
-            .responseJSON { response -> Void in
-                print(response.request)
-                switch response.result {
-                case .Success(let value):
-                    print(JSON(value))
-                case .Failure(let error):
-                    print(error)
-                }
-        }
+//        Alamofire.request(.GET, apiURLString, parameters: nil, headers: headers)
+//            //requestWithHeaderXAuthToken(.GET, apiURLString)
+//            .responseJSON { response -> Void in
+//                print(response.request)
+//                switch response.result {
+//                case .Success(let value):
+//                    print(JSON(value))
+//                case .Failure(let error):
+//                    print(error)
+//                }
+//        }
         
         //Alamofire.request(.GET, apiURLString, parameters: nil, headers: headers).responseArray { (response: Response<[FeedJSON], NSError>) -> Void in
         requestWithHeaderXAuthToken(.GET, apiURLString).responseObject { (response: Response<FeedsResponseJSON, NSError>) -> Void in
@@ -692,7 +692,7 @@ extension GlobalFeedsViewController: CellImageSwippedDelegate {
 
 extension GlobalFeedsViewController: DetailViewViewControllerProtocol {
     func needReloadData() {
-        self.tableView.reloadData()
+        self.viewWillAppear(true)
     }
 }
 

@@ -46,11 +46,14 @@ class ProfileViewController: UIViewController {
     var userId: Int?
     
     var pageNumber = 1
-    let postLimit = 3
+    let postLimit = 15
     
-    var navTitle: String? = "Profile" {
+    var navTitle: String? = nil {
         didSet {
-            self.changeNavTitle()
+            self.navigationItem.title = self.navTitle ?? "Profile"
+            if let index = self.tabBarController?.selectedIndex  where index == self.tabBarController!.viewControllers!.indexOf(self) {
+                self.changeNavTitle()
+            }
         }
     }
     
@@ -95,6 +98,8 @@ class ProfileViewController: UIViewController {
         if let userId = userId  where userId != UserDataStruct().id{
            btnEdit.hidden = true
         }
+        
+        self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .Plain, target: nil, action: nil)
 
 
     }
@@ -106,7 +111,8 @@ class ProfileViewController: UIViewController {
     override func viewWillAppear(animated: Bool) {
         //self.tableView.reloadData()
         self.changeNavTitle()
-        
+        self.tableView.reloadData()
+        self.collectionView.reloadData()
         let btnName = UIButton()
         btnName.setImage(UIImage(named: "setting"), forState: .Normal)
         btnName.frame = CGRectMake(0, 0, 30, 30)
@@ -141,8 +147,8 @@ class ProfileViewController: UIViewController {
     }
     
     func changeNavTitle(){
-        self.tabBarController?.navigationItem.title = self.navTitle
-        self.navigationItem.title = self.navTitle
+        self.tabBarController?.navigationItem.title = self.navTitle ?? "Profile"
+        self.navigationItem.title = self.navTitle ?? "Profile"
     }
     
     func action(){

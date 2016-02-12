@@ -37,6 +37,8 @@ class DetailVIewViewController: UIViewController {
     
     var feed: FeedJSON!
     
+    var cellIndex: NSIndexPath?
+    
     
     //var collectionViewHidden = false
     
@@ -66,7 +68,7 @@ class DetailVIewViewController: UIViewController {
         //        loadingNotification.labelText = "Loading"
         self.view.backgroundColor=UIColor(red: 240/255, green: 240/255, blue: 240/255, alpha: 1)
 
-        
+        self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .Plain, target: nil, action: nil)
     }
     
     override func didReceiveMemoryWarning() {
@@ -104,6 +106,7 @@ class DetailVIewViewController: UIViewController {
         ]
         self.getFeedButton.enabled = false
         self.feed.is_my_feed = true
+        self.triggerDelegateNeedReloadData()
 //        let headers = [
 //            "X-Auth-Token" : user.api_token!,
 //        ]
@@ -126,6 +129,7 @@ class DetailVIewViewController: UIViewController {
                 } else {
                     self.getFeedButton.enabled = true
                     self.feed.is_my_feed = false
+                    
                     print("Error: Love it error")
                 }
             case .Failure(let error):

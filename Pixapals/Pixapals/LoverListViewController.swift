@@ -119,18 +119,20 @@ extension LoverListViewController: loverListTableViewCellDelegate {
             "user_id": LoggedInUser.id!,
             "fed_id": user.id!,
         ]
-        
+        user.is_my_fed = true
         requestWithHeaderXAuthToken(.POST, registerUrlString, parameters: parameters).responseObject { (response: Response<SuccessFailJSON, NSError>) -> Void in
             switch response.result {
             case .Success(let getFeed):
                 if !getFeed.error! {
-                    user.is_my_fed = true
+                    
                     print("Getting feed")
                 } else {
+                    user.is_my_fed = false
                     sender.enabled = true
                     print("Error: Love it error")
                 }
             case .Failure(let error):
+                user.is_my_fed = false
                 sender.enabled = true
                 print("Error in connection \(error)")
             }
