@@ -68,6 +68,7 @@ class DetailVIewViewController: UIViewController {
         //        loadingNotification.labelText = "Loading"
         self.view.backgroundColor=UIColor(red: 240/255, green: 240/255, blue: 240/255, alpha: 1)
 
+
         self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .Plain, target: nil, action: nil)
     }
     
@@ -82,15 +83,14 @@ class DetailVIewViewController: UIViewController {
         //        self.tabBarController?.navigationItem.hidesBackButton = true
         //        self.tabBarController?.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .Plain, target: nil, action: nil)
     }
-    /*
-    // MARK: - Navigation
-    
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-    // Get the new view controller using segue.destinationViewController.
-    // Pass the selected object to the new view controller.
+    override func viewDidAppear(animated: Bool) {
+        self.tabBarController?.navigationItem.rightBarButtonItem?.enabled=false
+
+
+        
+        
+        
     }
-    */
     
     
     @IBAction func btnFollowUser(sender: AnyObject) {

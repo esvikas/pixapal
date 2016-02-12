@@ -23,6 +23,7 @@ struct UserDataStruct {
     let website: String!
     let bio: String!
     let phone: String!
+    let thumbImage:String!
     
     init () {
         let nsUserDefault = NSUserDefaults.standardUserDefaults()
@@ -38,6 +39,8 @@ struct UserDataStruct {
         website = user_Info_Dict["website"]
         bio = user_Info_Dict["bio"]
         phone = user_Info_Dict["phone"]
+        thumbImage = user_Info_Dict["photo_thumb"]
+
         
         if let gender = user_Info_Dict["gender"] {
             switch gender {

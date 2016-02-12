@@ -18,7 +18,13 @@ class CustomTabBarController: UITabBarController {
         // Do any additional setup after loading the view.
         self.view.backgroundColor=UIColor(red: 240/255, green: 240/255, blue: 240/255, alpha: 1)
 
+        let numberOfItems = CGFloat(tabBar.items!.count)
+        let tabBarItemSize = CGSize(width: tabBar.frame.width / numberOfItems, height: tabBar.frame.height)
+        tabBar.selectionIndicatorImage = UIImage.imageWithColor(UIColor.lightGrayColor(), size: tabBarItemSize).resizableImageWithCapInsets(UIEdgeInsetsZero)
         
+        // remove default border
+        tabBar.frame.size.width = self.view.frame.width + 4
+        tabBar.frame.origin.x = -2
     }
     
     override func didReceiveMemoryWarning() {
@@ -43,14 +49,19 @@ class CustomTabBarController: UITabBarController {
         }
     }
     
-    /*
-    // MARK: - Navigation
+
     
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-    // Get the new view controller using segue.destinationViewController.
-    // Pass the selected object to the new view controller.
+}
+extension UIImage {
+    
+    class func imageWithColor(color: UIColor, size: CGSize) -> UIImage {
+        let rect: CGRect = CGRectMake(0, 0, size.width, size.height)
+        UIGraphicsBeginImageContextWithOptions(size, false, 0)
+        color.setFill()
+        UIRectFill(rect)
+        let image: UIImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        return image
     }
-    */
     
 }
