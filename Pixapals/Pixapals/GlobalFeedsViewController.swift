@@ -63,8 +63,10 @@ class GlobalFeedsViewController: UIViewController {
         
         self.tableViewRefreshControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
         self.tableViewRefreshControl.addTarget(self, action: "refresh:", forControlEvents: UIControlEvents.ValueChanged)
+        
         self.tableView.addSubview(tableViewRefreshControl)
         self.tableView.alwaysBounceVertical = true
+        
         
         self.collectionViewRefreshControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
         self.collectionViewRefreshControl.addTarget(self, action: "refresh:", forControlEvents: UIControlEvents.ValueChanged)
@@ -326,6 +328,9 @@ class GlobalFeedsViewController: UIViewController {
     func refresh(sender:AnyObject)
     {
         // Code to refresh table view
+        
+        tableViewRefreshControl.endRefreshing()
+
         self.pageNumber = 1
         self.refreshingStatus = true
         self.hasMoreDataInServer = true
@@ -455,6 +460,9 @@ extension GlobalFeedsViewController: UITableViewDelegate {
     func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return 35
     }
+    
+    
+    
     
     func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let feed = self.feedsFromResponseAsObject.feeds![section]
@@ -736,14 +744,11 @@ extension GlobalFeedsViewController : UIScrollViewDelegate {
     
     func scrollViewWillEndDragging(scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
         
-        var refreshingStatus = false
 
-        self.loadMoreActivityIndicator.stopAnimating()
-        self.loadMoreActivityIndicator.hidden=true
-        self.tableView.layoutIfNeeded()
 
         if(velocity.y>0){
             
+            self.tableViewRefreshControl.endRefreshing()
 
             NSLog("dragging Up");
         }else{
