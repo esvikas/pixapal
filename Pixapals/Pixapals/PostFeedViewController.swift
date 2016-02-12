@@ -219,6 +219,8 @@ btnPostFeed.enabled=false
         let loadingNotification = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
         loadingNotification.mode = MBProgressHUDMode.Indeterminate
         loadingNotification.labelText = "Posting"
+        self.navigationItem.hidesBackButton = true
+
 
         
         SRWebClient.POST("\(apiUrl)api/v1/feeds")
@@ -248,6 +250,8 @@ btnPostFeed.enabled=false
                     MBProgressHUD.hideAllHUDsForView(self.view, animated: true)
                     self.blurEffectView.removeFromSuperview()
                     self.btnPostFeed.enabled=true
+//                    self.navigationItem.hidesBackButton = false
+
 
 
 
@@ -270,7 +274,8 @@ btnPostFeed.enabled=false
                     MBProgressHUD.hideAllHUDsForView(self.view, animated: true)
                     self.blurEffectView.removeFromSuperview()
                     self.btnPostFeed.enabled=true
-                    
+                    self.navigationItem.hidesBackButton = false
+
                     appDelegate.ShowAlertView("Sorry", message: "Something Went Wrong")
                     print("Failure")
                     print(response)

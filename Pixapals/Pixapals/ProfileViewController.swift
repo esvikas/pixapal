@@ -59,6 +59,9 @@ class ProfileViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        userImage.layer.cornerRadius=userImage.frame.height/2
+        userImage.clipsToBounds=true
+        
         self.footerView.hidden = true
         
         self.loadMoreActivityIndicator.hidesWhenStopped = true
@@ -103,6 +106,8 @@ class ProfileViewController: UIViewController {
         super.didReceiveMemoryWarning()
     }
     
+    
+    
     override func viewWillAppear(animated: Bool) {
         //self.tableView.reloadData()
         self.changeNavTitle()
@@ -133,9 +138,11 @@ class ProfileViewController: UIViewController {
         tableView.hidden = false
         tableView.reloadData()
     }
+
     @IBAction func btnEditProgileSender(sender: AnyObject) {
         let storyboard: UIStoryboard = UIStoryboard (name: "Main", bundle: nil)
         let vc: ProfileEditViewController = storyboard.instantiateViewControllerWithIdentifier("ProfileEditViewController") as! ProfileEditViewController
+        vc.userDataAsObject=feedsFromResponseAsObject.user
         self.navigationController?.pushViewController(vc, animated: true)
         
     }
@@ -278,6 +285,9 @@ class ProfileViewController: UIViewController {
     }
     
     func refresh(sender: AnyObject) {
+        
+        tableViewRefreshControl.endRefreshing()
+
         // Code to refresh table view
         self.pageNumber = 1
         self.refreshingStatus = true
