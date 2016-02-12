@@ -24,6 +24,9 @@ class ProfileEditViewController: UIViewController {
     @IBOutlet var newPasswordTextField: UITextField!
     let nsUserDefault = NSUserDefaults.standardUserDefaults()
     var dataSource=UserDataStruct()
+    var newBackButton = UIBarButtonItem()
+    var newDoneButton = UIBarButtonItem()
+
     
     let blurEffectView = UIVisualEffectView(effect: UIBlurEffect(style: UIBlurEffectStyle.ExtraLight))
 
@@ -39,18 +42,39 @@ class ProfileEditViewController: UIViewController {
         
         print(dataSource.website)
         
-        //        self.navigationItem.hidesBackButton = true
-        let newBackButton = UIBarButtonItem(image: UIImage(named: "tick_green"), style: UIBarButtonItemStyle.Plain, target: self, action: "back:")
+                self.navigationItem.hidesBackButton = true
+         newDoneButton = UIBarButtonItem(image: UIImage(named: "tick_green"), style: UIBarButtonItemStyle.Plain, target: self, action: "done:")
         UIBarButtonItem.appearance().tintColor = UIColor.whiteColor()
         
-        self.navigationItem.rightBarButtonItem = newBackButton;
+        self.navigationItem.rightBarButtonItem = newDoneButton;
+        self.view.backgroundColor=UIColor(red: 240/255, green: 240/255, blue: 240/255, alpha: 1)
+        
+        
+        newBackButton = UIBarButtonItem(image: UIImage(named: "close"), style: UIBarButtonItemStyle.Plain, target: self, action: "back:")
+        UIBarButtonItem.appearance().tintColor = UIColor.whiteColor()
+        
+        self.navigationItem.leftBarButtonItem = newBackButton;
         self.view.backgroundColor=UIColor(red: 240/255, green: 240/255, blue: 240/255, alpha: 1)
 
         
+        
+        
     }
-
     
     func back(sender: UIBarButtonItem) {
+        
+        self.navigationController!.popViewControllerAnimated(true)
+
+        
+    }
+    
+    func done(sender: UIBarButtonItem) {
+        
+        self.navigationItem.hidesBackButton = true
+                newDoneButton.enabled=false
+        newBackButton.enabled=false
+
+
         
         if newPasswordTextField != nil && conformPasswordTextField != nil {
         if newPasswordTextField.text != conformPasswordTextField.text {
@@ -81,6 +105,7 @@ class ProfileEditViewController: UIViewController {
         let loadingNotification = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
         loadingNotification.mode = MBProgressHUDMode.Indeterminate
         loadingNotification.labelText = "Posting"
+
         
         let registerUrlString = "\(apiUrl)api/v1/profile/update"
 
@@ -134,6 +159,14 @@ class ProfileEditViewController: UIViewController {
                     
                         MBProgressHUD.hideAllHUDsForView(self.view, animated: true)
                         self.blurEffectView.removeFromSuperview()
+                    
+                        self.navigationItem.hidesBackButton = false
+                        self.newBackButton.enabled=false
+                        self.newDoneButton.enabled=true
+
+                        
+
+
                         
                     }
                 }

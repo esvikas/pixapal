@@ -398,6 +398,7 @@ extension GlobalFeedsViewController: UITableViewDataSource {
         return cell
     }
     
+    
     func getIconName(count: Int, love: Bool = true) -> String {
         var iconName = ""
         if love {
@@ -728,4 +729,38 @@ extension GlobalFeedsViewController: DetailViewViewControllerProtocol {
 //    }
 //}
 
+
+extension GlobalFeedsViewController : UIScrollViewDelegate {
+    
+    
+    
+    func scrollViewWillEndDragging(scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
+        
+        var refreshingStatus = false
+
+        self.loadMoreActivityIndicator.stopAnimating()
+        self.loadMoreActivityIndicator.hidden=true
+        self.tableView.layoutIfNeeded()
+
+        if(velocity.y>0){
+            
+
+            NSLog("dragging Up");
+        }else{
+            NSLog("dragging Down");
+        }
+        
+    }
+    
+
+    
+    func scrollViewDidEndDragging(scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        
+        
+    }
+    
+
+    
+   
+}
 
