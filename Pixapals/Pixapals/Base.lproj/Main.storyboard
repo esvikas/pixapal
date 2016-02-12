@@ -352,7 +352,7 @@
                                                 <rect key="frame" x="0.0" y="565" width="560" height="560"/>
                                                 <subviews>
                                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo" translatesAutoresizingMaskIntoConstraints="NO" id="1H6-vp-Suw">
-                                                        <rect key="frame" x="0.0" y="0.0" width="280" height="560"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="281" height="560"/>
                                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="300" id="CHI-wx-lEM"/>
@@ -365,26 +365,6 @@
                                                             </mask>
                                                         </variation>
                                                     </imageView>
-                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cOf-l2-BJE">
-                                                        <rect key="frame" x="280" y="0.0" width="1" height="560"/>
-                                                        <subviews>
-                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xwF-hL-x36">
-                                                                <rect key="frame" x="0.0" y="29" width="1" height="504"/>
-                                                                <color key="backgroundColor" red="0.92549019610000005" green="0.92549019610000005" blue="0.92549019610000005" alpha="1" colorSpace="calibratedRGB"/>
-                                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                                                <nil key="highlightedColor"/>
-                                                            </label>
-                                                        </subviews>
-                                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                        <constraints>
-                                                            <constraint firstItem="xwF-hL-x36" firstAttribute="centerX" secondItem="cOf-l2-BJE" secondAttribute="centerX" id="4RF-AP-qKU"/>
-                                                            <constraint firstItem="xwF-hL-x36" firstAttribute="centerY" secondItem="cOf-l2-BJE" secondAttribute="centerY" constant="1" id="Znn-we-81Q"/>
-                                                            <constraint firstAttribute="width" constant="1" id="ktC-dS-EVl"/>
-                                                            <constraint firstItem="xwF-hL-x36" firstAttribute="width" secondItem="cOf-l2-BJE" secondAttribute="width" id="nlI-cU-fCi"/>
-                                                            <constraint firstItem="xwF-hL-x36" firstAttribute="height" secondItem="cOf-l2-BJE" secondAttribute="height" multiplier="0.9" id="rWE-NT-opS"/>
-                                                        </constraints>
-                                                    </view>
                                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo" translatesAutoresizingMaskIntoConstraints="NO" id="ute-E4-3pi">
                                                         <rect key="frame" x="281" y="0.0" width="279" height="560"/>
                                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -662,6 +642,7 @@
                     <connections>
                         <outlet property="genderDetailText" destination="Eug-oM-RRT" id="01V-qn-Csf"/>
                         <outlet property="locationDetailText" destination="BEB-Vn-X3X" id="6vt-t1-Rvb"/>
+                        <outlet property="tableView" destination="Mpv-Ol-6tl" id="wG7-4U-7Do"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="q82-Eb-fwQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -684,7 +665,7 @@
                                 <rect key="frame" x="0.0" y="64" width="600" height="536"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="LoverListTableViewCell" rowHeight="53" id="osO-h7-O4a" customClass="LoverListTableViewCell" customModule="Pixapals" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="LoverListTableViewCell" rowHeight="53" id="osO-h7-O4a" customClass="LoverListTableViewCell" customModule="Pixapals" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="600" height="53"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="osO-h7-O4a" id="c0U-tE-B0A">
@@ -770,6 +751,9 @@
                     </view>
                     <navigationItem key="navigationItem" title="Lover's List" id="ShC-8y-Z4S"/>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
+                    <connections>
+                        <outlet property="tableView" destination="shw-SB-oHl" id="d84-us-if5"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Kpa-z4-9yx" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

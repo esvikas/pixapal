@@ -99,7 +99,7 @@ class DoubleModeFeedImageSelectionViewController: UIViewController, ImagePickerD
         let storyboard: UIStoryboard = UIStoryboard (name: "Main", bundle: nil)
         let vc: PostFeedViewController = storyboard.instantiateViewControllerWithIdentifier("PostFeedViewController") as! PostFeedViewController
         vc.image1=CapturedImage
-            vc.imageMode=2
+        vc.imageMode=2
 
         vc.image2=CapturedImage2
         self.navigationController?.pushViewController(vc, animated: true)
@@ -135,18 +135,8 @@ class DoubleModeFeedImageSelectionViewController: UIViewController, ImagePickerD
             CapturedImage = uploadLiamge
             image1.image = uploadLiamge
 
-            
-            if let _ = CapturedImage, let _ = CapturedImage2 {
-                instructionLbl.text = "Both image successfully captured."
-            } else {
-                instructionLbl.text = "First image successfully captured. Take or upload second image."
             }
-        }else{
-            if let _ = CapturedImage, let _ = CapturedImage2 {
-                instructionLbl.text = "Both image successfully captured."
-            } else {
-                instructionLbl.text = "First image successfully captured. Take or upload second image."
-            }
+        else{
             
             let uploadLiamge:UIImage = images[0].fixOrientation()
             image2.contentMode = UIViewContentMode.ScaleAspectFit
@@ -156,6 +146,18 @@ class DoubleModeFeedImageSelectionViewController: UIViewController, ImagePickerD
 
 
         }
+        
+        if let _ = CapturedImage, let _ = CapturedImage2 {
+            instructionLbl.text = "Both image successfully captured."
+        } else {
+            if let _ = CapturedImage {
+                instructionLbl.text = "First image successfully captured. Take or upload second image."
+            } else {
+                instructionLbl.text = "Second image successfully captured. Take or upload first image."
+            }
+        }
+        
+        
         
     }
     func cancelButtonDidPress(){
