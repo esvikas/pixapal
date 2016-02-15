@@ -105,7 +105,7 @@ class DetailVIewViewController: UIViewController {
             "fed_id": (feed.user?.id!)!,
         ]
         self.getFeedButton.enabled = false
-        self.feed.is_my_feed = true
+        self.feed.user?.is_my_fed = true
         self.triggerDelegateNeedReloadData()
 //        let headers = [
 //            "X-Auth-Token" : user.api_token!,
@@ -128,13 +128,13 @@ class DetailVIewViewController: UIViewController {
                     //appDelegate.ShowAlertView("Success", message: "You are now following to \( (self.feed.user?.username)!)")
                 } else {
                     self.getFeedButton.enabled = true
-                    self.feed.is_my_feed = false
+                    self.feed.user?.is_my_fed = false
                     
                     print("Error: Love it error")
                 }
             case .Failure(let error):
                 self.getFeedButton.enabled = true
-                self.feed.is_my_feed = false
+                self.feed.user?.is_my_fed = false
                 print("Error in connection \(error)")
             }
         }
@@ -175,7 +175,7 @@ extension DetailVIewViewController: UITableViewDataSource {
         //        } else {
         //            cell.feedImage2.hidden = true
         //        }
-        
+
         cell.delegate = self
         cell.selectionStyle =  UITableViewCellSelectionStyle.None
 

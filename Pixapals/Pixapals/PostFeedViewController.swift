@@ -198,7 +198,7 @@ btnPostFeed.enabled=false
         doubleModeStackView.layoutIfNeeded()
         doubleModeImageView1.layoutIfNeeded()
         if imageMode==2{
-        UIGraphicsBeginImageContextWithOptions(CGSizeMake(self.doubleModeStackView.frame.width-40,self.doubleModeStackView.layer.frame.height), false, 0);
+        UIGraphicsBeginImageContextWithOptions(CGSizeMake(self.doubleModeStackView.frame.width-40,self.doubleModeStackView.layer.frame.height/2), false, 0);
         self.view.drawViewHierarchyInRect(CGRectMake(self.doubleModeStackView.layer.frame.origin.x-20,self.doubleModeStackView.layer.frame.origin.y-44,self.doubleModeStackView.bounds.size.width,self.doubleModeStackView.layer.frame.height), afterScreenUpdates: true)
         let imagex:UIImage = UIGraphicsGetImageFromCurrentImageContext();
         UIGraphicsEndImageContext()

@@ -34,7 +34,7 @@ class GlobalFeedsViewController: UIViewController {
     var collectionViewHidden = false
     
     var pageNumber = 1
-    let postLimit = 15
+    let postLimit = 5
     
     var feedsFromResponseAsObject: FeedsResponseJSON!
     override func viewDidLoad() {

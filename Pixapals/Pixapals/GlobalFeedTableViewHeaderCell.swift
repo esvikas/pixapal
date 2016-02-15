@@ -17,7 +17,9 @@ class GlobalFeedTableViewHeaderCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
+        userProfilePic.layer.cornerRadius=userProfilePic.frame.height/2
+        userProfilePic.clipsToBounds=true
+    
     }
 
     override func setSelected(selected: Bool, animated: Bool) {

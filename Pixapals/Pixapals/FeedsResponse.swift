@@ -76,7 +76,6 @@ class UserFeedDistinction {
         isDistinct.1.photo = user.photo
         isDistinct.1.is_my_fed = user.is_my_fed
         isDistinct.1.is_my_profile = user.is_my_profile
-        
         return isDistinct.1
     }
     
