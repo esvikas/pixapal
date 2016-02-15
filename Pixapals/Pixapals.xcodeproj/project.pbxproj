@@ -32,6 +32,8 @@
 		32FE7AA71C6C753400C767BC /* LoverListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32FE7AA61C6C753400C767BC /* LoverListTableViewCell.swift */; };
 		43324F1E1C6480E200E5095E /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43324F1D1C6480E200E5095E /* LocationManager.swift */; };
 		435EC4BF1C44E74B00CF88D4 /* GlobalFeedsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 435EC4BE1C44E74B00CF88D4 /* GlobalFeedsViewController.swift */; };
+		436F7BAA1C71EBB500A38A8C /* NotificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 436F7BA91C71EBB500A38A8C /* NotificationViewController.swift */; };
+		436F7BAC1C71EDCB00A38A8C /* NotificationTableViewHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 436F7BAB1C71EDCB00A38A8C /* NotificationTableViewHeaderCell.swift */; };
 		437969451C5F4E8200CE136D /* FeedsResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 437969441C5F4E8200CE136D /* FeedsResponse.swift */; };
 		437969471C5F64B400CE136D /* ExtensionAlamofire.swift in Sources */ = {isa = PBXBuildFile; fileRef = 437969461C5F64B400CE136D /* ExtensionAlamofire.swift */; };
 		4391876C1C4E207C00022B38 /* validator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4391876B1C4E207C00022B38 /* validator.swift */; };
@@ -81,6 +83,8 @@
 		32FE7AA61C6C753400C767BC /* LoverListTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoverListTableViewCell.swift; sourceTree = "<group>"; };
 		43324F1D1C6480E200E5095E /* LocationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		435EC4BE1C44E74B00CF88D4 /* GlobalFeedsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GlobalFeedsViewController.swift; sourceTree = "<group>"; };
+		436F7BA91C71EBB500A38A8C /* NotificationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationViewController.swift; sourceTree = "<group>"; };
+		436F7BAB1C71EDCB00A38A8C /* NotificationTableViewHeaderCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationTableViewHeaderCell.swift; sourceTree = "<group>"; };
 		437969441C5F4E8200CE136D /* FeedsResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedsResponse.swift; sourceTree = "<group>"; };
 		437969461C5F64B400CE136D /* ExtensionAlamofire.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExtensionAlamofire.swift; sourceTree = "<group>"; };
 		4391876B1C4E207C00022B38 /* validator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = validator.swift; sourceTree = "<group>"; };
@@ -195,6 +199,7 @@
 				325279571C62050900978C0C /* DetailVIewViewController.swift */,
 				321F99CF1C5A01A0006A39D0 /* LocationChooserViewController.swift */,
 				32FE7AA41C6C702C00C767BC /* LoverListViewController.swift */,
+				436F7BA91C71EBB500A38A8C /* NotificationViewController.swift */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -210,6 +215,7 @@
 				43A0EE601C4CCBCB009C4E46 /* GlobalFeedCollectionViewCell.swift */,
 				43FBEE0B1C50D4EB00C25A7D /* GlobalFeedTableViewHeaderCell.swift */,
 				32FE7AA61C6C753400C767BC /* LoverListTableViewCell.swift */,
+				436F7BAB1C71EDCB00A38A8C /* NotificationTableViewHeaderCell.swift */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -385,11 +391,13 @@
 				320933FB1C50EF1100B092B1 /* WobbleView.swift in Sources */,
 				435EC4BF1C44E74B00CF88D4 /* GlobalFeedsViewController.swift in Sources */,
 				329F01401C60C4BC008A01B2 /* GenderSelectionView.swift in Sources */,
+				436F7BAC1C71EDCB00A38A8C /* NotificationTableViewHeaderCell.swift in Sources */,
 				329B582E1C3E267300C1EE08 /* ViewController.swift in Sources */,
 				437969471C5F64B400CE136D /* ExtensionAlamofire.swift in Sources */,
 				43D2C7651C43B89800F0E2C5 /* PostFeedModeSelectionViewController.swift in Sources */,
 				4391876C1C4E207C00022B38 /* validator.swift in Sources */,
 				43FBEE0C1C50D4EB00C25A7D /* GlobalFeedTableViewHeaderCell.swift in Sources */,
+				436F7BAA1C71EBB500A38A8C /* NotificationViewController.swift in Sources */,
 				439738151C45F3E2001F344F /* PostFeedViewController.swift in Sources */,
 				321F99D01C5A01A0006A39D0 /* LocationChooserViewController.swift in Sources */,
 				32FE7AA71C6C753400C767BC /* LoverListTableViewCell.swift in Sources */,
