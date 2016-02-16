@@ -1313,10 +1313,13 @@
                         <inset key="imageInsets" minX="0.0" minY="6" maxX="0.0" maxY="-6"/>
                     </tabBarItem>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina55"/>
+                    <connections>
+                        <outlet property="tableView" destination="tDQ-sS-rhO" id="h1P-MB-OAV"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ne3-t8-xsX" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2085" y="1414"/>
+            <point key="canvasLocation" x="2040" y="1414"/>
         </scene>
         <!--profile-->
         <scene sceneID="tZm-Gj-YLE">
@@ -1841,7 +1844,7 @@
                 </view>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gHe-HD-lAo" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2590" y="1671"/>
+            <point key="canvasLocation" x="2521" y="1671"/>
         </scene>
         <!--Double Mode-->
         <scene sceneID="gBy-hR-h2G">
