@@ -742,20 +742,20 @@ extension GlobalFeedsViewController : UIScrollViewDelegate {
     
     
     
-    func scrollViewWillEndDragging(scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
-        
-
-
-        if(velocity.y>0){
-            
-            self.tableViewRefreshControl.endRefreshing()
-
-            NSLog("dragging Up");
-        }else{
-            NSLog("dragging Down");
-        }
-        
-    }
+//    func scrollViewWillEndDragging(scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
+//        
+//
+//
+//        if(velocity.y>0){
+//            
+//            self.tableViewRefreshControl.endRefreshing()
+//
+//            NSLog("dragging Up");
+//        }else{
+//            NSLog("dragging Down");
+//        }
+//        
+//    }
     
 
     
