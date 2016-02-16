@@ -65,6 +65,38 @@
             endingLineNumber = "296"
             landmarkName = "logoutRequest()"
             landmarkType = "5">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Pixapals.SettingsTableViewController.logoutRequest (Pixapals.SettingsTableViewController)() -&gt; ()"
+                  moduleName = "Pixapals"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/ak2g/Documents/Pixapals/Pixapals/Pixapals/SettingsTableViewController.swift"
+                  timestampString = "477313784.362315"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "296"
+                  endingLineNumber = "296"
+                  offsetFromSymbolStart = "1528">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Pixapals.SettingsTableViewController.(logoutRequest (Pixapals.SettingsTableViewController) -&gt; () -&gt; ()).(closure #1)"
+                  moduleName = "Pixapals"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/ak2g/Documents/Pixapals/Pixapals/Pixapals/SettingsTableViewController.swift"
+                  timestampString = "477313784.362458"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "296"
+                  endingLineNumber = "296"
+                  offsetFromSymbolStart = "900">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy

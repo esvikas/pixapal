@@ -21,6 +21,7 @@ class PostFeedViewController: UIViewController, UITextViewDelegate {
     @IBOutlet weak var doubleModeImageView2: UIImageView!
     @IBOutlet var commentViewHeightConstrant: NSLayoutConstraint!
     @IBOutlet var scrollView: UIScrollView!
+    @IBOutlet var characterCountLabel: UILabel!
 
 
     @IBOutlet weak var doubleModeStackView: UIStackView!
@@ -220,6 +221,8 @@ btnPostFeed.enabled=false
         loadingNotification.mode = MBProgressHUDMode.Indeterminate
         loadingNotification.labelText = "Posting"
         self.navigationItem.hidesBackButton = true
+        self.view.userInteractionEnabled=false
+
 
 
         
@@ -254,6 +257,7 @@ btnPostFeed.enabled=false
 
 
 
+                    self.view.userInteractionEnabled=true
 
                     let storyboard: UIStoryboard = UIStoryboard (name: "Main", bundle: nil)
                     let vc: CustomTabBarController = storyboard.instantiateViewControllerWithIdentifier("tabView") as! CustomTabBarController
@@ -275,6 +279,8 @@ btnPostFeed.enabled=false
                     self.blurEffectView.removeFromSuperview()
                     self.btnPostFeed.enabled=true
                     self.navigationItem.hidesBackButton = false
+                    self.view.userInteractionEnabled=true
+
 
                     appDelegate.ShowAlertView("Sorry", message: "Something Went Wrong")
                     print("Failure")
@@ -290,13 +296,39 @@ btnPostFeed.enabled=false
 scrollView.contentOffset = CGPoint(x: 0, y: 0)
 
         self.scrollView.layoutIfNeeded()
+        scrollView.scrollEnabled=true
+
     
 
     }
     
-    func textViewDidBeginEditing(textView: UITextView) {
+    
+    func textView(textView: UITextView, shouldChangeTextInRange range: NSRange, replacementText text: String) -> Bool {
         
-        commentTextField.text=""
+        let currentCharacterCount = textView.text?.characters.count ?? 0
+        if (range.length + range.location > currentCharacterCount){
+            return false
+        }
+        let newLength = currentCharacterCount + text.characters.count - range.length
+        return newLength <= 240
+        
+    }
+
+    
+    func textViewDidChange(textView: UITextView) {
+        
+      
+        print(commentTextField.text.characters.count)
+        
+        characterCountLabel.text="\(240 - commentTextField.text.characters.count) Characters Left"
+    }
+    
+    func textViewDidBeginEditing(textView: UITextView) {
+scrollView.scrollEnabled=false
+        if commentTextField.text == "Comments" {
+            commentTextField.text=""
+
+        }
     }
 }
 
