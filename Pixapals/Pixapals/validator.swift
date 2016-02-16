@@ -14,7 +14,8 @@ enum ValidationRules: String {
     case alphaNumericWithSpace = "^([0-9A-Za-z]+( )?[0-9A-Za-z]+){1,}$"
     case alphaNumericWithDot = "^([0-9A-Za-z]+(.)?[0-9A-Za-z]+){1,}$"
     case numeric = "^[0-9]+$"
-    case email = "^(([A-Z0-9]+(.|_)?[A-Z0-9]+){1,}@([A-Z0-9]+(.|_)?[A-Z0-9]+){1,}\\.([A-Z]+|([A-Z]+\\.[A-Z]{2,3})))$"
+    //case email = "^(([A-Z0-9]+(.|_)?[A-Z0-9]+){1,}@([A-Z0-9]+(.|_)?[A-Z0-9]+){1,}\\.([A-Z]+|([A-Z]+\\.[A-Z]{2,3})))$"
+    case email = "^([a-zA-Z]+)([._]?[a-zA-Z\\d]+)*@([a-zA-Z\\d-]+)(\\.[a-zA-Z\\d]{2,6})(\\.[a-zA-Z]{2})?$"
     case tel = "^[0-9]{9}$"
     case mobileNumber = "^[1-9][0-9]{9}$"
 }

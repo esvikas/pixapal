@@ -21,7 +21,7 @@ class ProfileViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var userImage: UIImageView!
     @IBOutlet weak var loadMoreActivityIndicator: UIActivityIndicatorView!
-
+    
     @IBOutlet var btnEdit: UIButton!
     @IBOutlet weak var username: UILabel!
     @IBOutlet weak var feeding: UILabel!
@@ -36,9 +36,9 @@ class ProfileViewController: UIViewController {
     let collectionViewRefreshContol = UIRefreshControl()
     
     var collectionViewHidden = false
-
     
-
+    
+    
     var feedsToShow: JSON!
     var refreshingStatus = false
     var hasMoreDataInServer = true
@@ -97,16 +97,18 @@ class ProfileViewController: UIViewController {
         
         self.view.backgroundColor=UIColor(red: 240/255, green: 240/255, blue: 240/255, alpha: 1)
         
-        
+        self.btnEdit.setTitle("Feeding", forState: UIControlState.Disabled)
         if let userId = userId  where userId != UserDataStruct().id{
-           btnEdit.hidden = true
+            self.btnEdit.setTitle("GET FEED", forState: UIControlState.Normal)
+            checkIfUserIsMyFed()
+            
         }
         
         self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .Plain, target: nil, action: nil)
-
-
+        
+        
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
@@ -127,11 +129,11 @@ class ProfileViewController: UIViewController {
         let rightBarButton = UIBarButtonItem()
         rightBarButton.customView = btnName
         self.tabBarController?.navigationItem.rightBarButtonItem = rightBarButton
-
-//        let camera = UIBarButtonItem(barButtonSystemItem: .Camera, target: self, action: Selector("btnOpenCamera"))
-//        self.navigationItem.rightBarButtonItem = camera
+        self.checkIfUserIsMyFed()
+        //        let camera = UIBarButtonItem(barButtonSystemItem: .Camera, target: self, action: Selector("btnOpenCamera"))
+        //        self.navigationItem.rightBarButtonItem = camera
     }
-
+    
     
     @IBAction func gridView(sender: AnyObject) {
         collectionView.hidden = false
@@ -144,13 +146,83 @@ class ProfileViewController: UIViewController {
         tableView.hidden = false
         tableView.reloadData()
     }
-
+    
     @IBAction func btnEditProgileSender(sender: AnyObject) {
+        if let userId = userId  where userId != UserDataStruct().id{
+            self.followUser(userId)
+            return
+        }
+        
         let storyboard: UIStoryboard = UIStoryboard (name: "Main", bundle: nil)
         let vc: ProfileEditViewController = storyboard.instantiateViewControllerWithIdentifier("ProfileEditViewController") as! ProfileEditViewController
         vc.userDataAsObject=feedsFromResponseAsObject.user
         self.navigationController?.pushViewController(vc, animated: true)
         
+    }
+    func checkIfUserIsMyFed() {
+        if let userId = userId {
+            if let existingUser = UserFeedDistinction.sharedInstance.getUserWithId(userId) {
+                if existingUser.is_my_fed! {
+                    self.btnEdit.enabled = false
+                }
+            }
+        }
+    }
+    
+    func followUser(id: Int){
+        let user = UserDataStruct()
+        
+        let registerUrlString = "\(apiUrl)api/v1/profile/getfed"
+        
+        let parameters: [String: AnyObject] =
+        [
+            "user_id": user.id!,
+            "fed_id": id,
+        ]
+        print(parameters)
+        
+        let existingUser = UserFeedDistinction.sharedInstance.getUserWithId(id)
+        if let existingUser = existingUser {
+            existingUser.is_my_fed = true
+        }
+        self.btnEdit.enabled = false
+        self.tableView.reloadData()
+        let headers = [
+            "X-Auth-Token" : user.api_token!,
+        ]
+        
+        Alamofire.request(.POST, registerUrlString, parameters: parameters, headers:headers).responseJSON { response in
+            switch response.result {
+            case .Failure(let error):
+                print("ERROR: \(error)")
+            case .Success(let value):
+                print(value)
+            }
+        }
+        requestWithHeaderXAuthToken(.POST, registerUrlString, parameters: parameters).responseObject { (response: Response<SuccessFailJSON, NSError>) -> Void in
+            switch response.result {
+            case .Success(let getFeed):
+                if !getFeed.error! {
+                    print("getting feed")
+                    
+                    //appDelegate.ShowAlertView("Success", message: "You are now following to \( (self.feed.user?.username)!)")
+                } else {
+                    self.btnEdit.enabled = true
+                    if let existingUser = existingUser {
+                        existingUser.is_my_fed = false
+                    }
+                    
+                    print("Error: Love it error")
+                }
+            case .Failure(let error):
+                self.btnEdit.enabled = true
+                if let existingUser = existingUser {
+                    existingUser.is_my_fed = false
+                }
+                print("Error in connection \(error)")
+            }
+            self.tableView.reloadData()
+        }
     }
     
     func changeNavTitle(){
@@ -194,7 +266,7 @@ class ProfileViewController: UIViewController {
         print(api_token)
         
         
-       requestWithHeaderXAuthToken(.GET, apiURLString)
+        requestWithHeaderXAuthToken(.GET, apiURLString)
             .responseJSON { response in
                 print(response.request)
                 switch response.result {
@@ -205,70 +277,70 @@ class ProfileViewController: UIViewController {
                 }
             }
             .responseObject { (response: Response<ProfileResponseJSON, NSError>) -> Void in
-            switch response.result {
-            case .Success(let feedsResponseJSON):
-                
-                if let error = feedsResponseJSON.error where error == true {
-                    self.loadMoreActivityIndicator.stopAnimating()
-                    self.tryAgainButton.hidden = false
-                    //                    appDelegate.ShowAlertView("Connection Error", message: "Try Again", handlerForOk: { (action) -> Void in
-                    //                        self.loadDataFromAPI()
-                    //                        }, handlerForCancel: nil)
+                switch response.result {
+                case .Success(let feedsResponseJSON):
                     
-                    print("Error: \(feedsResponseJSON.message)")
-                } else {
-                    if let _ = self.feedsFromResponseAsObject {
-                        if self.refreshingStatus == true {
-                            self.refreshingStatus = false
-                            self.feedsFromResponseAsObject = feedsResponseJSON
-                        } else {
-                            if feedsResponseJSON.feeds?.count < self.postLimit && feedsResponseJSON.feeds?.count > 0{
-                                self.feedsFromResponseAsObject.feeds?.appendContentsOf(feedsResponseJSON.feeds!)
-                                self.hasMoreDataInServer = false
-                            } else if feedsResponseJSON.feeds?.count > 0 {
-                                self.feedsFromResponseAsObject.feeds?.appendContentsOf(feedsResponseJSON.feeds!)
-                            }
-                            else {
-                                self.hasMoreDataInServer = false
+                    if let error = feedsResponseJSON.error where error == true {
+                        self.loadMoreActivityIndicator.stopAnimating()
+                        self.tryAgainButton.hidden = false
+                        //                    appDelegate.ShowAlertView("Connection Error", message: "Try Again", handlerForOk: { (action) -> Void in
+                        //                        self.loadDataFromAPI()
+                        //                        }, handlerForCancel: nil)
+                        
+                        print("Error: \(feedsResponseJSON.message)")
+                    } else {
+                        if let _ = self.feedsFromResponseAsObject {
+                            if self.refreshingStatus == true {
+                                self.refreshingStatus = false
+                                self.feedsFromResponseAsObject = feedsResponseJSON
+                            } else {
+                                if feedsResponseJSON.feeds?.count < self.postLimit && feedsResponseJSON.feeds?.count > 0{
+                                    self.feedsFromResponseAsObject.feeds?.appendContentsOf(feedsResponseJSON.feeds!)
+                                    self.hasMoreDataInServer = false
+                                } else if feedsResponseJSON.feeds?.count > 0 {
+                                    self.feedsFromResponseAsObject.feeds?.appendContentsOf(feedsResponseJSON.feeds!)
+                                }
+                                else {
+                                    self.hasMoreDataInServer = false
+                                }
                             }
                         }
-                    }
-                    else {
-                        self.feedsFromResponseAsObject = feedsResponseJSON
+                        else {
+                            self.feedsFromResponseAsObject = feedsResponseJSON
+                        }
+                        
+                        self.tableView.reloadData()
+                        self.collectionView.reloadData()
+                        MBProgressHUD.hideAllHUDsForView(self.view, animated: true)
+                        self.blurEffectView.removeFromSuperview()
+                        self.tableViewRefreshControl.endRefreshing()
+                        self.collectionViewRefreshContol.endRefreshing()
+                        self.loadMoreActivityIndicator.stopAnimating()
+                        self.footerView.hidden = true
+                        //print(feedsResponseJSON.user.username)
+                        self.navTitle = feedsResponseJSON.user.username
+                        self.setHeader()
                     }
                     
-                    self.tableView.reloadData()
-                    self.collectionView.reloadData()
-                    MBProgressHUD.hideAllHUDsForView(self.view, animated: true)
-                    self.blurEffectView.removeFromSuperview()
-                    self.tableViewRefreshControl.endRefreshing()
-                    self.collectionViewRefreshContol.endRefreshing()
-                    self.loadMoreActivityIndicator.stopAnimating()
-                    self.footerView.hidden = true
-                    //print(feedsResponseJSON.user.username)
-                    self.navTitle = feedsResponseJSON.user.username
-                    self.setHeader()
+                    //                let json = JSON(value)
+                    //                print(json)
+                    //                if !json["error"].boolValue {
+                    //                    self.feedsToShow = json
+                    
+                    //                    // print(self.feedsToShow)
+                    //                    self.tableView.reloadData()
+                    //                    self.collectionView.reloadData()
+                    //                    self.tableViewFooterView.hidden = false
+                    //                    MBProgressHUD.hideAllHUDsForView(self.view, animated: true)
+                    //                    self.blurEffectView.removeFromSuperview()
+                    //                    self.refreshControl.endRefreshing()
+                    //                } else {
+                    //                    print("Error: \(json["message"])")
+                    //                    self.refreshControl.endRefreshing()
+                    //                }
+                case .Failure(let error):
+                    print("ERROR: \(error)")
                 }
-
-//                let json = JSON(value)
-//                print(json)
-//                if !json["error"].boolValue {
-//                    self.feedsToShow = json
-                
-//                    // print(self.feedsToShow)
-//                    self.tableView.reloadData()
-//                    self.collectionView.reloadData()
-//                    self.tableViewFooterView.hidden = false
-//                    MBProgressHUD.hideAllHUDsForView(self.view, animated: true)
-//                    self.blurEffectView.removeFromSuperview()
-//                    self.refreshControl.endRefreshing()
-//                } else {
-//                    print("Error: \(json["message"])")
-//                    self.refreshControl.endRefreshing()
-//                }
-            case .Failure(let error):
-                print("ERROR: \(error)")
-            }
             }.progress { (a, b, c) -> Void in
                 print("\(a) -- \(b) -- \(c)")
         }
@@ -282,18 +354,18 @@ class ProfileViewController: UIViewController {
         self.feeding.text = String(self.feedsFromResponseAsObject.user.feeding_count)
         self.feeders.text = String(self.feedsFromResponseAsObject.user.feeders_count)
         self.feeds.text = String(self.feedsFromResponseAsObject.user.feeds_count)
-
-//        self.userImage.kf_setImageWithURL(NSURL(string: self.feedsToShow["photo_thumb"].string ?? "")!, placeholderImage: UIImage(named: "global_feed_user"))
-//        print(self.feedsToShow["feeds_count"])
-//        self.feeding.text = String(self.feedsToShow["feeding_count"].int!)
-//        self.feeders.text = String(self.feedsToShow["feeders_count"].int!)
-//        self.feeds.text = String(self.feedsToShow["feeds_count"].int!)
+        
+        //        self.userImage.kf_setImageWithURL(NSURL(string: self.feedsToShow["photo_thumb"].string ?? "")!, placeholderImage: UIImage(named: "global_feed_user"))
+        //        print(self.feedsToShow["feeds_count"])
+        //        self.feeding.text = String(self.feedsToShow["feeding_count"].int!)
+        //        self.feeders.text = String(self.feedsToShow["feeders_count"].int!)
+        //        self.feeds.text = String(self.feedsToShow["feeds_count"].int!)
     }
     
     func refresh(sender: AnyObject) {
         
         tableViewRefreshControl.endRefreshing()
-
+        
         // Code to refresh table view
         self.pageNumber = 1
         self.refreshingStatus = true
@@ -344,9 +416,9 @@ extension ProfileViewController: UICollectionViewDataSource {
     }
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier("globalFeedCollectionViewCell", forIndexPath: indexPath) as! GlobalFeedCollectionViewCell
-     
+        
         cell.feedImage.kf_setImageWithURL(NSURL(string: self.feedsFromResponseAsObject?.feeds?[indexPath.row].photo_thumb ?? "")!, placeholderImage: UIImage(named: "post-feed-img"))
-
+        
         return cell
     }
     
@@ -386,10 +458,10 @@ extension ProfileViewController: UITableViewDelegate {
     
 }
 extension ProfileViewController: UITableViewDataSource {
-//    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-//        
-//        
-//    }
+    //    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    //
+    //
+    //    }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         let ret = self.feedsFromResponseAsObject?.feeds?.count ?? 0
@@ -426,7 +498,7 @@ extension ProfileViewController: UITableViewDataSource {
             cell.leftIcon.image = UIImage(named: self.getIconName(feed.leaveit ?? 0, love: false))
             cell.comment.text = "\(feed.comment ?? "")"
             cell.selectionStyle =  UITableViewCellSelectionStyle.None
-
+            
             if let createdAt = feed.created_at {
                 //let dateFormatter = NSDateFormatter()
                 //dateFormatter.dateFormat = "y-MM-dd HH:mm:ss"
@@ -452,7 +524,7 @@ extension ProfileViewController: UITableViewDataSource {
             //        cell.imageViewObject?.kf_setImageWithURL(NSURL(string: feedsToShow[indexPath.section, "photo"].string!)!)
             //        cell.DynamicView.addSubview(cell.feedImage)
             return cell
-
+            
         }
     }
     func getIconName(count: Int, love: Bool = true) -> String {
@@ -484,7 +556,7 @@ extension ProfileViewController: UITableViewDataSource {
         //print(indexPath.section == self.feedsFromResponseAsObject.feeds!.count)
         //print((indexPath.row) == (self.feedsFromResponseAsObject.feeds!.count - 1))
         //print("\(indexPath.row) == \(self.feedsFromResponseAsObject.feeds!.count - 1)")
-//        print(hasMoreDataInServer)
+        //        print(hasMoreDataInServer)
         if indexPath.row == 0 {
             return
         }
@@ -492,7 +564,7 @@ extension ProfileViewController: UITableViewDataSource {
             self.loadMore()
         }
     }
-
+    
 }
 extension ProfileViewController: CellImageSwippedDelegate {
     func imageSwipedLeft(id: Int, loved: Bool, left:Bool) {

@@ -59,6 +59,7 @@ extension LoverListViewController: UITableViewDataSource {
         if (user.is_my_fed)! {
             cell.getFeedButton.enabled = false
         }
+        cell.profileImageView.kf_setImageWithURL(NSURL(string: user.photo_thumb!)!, placeholderImage: cell.profileImageView.image)
         cell.delegate = self
 //        let feed = (self.feedsFromResponseAsObject.feeds?[indexPath.section])!
 //        

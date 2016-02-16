@@ -26,6 +26,8 @@ class DetailVIewViewController: UIViewController {
     
     @IBOutlet weak var usernameLbl: UILabel!
     
+    @IBOutlet weak var userProfilePic: UIImageView!
+    
     var delegate: DetailViewViewControllerProtocol!
     
     //let blurEffectView = UIVisualEffectView(effect: UIBlurEffect(style: UIBlurEffectStyle.ExtraLight))
@@ -48,14 +50,21 @@ class DetailVIewViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        self.userProfilePic.layer.cornerRadius = self.userProfilePic.frame.height / 2
         self.usernameLbl.text = feed.user?.username
+        self.userProfilePic.kf_setImageWithURL(NSURL(string: feed.user!.photo_thumb!)!, placeholderImage: self.userProfilePic.image)
         self.getFeedButton.setTitle("Feeding", forState: UIControlState.Disabled)
-        if (self.feed.is_my_feed)! || (self.feed.user?.is_my_fed)! {
-            self.getFeedButton.enabled = false
-        }
-            //getFeedButton.enabled = false
-      
+        checkIfToEnableOrDisableGetFeedButton()
+        
+        
+        usernameLbl.userInteractionEnabled = true
+        userProfilePic.userInteractionEnabled = true
+        let gestureRecognizer = UITapGestureRecognizer(target: self, action: Selector("labelPressed"))
+        usernameLbl.addGestureRecognizer(gestureRecognizer)
+        let gestureRecognizer2 = UITapGestureRecognizer(target: self, action: Selector("labelPressed"))
+        userProfilePic.addGestureRecognizer(gestureRecognizer2)
+        //getFeedButton.enabled = false
+        
         //self.navigationItem.hidesBackButton = true
         // Do any additional setup after loading the view
         
@@ -67,8 +76,8 @@ class DetailVIewViewController: UIViewController {
         //        loadingNotification.mode = MBProgressHUDMode.Indeterminate
         //        loadingNotification.labelText = "Loading"
         self.view.backgroundColor=UIColor(red: 240/255, green: 240/255, blue: 240/255, alpha: 1)
-
-
+        
+        
         self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .Plain, target: nil, action: nil)
     }
     
@@ -77,16 +86,13 @@ class DetailVIewViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     override func viewWillAppear(animated: Bool) {
-        //        self.tabBarController?.navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "square"), style: .Plain, target: self, action: "changeViewMode:")
-        //
-        //        self.tabBarController?.navigationItem.title = self.title ?? "Global Feed"
-        //        self.tabBarController?.navigationItem.hidesBackButton = true
-        //        self.tabBarController?.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .Plain, target: nil, action: nil)
+       self.tableView.reloadData()
+        checkIfToEnableOrDisableGetFeedButton()
     }
     override func viewDidAppear(animated: Bool) {
         self.tabBarController?.navigationItem.rightBarButtonItem?.enabled=false
-
-
+        
+        
         
         
         
@@ -107,9 +113,9 @@ class DetailVIewViewController: UIViewController {
         self.getFeedButton.enabled = false
         self.feed.user?.is_my_fed = true
         self.triggerDelegateNeedReloadData()
-//        let headers = [
-//            "X-Auth-Token" : user.api_token!,
-//        ]
+        //        let headers = [
+        //            "X-Auth-Token" : user.api_token!,
+        //        ]
         
         //        Alamofire.request(.POST, registerUrlString, parameters: parameters, headers:headers).responseJSON { response in
         //            switch response.result {
@@ -129,7 +135,7 @@ class DetailVIewViewController: UIViewController {
                 } else {
                     self.getFeedButton.enabled = true
                     self.feed.user?.is_my_fed = false
-                    
+                    print(getFeed.message)
                     print("Error: Love it error")
                 }
             case .Failure(let error):
@@ -140,9 +146,25 @@ class DetailVIewViewController: UIViewController {
         }
         
     }
+    
     private func triggerDelegateNeedReloadData() {
         if let _ = self.delegate {
             self.delegate.needReloadData()
+        }
+    }
+    
+    func labelPressed() {
+        if !feed.is_my_feed! {
+            let storyBoard = UIStoryboard(name: "Main", bundle: nil)
+            let vc: ProfileViewController = storyBoard.instantiateViewControllerWithIdentifier("ProfileViewController") as! ProfileViewController
+            vc.userId = feed.user?.id
+            self.navigationController?.pushViewController(vc, animated: true)
+        }
+    }
+    
+    func checkIfToEnableOrDisableGetFeedButton () {
+        if (self.feed.is_my_feed)! || (self.feed.user?.is_my_fed)! {
+            self.getFeedButton.enabled = false
         }
     }
     
@@ -175,10 +197,10 @@ extension DetailVIewViewController: UITableViewDataSource {
         //        } else {
         //            cell.feedImage2.hidden = true
         //        }
-
+        
         cell.delegate = self
         cell.selectionStyle =  UITableViewCellSelectionStyle.None
-
+        
         cell.id = feed.id
         cell.left = feed.is_my_left
         cell.loved = feed.is_my_love
