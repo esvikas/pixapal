@@ -15,6 +15,8 @@
 		321F99D01C5A01A0006A39D0 /* LocationChooserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 321F99CF1C5A01A0006A39D0 /* LocationChooserViewController.swift */; };
 		325279581C62050900978C0C /* DetailVIewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 325279571C62050900978C0C /* DetailVIewViewController.swift */; };
 		327522801C4E1821002DED9C /* ProfileEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3275227F1C4E1821002DED9C /* ProfileEditViewController.swift */; };
+		3281875B1C730B6C008BEFF3 /* NotificationSliderVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3281875A1C730B6C008BEFF3 /* NotificationSliderVC.swift */; };
+		3281875D1C730B95008BEFF3 /* CAPSPageMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3281875C1C730B95008BEFF3 /* CAPSPageMenu.swift */; };
 		329B581C1C3E260600C1EE08 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 329B581B1C3E260600C1EE08 /* AppDelegate.swift */; };
 		329B58211C3E260600C1EE08 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 329B581F1C3E260600C1EE08 /* Main.storyboard */; };
 		329B58231C3E260600C1EE08 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 329B58221C3E260600C1EE08 /* Assets.xcassets */; };
@@ -64,6 +66,8 @@
 		321F99CF1C5A01A0006A39D0 /* LocationChooserViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationChooserViewController.swift; sourceTree = "<group>"; };
 		325279571C62050900978C0C /* DetailVIewViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailVIewViewController.swift; sourceTree = "<group>"; };
 		3275227F1C4E1821002DED9C /* ProfileEditViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileEditViewController.swift; sourceTree = "<group>"; };
+		3281875A1C730B6C008BEFF3 /* NotificationSliderVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationSliderVC.swift; sourceTree = "<group>"; };
+		3281875C1C730B95008BEFF3 /* CAPSPageMenu.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CAPSPageMenu.swift; sourceTree = "<group>"; };
 		329B58181C3E260600C1EE08 /* Pixapals.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Pixapals.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		329B581B1C3E260600C1EE08 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		329B58201C3E260600C1EE08 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -181,6 +185,7 @@
 		43C103391C44F242009512C2 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				3281875A1C730B6C008BEFF3 /* NotificationSliderVC.swift */,
 				32EBBD601C562C2600EF8149 /* RootFBClass.swift */,
 				32CBF55E1C4F7E350064E91D /* ImageSelectionVC.swift */,
 				32CBF55C1C4F7E090064E91D /* GridView.swift */,
@@ -207,6 +212,7 @@
 		43C1033C1C44F2A3009512C2 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				3281875C1C730B95008BEFF3 /* CAPSPageMenu.swift */,
 				321B7F9A1C460E760017932E /* Reachability.swift */,
 				320933FA1C50EF1100B092B1 /* WobbleView.swift */,
 				43D2C75C1C43529500F0E2C5 /* ButtonWithCornerRadius.swift */,
@@ -400,6 +406,7 @@
 				436F7BAA1C71EBB500A38A8C /* NotificationViewController.swift in Sources */,
 				439738151C45F3E2001F344F /* PostFeedViewController.swift in Sources */,
 				321F99D01C5A01A0006A39D0 /* LocationChooserViewController.swift in Sources */,
+				3281875B1C730B6C008BEFF3 /* NotificationSliderVC.swift in Sources */,
 				32FE7AA71C6C753400C767BC /* LoverListTableViewCell.swift in Sources */,
 				43BF1F1E1C48DDB7000980D5 /* ProfileCustomCollectionViewCell.swift in Sources */,
 				32E9C4021C58DED00055A270 /* SettingsTableViewController.swift in Sources */,
@@ -408,6 +415,7 @@
 				32CBF55D1C4F7E090064E91D /* GridView.swift in Sources */,
 				325279581C62050900978C0C /* DetailVIewViewController.swift in Sources */,
 				32EBBD611C562C2600EF8149 /* RootFBClass.swift in Sources */,
+				3281875D1C730B95008BEFF3 /* CAPSPageMenu.swift in Sources */,
 				43A0EE5F1C4CA7BC009C4E46 /* GlobalFeedTableViewCell.swift in Sources */,
 				437969451C5F4E8200CE136D /* FeedsResponse.swift in Sources */,
 				321B7F9B1C460E760017932E /* Reachability.swift in Sources */,

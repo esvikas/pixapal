@@ -65,6 +65,38 @@
             endingLineNumber = "296"
             landmarkName = "logoutRequest()"
             landmarkType = "5">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Pixapals.SettingsTableViewController.logoutRequest (Pixapals.SettingsTableViewController)() -&gt; ()"
+                  moduleName = "Pixapals"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/ak2g/Documents/Pixapals/Pixapals/Pixapals/SettingsTableViewController.swift"
+                  timestampString = "477385342.986284"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "296"
+                  endingLineNumber = "296"
+                  offsetFromSymbolStart = "2135">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Pixapals.SettingsTableViewController.(logoutRequest (Pixapals.SettingsTableViewController) -&gt; () -&gt; ()).(closure #1)"
+                  moduleName = "Pixapals"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/ak2g/Documents/Pixapals/Pixapals/Pixapals/SettingsTableViewController.swift"
+                  timestampString = "477385342.986431"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "296"
+                  endingLineNumber = "296"
+                  offsetFromSymbolStart = "1013">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -160,6 +192,22 @@
             startingLineNumber = "167"
             endingLineNumber = "167"
             landmarkName = "changeProfilePic(_:)"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Pixapals/PostFeedViewController.swift"
+            timestampString = "477385273.71034"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "184"
+            endingLineNumber = "184"
+            landmarkName = "PostFeed()"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
