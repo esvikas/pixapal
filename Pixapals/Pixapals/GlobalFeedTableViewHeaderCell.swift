@@ -7,6 +7,9 @@
 //
 
 import UIKit
+protocol GlobalFeedTableViewHeaderCellDelegate {
+    func SegueToProfile(id: Int?)
+}
 
 class GlobalFeedTableViewHeaderCell: UITableViewCell {
 
@@ -15,11 +18,28 @@ class GlobalFeedTableViewHeaderCell: UITableViewCell {
     @IBOutlet weak var username: UILabel!
     @IBOutlet weak var timeElapsed: UILabel!
     
+    var id: Int?
+    
+    var delegate: GlobalFeedTableViewHeaderCellDelegate!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         userProfilePic.layer.cornerRadius=userProfilePic.frame.height/2
         userProfilePic.clipsToBounds=true
+        
+        username.userInteractionEnabled = true
+        userProfilePic.userInteractionEnabled = true
     
+        let gestureRecognizer = UITapGestureRecognizer(target: self, action: Selector("labelPressed"))
+        username.addGestureRecognizer(gestureRecognizer)
+        
+        let gestureRecognizer2 = UITapGestureRecognizer(target: self, action: Selector("labelPressed"))
+        userProfilePic.addGestureRecognizer(gestureRecognizer2)
+        
+    }
+    
+    func labelPressed(){
+        delegate.SegueToProfile(id)
     }
 
     override func setSelected(selected: Bool, animated: Bool) {

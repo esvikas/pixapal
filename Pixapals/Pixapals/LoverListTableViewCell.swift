@@ -28,6 +28,8 @@ class LoverListTableViewCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
+        profileImageView.layer.cornerRadius = profileImageView.frame.height / 2
+        profileImageView.clipsToBounds = true
         getFeedButton.setTitle("Feeding", forState: UIControlState.Disabled)
         profileImageView.userInteractionEnabled = true
         username.userInteractionEnabled = true

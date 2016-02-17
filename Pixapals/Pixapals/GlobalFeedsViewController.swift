@@ -469,10 +469,9 @@ extension GlobalFeedsViewController: UITableViewDelegate {
         let cell = tableView.dequeueReusableCellWithIdentifier("globalFeedTableViewHeaderCell") as! GlobalFeedTableViewHeaderCell
         cell.userProfilePic.kf_setImageWithURL(NSURL(string: feed.user!.photo_thumb!)!, placeholderImage: cell.userProfilePic.image)
         cell.username.text = feed.user?.username
+        cell.id = feed.user?.id
+        cell.delegate = self
         if let createdAt = feed.created_at {
-            //let dateFormatter = NSDateFormatter()
-            //dateFormatter.dateFormat = "y-MM-dd HH:mm:ss"
-            // if let date = dateFormatter.dateFromString(createdAt) {
             var textTimeElapsed = ""
             let timeInSecond = Int(NSDate().timeIntervalSinceDate(createdAt))
             if timeInSecond/60 < 0 {
@@ -492,19 +491,6 @@ extension GlobalFeedsViewController: UITableViewDelegate {
         
         return cell
     }
-    
-    //    func scrollViewDidScroll(scrollView: UIScrollView) {
-    //        if let tblView = scrollView as? UITableView where tblView == self.tableView {
-    //            if (scrollView.contentOffset.y + scrollView.frame.size.height == scrollView.contentSize.height && hasMoreDataInServer)
-    //            {
-    //                self.loadMore()
-    //                print("here")
-    //            }
-    //        }
-    //    }
-    
-    
-    
 }
 
 extension GlobalFeedsViewController: UICollectionViewDataSource{
@@ -582,7 +568,6 @@ extension GlobalFeedsViewController: CellImageSwippedDelegate {
     
     func SegueToLoverList(id: Int?) {
         let feed = self.feedsFromResponseAsObject.feeds![id!]
-        
         let storyBoard = UIStoryboard(name: "Main", bundle: nil)
         let vc = storyBoard.instantiateViewControllerWithIdentifier("LoverListViewController") as! LoverListViewController
         vc.users = feed.lovers
@@ -590,13 +575,10 @@ extension GlobalFeedsViewController: CellImageSwippedDelegate {
     }
     
     func SegueToProfile(id: Int?) {
-        let feed = self.feedsFromResponseAsObject.feeds![id!]
         let storyBoard = UIStoryboard(name: "Main", bundle: nil)
         let vc: ProfileViewController = storyBoard.instantiateViewControllerWithIdentifier("ProfileViewController") as! ProfileViewController
-        vc.userId = feed.user?.id
-        
+        vc.userId = id
         self.navigationController?.pushViewController(vc, animated: true)
-        
     }
     
     func loveFeed(id:Int){
@@ -767,5 +749,9 @@ extension GlobalFeedsViewController : UIScrollViewDelegate {
 
     
    
+}
+
+extension GlobalFeedsViewController: GlobalFeedTableViewHeaderCellDelegate {
+    
 }
 

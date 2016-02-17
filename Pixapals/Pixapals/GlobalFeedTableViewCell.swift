@@ -52,7 +52,6 @@ class GlobalFeedTableViewCell: UITableViewCell {
         let gestureRecognizer = UITapGestureRecognizer(target: self, action: Selector("labelPressed"))
         loveCount.addGestureRecognizer(gestureRecognizer)
         let gestureRecognizer2 = UITapGestureRecognizer(target: self, action: Selector("labelPressed"))
-        
         loveIcon.addGestureRecognizer(gestureRecognizer2)
         
     }
