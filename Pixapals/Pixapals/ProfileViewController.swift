@@ -417,7 +417,20 @@ extension ProfileViewController: UICollectionViewDataSource {
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier("globalFeedCollectionViewCell", forIndexPath: indexPath) as! GlobalFeedCollectionViewCell
         
-        cell.feedImage.kf_setImageWithURL(NSURL(string: self.feedsFromResponseAsObject?.feeds?[indexPath.row].photo_thumb ?? "")!, placeholderImage: UIImage(named: "post-feed-img"))
+//        cell.feedImage.kf_setImageWithURL(NSURL(string: self.feedsFromResponseAsObject?.feeds?[indexPath.row].photo_thumb ?? "")!, placeholderImage: UIImage(named: "post-feed-img"))
+        
+        cell.feedImage.kf_setImageWithURL(NSURL(string: self.feedsFromResponseAsObject?.feeds?[indexPath.row].photo_thumb ?? "")!,
+            placeholderImage: nil,
+            optionsInfo: nil,
+            progressBlock: { (receivedSize, totalSize) -> () in
+            },
+            completionHandler: { (image, error, imageURL, String ) -> () in
+                
+                cell.loadingView.hideLoading()
+                //                            self.blurEffectView.removeFromSuperview()
+                //                            MBProgressHUD.hideAllHUDsForView(self.view, animated: true)
+            }
+        )
         
         return cell
     }
@@ -480,11 +493,25 @@ extension ProfileViewController: UITableViewDataSource {
             print(indexPath.row)
             let feed = self.feedsFromResponseAsObject.feeds![indexPath.row - 1]
             let cell = tableView.dequeueReusableCellWithIdentifier("globalFeedTableViewCell", forIndexPath: indexPath) as! GlobalFeedTableViewCell
-            cell.feedImage.kf_setImageWithURL(NSURL(string: feed.photo ?? "" )!, placeholderImage: UIImage(named: "loading.png"))
+//            cell.feedImage.kf_setImageWithURL(NSURL(string: feed.photo ?? "" )!, placeholderImage: UIImage(named: "loading.png"))
+            
+            
+            cell.feedImage.kf_setImageWithURL(NSURL(string: feed.photo ?? "")!,
+                placeholderImage: nil,
+                optionsInfo: nil,
+                progressBlock: { (receivedSize, totalSize) -> () in
+                },
+                completionHandler: { (image, error, imageURL, String ) -> () in
+                    
+                    cell.loadingView.hideLoading()
+                    //                            self.blurEffectView.removeFromSuperview()
+                    //                            MBProgressHUD.hideAllHUDsForView(self.view, animated: true)
+            })
             
             if let imagePresent = feed.photo_two?.isEmpty where imagePresent == false {
                 cell.feedImage2.hidden = false
                 cell.feedImage2.kf_setImageWithURL(NSURL(string: feed.photo_two ?? "")! , placeholderImage: UIImage(named: "loading.png"))
+                
             } else {
                 cell.feedImage2.hidden = true
             }

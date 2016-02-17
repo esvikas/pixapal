@@ -372,7 +372,20 @@ extension GlobalFeedsViewController: UITableViewDataSource {
         let feed = (self.feedsFromResponseAsObject.feeds?[indexPath.section])!
         
         //cell.feedImage.kf_setImageWithURL(NSURL(string: feedsToShow[indexPath.section, "photo"].string!)!, placeholderImage: UIImage(named: "loading.png"))
-        cell.feedImage.kf_setImageWithURL(NSURL(string: feed.photo ?? "")!, placeholderImage: UIImage(named: "loading.png"))
+//        cell.feedImage.kf_setImageWithURL(NSURL(string: feed.photo ?? "")!, placeholderImage: UIImage(named: "loading.png"))
+        
+        cell.feedImage.kf_setImageWithURL(NSURL(string: feed.photo ?? "")!,
+            placeholderImage: nil,
+            optionsInfo: nil,
+            progressBlock: { (receivedSize, totalSize) -> () in
+            },
+            completionHandler: { (image, error, imageURL, String ) -> () in
+                
+                cell.loadingView.hideLoading()
+                //                            self.blurEffectView.removeFromSuperview()
+                //                            MBProgressHUD.hideAllHUDsForView(self.view, animated: true)
+            })
+        
         
         if let imagePresent = feed.photo_two?.isEmpty where imagePresent == false {
             cell.feedImage2.hidden = false
@@ -468,6 +481,8 @@ extension GlobalFeedsViewController: UITableViewDelegate {
         let feed = self.feedsFromResponseAsObject.feeds![section]
         let cell = tableView.dequeueReusableCellWithIdentifier("globalFeedTableViewHeaderCell") as! GlobalFeedTableViewHeaderCell
         cell.userProfilePic.kf_setImageWithURL(NSURL(string: feed.user!.photo_thumb!)!, placeholderImage: cell.userProfilePic.image)
+        
+        
         cell.username.text = feed.user?.username
         cell.id = feed.user?.id
         cell.delegate = self
@@ -503,7 +518,22 @@ extension GlobalFeedsViewController: UICollectionViewDataSource{
         
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier("globalFeedCollectionViewCell", forIndexPath: indexPath) as! GlobalFeedCollectionViewCell
         if let image_url = self.feedsFromResponseAsObject.feeds?[indexPath.row].photo_thumb {
-            cell.feedImage.kf_setImageWithURL(NSURL(string: image_url)!)
+//            cell.feedImage.kf_setImageWithURL(NSURL(string: image_url)!)
+            
+            
+            
+            cell.feedImage.kf_setImageWithURL(NSURL(string: image_url)!,
+                placeholderImage: nil,
+                optionsInfo: nil,
+                progressBlock: { (receivedSize, totalSize) -> () in
+                },
+                completionHandler: { (image, error, imageURL, String ) -> () in
+                    
+                    cell.loadingView.hideLoading()
+                    //                            self.blurEffectView.removeFromSuperview()
+                    //                            MBProgressHUD.hideAllHUDsForView(self.view, animated: true)
+                }
+            )
         } else {
             cell.feedImage.image = UIImage(named: "post-feed-img")
         }

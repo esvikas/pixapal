@@ -183,7 +183,18 @@ extension DetailVIewViewController: UITableViewDataSource {
         
         
         //cell.feedImage.kf_setImageWithURL(NSURL(string: feedsToShow[indexPath.section, "photo"].string!)!, placeholderImage: UIImage(named: "loading.png"))
-        cell.feedImage.kf_setImageWithURL(NSURL(string: feed.photo ?? "")!, placeholderImage: UIImage(named: "loading.png"))
+//        cell.feedImage.kf_setImageWithURL(NSURL(string: feed.photo ?? "")!, placeholderImage: UIImage(named: "loading.png"))
+        
+        
+        cell.feedImage.kf_setImageWithURL(NSURL(string: feed.photo ?? "")!,
+            placeholderImage: nil,
+            optionsInfo: nil,
+            progressBlock: { (receivedSize, totalSize) -> () in
+            },
+            completionHandler: { (image, error, imageURL, String ) -> () in
+                
+                cell.loadingView.hideLoading()
+        })
         
         if let imagePresent = feed.photo_two?.isEmpty where imagePresent == false {
             cell.feedImage2.hidden = false

@@ -220,7 +220,7 @@ class ProfileEditViewController: UIViewController, UINavigationControllerDelegat
         self.view.addSubview(self.blurEffectView)
         let loadingNotification = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
         loadingNotification.mode = MBProgressHUDMode.Indeterminate
-        loadingNotification.labelText = "Posting"
+        loadingNotification.labelText = "Saving"
 
         
         let registerUrlString = "\(apiUrl)api/v1/profile/update"
