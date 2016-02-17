@@ -540,7 +540,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="uaz-R9-Rd4" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3682" y="459"/>
+            <point key="canvasLocation" x="3658" y="241"/>
         </scene>
         <!--Settings-->
         <scene sceneID="1bE-T1-pE1">
@@ -668,7 +668,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="q82-Eb-fwQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3796" y="1553"/>
+            <point key="canvasLocation" x="3780" y="1327"/>
         </scene>
         <!--Lover's List-->
         <scene sceneID="BJ1-mm-RPU">
@@ -852,7 +852,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="w7h-gE-3QP" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3780" y="2275"/>
+            <point key="canvasLocation" x="3796" y="2348"/>
         </scene>
         <!--Global Feeds View Controller-->
         <scene sceneID="x0p-1X-DNX">
@@ -1178,7 +1178,7 @@
                         <viewControllerLayoutGuide type="bottom" id="vre-vZ-EdJ"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="hiZ-8v-lNN">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
@@ -1186,10 +1186,11 @@
                         <inset key="imageInsets" minX="0.0" minY="6" maxX="0.0" maxY="-6"/>
                         <offsetWrapper key="titlePositionAdjustment" horizontal="0.0" vertical="0.0"/>
                     </tabBarItem>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina55"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="6l2-Zw-JH2" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2180" y="1278"/>
+            <point key="canvasLocation" x="2067.5" y="1395.5"/>
         </scene>
         <!--notification-->
         <scene sceneID="2H4-k0-BWB">
@@ -1342,7 +1343,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ne3-t8-xsX" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2030" y="1478"/>
+            <point key="canvasLocation" x="2067" y="2188"/>
         </scene>
         <!--profile-->
         <scene sceneID="tZm-Gj-YLE">
@@ -1867,7 +1868,7 @@
                 </view>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gHe-HD-lAo" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2521" y="1671"/>
+            <point key="canvasLocation" x="2549" y="1652"/>
         </scene>
         <!--Double Mode-->
         <scene sceneID="gBy-hR-h2G">
@@ -2029,7 +2030,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dCq-um-xdv" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3072.5" y="788"/>
+            <point key="canvasLocation" x="3037.5" y="406"/>
         </scene>
         <!--Custom Tab Bar Controller-->
         <scene sceneID="llN-2I-W7I">
@@ -2050,13 +2051,13 @@
                     <connections>
                         <segue destination="rSs-SK-SEN" kind="relationship" relationship="viewControllers" id="E1g-dg-k5g"/>
                         <segue destination="74A-BF-VMy" kind="relationship" relationship="viewControllers" id="ExS-7q-M8u"/>
-                        <segue destination="IbE-Kr-sMr" kind="relationship" relationship="viewControllers" id="fVf-0N-YXk"/>
                         <segue destination="7iF-VQ-Hxl" kind="relationship" relationship="viewControllers" id="O27-XO-neb"/>
+                        <segue destination="IbE-Kr-sMr" kind="relationship" relationship="viewControllers" id="fVf-0N-YXk"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="atX-Os-KzX" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1789" y="419"/>
+            <point key="canvasLocation" x="1831" y="431"/>
         </scene>
         <!--Register-->
         <scene sceneID="Ujk-yg-5Kj">
@@ -2349,7 +2350,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Epn-CS-K0p" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="258" y="419"/>
+            <point key="canvasLocation" x="430" y="419"/>
         </scene>
         <!--Edit Profile-->
         <scene sceneID="evv-oV-mmg">
@@ -2416,7 +2417,7 @@
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits"/>
                                     </textField>
-                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Conform Password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="7cd-P1-HAr" userLabel="Gender">
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Confirm Password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="7cd-P1-HAr" userLabel="Gender">
                                         <rect key="frame" x="20" y="601" width="560" height="40"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits"/>
@@ -2531,7 +2532,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4vF-JI-Egd" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3150" y="1623"/>
+            <point key="canvasLocation" x="3094" y="1407"/>
         </scene>
         <!--detail feed view-->
         <scene sceneID="pru-Ij-dW5">
