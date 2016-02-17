@@ -74,12 +74,12 @@
                   moduleName = "Pixapals"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/ak2g/Documents/Pixapals/Pixapals/Pixapals/SettingsTableViewController.swift"
-                  timestampString = "477385342.986284"
+                  timestampString = "477401195.58359"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "296"
                   endingLineNumber = "296"
-                  offsetFromSymbolStart = "2135">
+                  offsetFromSymbolStart = "1528">
                </Location>
                <Location
                   shouldBeEnabled = "Yes"
@@ -89,12 +89,12 @@
                   moduleName = "Pixapals"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/ak2g/Documents/Pixapals/Pixapals/Pixapals/SettingsTableViewController.swift"
-                  timestampString = "477385342.986431"
+                  timestampString = "477401195.583729"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "296"
                   endingLineNumber = "296"
-                  offsetFromSymbolStart = "1013">
+                  offsetFromSymbolStart = "900">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -127,39 +127,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "84"
             endingLineNumber = "84"
-            landmarkName = "viewDidAppear(_:)"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Pixapals/GlobalFeedsViewController.swift"
-            timestampString = "476963740.521534"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "328"
-            endingLineNumber = "328"
-            landmarkName = "refresh(_:)"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Pixapals/GlobalFeedsViewController.swift"
-            timestampString = "476963740.521534"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "334"
-            endingLineNumber = "334"
-            landmarkName = "refresh(_:)"
+            landmarkName = "didReceiveMemoryWarning()"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -201,13 +169,45 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Pixapals/PostFeedViewController.swift"
-            timestampString = "477385273.71034"
+            filePath = "Pixapals/GlobalFeedsViewController.swift"
+            timestampString = "477397213.713054"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "184"
-            endingLineNumber = "184"
-            landmarkName = "PostFeed()"
+            startingLineNumber = "525"
+            endingLineNumber = "525"
+            landmarkName = "collectionView(_:cellForItemAtIndexPath:)"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Pixapals/PostFeedViewController.swift"
+            timestampString = "477400875.942173"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "330"
+            endingLineNumber = "330"
+            landmarkName = "textViewDidChange(_:)"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Pixapals/PostFeedViewController.swift"
+            timestampString = "477400875.942173"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "337"
+            endingLineNumber = "337"
+            landmarkName = "textViewDidBeginEditing(_:)"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

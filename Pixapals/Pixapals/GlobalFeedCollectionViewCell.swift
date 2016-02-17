@@ -7,8 +7,16 @@
 //
 
 import UIKit
+import Spring
 
 class GlobalFeedCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var feedImage: UIImageView!
+    @IBOutlet var loadingView: SpringView!
     
+    
+    override func awakeFromNib() {
+        
+        
+        loadingView.showLoading()
+    }
 }

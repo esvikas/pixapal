@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import Spring
+
 protocol CellImageSwippedDelegate {
     func imageSwipedLeft(id: Int, loved: Bool, left: Bool)
     func imageSwipedRight(id: Int, loved: Bool, left: Bool)
@@ -27,6 +29,9 @@ class GlobalFeedTableViewCell: UITableViewCell {
     @IBOutlet weak var timeElapsed: UILabel!
     @IBOutlet weak var leftIcon: UIImageView!
     
+    @IBOutlet var loadingView: SpringView!
+
+    
     var id: Int!
     var loved : Bool!
     var left : Bool!
@@ -38,6 +43,9 @@ class GlobalFeedTableViewCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
+        
+        loadingView.showLoading()
+
         let swipeRight = UISwipeGestureRecognizer(target: self, action: "respondToSwipeGesture:")
         swipeRight.direction = UISwipeGestureRecognizerDirection.Right
         self.addGestureRecognizer(swipeRight)

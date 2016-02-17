@@ -34,7 +34,7 @@ class PostFeedViewController: UIViewController, UITextViewDelegate {
     var image3: UIImage!
     var imageData : NSData!
     
-    var comment:String!
+    var comment = ""
     
     
     let blurEffectView = UIVisualEffectView(effect: UIBlurEffect(style: UIBlurEffectStyle.ExtraLight))
@@ -184,6 +184,7 @@ btnPostFeed.enabled=false
         if commentTextField.text == "Comments" {
             
           comment =  ""
+            commentTextField.text = ""
         } else {
             
             comment = commentTextField.text!
@@ -191,7 +192,7 @@ btnPostFeed.enabled=false
         
         let parameters = [
             "user_id" : String(UserDataStruct().id!),
-            "comment" : comment!
+            "comment" : comment ?? ""
             
         ]
         let headers = [
