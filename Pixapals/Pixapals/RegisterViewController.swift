@@ -110,7 +110,7 @@ class RegisterViewController: UIViewController, UIPopoverControllerDelegate, UIP
             return
         }
         
-        if (self.btnGender.titleLabel?.text)!.isEmpty {
+        if !(self.btnGender.titleLabel?.text == "Male" || self.btnGender.titleLabel?.text == "Female")  {
             appDelegate.ShowAlertView("Gender Not Selected", message: "Gender is not selected.")
             return
         }

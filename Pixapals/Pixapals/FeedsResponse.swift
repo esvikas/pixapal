@@ -257,6 +257,7 @@ class UserInDetailJSON: UserJSON {
             return _gender.rawValue
         }
         set {
+            print(newValue)
             if newValue == "male" || newValue == "Male" {
                 self._gender = Gender.Male
             } else {
