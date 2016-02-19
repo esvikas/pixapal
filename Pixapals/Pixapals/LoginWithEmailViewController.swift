@@ -9,15 +9,22 @@
 import UIKit
 import Alamofire
 //import SwiftyJSON
+ import MBProgressHUD
+
 
 class LoginWithEmailViewController: UIViewController {
     
     @IBOutlet var emailTextfield: UITextField!
     @IBOutlet var passwordTextfield: UITextField!
     
+    var password: String = ""
+    let blurEffectView = UIVisualEffectView(effect: UIBlurEffect(style: UIBlurEffectStyle.ExtraLight))
+
+
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        passwordTextfield.delegate=self
         self.view.backgroundColor=UIColor(red: 240/255, green: 240/255, blue: 240/255, alpha: 1)
     }
     
@@ -36,18 +43,30 @@ class LoginWithEmailViewController: UIViewController {
     }
     
     func loginWithEmail(){
+        
+        
+        self.blurEffectView.alpha = 0.4
+        self.blurEffectView.frame = view.bounds
+        self.view.addSubview(self.blurEffectView)
+        let loadingNotification = MBProgressHUD.showHUDAddedTo(self.passwordTextfield, animated: true)
+        loadingNotification.mode = MBProgressHUDMode.Indeterminate
+        loadingNotification.labelText = "Posting"
 
         let loginUrlString = "\(apiUrl)api/v1/login-using-email"
         
         let validator = Validator()
         if !validator.isValidEmail(emailTextfield.text!){
             print("invalid email")
+            
+            appDelegate.ShowAlertView("Error", message: "Invalid email address")
+            MBProgressHUD.hideAllHUDsForView(self.view, animated: true)
+            self.blurEffectView.removeFromSuperview()
             return
         }
         
         let parametersToPost = [
             "email": emailTextfield.text!,
-            "password": passwordTextfield.text!,
+            "password": password,
             "device_token" : appDelegate.deviceTokenString ?? "werrrrrr"
         ]
         
@@ -63,11 +82,20 @@ class LoginWithEmailViewController: UIViewController {
                         
                         let storyBoard = UIStoryboard(name: "Main", bundle: nil)
                         let vc = storyBoard.instantiateViewControllerWithIdentifier("tabView")
+                        
                         self.navigationController?.pushViewController(vc, animated: true)
+                        MBProgressHUD.hideAllHUDsForView(self.view, animated: true)
+                        self.blurEffectView.removeFromSuperview()
+
                         
                     } else {
                         print(data)
                         print("Invalid Username/Password: \(data["message"])")
+                        MBProgressHUD.hideAllHUDsForView(self.view, animated: true)
+                        self.blurEffectView.removeFromSuperview()
+                        appDelegate.ShowAlertView("Error", message: "Invalid email address or password")
+       
+
                     }
                 case .Failure(let error):
                     print("Error in connection \(error)")
@@ -75,7 +103,35 @@ class LoginWithEmailViewController: UIViewController {
         }
         
     }
-    
-    
+
     
 }
+ 
+ extension LoginWithEmailViewController: UITextFieldDelegate {
+    
+    func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool
+    {
+        
+        if(string != "") {
+//
+//            print("Backspace pressed");
+//            return true;
+//        }
+//    }
+        password = password+string
+        textField.text = textField.text!+"*"
+        print("\(password)")
+            return false
+
+        } else {
+            
+            if password.characters.count != 0 {
+            var truncated = password.substringToIndex(password.endIndex.predecessor())
+password = truncated
+            print("\(password)")
+        }
+            return true
+        }
+    }
+        
+ }

@@ -53,7 +53,8 @@ class ProfileEditViewController: UIViewController, UINavigationControllerDelegat
         bioTextField.text = userDataAsObject.bio
         phoneTextField.text = userDataAsObject.phone
         webSiteTextField.text = userDataAsObject.website
-        genderTextField.text = userDataAsObject.gender
+        print(userDataAsObject.gender)
+        genderTextField.text = userDataAsObject.gender ?? ""
         
         print(userDataAsObject.photo_thumb)
         userProfilePic.kf_setImageWithURL(NSURL(string: userDataAsObject.photo_thumb ?? "")!, placeholderImage: UIImage(named: "global_feed_user"))

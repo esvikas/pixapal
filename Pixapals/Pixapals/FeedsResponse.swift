@@ -50,6 +50,7 @@ class UserFeedDistinction {
         isDistinct.1.country = feed.country
         isDistinct.1.photo = feed.photo
         isDistinct.1.user  = feed.user
+        isDistinct.1.mode = feed.mode
         
         return isDistinct.1
     }
@@ -154,6 +155,7 @@ class FeedJSON: Mappable {
     var is_my_love: Bool?
     var country: String?
     var photo: String?
+    var mode: Int?
     var user : UserJSON?
     private var _created_at: String? {
         get {
@@ -188,6 +190,7 @@ class FeedJSON: Mappable {
         country <- map["country"]
         photo <- map ["photo"]
         user <- map["user"]
+        mode <- map["mode"]
         
         if let lovers = lovers {
             self.lovers = lovers.map({ (user) -> UserJSON in
@@ -251,19 +254,34 @@ class UserInDetailJSON: UserJSON {
     var feeders_count: Int!
     var feeds_count: Int!
     
-    var _gender: Gender!
-    var gender: String {
-        get {
-            return _gender.rawValue
+//    var gender: Gender?
+//    private var _gender: String? {
+//        get {
+//            return nil
+//        }
+//        set {
+//            print(newValue)
+//            if newValue == "male" || newValue == "Male" {
+//                self.gender = Gender.Male
+//            } else {
+//                self.gender = Gender.Female
+//            }
+//        }
+//    }
+    private var _gender: Gender?
+    var gender: String? {
+                get {
+                    return _gender?.rawValue ?? ""
+                }
+                set {
+                    print(newValue)
+                    if newValue == "male" || newValue == "Male" {
+                        self._gender = Gender.Male
+                    } else {
+                        self._gender = Gender.Female
+                    }
         }
-        set {
-            print(newValue)
-            if newValue == "male" || newValue == "Male" {
-                self._gender = Gender.Male
-            } else {
-                self._gender = Gender.Female
-            }
-        }
+
     }
     
     var email: String?
@@ -282,7 +300,7 @@ class UserInDetailJSON: UserJSON {
         feeders <- map["feeders"]
         feeders_count <- map["feeders_count"]
         feeds_count <- map["feeds_count"]
-        _gender <- map["gender"]
+        gender <- map["gender"]
         email <- map["email"]
         feeding <- map["feeding"]
         feeding_count <- map["feeding_count"]

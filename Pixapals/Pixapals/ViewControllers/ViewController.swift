@@ -154,9 +154,12 @@ class ViewController: UIViewController {
     func getFBUserData(){
         if((FBSDKAccessToken.currentAccessToken()) != nil){
             
-            FBSDKGraphRequest(graphPath: "me", parameters: ["fields": "id, name, picture.type(large), email, age_range, gender, hometown, birthday"]).startWithCompletionHandler({ (connection, result, error) -> Void in
+            FBSDKGraphRequest(graphPath: "me", parameters: ["fields": "id, name, picture.type(large), email, website, gender, hometown, birthday"]).startWithCompletionHandler({ (connection, result, error) -> Void in
+                
+                print(FBSDKAccessToken.currentAccessToken().tokenString)
+
                 if (error == nil){
-                    
+                    print(result)
                     self.dict = result as! NSDictionary
                     
                     if let _ = self.location {

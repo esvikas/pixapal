@@ -268,15 +268,15 @@ class ProfileViewController: UIViewController {
         
         
         requestWithHeaderXAuthToken(.GET, apiURLString)
-//            .responseJSON { response in
-//                print(response.request)
-//                switch response.result {
-//                case .Failure(let error):
-//                    print(error)
-//                case .Success(let value):
-//                    print(value)
-//                }
-//            }
+            .responseJSON { response in
+                print(response.request)
+                switch response.result {
+                case .Failure(let error):
+                    print(error)
+                case .Success(let value):
+                    print(value)
+                }
+            }
             .responseObject { (response: Response<ProfileResponseJSON, NSError>) -> Void in
                 switch response.result {
                 case .Success(let feedsResponseJSON):
