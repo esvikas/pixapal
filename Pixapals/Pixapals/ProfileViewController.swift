@@ -191,14 +191,15 @@ class ProfileViewController: UIViewController {
             "X-Auth-Token" : user.api_token!,
         ]
         
-        Alamofire.request(.POST, registerUrlString, parameters: parameters, headers:headers).responseJSON { response in
-            switch response.result {
-            case .Failure(let error):
-                print("ERROR: \(error)")
-            case .Success(let value):
-                print(value)
-            }
-        }
+//        Alamofire.request(.POST, registerUrlString, parameters: parameters, headers:headers)
+//            .responseJSON { response in
+//            switch response.result {
+//            case .Failure(let error):
+//                print("ERROR: \(error)")
+//            case .Success(let value):
+//                print(value)
+//            }
+//        }
         requestWithHeaderXAuthToken(.POST, registerUrlString, parameters: parameters).responseObject { (response: Response<SuccessFailJSON, NSError>) -> Void in
             switch response.result {
             case .Success(let getFeed):

@@ -34,7 +34,7 @@ class GlobalFeedsViewController: UIViewController {
     var collectionViewHidden = false
     
     var pageNumber = 1
-    let postLimit = 5
+    let postLimit = 15
     
     var feedsFromResponseAsObject: FeedsResponseJSON!
     override func viewDidLoad() {
@@ -161,7 +161,7 @@ class GlobalFeedsViewController: UIViewController {
 //                    print(error)
 //                }
 //        }
-        
+//        
         //Alamofire.request(.GET, apiURLString, parameters: nil, headers: headers).responseArray { (response: Response<[FeedJSON], NSError>) -> Void in
         requestWithHeaderXAuthToken(.GET, apiURLString).responseObject { (response: Response<FeedsResponseJSON, NSError>) -> Void in
             
