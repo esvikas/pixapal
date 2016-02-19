@@ -8,6 +8,7 @@
 
 import UIKit
 import ImagePicker
+import Toucan
 
 
 class DoubleModeFeedImageSelectionViewController: UIViewController, ImagePickerDelegate {
@@ -100,6 +101,7 @@ class DoubleModeFeedImageSelectionViewController: UIViewController, ImagePickerD
         let vc: PostFeedViewController = storyboard.instantiateViewControllerWithIdentifier("PostFeedViewController") as! PostFeedViewController
         vc.image1=CapturedImage
         vc.imageMode=2
+            vc.imagePostMode=2
 
         vc.image2=CapturedImage2
         self.navigationController?.pushViewController(vc, animated: true)
@@ -128,21 +130,27 @@ class DoubleModeFeedImageSelectionViewController: UIViewController, ImagePickerD
         self.dismissViewControllerAnimated(false, completion: nil)
         
         if image1Selected==true{
-            image1.contentMode = UIViewContentMode.ScaleAspectFit
+            image1.contentMode = UIViewContentMode.ScaleToFill
             let uploadLiamge:UIImage = images[0].fixOrientation()
             
+            let cropedImage = Toucan(image: uploadLiamge).resize(CGSize(width: 100, height: 200), fitMode: Toucan.Resize.FitMode.Crop).image
+            CapturedImage = cropedImage
             
-            CapturedImage = uploadLiamge
-            image1.image = uploadLiamge
+            
+            
+//            CapturedImage = uploadLiamge
+            image1.image = cropedImage
 
             }
         else{
             
             let uploadLiamge:UIImage = images[0].fixOrientation()
-            image2.contentMode = UIViewContentMode.ScaleAspectFit
+            image2.contentMode = UIViewContentMode.ScaleToFill
             
-            CapturedImage2 = uploadLiamge
-            image2.image = uploadLiamge
+            let cropedImage = Toucan(image: uploadLiamge).resize(CGSize(width: 100, height: 200), fitMode: Toucan.Resize.FitMode.Crop).image
+            CapturedImage2 = cropedImage
+            
+            image2.image = cropedImage
 
 
         }

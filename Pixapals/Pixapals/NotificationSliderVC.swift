@@ -12,8 +12,13 @@ class NotificationSliderVC: UIViewController {
     
     var pageMenu : CAPSPageMenu?
     
+
+    
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
+        
+        self.tabBarController?.navigationItem.title = "Notifications"
+        self.tabBarController?.navigationItem.rightBarButtonItem = nil
         
         // MARK: - UI Setup
         

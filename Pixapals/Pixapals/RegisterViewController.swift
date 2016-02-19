@@ -30,6 +30,7 @@ class RegisterViewController: UIViewController, UIPopoverControllerDelegate, UIP
         manager.desiredAccuracy = kCLLocationAccuracyThreeKilometers
         manager.requestWhenInUseAuthorization()
         manager.startUpdatingLocation()
+        textFieldUsername.delegate=self
         
         textFieldFullName.layer.sublayerTransform = CATransform3DMakeTranslation(5, 0, 10)
         textFieldEmail.layer.sublayerTransform = CATransform3DMakeTranslation(5, 0, 10)
@@ -215,12 +216,29 @@ class RegisterViewController: UIViewController, UIPopoverControllerDelegate, UIP
     }
     
     
-    func textFieldDidBeginEditing(textField: UITextField) {
+//    func textFieldDidBeginEditing(textField: UITextField) {
+//        
+//        abc()
+//    }
+    
+
+    
+    
+}
+extension RegisterViewController : UITextFieldDelegate {
+    func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
         
-        abc()
+        let currentCharacterCount = textField.text?.characters.count ?? 0
+        if (range.length + range.location > currentCharacterCount){
+            return false
+        }
+        let newLength = currentCharacterCount + string.characters.count - range.length
+        
+        if newLength == 10 {
+            appDelegate.ShowAlertView("Sorry", message: "Maxum 10 characters allowed")
+        }
+        return newLength <= 10
     }
-    
-    
     
 }
 extension RegisterViewController : funcDelegate {
