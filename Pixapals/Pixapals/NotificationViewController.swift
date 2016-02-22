@@ -20,7 +20,7 @@ class NotificationViewController: UIViewController {
     
     var notifications: NotificationResponseJSON?
     let blurEffectView = UIVisualEffectView(effect: UIBlurEffect(style: UIBlurEffectStyle.ExtraLight))
-
+    
     
     var pageNumber = 1
     let notificationLimit = 15
@@ -28,7 +28,6 @@ class NotificationViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        //lbl.layer.cornerRadius = 8
         // Do any additional setup after loading the view.
         
         self.blurEffectView.alpha = 0.4
@@ -78,25 +77,23 @@ class NotificationViewController: UIViewController {
         ]
         
         requestWithHeaderXAuthToken(.GET, urlString)
-//            .responseJSON { response -> Void in
-//                print(response.request)
-//                switch response.result {
-//                case .Success(let value):
-//                    let json = (JSON(value))
-//                    print(json)
-//                case .Failure(let error):
-//                    print(error)
-//                }
-//            }
+            //                        .responseJSON { response -> Void in
+            //                            print(response.request)
+            //                            switch response.result {
+            //                            case .Success(let value):
+            //                                let json = (JSON(value))
+            //                                print(json)
+            //                            case .Failure(let error):
+            //                                print(error)
+            //                            }
+            //                        }
             .responseObject { (response: Response<NotificationResponseJSON, NSError>) -> Void in
                 switch response.result {
                 case .Failure(let error):
                     print(error)
                 case .Success(let notificationResponseJSON):
-                    //print(notificationResponseJSON.notifications?.first?.user?.id)
                     if !notificationResponseJSON.error! {
                         self.notifications = notificationResponseJSON
-                        //print(self.notifications?.notifications?.count)
                         self.tableView.reloadData()
                         MBProgressHUD.hideAllHUDsForView(self.view, animated: true)
                         self.blurEffectView.removeFromSuperview()
@@ -108,50 +105,11 @@ class NotificationViewController: UIViewController {
 
 extension NotificationViewController: UITableViewDataSource, UITableViewDelegate {
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        //        var counter = 0
-        //        if self.getRowsCount(lowerLimitInDaysFromToday: 0, upperLimitInDaysFromToday: -1) > 0 {
-        //            counter++
-        //        }
-        //        if self.getRowsCount(lowerLimitInDaysFromToday: 1, upperLimitInDaysFromToday: 0) > 0 {
-        //            counter++
-        //        }
-        //        if self.getRowsCount(lowerLimitInDaysFromToday: 7, upperLimitInDaysFromToday: 1) > 0 {
-        //            counter++
-        //        }
-        //        return counter
-        print(self.numberOfRowsInSections().count)
         return self.numberOfRowsInSections().count
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        
-        //        var numberOfRowsInSection = [Int]()
-        //
-        //        let today = self.getRowsCount(lowerLimitInDaysFromToday: 0, upperLimitInDaysFromToday: -1)
-        //        if today > 0 {
-        //            numberOfRowsInSection.append(today)
-        //        }
-        //        let yesterday =  self.getRowsCount(lowerLimitInDaysFromToday: 1, upperLimitInDaysFromToday: 0)
-        //        if yesterday > 0 {
-        //            numberOfRowsInSection.append(yesterday)
-        //        }
-        //        let aweekago = self.getRowsCount(lowerLimitInDaysFromToday: 7, upperLimitInDaysFromToday: 1)
-        //        if aweekago > 0 {
-        //            numberOfRowsInSection.append(aweekago)
-        //        }
-        print(self.numberOfRowsInSections()[section].numberOfRows)
         return self.numberOfRowsInSections()[section].numberOfRows
-        //
-        //
-        //
-        //        if section == 0 {
-        //            return self.getRowsCount(lowerLimitInDaysFromToday: 0, upperLimitInDaysFromToday: -1)
-        //        } else if section == 1 {
-        //            return self.getRowsCount(lowerLimitInDaysFromToday: 1, upperLimitInDaysFromToday: 0)
-        //        } else if section == 2 {
-        //            return self.getRowsCount(lowerLimitInDaysFromToday: 7, upperLimitInDaysFromToday: 1)
-        //        }
-        //        return 0
     }
     
     func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
@@ -191,7 +149,6 @@ extension NotificationViewController: UITableViewDataSource, UITableViewDelegate
                 {
                     let calender = NSCalendar(calendarIdentifier: NSCalendarIdentifierGregorian)!
                     let startDate = calender.startOfDayForDate(NSDate())
-                   // print($0.created_at?.created_at)
                     if let created_at = $0.created_at?.created_at {
                         if NSComparisonResult.OrderedAscending == created_at.compare(startDate.dateByAddingTimeInterval(Double(-upperLimitInDaysFromToday) * 24 * 60 * 60)) && (NSComparisonResult.OrderedDescending == created_at.compare(startDate.dateByAddingTimeInterval(Double(-lowerLimitInDaysFromToday) * 24 * 60 * 60)) || NSComparisonResult.OrderedSame == created_at.compare(startDate.dateByAddingTimeInterval(Double(-lowerLimitInDaysFromToday) * 24 * 60 * 60))) {
                             return true
@@ -199,7 +156,6 @@ extension NotificationViewController: UITableViewDataSource, UITableViewDelegate
                     }
                     return false
             }
-            //print(notif.count)
             return notif
         }
         return [NotificationJSON]()
@@ -209,9 +165,42 @@ extension NotificationViewController: UITableViewDataSource, UITableViewDelegate
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell
     {
         let cell = tableView.dequeueReusableCellWithIdentifier("notificationTableViewCell", forIndexPath: indexPath) as! NotificationTableViewCell
-        //cell.messageLbl.text =
+        
+        self.configureCell(cell, cellData: self.getDataForCellAtIndexPath(indexPath))
+        
+        cell.delegate = self
+        cell.indexPath = indexPath
+        
+        return cell
+    }
+    
+    private func configureCell(cell: NotificationTableViewCell, cellData: NotificationJSON?) {
+        if let cellData = cellData {
+            cell.messageLbl.text = cellData.message
+            cell.usernameButton.setTitle(cellData.user?.username, forState: UIControlState.Normal)
+            if cellData.user?.photo_thumb == "" {
+                cell.userButton.setBackgroundImage(UIImage(named: "global_feed_user"), forState: UIControlState.Normal)
+                
+            } else {
+                cell.userButton.kf_setBackgroundImageWithURL(NSURL(string: cellData.user?.photo_thumb ?? "")!, forState: UIControlState.Normal)
+            }
+            
+            if self.title != "YOU" {
+                cell.item2Button.kf_setBackgroundImageWithURL(NSURL(string: cellData.item2?.photo_thumb ?? "")!, forState: UIControlState.Normal)
+            } else {
+                if let action = cellData.action where action != "follows" {
+                    cell.item2Button.hidden = true
+                }
+            }
+        }
+    }
+    
+    private func getDataForCellAtIndexPath(indexPath: NSIndexPath) -> NotificationJSON? {
+        
         var filteredNotifications: [NotificationJSON]?
+        
         let sectionTitle = self.numberOfRowsInSections()[indexPath.section].sectionTitle
+        
         if sectionTitle == "TODAY" {
             filteredNotifications = self.getFilteredNotificationBetweenDates(lowerLimitInDaysFromToday: 0, upperLimitInDaysFromToday: -1)
         } else if sectionTitle == "YESTERDAY" {
@@ -220,21 +209,10 @@ extension NotificationViewController: UITableViewDataSource, UITableViewDelegate
             filteredNotifications = self.getFilteredNotificationBetweenDates(lowerLimitInDaysFromToday: 7, upperLimitInDaysFromToday: 1)
         }
         
-        if let filteredNotifications = filteredNotifications {
-            let notification = filteredNotifications[indexPath.row]
-            cell.messageLbl.text = notification.message
-            cell.usernameButton.setTitle(notification.user?.username, forState: UIControlState.Normal)
-            if notification.user?.photo_thumb == "" {
-                cell.userButton.setBackgroundImage(UIImage(named: "global_feed_user"), forState: UIControlState.Normal)
-
-                
-            } else {
-            print(notification.user?.photo_thumb)
-            cell.userButton.kf_setBackgroundImageWithURL(NSURL(string: notification.user?.photo_thumb ?? "")!, forState: UIControlState.Normal)
-            }
-            cell.item2Button.kf_setBackgroundImageWithURL(NSURL(string: notification.item2?.photo_thumb ?? "")!, forState: UIControlState.Normal)
+        if let filteredNotifications = filteredNotifications where filteredNotifications.count > indexPath.row {
+            return filteredNotifications[indexPath.row]
         }
-        return cell
+        return nil
     }
 }
 
@@ -270,3 +248,42 @@ extension NotificationViewController : DZNEmptyDataSetDelegate, DZNEmptyDataSetS
         tableView.reloadData()
     }
 }
+
+extension NotificationViewController: NotificationTableViewCellDelegate {
+    
+    func item2ImageTapped(indexPath: NSIndexPath) {
+        let cellData = self.getDataForCellAtIndexPath(indexPath)
+        let idOfItem2 = cellData?.item2?.id
+        if let isUser = cellData?.item2?.isUser, let idOfItem2 = idOfItem2 where isUser == true{
+            self.showUserProfile(idOfItem2)
+        }else {
+            if let idOfItem2 = idOfItem2 {
+                print("Janxa")
+                //self.goToDetailFeedView(<#T##feed: FeedJSON##FeedJSON#>)
+            }
+        }
+    }
+    
+    func goToDetailFeedView(feed: FeedJSON) {
+        let storyboard: UIStoryboard = UIStoryboard (name: "Main", bundle: nil)
+        let vc: DetailVIewViewController = storyboard.instantiateViewControllerWithIdentifier("DetailVIewViewController") as! DetailVIewViewController
+        vc.feed = feed
+        self.navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    func userInfoTapped(indexPath: NSIndexPath) {
+        let cellData = self.getDataForCellAtIndexPath(indexPath)
+        let userId = cellData?.user?.id
+        if let userId = userId {
+            self.showUserProfile(userId)
+        }
+    }
+    
+    func showUserProfile(id: Int?) {
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let vc = storyboard.instantiateViewControllerWithIdentifier("ProfileViewController") as! ProfileViewController
+        vc.userId = id
+        self.navigationController?.pushViewController(vc, animated: true)
+    }
+}
+
