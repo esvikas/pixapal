@@ -152,7 +152,8 @@ class RegisterViewController: UIViewController, UIPopoverControllerDelegate, UIP
                         print("Invalid Username/Password: \(data["message"])")
                     }
                 case .Failure(let error):
-                    print("Error in connection \(error)")
+                    showAlertView("Error", message: "Can't connect right now.Check your internet settings.", controller: self)
+                    //print("Error in connection \(error)")
                 }
         }
         

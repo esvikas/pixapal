@@ -135,7 +135,8 @@ extension LoverListViewController: loverListTableViewCellDelegate {
             case .Failure(let error):
                 user.is_my_fed = false
                 sender.enabled = true
-                print("Error in connection \(error)")
+                showAlertView("Error", message: "Can't connect right now.Check your internet settings.", controller: self)
+                //print("Error in connection \(error)")
             }
         }
     }

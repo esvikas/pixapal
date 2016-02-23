@@ -98,7 +98,8 @@ class LoginWithEmailViewController: UIViewController {
 
                     }
                 case .Failure(let error):
-                    print("Error in connection \(error)")
+                    showAlertView("Error", message: "Can't connect right now.Check your internet settings.", controller: self)
+                    //print("Error in connection \(error)")
                 }
         }
         

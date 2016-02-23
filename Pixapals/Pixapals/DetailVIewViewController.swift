@@ -37,11 +37,11 @@ class DetailVIewViewController: UIViewController {
     //var refreshingStatus = false
     //var hasMoreDataInServer = true
     
-    var feed: FeedJSON!
+    var feed: FeedJSON?
     
     var cellIndex: NSIndexPath?
     
-    
+    var feedId: Int?
     //var collectionViewHidden = false
     
     //var feedsFromResponseAsObject: FeedsResponseJSON!
@@ -51,10 +51,9 @@ class DetailVIewViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.userProfilePic.layer.cornerRadius = self.userProfilePic.frame.height / 2
-        self.usernameLbl.text = feed.user?.username
-        self.userProfilePic.kf_setImageWithURL(NSURL(string: feed.user!.photo_thumb!)!, placeholderImage: self.userProfilePic.image)
+        
         self.getFeedButton.setTitle("Feeding", forState: UIControlState.Disabled)
-        checkIfToEnableOrDisableGetFeedButton()
+        
         
         
         usernameLbl.userInteractionEnabled = true
@@ -63,22 +62,17 @@ class DetailVIewViewController: UIViewController {
         usernameLbl.addGestureRecognizer(gestureRecognizer)
         let gestureRecognizer2 = UITapGestureRecognizer(target: self, action: Selector("labelPressed"))
         userProfilePic.addGestureRecognizer(gestureRecognizer2)
-        //getFeedButton.enabled = false
         
-        //self.navigationItem.hidesBackButton = true
-        // Do any additional setup after loading the view
-        
-        
-        //self.blurEffectView.alpha = 0.4
-        // blurEffectView.frame = view.bounds
-        //        self.view.addSubview(self.blurEffectView)
-        //        let loadingNotification = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
-        //        loadingNotification.mode = MBProgressHUDMode.Indeterminate
-        //        loadingNotification.labelText = "Loading"
         self.view.backgroundColor=UIColor(red: 240/255, green: 240/255, blue: 240/255, alpha: 1)
         
         
         self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .Plain, target: nil, action: nil)
+        
+        if feed == nil {
+            self.loadDataFromAPI()
+        } else {
+            self.feedIsNotNil()
+        }
     }
     
     override func didReceiveMemoryWarning() {
@@ -86,21 +80,19 @@ class DetailVIewViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     override func viewWillAppear(animated: Bool) {
-       self.tableView.reloadData()
+        self.tableView.reloadData()
         checkIfToEnableOrDisableGetFeedButton()
     }
     override func viewDidAppear(animated: Bool) {
         self.tabBarController?.navigationItem.rightBarButtonItem?.enabled=false
-        
-        
-        
-        
-        
     }
     
     
     @IBAction func btnFollowUser(sender: AnyObject) {
         
+        guard let feed = feed else {
+            return
+        }
         let user = UserDataStruct()
         
         let registerUrlString = "\(apiUrl)api/v1/profile/getfed"
@@ -111,13 +103,8 @@ class DetailVIewViewController: UIViewController {
             "fed_id": (feed.user?.id!)!,
         ]
         self.getFeedButton.enabled = false
-        self.feed.user?.is_my_fed = true
-        self.triggerDelegateNeedReloadData()
-        //        let headers = [
-        //            "X-Auth-Token" : user.api_token!,
-        //        ]
-        
-        //        Alamofire.request(.POST, registerUrlString, parameters: parameters, headers:headers).responseJSON { response in
+        feed.user?.is_my_fed = true
+        //.responseJSON { response in
         //            switch response.result {
         //            case .Failure(let error):
         //                print("ERROR: \(error)")
@@ -130,23 +117,34 @@ class DetailVIewViewController: UIViewController {
             case .Success(let getFeed):
                 if !getFeed.error! {
                     print("getting feed")
-                    
+                    self.triggerDelegateNeedReloadData()
                     //appDelegate.ShowAlertView("Success", message: "You are now following to \( (self.feed.user?.username)!)")
                 } else {
                     self.getFeedButton.enabled = true
-                    self.feed.user?.is_my_fed = false
+                    feed.user?.is_my_fed = false
                     print(getFeed.message)
                     print("Error: Love it error")
                 }
             case .Failure(let error):
                 self.getFeedButton.enabled = true
-                self.feed.user?.is_my_fed = false
-                print("Error in connection \(error)")
+                feed.user?.is_my_fed = false
+                showAlertView("Error", message: "Can't connect right now.Check your internet settings.", controller: self)
+                //print("Error in connection \(error)")
             }
         }
         
     }
+    private func feedIsNotNil() {
+        if let _ = feed {
+            self.checkIfToEnableOrDisableGetFeedButton()
+            self.setUserInfo()
+        }
+    }
     
+    private func setUserInfo() {
+        self.usernameLbl.text = feed!.user?.username
+        self.userProfilePic.kf_setImageWithURL(NSURL(string: feed!.user!.photo_thumb!)!, placeholderImage: self.userProfilePic.image)
+    }
     private func triggerDelegateNeedReloadData() {
         if let _ = self.delegate {
             self.delegate.needReloadData()
@@ -154,6 +152,9 @@ class DetailVIewViewController: UIViewController {
     }
     
     func labelPressed() {
+        guard let feed = feed else {
+            return
+        }
         if !feed.is_my_feed! {
             let storyBoard = UIStoryboard(name: "Main", bundle: nil)
             let vc: ProfileViewController = storyBoard.instantiateViewControllerWithIdentifier("ProfileViewController") as! ProfileViewController
@@ -163,18 +164,65 @@ class DetailVIewViewController: UIViewController {
     }
     
     func checkIfToEnableOrDisableGetFeedButton () {
-        if (self.feed.is_my_feed)! || (self.feed.user?.is_my_fed)! {
+        guard let feed = feed else {
+            return
+        }
+        if (feed.is_my_feed)! || (feed.user?.is_my_fed)! {
             self.getFeedButton.enabled = false
         }
     }
     
+    func loadDataFromAPI() {
+        guard let feedId = feedId else {
+            return
+        }
+        let urlString = "\(apiUrl)api/v1/feed/\(feedId)"
+        
+        //.responseJSON { response in
+        //            switch response.result {
+        //            case .Failure(let error):
+        //                print("ERROR: \(error)")
+        //            case .Success(let value):
+        //                print(value)
+        //            }
+        //        }
+        requestWithHeaderXAuthToken(.GET, urlString)
+            .responseJSON { response in
+                switch response.result {
+                case .Failure(let error):
+                    print("ERROR: \(error)")
+                case .Success(let value):
+                    print(value)
+                }
+            }
+            .responseObject { (response: Response<FeedsResponseJSON, NSError>) -> Void in
+                switch response.result {
+                case .Success(let getFeed):
+                    if let count = getFeed.feeds?.count where count > 0{
+                        print("getting feed")
+                        self.feed = getFeed.feeds?.first
+                        self.feedIsNotNil()
+                        self.tableView.reloadData()
+                        //appDelegate.ShowAlertView("Success", message: "You are now following to \( (self.feed.user?.username)!)")
+                    } else {
+                        print("Error: Love it error")
+                    }
+                case .Failure(let error):
+                    showAlertView("Error", message: "Can't connect right now.Check your internet settings.", controller: self)
+                    print("Error in connection \(error)")
+                }
+        }
+    }
 }
 
 extension DetailVIewViewController: UITableViewDataSource {
     
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 1
+        if let _ = feed {
+            return 1
+        }
+        return 0
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
@@ -183,10 +231,10 @@ extension DetailVIewViewController: UITableViewDataSource {
         
         
         //cell.feedImage.kf_setImageWithURL(NSURL(string: feedsToShow[indexPath.section, "photo"].string!)!, placeholderImage: UIImage(named: "loading.png"))
-//        cell.feedImage.kf_setImageWithURL(NSURL(string: feed.photo ?? "")!, placeholderImage: UIImage(named: "loading.png"))
+        //        cell.feedImage.kf_setImageWithURL(NSURL(string: feed.photo ?? "")!, placeholderImage: UIImage(named: "loading.png"))
         
         
-        cell.feedImage.kf_setImageWithURL(NSURL(string: feed.photo ?? "")!,
+        cell.feedImage.kf_setImageWithURL(NSURL(string: feed!.photo ?? "")!,
             placeholderImage: nil,
             optionsInfo: nil,
             progressBlock: { (receivedSize, totalSize) -> () in
@@ -196,9 +244,9 @@ extension DetailVIewViewController: UITableViewDataSource {
                 cell.loadingView.hideLoading()
         })
         
-        if let imagePresent = feed.photo_two?.isEmpty where imagePresent == false {
+        if let imagePresent = feed!.photo_two?.isEmpty where imagePresent == false {
             cell.feedImage2.hidden = false
-            cell.feedImage2.kf_setImageWithURL(NSURL(string: feed.photo_two ?? "")! , placeholderImage: UIImage(named: "loading.png"))
+            cell.feedImage2.kf_setImageWithURL(NSURL(string: feed!.photo_two ?? "")! , placeholderImage: UIImage(named: "loading.png"))
         } else {
             cell.feedImage2.hidden = true
         }
@@ -212,20 +260,20 @@ extension DetailVIewViewController: UITableViewDataSource {
         cell.delegate = self
         cell.selectionStyle =  UITableViewCellSelectionStyle.None
         
-        cell.id = feed.id
-        cell.left = feed.is_my_left
-        cell.loved = feed.is_my_love
-        cell.mode = feed.mode
-        cell.loveCount.text = "\(feed.loveit ?? 0) Loved it"
-        cell.loveIcon.image = UIImage(named: self.getIconName(feed.loveit ?? 0))
-        if feed.mode == 1 {
-            cell.leftCount.text = "\(feed.leaveit ?? 0) Left it"
+        cell.id = feed!.id
+        cell.left = feed!.is_my_left
+        cell.loved = feed!.is_my_love
+        cell.mode = feed!.mode
+        cell.loveCount.text = "\(feed!.loveit ?? 0) Loved it"
+        cell.loveIcon.image = UIImage(named: self.getIconName(feed!.loveit ?? 0))
+        if feed!.mode == 1 {
+            cell.leftCount.text = "\(feed!.leaveit ?? 0) Left it"
         } else {
-            cell.leftCount.text = "\(feed.leaveit ?? 0) Loved it"
+            cell.leftCount.text = "\(feed!.leaveit ?? 0) Loved it"
             
         }
-        cell.leftIcon.image = UIImage(named: self.getIconName(feed.leaveit ?? 0, love: false))
-        cell.comment.text = "\(feed.comment ?? "")"
+        cell.leftIcon.image = UIImage(named: self.getIconName(feed!.leaveit ?? 0, love: false))
+        cell.comment.text = "\(feed!.comment ?? "")"
         //print(feedsToShow)
         return cell
     }
@@ -269,43 +317,7 @@ extension DetailVIewViewController: UITableViewDelegate {
     }
     
     
-    //    func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-    //        let feed = self.feedsFromResponseAsObject.feeds![section]
-    //        let cell = tableView.dequeueReusableCellWithIdentifier("globalFeedTableViewHeaderCell") as! GlobalFeedTableViewHeaderCell
-    //        cell.userProfilePic.kf_setImageWithURL(NSURL(string: feed.user!.photo_thumb!)!, placeholderImage: cell.userProfilePic.image)
-    //        cell.username.text = feed.user?.username
-    //        if let createdAt = feed.created_at {
-    //            //let dateFormatter = NSDateFormatter()
-    //            //dateFormatter.dateFormat = "y-MM-dd HH:mm:ss"
-    //            // if let date = dateFormatter.dateFromString(createdAt) {
-    //            var textTimeElapsed = ""
-    //            let timeInSecond = Int(NSDate().timeIntervalSinceDate(createdAt))
-    //            if timeInSecond/60 < 0 {
-    //                textTimeElapsed = "\(timeInSecond) sec ago"
-    //            } else if timeInSecond/(60*60) < 1 {
-    //                textTimeElapsed = "\(timeInSecond/60) mins ago"
-    //            }else if timeInSecond/(60*60*24) < 1 {
-    //                textTimeElapsed = "\(timeInSecond/(60*60)) hrs ago"
-    //            }else if timeInSecond/(60*60*24*7) < 1 {
-    //                textTimeElapsed = "\(timeInSecond/(60*60*24)) days ago"
-    //            }else if timeInSecond/(60*60*24*7) > 1 {
-    //                textTimeElapsed = "\(timeInSecond/(60*60*24*7)) weeks ago"
-    //            }
-    //            cell.timeElapsed.text = textTimeElapsed
-    //            //}
-    //        }
-    //        return cell
-    //    }
     
-    //        func scrollViewDidScroll(scrollView: UIScrollView) {
-    //            if let tblView = scrollView as? UITableView where tblView == self.tableView {
-    //                if (scrollView.contentOffset.y + scrollView.frame.size.height == scrollView.contentSize.height && hasMoreDataInServer)
-    //                {
-    //                    self.loadMore()
-    //                    print("here")
-    //                }
-    //            }
-    //        }
     
 }
 
@@ -334,14 +346,14 @@ extension DetailVIewViewController: CellImageSwippedDelegate {
         
         let storyBoard = UIStoryboard(name: "Main", bundle: nil)
         let vc = storyBoard.instantiateViewControllerWithIdentifier("LoverListViewController") as! LoverListViewController
-        vc.users = feed.lovers
+        vc.users = feed!.lovers
         self.navigationController?.pushViewController(vc, animated: true)
     }
     
     func SegueToProfile(id: Int?) {
         let storyBoard = UIStoryboard(name: "Main", bundle: nil)
         let vc: ProfileViewController = storyBoard.instantiateViewControllerWithIdentifier("ProfileViewController") as! ProfileViewController
-        vc.userId = feed.user?.id
+        vc.userId = feed!.user?.id
         
         self.navigationController?.pushViewController(vc, animated: true)
         
@@ -375,7 +387,8 @@ extension DetailVIewViewController: CellImageSwippedDelegate {
                     self.leaveCountIncrease()
                 }
             case .Failure(let error):
-                print("Error in connection \(error)")
+                showAlertView("Error", message: "Can't connect right now.Check your internet settings.", controller: self)
+                //print("Error in connection \(error)")
                 self.leaveCountIncrease()
             }
         }
@@ -428,7 +441,8 @@ extension DetailVIewViewController: CellImageSwippedDelegate {
                 }
             case .Failure(let error):
                 self.loveCountIncrease()
-                print("Error in connection \(error)")
+                showAlertView("Error", message: "Can't connect right now.Check your internet settings.", controller: self)
+                //print("Error in connection \(error)")
             }
         }
         
@@ -436,22 +450,22 @@ extension DetailVIewViewController: CellImageSwippedDelegate {
     }
     
     func loveCountIncrease(){
-        self.feed.is_my_love = true
-        self.feed.loveit = self.feed.loveit! + 1
-        if self.feed.is_my_left! {
-            self.feed.is_my_left = false
-            self.feed.leaveit = self.feed.leaveit! - 1
+        self.feed!.is_my_love = true
+        self.feed!.loveit = self.feed!.loveit! + 1
+        if self.feed!.is_my_left! {
+            self.feed!.is_my_left = false
+            self.feed!.leaveit = self.feed!.leaveit! - 1
         }
         self.tableView.reloadData()
         self.triggerDelegateNeedReloadData()
     }
     
     func leaveCountIncrease(){
-        self.feed.is_my_left = true
-        self.feed.leaveit = self.feed.leaveit! + 1
-        if self.feed.is_my_love! {
-            self.feed.is_my_love = false
-            self.feed.loveit = self.feed.loveit! - 1
+        self.feed!.is_my_left = true
+        self.feed!.leaveit = self.feed!.leaveit! + 1
+        if self.feed!.is_my_love! {
+            self.feed!.is_my_love = false
+            self.feed!.loveit = self.feed!.loveit! - 1
         }
         self.tableView.reloadData()
         self.triggerDelegateNeedReloadData()

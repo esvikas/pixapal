@@ -151,7 +151,7 @@ class ViewController: UIViewController {
                 
             }
         }catch{
-            
+            showAlertView("Error", message: "Sorry! Can't connect through facebook.", controller: self)
         }
     }
     
@@ -171,6 +171,8 @@ class ViewController: UIViewController {
                     }
                     
                     NSLog(self.dict.objectForKey("picture")?.objectForKey("data")?.objectForKey("url") as! String)
+                } else {
+                    showAlertView("Error", message: "Sorry! Can't connect through facebook. Can't access your information.", controller: self)
                 }
             })
         }
@@ -235,41 +237,37 @@ class ViewController: UIViewController {
                     "username": userName
                 ]
                 
-                print(parametersToPost, terminator: "")
+                //print(parametersToPost, terminator: "")
                 
                 requestWithDeviceTokenInParam(.POST, registerUrlString, parameters: parametersToPost)
                     .responseJSON { response in
-                        debugPrint(response)     // prints detailed description of all response properties
-                        
-                        //                        print(response.request)  // original URL request
-                        //                        print(response.response) // URL response
-                        //                        print(response.data)     // server data
-                        //                        print(response.result)   // result of response serialization
+                        debugPrint(response)
                         
                         switch response.result {
                         case .Success(let data):
                             if let dict = data["user"] as? [String: AnyObject] {
-                                print(dict)
                                 UserDataStruct().saveUserInfoFromJSON(jsonContainingUserInfo: dict)
                                 self.openTabView()
                             }
                             else {
-                                print(data)
                                 print("Invalid Username/Password: \(data["message"])")
+                                showAlertView("Error", message: "The email or password you have entered does not match any account.", controller: self)
+                                //print("Invalid Username/Password: \(data["message"])")
                             }
                         case .Failure(let error):
-                            print("Error in connection \(error)")
+                            showAlertView("Error", message: "Can't connect right now.Check your internet settings.", controller: self)
+                            //print("Error in connection \(error)")
                         }
                         
                 }
                 
             } else{
                 
-                appDelegate.ShowAlertView("No Internet Connection", message: "Please enable internet connection.")
+                showAlertView("Error", message: "Can't connect right now.Check your internet settings.", controller: self)
                 return
                 
             }}catch{
-                
+                showAlertView("Error", message: "Can't connect right now.Check your internet settings.", controller: self)
         }
         
     }
@@ -286,7 +284,7 @@ extension ViewController : CLLocationManagerDelegate {
     
     func locationManager(manager: CLLocationManager, didFailWithError error: NSError) {
         if error.code == CLError.Denied.rawValue {
-            appDelegate.ShowAlertView("Access Denied", message: "Location access is denied. You can't proceed. Please change location preference to this app from setting.")
+            showAlertView("Access Denied", message: "Location access is denied. You can't proceed. Please change location preference to this app from setting.", controller: self)
             self.manager.stopUpdatingLocation()
         }
     }

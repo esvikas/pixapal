@@ -9,7 +9,7 @@
 import Foundation
 
 enum Gender: String {
-    case Male = "Male", Female = "Female"
+    case Male = "Male", Female = "Female", DontShare = "Don't Share"
 }
 
 struct UserDataStruct {

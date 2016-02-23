@@ -55,6 +55,7 @@
 		43D2C75D1C43529500F0E2C5 /* ButtonWithCornerRadius.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D2C75C1C43529500F0E2C5 /* ButtonWithCornerRadius.swift */; };
 		43D2C75F1C4378A900F0E2C5 /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D2C75E1C4378A900F0E2C5 /* RegisterViewController.swift */; };
 		43D2C7651C43B89800F0E2C5 /* PostFeedModeSelectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D2C7641C43B89800F0E2C5 /* PostFeedModeSelectionViewController.swift */; };
+		43E60CE31C7C63A900BDDEED /* Errors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43E60CE21C7C63A900BDDEED /* Errors.swift */; };
 		43FBEE0C1C50D4EB00C25A7D /* GlobalFeedTableViewHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43FBEE0B1C50D4EB00C25A7D /* GlobalFeedTableViewHeaderCell.swift */; };
 		D794CCBE85986CD3C38B5435 /* Pods_Pixapals.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9EAB444B124BDE822F19ED75 /* Pods_Pixapals.framework */; };
 /* End PBXBuildFile section */
@@ -111,6 +112,7 @@
 		43D2C75C1C43529500F0E2C5 /* ButtonWithCornerRadius.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ButtonWithCornerRadius.swift; sourceTree = "<group>"; };
 		43D2C75E1C4378A900F0E2C5 /* RegisterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
 		43D2C7641C43B89800F0E2C5 /* PostFeedModeSelectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostFeedModeSelectionViewController.swift; sourceTree = "<group>"; };
+		43E60CE21C7C63A900BDDEED /* Errors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Errors.swift; sourceTree = "<group>"; };
 		43FBEE0B1C50D4EB00C25A7D /* GlobalFeedTableViewHeaderCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GlobalFeedTableViewHeaderCell.swift; sourceTree = "<group>"; };
 		9EAB444B124BDE822F19ED75 /* Pods_Pixapals.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Pixapals.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		CD4AF32D5D95BBDC56CB9EDA /* Pods-Pixapals.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Pixapals.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Pixapals/Pods-Pixapals.debug.xcconfig"; sourceTree = "<group>"; };
@@ -161,6 +163,7 @@
 		329B581A1C3E260600C1EE08 /* Pixapals */ = {
 			isa = PBXGroup;
 			children = (
+				43E60CE11C7C638C00BDDEED /* ErrorHandling */,
 				325279561C62049E00978C0C /* Libs */,
 				437969431C5F4E5A00CE136D /* Model */,
 				43C1033C1C44F2A3009512C2 /* Views */,
@@ -233,6 +236,14 @@
 				437901BF1C77151600A69F8F /* NotificationTableViewCell.swift */,
 			);
 			name = Views;
+			sourceTree = "<group>";
+		};
+		43E60CE11C7C638C00BDDEED /* ErrorHandling */ = {
+			isa = PBXGroup;
+			children = (
+				43E60CE21C7C63A900BDDEED /* Errors.swift */,
+			);
+			name = ErrorHandling;
 			sourceTree = "<group>";
 		};
 		B08378BA04DD4F3F064BCC5E /* Pods */ = {
@@ -415,6 +426,7 @@
 				43FBEE0C1C50D4EB00C25A7D /* GlobalFeedTableViewHeaderCell.swift in Sources */,
 				436F7BAA1C71EBB500A38A8C /* NotificationViewController.swift in Sources */,
 				439738151C45F3E2001F344F /* PostFeedViewController.swift in Sources */,
+				43E60CE31C7C63A900BDDEED /* Errors.swift in Sources */,
 				321F99D01C5A01A0006A39D0 /* LocationChooserViewController.swift in Sources */,
 				3281875B1C730B6C008BEFF3 /* NotificationSliderVC.swift in Sources */,
 				437901BE1C76F8EB00A69F8F /* DateConverter.swift in Sources */,
