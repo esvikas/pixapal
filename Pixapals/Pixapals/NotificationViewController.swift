@@ -21,10 +21,12 @@ class NotificationViewController: UIViewController {
     var notifications: NotificationResponseJSON?
     let blurEffectView = UIVisualEffectView(effect: UIBlurEffect(style: UIBlurEffectStyle.ExtraLight))
     
-    
     var pageNumber = 1
     let notificationLimit = 15
     var sectionTitles = [String]()
+    var pullToRefresh = UIRefreshControl()
+    var refreshingStatus = false
+    var hasMoreDataInServer = true
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,6 +39,11 @@ class NotificationViewController: UIViewController {
         loadingNotification.mode = MBProgressHUDMode.Indeterminate
         loadingNotification.labelText = "Loading"
         
+        self.pullToRefresh.attributedTitle = NSAttributedString(string: "Pull to refresh")
+        self.pullToRefresh.addTarget(self, action: "refresh:", forControlEvents: UIControlEvents.ValueChanged)
+        self.tableView.addSubview(pullToRefresh)
+        self.tableView.alwaysBounceVertical = true
+        
         loadDataFromAPI()
         tableView.emptyDataSetDelegate=self
         tableView.emptyDataSetSource=self
@@ -47,7 +54,9 @@ class NotificationViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    
+    override func viewDidAppear(animated: Bool) {
+        self.removeBadge()
+    }
     /*
     // MARK: - Navigation
     
@@ -57,6 +66,23 @@ class NotificationViewController: UIViewController {
     // Pass the selected object to the new view controller.
     }
     */
+    private func removeBadge(){
+        let tabArray = self.tabBarController?.tabBar.items as NSArray!
+        let tabItem = tabArray.objectAtIndex(3) as! UITabBarItem
+        tabItem.badgeValue = nil
+        appDelegate.numberOfNotificationBadge = nil
+    }
+    func refresh(sender:AnyObject) {
+        pullToRefresh.endRefreshing()
+        self.pageNumber = 1
+        self.refreshingStatus = true
+        self.loadDataFromAPI()
+    }
+    
+    func loadMore() {
+        self.pageNumber++
+        self.loadDataFromAPI()
+    }
     
     private func loadDataFromAPI() {
         let user = UserDataStruct()
@@ -89,15 +115,48 @@ class NotificationViewController: UIViewController {
             //                        }
             .responseObject { (response: Response<NotificationResponseJSON, NSError>) -> Void in
                 switch response.result {
-                case .Failure(let error):
-                    print(error)
+                    
                 case .Success(let notificationResponseJSON):
-                    if !notificationResponseJSON.error! {
-                        self.notifications = notificationResponseJSON
+                    
+                    if let error = notificationResponseJSON.error where error == true {
+                        showAlertView("Error", message: "Server Not Found. Try again.", controller: self)
+                        self.pullToRefresh.endRefreshing()
+                    } else {
+                        if let _ = self.notifications {
+                            if self.refreshingStatus == true {
+                                self.refreshingStatus = false
+                                self.notifications = notificationResponseJSON
+                            } else {
+                                if notificationResponseJSON.notifications?.count < self.notificationLimit && notificationResponseJSON.notifications?.count > 0{
+                                    self.notifications?.notifications?.appendContentsOf(notificationResponseJSON.notifications!)
+                                    self.hasMoreDataInServer = false
+                                } else if notificationResponseJSON.notifications?.count > 0 {
+                                    self.notifications?.notifications?.appendContentsOf(notificationResponseJSON.notifications!)
+                                }
+                                else {
+                                    self.hasMoreDataInServer = false
+                                }
+                            }
+                        }
+                        else {
+                            self.notifications = notificationResponseJSON
+                        }
                         self.tableView.reloadData()
                         MBProgressHUD.hideAllHUDsForView(self.view, animated: true)
                         self.blurEffectView.removeFromSuperview()
+                        self.pullToRefresh.endRefreshing()
+                        //self.loadMoreActivityIndicator.stopAnimating()
                     }
+                    
+                case .Failure(let error):
+                    //                appDelegate.ShowAlertView("Connection Error", message: "Try Again", handlerForOk: { (action) -> Void in
+                    //                    self.loadDataFromAPI()
+                    //                    }, handlerForCancel: nil)
+                    //self.loadMoreActivityIndicator.stopAnimating()
+                    //self.tryAgainButton.hidden = false
+                    //print("ERROR: \(error)")
+                    showAlertView("Error", message: "Can't connect right now.Check your internet settings.", controller: self)
+                    self.pullToRefresh.endRefreshing()
                 }
         }
     }
@@ -161,6 +220,16 @@ extension NotificationViewController: UITableViewDataSource, UITableViewDelegate
         return [NotificationJSON]()
     }
     
+    func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
+        //print( hasMoreDataInServer)
+        //print(indexPath.section)
+        //print(indexPath.section == self.feedsFromResponseAsObject.feeds!.count)
+        let sections = self.numberOfRowsInSections()
+        
+        if indexPath.section == (sections.count - 1) && indexPath.row == (sections[indexPath.section].numberOfRows - 1) && self.hasMoreDataInServer {
+            self.loadMore()
+        }
+    }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell
     {
@@ -178,18 +247,13 @@ extension NotificationViewController: UITableViewDataSource, UITableViewDelegate
         if let cellData = cellData {
             cell.messageLbl.text = cellData.message
             cell.usernameButton.setTitle(cellData.user?.username, forState: UIControlState.Normal)
-            if cellData.user?.photo_thumb == "" {
-                cell.userButton.setBackgroundImage(UIImage(named: "global_feed_user"), forState: UIControlState.Normal)
-                
+            cell.userButton.kf_setBackgroundImageWithURL(NSURL(string: cellData.user?.photo_thumb ?? "")!, forState: UIControlState.Normal ,placeholderImage: UIImage(named: "global_feed_user"))
+            if let isUser = cellData.item2?.isUser  where self.title == "YOU" && isUser == true {
+                cell.item2Button.hidden = true
             } else {
-                cell.userButton.kf_setBackgroundImageWithURL(NSURL(string: cellData.user?.photo_thumb ?? "")!, forState: UIControlState.Normal)
-            }
-            
-            if self.title != "YOU" {
-                cell.item2Button.kf_setBackgroundImageWithURL(NSURL(string: cellData.item2?.photo_thumb ?? "")!, forState: UIControlState.Normal)
-            } else {
-                if let action = cellData.action where action != "follows" {
-                    cell.item2Button.hidden = true
+                cell.item2Button.kf_setBackgroundImageWithURL(NSURL(string: cellData.item2?.photo_thumb ?? "")!, forState: UIControlState.Normal,placeholderImage: UIImage(named: "global_feed_user"))
+                if let isUser = cellData.item2?.isUser where isUser == true {
+                    cell.item2Button.layer.cornerRadius = cell.item2Button.frame.height / 2
                 }
             }
         }
@@ -258,16 +322,19 @@ extension NotificationViewController: NotificationTableViewCellDelegate {
             self.showUserProfile(idOfItem2)
         }else {
             if let idOfItem2 = idOfItem2 {
-                print("Janxa")
-                //self.goToDetailFeedView(<#T##feed: FeedJSON##FeedJSON#>)
+                self.goToDetailFeedView(idOfItem2)
             }
         }
     }
     
-    func goToDetailFeedView(feed: FeedJSON) {
+    func goToDetailFeedView(feedId: Int) {
         let storyboard: UIStoryboard = UIStoryboard (name: "Main", bundle: nil)
         let vc: DetailVIewViewController = storyboard.instantiateViewControllerWithIdentifier("DetailVIewViewController") as! DetailVIewViewController
-        vc.feed = feed
+        if let feed = UserFeedDistinction.sharedInstance.getFeedWithId(feedId) {
+            vc.feed = feed
+        } else {
+            vc.feedId = feedId
+        }
         self.navigationController?.pushViewController(vc, animated: true)
     }
     

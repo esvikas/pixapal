@@ -18,6 +18,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     var window: UIWindow?
     var deviceTokenString: String!
+    var numberOfNotificationBadge: Int?
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         UINavigationBar.appearance().backIndicatorImage = UIImage(named: "report_form_left_arrow")
@@ -99,6 +100,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             
             
             
+        }
+        
+        if let numberOfNotificationBadge = self.numberOfNotificationBadge {
+            self.numberOfNotificationBadge = numberOfNotificationBadge + 1
+        } else {
+            self.numberOfNotificationBadge = 1
         }
         
         

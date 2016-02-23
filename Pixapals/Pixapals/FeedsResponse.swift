@@ -88,10 +88,21 @@ class UserFeedDistinction {
     }
     
     func getUserWithId(id: Int) -> UserJSON? {
-        for user in users {
-            if user.id! == id {
-                return user
-            }
+        let user = users.filter { (user) -> Bool in
+            user.id! == id
+        }
+        if user.count > 0 {
+            return user.first
+        }
+        return nil
+    }
+    
+    func getFeedWithId(id: Int) -> FeedJSON? {
+        let feed = feeds.filter { (feed) -> Bool in
+            feed.id! == id
+        }
+        if feed.count > 0 {
+            return feed.first
         }
         return nil
     }
@@ -277,8 +288,10 @@ class UserInDetailJSON: UserJSON {
                     print(newValue)
                     if newValue == "male" || newValue == "Male" {
                         self._gender = Gender.Male
-                    } else {
+                    } else if newValue == "female" || newValue == "Female" {
                         self._gender = Gender.Female
+                    } else {
+                        self._gender = Gender.DontShare
                     }
         }
 
@@ -325,3 +338,26 @@ class UserInDetailJSON: UserJSON {
         super.init(map)
     }
 }
+
+//class OneFeedResponseJSON: Mappable {
+//    var feeds: FeedJSON?
+//    var message: String?
+//    var error: Bool!
+//    var code: Int?
+//    
+//    required init?(_ map: Map){
+//        
+//    }
+//    func mapping(map: Map) {
+//        error  <- map["error"]
+//        message <- map["message"]
+//        code <- map["code"]
+//        feeds <- map["feeds"]
+//        
+//        if let feeds = feeds {
+//            self.feeds = feeds.map({ (feed) -> FeedJSON in
+//                UserFeedDistinction.sharedInstance.checkDistinctFeed(feed)
+//            })
+//        }
+//    }
+//}

@@ -265,7 +265,8 @@ class SettingsTableViewController: UITableViewController {
                 print("Error: Leave it error")
                 
             case .Failure(let error):
-                print("Error in connection \(error)")
+                showAlertView("Error", message: "Can't connect right now.Check your internet settings.", controller: self)
+                //print("Error in connection \(error)")
             }
         }
     }
@@ -290,8 +291,8 @@ class SettingsTableViewController: UITableViewController {
                                 
                                 
                             case .Failure(let error):
-                                print("Error in connection \(error)")
-                                appDelegate.ShowAlertView("Error", message: "Please Try Again Later")
+                                //print("Error in connection \(error)")
+                                showAlertView("Error", message: "Can't connect right now.Check your internet settings.", controller: self)
                             }
                         }
         print(headers)

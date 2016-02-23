@@ -26,7 +26,6 @@ class NotificationTableViewCell: UITableViewCell {
         super.awakeFromNib()
         userButton.layer.cornerRadius = userButton.frame.height / 2
         userButton.clipsToBounds = true
-        item2Button.layer.cornerRadius = item2Button.frame.height / 2
         item2Button.clipsToBounds = true
         // Initialization code
     }
