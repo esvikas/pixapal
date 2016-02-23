@@ -7,6 +7,10 @@
 //
 
 import UIKit
+protocol NotificationTableViewCellDelegate {
+    func item2ImageTapped(indexPath: NSIndexPath);
+    func userInfoTapped(indexPath: NSIndexPath);
+}
 
 class NotificationTableViewCell: UITableViewCell {
 
@@ -14,8 +18,9 @@ class NotificationTableViewCell: UITableViewCell {
     @IBOutlet weak var usernameButton: UIButton!
     @IBOutlet weak var userButton: UIButton!
     @IBOutlet weak var item2Button: UIButton!
-    var userId: Int!
-    var item2Id: Int!
+    
+    var indexPath: NSIndexPath!
+    var delegate: NotificationTableViewCellDelegate!
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -32,10 +37,10 @@ class NotificationTableViewCell: UITableViewCell {
         // Configure the view for the selected state
     }
     @IBAction func item2ButtonPressed(sender: AnyObject) {
-        
+        delegate.item2ImageTapped(self.indexPath)
     }
 
     @IBAction func userButtonPressed(sender: AnyObject) {
-        
+        delegate.userInfoTapped(self.indexPath)
     }
 }

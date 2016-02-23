@@ -86,6 +86,8 @@ class NotificationItemJSON: Mappable {
     var id: Int?
     var photo_thumb: String?
     var username: String?
+    var isUser = false
+    
     required init?(_ map: Map){
         
     }
@@ -93,6 +95,9 @@ class NotificationItemJSON: Mappable {
         id  <- map["id"]
         photo_thumb <- map["photo_thumb"]
         username <- map["username"]
+        if let _ = username {
+            isUser = true
+        }
     }
     
 }

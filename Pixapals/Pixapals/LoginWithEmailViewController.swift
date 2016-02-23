@@ -48,7 +48,7 @@ class LoginWithEmailViewController: UIViewController {
         self.blurEffectView.alpha = 0.4
         self.blurEffectView.frame = view.bounds
         self.view.addSubview(self.blurEffectView)
-        let loadingNotification = MBProgressHUD.showHUDAddedTo(self.passwordTextfield, animated: true)
+        let loadingNotification = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
         loadingNotification.mode = MBProgressHUDMode.Indeterminate
         loadingNotification.labelText = "Posting"
 
