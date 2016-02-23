@@ -150,18 +150,18 @@ class GlobalFeedsViewController: UIViewController {
             "X-Auth-Token" : String(api_token),
         ]
         
-//        Alamofire.request(.GET, apiURLString, parameters: nil, headers: headers)
-//            //requestWithHeaderXAuthToken(.GET, apiURLString)
-//            .responseJSON { response -> Void in
-//                print(response.request)
-//                switch response.result {
-//                case .Success(let value):
-//                    print(JSON(value))
-//                case .Failure(let error):
-//                    print(error)
-//                }
-//        }
-//        
+        Alamofire.request(.GET, apiURLString, parameters: nil, headers: headers)
+            //requestWithHeaderXAuthToken(.GET, apiURLString)
+            .responseJSON { response -> Void in
+                print(response.request)
+                switch response.result {
+                case .Success(let value):
+                    print(JSON(value))
+                case .Failure(let error):
+                    print(error)
+                }
+        }
+//
         //Alamofire.request(.GET, apiURLString, parameters: nil, headers: headers).responseArray { (response: Response<[FeedJSON], NSError>) -> Void in
         requestWithHeaderXAuthToken(.GET, apiURLString).responseObject { (response: Response<FeedsResponseJSON, NSError>) -> Void in
             
@@ -405,11 +405,19 @@ extension GlobalFeedsViewController: UITableViewDataSource {
         cell.id = indexPath.section
         cell.left = feed.is_my_left
         cell.loved = feed.is_my_love
+        cell.mode = feed.mode
+        print(feed.mode)
         cell.selectionStyle =  UITableViewCellSelectionStyle.None
         
-        cell.loveCount.text = "\(feed.loveit ?? 0) loved it"
+        cell.loveCount.text = "\(feed.loveit ?? 0) Loved it"
         cell.loveIcon.image = UIImage(named: self.getIconName(feed.loveit ?? 0))
-        cell.leftCount.text = "\(feed.leaveit ?? 0) left it"
+        
+        if feed.mode == 1 {
+        cell.leftCount.text = "\(feed.leaveit ?? 0) Left it"
+    } else {
+    cell.leftCount.text = "\(feed.leaveit ?? 0) Loved it"
+
+    }
         cell.leftIcon.image = UIImage(named: self.getIconName(feed.leaveit ?? 0, love: false))
         cell.comment.text = "\(feed.comment ?? "")"
         //print(feedsToShow)
@@ -586,13 +594,14 @@ extension GlobalFeedsViewController: CellImageSwippedDelegate {
         
         
     }
-    func imageSwipedRight(id: Int, loved: Bool, left: Bool) {
+    func imageSwipedRight(id: Int, loved: Bool, left: Bool, mode: Int) {
         print("swipped love (right)")
         //        print(loved)
         //        print(left)
         //        loved = true
         //        left = false
         self.leaveit(id)
+        print(mode)
         
     }
     

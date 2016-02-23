@@ -156,7 +156,7 @@ class ProfileViewController: UIViewController {
         let storyboard: UIStoryboard = UIStoryboard (name: "Main", bundle: nil)
         let vc: ProfileEditViewController = storyboard.instantiateViewControllerWithIdentifier("ProfileEditViewController") as! ProfileEditViewController
         vc.userDataAsObject=feedsFromResponseAsObject.user
-        self.navigationController?.pushViewController(vc, animated: true)
+        self.tabBarController?.navigationController?.pushViewController(vc, animated: true)
         
     }
     func checkIfUserIsMyFed() {
@@ -520,9 +520,15 @@ extension ProfileViewController: UITableViewDataSource {
             cell.id = (indexPath.row - 1)
             cell.loved = feed.is_my_love
             cell.left = feed.is_my_left
-            cell.loveCount.text = "\(feed.loveit ?? 0) loved it"
+            cell.mode = feed.mode
+            cell.loveCount.text = "\(feed.loveit ?? 0) Loved it"
             cell.loveIcon.image = UIImage(named: self.getIconName(feed.loveit ?? 0))
-            cell.leftCount.text = "\(feed.leaveit ?? 0) left it"
+            if feed.mode == 1 {
+                cell.leftCount.text = "\(feed.leaveit ?? 0) Left it"
+            } else {
+                cell.leftCount.text = "\(feed.leaveit ?? 0) Loved it"
+                
+            }
             cell.leftIcon.image = UIImage(named: self.getIconName(feed.leaveit ?? 0, love: false))
             cell.comment.text = "\(feed.comment ?? "")"
             cell.selectionStyle =  UITableViewCellSelectionStyle.None
@@ -604,8 +610,8 @@ extension ProfileViewController: CellImageSwippedDelegate {
         
         self.loveFeed(id)
     }
-    func imageSwipedRight(id: Int,  loved: Bool,  left: Bool) {
-        print("swipped love (right)")
+    func imageSwipedRight(id: Int,  loved: Bool,  left: Bool, mode:Int) {
+        print(mode)
         //        print(loved)
         //        print(left)
         //        loved = true

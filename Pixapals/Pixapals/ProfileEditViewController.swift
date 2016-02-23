@@ -14,17 +14,18 @@ import Kingfisher
 
 
 
-class ProfileEditViewController: UIViewController, UINavigationControllerDelegate, ImagePickerDelegate {
+class ProfileEditViewController: UIViewController, UINavigationControllerDelegate, ImagePickerDelegate, UIPopoverControllerDelegate, UIPopoverPresentationControllerDelegate {
     
     @IBOutlet var userNameTextField: UITextField!
     @IBOutlet var webSiteTextField: UITextField!
     @IBOutlet var bioTextField: UITextField!
     @IBOutlet var emailTextField: UITextField!
     @IBOutlet var phoneTextField: UITextField!
-    @IBOutlet var genderTextField: UITextField!
     @IBOutlet var oldPasswordTextField: UITextField!
     @IBOutlet var btnChangePic: UIButton!
     @IBOutlet var userProfilePic: UIImageView!
+    @IBOutlet var btnGender: UIButton!
+
 
     
     @IBOutlet var conformPasswordTextField: UITextField!
@@ -53,8 +54,13 @@ class ProfileEditViewController: UIViewController, UINavigationControllerDelegat
         bioTextField.text = userDataAsObject.bio
         phoneTextField.text = userDataAsObject.phone
         webSiteTextField.text = userDataAsObject.website
+        btnGender.setTitle(userDataAsObject.gender, forState: .Normal)
+        btnGender.setTitleColor(UIColor.blackColor(), forState: UIControlState.Normal)
+
+
+    
         print(userDataAsObject.gender)
-        genderTextField.text = userDataAsObject.gender ?? ""
+//        genderTextField.text = userDataAsObject.gender ?? ""
         
         print(userDataAsObject.photo_thumb)
         userProfilePic.kf_setImageWithURL(NSURL(string: userDataAsObject.photo_thumb ?? "")!, placeholderImage: UIImage(named: "global_feed_user"))
@@ -111,6 +117,32 @@ class ProfileEditViewController: UIViewController, UINavigationControllerDelegat
         }
         
     }
+    
+    @IBAction func btnGender(sender: AnyObject) {
+        
+        abc()
+        
+    }
+    
+    func abc (){
+        let popoverContent = (self.storyboard?.instantiateViewControllerWithIdentifier("GenderSelectionView"))! as! GenderSelectionView
+        popoverContent.delegate = self
+        let nav = UINavigationController(rootViewController: popoverContent)
+        nav.modalPresentationStyle = UIModalPresentationStyle.Popover
+        let popover = nav.popoverPresentationController
+        
+        popoverContent.preferredContentSize = CGSizeMake(self.view.layer.frame.width,170)
+        popover!.delegate = self
+        popover!.sourceView = self.btnGender
+        popover!.sourceRect = CGRect(x: self.view.layer.frame.width, y: self.view.layer.frame.height/2, width: 10, height: 10)
+        self.presentViewController(nav, animated: false, completion: nil)
+    }
+    
+    func adaptivePresentationStyleForPresentationController(
+        controller: UIPresentationController) -> UIModalPresentationStyle {
+            return .None
+    }
+
     
     func changeProfilePic(image: UIImage){
         
@@ -235,7 +267,7 @@ class ProfileEditViewController: UIViewController, UINavigationControllerDelegat
             "bio": self.bioTextField.text!,
             "email": self.emailTextField.text!,
             "phone": self.phoneTextField.text!,
-            "gender": self.genderTextField.text!,
+            "gender": "Not Set",
             "old_password" : oldPasswordTextField.text!,
             "new_password" : newPasswordTextField.text!
 
@@ -328,4 +360,15 @@ extension ProfileEditViewController: UIImagePickerControllerDelegate{
     }
     
     
+}
+
+extension ProfileEditViewController : funcDelegate {
+    func chooseSex(sex:String) {
+        
+        let btnTitle = sex ?? ""
+        btnGender.setTitle(btnTitle, forState: .Normal)
+        btnGender.setTitleColor(UIColor.blackColor(), forState: UIControlState.Normal)
+
+        
+}
 }

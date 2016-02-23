@@ -203,7 +203,7 @@ class RegisterViewController: UIViewController, UIPopoverControllerDelegate, UIP
         nav.modalPresentationStyle = UIModalPresentationStyle.Popover
         let popover = nav.popoverPresentationController
         
-        popoverContent.preferredContentSize = CGSizeMake(self.view.layer.frame.width,120)
+        popoverContent.preferredContentSize = CGSizeMake(self.view.layer.frame.width,170)
         popover!.delegate = self
         popover!.sourceView = self.btnGender
         popover!.sourceRect = self.btnGender.frame
@@ -214,16 +214,7 @@ class RegisterViewController: UIViewController, UIPopoverControllerDelegate, UIP
         controller: UIPresentationController) -> UIModalPresentationStyle {
             return .None
     }
-    
-    
-//    func textFieldDidBeginEditing(textField: UITextField) {
-//        
-//        abc()
-//    }
-    
 
-    
-    
 }
 extension RegisterViewController : UITextFieldDelegate {
     func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
@@ -246,6 +237,8 @@ extension RegisterViewController : funcDelegate {
         
         let btnTitle = sex ?? ""
         btnGender.setTitle(btnTitle, forState: .Normal)
+        btnGender.setTitleColor(UIColor.blackColor(), forState: UIControlState.Normal)
+
         
     }
 }

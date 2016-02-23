@@ -20,7 +20,7 @@ class GenderSelectionView: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+self.title="Select Gender"
     }
 
     override func didReceiveMemoryWarning() {

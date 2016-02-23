@@ -41,6 +41,9 @@ class NotificationViewController: UIViewController {
         loadDataFromAPI()
         tableView.emptyDataSetDelegate=self
         tableView.emptyDataSetSource=self
+        
+        UIApplication.sharedApplication().applicationIconBadgeNumber = 0
+
     }
     
     override func didReceiveMemoryWarning() {

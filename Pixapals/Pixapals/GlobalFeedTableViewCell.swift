@@ -11,7 +11,7 @@ import Spring
 
 protocol CellImageSwippedDelegate {
     func imageSwipedLeft(id: Int, loved: Bool, left: Bool)
-    func imageSwipedRight(id: Int, loved: Bool, left: Bool)
+    func imageSwipedRight(id: Int, loved: Bool, left: Bool, mode : Int)
     
     func SegueToProfile(id: Int?)
     func SegueToLoverList(id: Int?)
@@ -35,6 +35,7 @@ class GlobalFeedTableViewCell: UITableViewCell {
     var id: Int!
     var loved : Bool!
     var left : Bool!
+    var mode : Int!
     
     var delegate: CellImageSwippedDelegate!
     var DynamicView=UIImageView()
@@ -94,11 +95,23 @@ class GlobalFeedTableViewCell: UITableViewCell {
                 //                print(id)
                 //                print(loved)
                 //                print(left)
+                
+                print(mode)
                 if left != true {
+                    
+                    print(mode)
+                    if mode == 1 {
                     DynamicView.image=UIImage(named: "leaveit")
+                        
+                    } else {
+                        
+                        DynamicView.image=UIImage(named: "loveit2")
+        
+
+                    }
                     
-                    
-                    DynamicView.frame=(frame: CGRectMake(self.feedImage.layer.frame.origin.x, self.feedImage.layer.frame.origin.y, self.feedImage.frame.width, self.feedImage.frame.height))
+                DynamicView.frame=(frame: CGRectMake(self.feedImage.layer.frame.origin.x, self.feedImage.layer.frame.origin.y, self.feedImage.frame.width, self.feedImage.frame.height))
+  
                     self.DynamicView.hidden=false
                     
                     UIView.animateWithDuration(0.5, delay: 0.1, options: .CurveEaseIn, animations: { () -> Void in
@@ -107,7 +120,7 @@ class GlobalFeedTableViewCell: UITableViewCell {
                         
                         }, completion: { (Bool) -> Void in
                             self.DynamicView.hidden=true
-                            self.delegate.imageSwipedRight(self.id,loved: self.loved,left: self.left)
+                            self.delegate.imageSwipedRight(self.id,loved: self.loved,left: self.left, mode: self.mode)
                     })
                     self.left = true
                     
@@ -128,7 +141,6 @@ class GlobalFeedTableViewCell: UITableViewCell {
                             self.delegate.imageSwipedLeft(self.id,loved: self.loved,left: self.left)
                     })
                     self.loved = true
-                    //print("swipe left")
                     
                 }
             default:

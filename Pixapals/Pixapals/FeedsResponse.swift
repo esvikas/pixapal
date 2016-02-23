@@ -192,6 +192,8 @@ class FeedJSON: Mappable {
         user <- map["user"]
         mode <- map["mode"]
         
+        print(mode)
+        
         if let lovers = lovers {
             self.lovers = lovers.map({ (user) -> UserJSON in
                 UserFeedDistinction.sharedInstance.checkDistinctUser(user)

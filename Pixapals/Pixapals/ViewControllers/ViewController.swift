@@ -12,6 +12,7 @@ import FBSDKLoginKit
 import Alamofire
 import SwiftyJSON
 import CoreLocation
+import FBSDKShareKit
 
 
 class ViewController: UIViewController {
@@ -20,6 +21,9 @@ class ViewController: UIViewController {
     var location: CLLocationCoordinate2D!
     
     var dict : NSDictionary!
+    
+    var friendsList : NSDictionary!
+
     //var loginUsingFB = false
     
     override func viewDidLoad() {
@@ -170,17 +174,38 @@ class ViewController: UIViewController {
                 }
             })
         }
+
+        let request = FBSDKGraphRequest(graphPath:"me/taggable_friends", parameters: ["limit" : "1000","fields": "id"]);
         
+        request.startWithCompletionHandler { (connection : FBSDKGraphRequestConnection!, result : AnyObject!, error : NSError!) -> Void in
+            if error == nil {
+                print("Friends are : \(result)")
+
+                print("Friends are : \(result.count)")
+                
+                self.friendsList = result as! NSDictionary
+
+                
+            } else {
+                print("Error Getting Friends \(error)");
+            }
+        }
+
         
-        let FriendsgraphRequest: FBSDKGraphRequest = FBSDKGraphRequest(graphPath: "me/friends", parameters: ["fields": " gender, birthday"])
-        FriendsgraphRequest.startWithCompletionHandler({(connection,result,error)-> Void in
-            
-            print("\(result)", terminator: "")
-            
-            
-        })
+        var requestx = FBSDKGraphRequest(graphPath:"me/friends", parameters: nil);
         
-    }
+        requestx.startWithCompletionHandler { (connection : FBSDKGraphRequestConnection!, result : AnyObject!, error : NSError!) -> Void in
+            if error == nil {
+                print("Friends are : \(result)")
+                print("Friends are : \(result.count)")
+                
+
+
+            } else {
+                print("Error Getting Friends \(error)");
+            }
+        }
+}
     
     func loginFbUser(){
         
@@ -230,7 +255,6 @@ class ViewController: UIViewController {
                             }
                             else {
                                 print(data)
-                                //ShowAlertView(<#T##title: String##String#>, message: <#T##String#>, controller: <#T##UIViewController#>)
                                 print("Invalid Username/Password: \(data["message"])")
                             }
                         case .Failure(let error):
@@ -249,7 +273,10 @@ class ViewController: UIViewController {
         }
         
     }
+    
+    
 }
+
 
 extension ViewController : CLLocationManagerDelegate {
     func locationManager(manager: CLLocationManager, didUpdateToLocation newLocation: CLLocation, fromLocation oldLocation: CLLocation) {

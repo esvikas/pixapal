@@ -215,10 +215,15 @@ extension DetailVIewViewController: UITableViewDataSource {
         cell.id = feed.id
         cell.left = feed.is_my_left
         cell.loved = feed.is_my_love
-        
-        cell.loveCount.text = "\(feed.loveit ?? 0) loved it"
+        cell.mode = feed.mode
+        cell.loveCount.text = "\(feed.loveit ?? 0) Loved it"
         cell.loveIcon.image = UIImage(named: self.getIconName(feed.loveit ?? 0))
-        cell.leftCount.text = "\(feed.leaveit ?? 0) left it"
+        if feed.mode == 1 {
+            cell.leftCount.text = "\(feed.leaveit ?? 0) Left it"
+        } else {
+            cell.leftCount.text = "\(feed.leaveit ?? 0) Loved it"
+            
+        }
         cell.leftIcon.image = UIImage(named: self.getIconName(feed.leaveit ?? 0, love: false))
         cell.comment.text = "\(feed.comment ?? "")"
         //print(feedsToShow)
@@ -317,8 +322,8 @@ extension DetailVIewViewController: CellImageSwippedDelegate {
         
         self.loveFeed(String(id))
     }
-    func imageSwipedRight(id: Int, loved: Bool,  left: Bool) {
-        print("swipped love (right)")
+    func imageSwipedRight(id: Int, loved: Bool,  left: Bool, mode:Int) {
+        print(mode)
         //        print(loved)
         //        print(left)
         //        loved = true

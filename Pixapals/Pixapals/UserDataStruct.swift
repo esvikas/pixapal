@@ -41,7 +41,6 @@ struct UserDataStruct {
         phone = user_Info_Dict["phone"]
         thumbImage = user_Info_Dict["photo_thumb"]
 
-        
         if let gender = user_Info_Dict["gender"] {
             switch gender {
                 case "male":
