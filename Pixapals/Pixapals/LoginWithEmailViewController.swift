@@ -50,15 +50,15 @@ class LoginWithEmailViewController: UIViewController {
         self.view.addSubview(self.blurEffectView)
         let loadingNotification = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
         loadingNotification.mode = MBProgressHUDMode.Indeterminate
-        loadingNotification.labelText = "Posting"
+        loadingNotification.labelText = "Verifying"
 
         let loginUrlString = "\(apiUrl)api/v1/login-using-email"
         
         let validator = Validator()
         if !validator.isValidEmail(emailTextfield.text!){
             print("invalid email")
-            
-            appDelegate.ShowAlertView("Error", message: "Invalid email address")
+            PixaPalsErrorType.InvalidEmailError.show(self)
+            //appDelegate.ShowAlertView("Error", message: "Invalid email address")
             MBProgressHUD.hideAllHUDsForView(self.view, animated: true)
             self.blurEffectView.removeFromSuperview()
             return
@@ -67,10 +67,10 @@ class LoginWithEmailViewController: UIViewController {
         let parametersToPost = [
             "email": emailTextfield.text!,
             "password": password,
-            "device_token" : appDelegate.deviceTokenString ?? "werrrrrr"
+            //"device_token" : appDelegate.deviceTokenString ?? "werrrrrr"
         ]
         
-        Alamofire.request(.POST, loginUrlString, parameters: parametersToPost)
+        requestWithDeviceTokenInParam(.POST, loginUrlString, parameters: parametersToPost)
             .responseJSON { response in
                 
                 switch response.result {
@@ -93,13 +93,14 @@ class LoginWithEmailViewController: UIViewController {
                         print("Invalid Username/Password: \(data["message"])")
                         MBProgressHUD.hideAllHUDsForView(self.view, animated: true)
                         self.blurEffectView.removeFromSuperview()
-                        appDelegate.ShowAlertView("Error", message: "Invalid email address or password")
-       
+                        //appDelegate.ShowAlertView("Error", message: "Invalid email address or password")
+                        PixaPalsErrorType.InvalidEmailPasswordError.show(self)
 
                     }
                 case .Failure(let error):
-                    showAlertView("Error", message: "Can't connect right now.Check your internet settings.", controller: self)
+                    //showAlertView("Error", message: "Can't connect right now.Check your internet settings.", controller: self)
                     //print("Error in connection \(error)")
+                    PixaPalsErrorType.ConnectionError.show(self)
                 }
         }
         

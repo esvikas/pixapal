@@ -34,7 +34,7 @@
 	<key>Fabric</key>
 	<dict>
 		<key>APIKey</key>
-		<string>c331a488c0f64d5d5647e92d4524396ebd297bf3</string>
+		<string>9928b7bc832de433deef3a9452924832495c2fdd</string>
 		<key>Kits</key>
 		<array>
 			<dict>
@@ -42,6 +42,17 @@
 				<dict/>
 				<key>KitName</key>
 				<string>Crashlytics</string>
+			</dict>
+			<dict>
+				<key>KitInfo</key>
+				<dict>
+					<key>consumerKey</key>
+					<string>hS1MURGkpiKfKpnAc8SQPIReZ</string>
+					<key>consumerSecret</key>
+					<string>aFkah8PtP9sRqZsxSMlUE1Ufu5Y7V5ZsyU9Lru75ZqlYQy8zk7</string>
+				</dict>
+				<key>KitName</key>
+				<string>Twitter</string>
 			</dict>
 		</array>
 	</dict>

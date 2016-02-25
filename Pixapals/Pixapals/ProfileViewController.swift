@@ -118,6 +118,7 @@ class ProfileViewController: UIViewController {
     override func viewWillAppear(animated: Bool) {
         //self.tableView.reloadData()
         self.changeNavTitle()
+        
         self.tableView.reloadData()
         self.collectionView.reloadData()
         let btnName = UIButton()
@@ -155,7 +156,9 @@ class ProfileViewController: UIViewController {
         
         let storyboard: UIStoryboard = UIStoryboard (name: "Main", bundle: nil)
         let vc: ProfileEditViewController = storyboard.instantiateViewControllerWithIdentifier("ProfileEditViewController") as! ProfileEditViewController
+        vc.delegate = self
         vc.userDataAsObject=feedsFromResponseAsObject.user
+        
         self.tabBarController?.navigationController?.pushViewController(vc, animated: true)
         
     }
@@ -191,15 +194,15 @@ class ProfileViewController: UIViewController {
             "X-Auth-Token" : user.api_token!,
         ]
         
-//        Alamofire.request(.POST, registerUrlString, parameters: parameters, headers:headers)
-//            .responseJSON { response in
-//            switch response.result {
-//            case .Failure(let error):
-//                print("ERROR: \(error)")
-//            case .Success(let value):
-//                print(value)
-//            }
-//        }
+        //        Alamofire.request(.POST, registerUrlString, parameters: parameters, headers:headers)
+        //            .responseJSON { response in
+        //            switch response.result {
+        //            case .Failure(let error):
+        //                print("ERROR: \(error)")
+        //            case .Success(let value):
+        //                print(value)
+        //            }
+        //        }
         requestWithHeaderXAuthToken(.POST, registerUrlString, parameters: parameters).responseObject { (response: Response<SuccessFailJSON, NSError>) -> Void in
             switch response.result {
             case .Success(let getFeed):
@@ -212,16 +215,18 @@ class ProfileViewController: UIViewController {
                     if let existingUser = existingUser {
                         existingUser.is_my_fed = false
                     }
-                    showAlertView("Error", message: "Can't get feeds from the user. Try again.", controller: self)
+                    //showAlertView("Error", message: "Can't get feeds from the user. Try again.", controller: self)
                     //print("Error: Love it error")
+                    PixaPalsErrorType.CantFedTheUserError.show(self)
                 }
             case .Failure(let error):
                 self.btnEdit.enabled = true
                 if let existingUser = existingUser {
                     existingUser.is_my_fed = false
                 }
-                showAlertView("Error", message: "Can't connect right now.Check your internet settings.", controller: self)
+                //showAlertView("Error", message: "Can't connect right now.Check your internet settings.", controller: self)
                 //print("Error in connection \(error)")
+                PixaPalsErrorType.ConnectionError.show(self)
             }
             self.tableView.reloadData()
         }
@@ -265,19 +270,19 @@ class ProfileViewController: UIViewController {
         let headers = [
             "X-Auth-Token" : String(api_token),
         ]
-       // print(api_token)
+        // print(api_token)
         
         
         requestWithHeaderXAuthToken(.GET, apiURLString)
-//            .responseJSON { response in
-//                print(response.request)
-//                switch response.result {
-//                case .Failure(let error):
-//                    print(error)
-//                case .Success(let value):
-//                    print(value)
-//                }
-//            }
+            //            .responseJSON { response in
+            //                print(response.request)
+            //                switch response.result {
+            //                case .Failure(let error):
+            //                    print(error)
+            //                case .Success(let value):
+            //                    print(value)
+            //                }
+            //            }
             .responseObject { (response: Response<ProfileResponseJSON, NSError>) -> Void in
                 switch response.result {
                 case .Success(let feedsResponseJSON):
@@ -285,7 +290,7 @@ class ProfileViewController: UIViewController {
                     if let error = feedsResponseJSON.error where error == true {
                         self.loadMoreActivityIndicator.stopAnimating()
                         self.tryAgainButton.hidden = false
-                        showAlertView("Error", message: "Error loading data from server.", controller: self)
+                        //showAlertView("Error", message: "Error loading data from server.", controller: self)
                         
                         //print("Error: \(feedsResponseJSON.message)")
                     } else {
@@ -320,24 +325,23 @@ class ProfileViewController: UIViewController {
                         //print(feedsResponseJSON.user.username)
                         self.navTitle = feedsResponseJSON.user.username
                         self.setHeader()
-                }
+                    }
                 case .Failure(let error):
-                showAlertView("Error", message: "Can't connect right now.Check your internet settings.", controller: self)
-                   // print("ERROR: \(error)")
+                    //showAlertView("Error", message: "Can't connect right now.Check your internet settings.", controller: self)
+                    // print("ERROR: \(error)")
+                    PixaPalsErrorType.ConnectionError.show(self)
                 }
-            }.progress { (a, b, c) -> Void in
-                print("\(a) -- \(b) -- \(c)")
-        }
+            }
     }
     
     func setHeader() {
-        self.username.text = (self.feedsFromResponseAsObject.user.name)!
+        self.username.text = (feedsFromResponseAsObject.user.name)!
         
-        self.userImage.kf_setImageWithURL(NSURL(string: self.feedsFromResponseAsObject.user.photo_thumb ?? "")!, placeholderImage: UIImage(named: "global_feed_user"))
+        self.userImage.kf_setImageWithURL(NSURL(string: feedsFromResponseAsObject.user.photo_thumb ?? "")!, placeholderImage: UIImage(named: "global_feed_user"))
         //print(self.feedsFromResponseAsObject.user.feeding_count)
-        self.feeding.text = String(self.feedsFromResponseAsObject.user.feeding_count)
-        self.feeders.text = String(self.feedsFromResponseAsObject.user.feeders_count)
-        self.feeds.text = String(self.feedsFromResponseAsObject.user.feeds_count)
+        self.feeding.text = String(feedsFromResponseAsObject.user.feeding_count)
+        self.feeders.text = String(feedsFromResponseAsObject.user.feeders_count)
+        self.feeds.text = String(feedsFromResponseAsObject.user.feeds_count)
     }
     
     func refresh(sender: AnyObject) {
@@ -467,7 +471,7 @@ extension ProfileViewController: UITableViewDataSource {
             print(indexPath.row)
             let feed = self.feedsFromResponseAsObject.feeds![indexPath.row - 1]
             let cell = tableView.dequeueReusableCellWithIdentifier("globalFeedTableViewCell", forIndexPath: indexPath) as! GlobalFeedTableViewCell
-//            cell.feedImage.kf_setImageWithURL(NSURL(string: feed.photo ?? "" )!, placeholderImage: UIImage(named: "loading.png"))
+            //            cell.feedImage.kf_setImageWithURL(NSURL(string: feed.photo ?? "" )!, placeholderImage: UIImage(named: "loading.png"))
             
             
             cell.feedImage.kf_setImageWithURL(NSURL(string: feed.photo ?? "")!,
@@ -498,11 +502,11 @@ extension ProfileViewController: UITableViewDataSource {
             cell.loveIcon.image = UIImage(named: self.getIconName(feed.loveit ?? 0))
             if feed.mode == 1 {
                 cell.leftCount.text = "\(feed.leaveit ?? 0) Left it"
+                cell.leftIcon.image = UIImage(named: self.getIconName(feed.leaveit ?? 0, love: false))
             } else {
                 cell.leftCount.text = "\(feed.leaveit ?? 0) Loved it"
-                
+                cell.leftIcon.image = UIImage(named: self.getIconName(feed.leaveit ?? 0))
             }
-            cell.leftIcon.image = UIImage(named: self.getIconName(feed.leaveit ?? 0, love: false))
             cell.comment.text = "\(feed.comment ?? "")"
             cell.selectionStyle =  UITableViewCellSelectionStyle.None
             
@@ -606,7 +610,6 @@ extension ProfileViewController: CellImageSwippedDelegate {
         let storyBoard = UIStoryboard(name: "Main", bundle: nil)
         let vc: ProfileViewController = storyBoard.instantiateViewControllerWithIdentifier("ProfileViewController") as! ProfileViewController
         vc.userId = feed.user?.id
-        
         self.navigationController?.pushViewController(vc, animated: true)
         
     }
@@ -636,11 +639,13 @@ extension ProfileViewController: CellImageSwippedDelegate {
                 } else {
                     self.leaveCountIncrease(feed)
                     print("Error: Love it error")
+                    PixaPalsErrorType.CantLoveItLeaveItError.show(self)
                 }
             case .Failure(let error):
                 self.leaveCountIncrease(feed)
-                showAlertView("Error", message: "Can't connect right now.Check your internet settings.", controller: self)
+                //showAlertView("Error", message: "Can't connect right now.Check your internet settings.", controller: self)
                 //print("Error in connection \(error)")
+                PixaPalsErrorType.ConnectionError.show(self)
             }
         }
     }
@@ -680,12 +685,14 @@ extension ProfileViewController: CellImageSwippedDelegate {
                 } else {
                     print("Error: Love it error")
                     self.loveCountIncrease(feed)
+                    PixaPalsErrorType.CantLoveItLeaveItError.show(self)
                 }
                 
             case .Failure(let error):
-                showAlertView("Error", message: "Can't connect right now.Check your internet settings.", controller: self)
+                //showAlertView("Error", message: "Can't connect right now.Check your internet settings.", controller: self)
                 //print("Error in connection \(error)")
                 self.loveCountIncrease(feed)
+                PixaPalsErrorType.ConnectionError.show(self)
                 
             }
         }
@@ -716,5 +723,12 @@ extension ProfileViewController: CellImageSwippedDelegate {
 extension ProfileViewController: DetailViewViewControllerProtocol {
     func needReloadData() {
         self.tableView.reloadData()
+    }
+}
+
+extension ProfileViewController: ProfileEditViewControllerDelegate {
+    func reloadDataAfterProfileEdit() {
+        self.setHeader()
+        self.navTitle = self.feedsFromResponseAsObject.user.username
     }
 }

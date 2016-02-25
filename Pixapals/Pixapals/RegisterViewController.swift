@@ -59,8 +59,9 @@ class RegisterViewController: UIViewController, UIPopoverControllerDelegate, UIP
     
     func locationManager(manager: CLLocationManager, didFailWithError error: NSError) {
         if error.code == CLError.Denied.rawValue {
-            appDelegate.ShowAlertView("Access Denied", message: "Location access is denied. You can't proceed. Please change location preference to this app from setting.")
+            //appDelegate.ShowAlertView("Access Denied", message: "Location access is denied. You can't proceed. Please change location preference to this app from setting.")
             self.manager.stopUpdatingLocation()
+            PixaPalsErrorType.LocationAccessDeniedError.show(self)
         }
     }
     
@@ -76,7 +77,8 @@ class RegisterViewController: UIViewController, UIPopoverControllerDelegate, UIP
             self.registerWithEmail()
             //self.registerWithEmailStatus = true
         } else {
-            appDelegate.ShowAlertView("Location not Enabled", message: "Please enable location. Also allow app to access location from settings.")
+            PixaPalsErrorType.LocationNotEnabledError.show(self)
+            //appDelegate.ShowAlertView("Location not Enabled", message: "Please enable location. Also allow app to access location from settings.")
         }
     }
     
@@ -87,32 +89,38 @@ class RegisterViewController: UIViewController, UIPopoverControllerDelegate, UIP
         let deviceToken = appDelegate.deviceTokenString ?? "wewrwer"
         
         if self.textFieldFullName.text!.isEmpty {
-            appDelegate.ShowAlertView("Full Name Empty", message: "Fullname field is empty.")
+            PixaPalsErrorType.EmptyFullNameError.show(self)
+            //appDelegate.ShowAlertView("Full Name Empty", message: "Fullname field is empty.")
             return
         }
         
         if !Validator().isValidEmail(self.textFieldEmail.text!) {
-            appDelegate.ShowAlertView("Invalid Email", message: "Please enter valid email address.")
+            PixaPalsErrorType.InvalidEmailError.show(self)
+            //appDelegate.ShowAlertView("Invalid Email", message: "Please enter valid email address.")
             return
         }
         
         if self.textFieldUsername.text!.isEmpty {
-            appDelegate.ShowAlertView("Username Empty", message: "Username field is empty.")
+            PixaPalsErrorType.EmptyUsernameFieldError.show(self)
+            //appDelegate.ShowAlertView("Username Empty", message: "Username field is empty.")
             return
         }
        
         if self.textFieldPassword.text!.isEmpty {
-            appDelegate.ShowAlertView("Password Empty", message: "Password field is empty.")
+            PixaPalsErrorType.EmptyPasswordFieldError.show(self)
+            //appDelegate.ShowAlertView("Password Empty", message: "Password field is empty.")
             return
         }
         
         if self.textFieldPassword.text! != self.textFieldConfirmPassword.text! {
-            appDelegate.ShowAlertView("Password Not Confirmed", message: "Password and Confirm Password doesn't match.")
+            //appDelegate.ShowAlertView("Password Not Confirmed", message: "Password and Confirm Password doesn't match.")
+            PixaPalsErrorType.PasswordNotConfirmedError.show(self)
             return
         }
         
-        if !(self.btnGender.titleLabel?.text == "Male" || self.btnGender.titleLabel?.text == "Female")  {
-            appDelegate.ShowAlertView("Gender Not Selected", message: "Gender is not selected.")
+        if !(self.btnGender.titleLabel?.text == "Male" || self.btnGender.titleLabel?.text == "Female" || self.btnGender.titleLabel?.text == "Don't Share")  {
+            PixaPalsErrorType.GenderNotSelectedError.show(self)
+            //appDelegate.ShowAlertView("Gender Not Selected", message: "Gender is not selected.")
             return
         }
         
@@ -150,10 +158,12 @@ class RegisterViewController: UIViewController, UIPopoverControllerDelegate, UIP
                     else {
                         print(data)
                         print("Invalid Username/Password: \(data["message"])")
+                        PixaPalsErrorType.CantAuthenticateError.show(self)
                     }
                 case .Failure(let error):
-                    showAlertView("Error", message: "Can't connect right now.Check your internet settings.", controller: self)
+                    //showAlertView("Error", message: "Can't connect right now.Check your internet settings.", controller: self)
                     //print("Error in connection \(error)")
+                    PixaPalsErrorType.ConnectionError.show(self)
                 }
         }
         

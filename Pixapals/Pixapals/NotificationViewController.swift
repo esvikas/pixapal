@@ -122,7 +122,8 @@ class NotificationViewController: UIViewController {
                 case .Success(let notificationResponseJSON):
                     
                     if let error = notificationResponseJSON.error where error == true {
-                        showAlertView("Error", message: "Server Not Found. Try again.", controller: self)
+                        PixaPalsErrorType.NoDataFoundError.show(self)
+                        //showAlertView("Error", message: "Server Not Found. Try again.", controller: self)
                         self.pullToRefresh.endRefreshing()
                     } else {
                         if let _ = self.notifications {
@@ -158,7 +159,8 @@ class NotificationViewController: UIViewController {
                     //self.loadMoreActivityIndicator.stopAnimating()
                     //self.tryAgainButton.hidden = false
                     //print("ERROR: \(error)")
-                    showAlertView("Error", message: "Can't connect right now.Check your internet settings.", controller: self)
+                    //showAlertView("Error", message: "Can't connect right now.Check your internet settings.", controller: self)
+                    PixaPalsErrorType.ConnectionError.show(self)
                     self.pullToRefresh.endRefreshing()
                 }
         }
@@ -293,7 +295,7 @@ extension NotificationViewController : DZNEmptyDataSetDelegate, DZNEmptyDataSetS
     }
     
     func descriptionForEmptyDataSet(scrollView: UIScrollView!) -> NSAttributedString! {
-        let str = "There are no posts to show."
+        let str = "no notifications to show."
         let attrs = [NSFontAttributeName: UIFont.preferredFontForTextStyle(UIFontTextStyleBody)]
         return NSAttributedString(string: str, attributes: attrs)
     }
@@ -303,7 +305,7 @@ extension NotificationViewController : DZNEmptyDataSetDelegate, DZNEmptyDataSetS
     }
     
     func buttonTitleForEmptyDataSet(scrollView: UIScrollView!, forState state: UIControlState) -> NSAttributedString! {
-        let str = "Try Again"
+        let str = "try again"
         let attrs = [NSFontAttributeName: UIFont.preferredFontForTextStyle(UIFontTextStyleBody)]
         return NSAttributedString(string: str, attributes: attrs)
     }

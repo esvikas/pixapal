@@ -13,7 +13,7 @@ class UserFeedDistinction {
     static let sharedInstance = UserFeedDistinction()
     var feeds = [FeedJSON]()
     var users = [UserJSON]()
-    var userInDetail: UserInDetailJSON?
+    var myProfile: UserInDetailJSON?
     
     func checkDistinctFeed(feed: FeedJSON) -> FeedJSON {
         
@@ -83,7 +83,7 @@ class UserFeedDistinction {
     
     func setCurrentUserDetail(user: UserInDetailJSON, currentUserId: Int) {
         if let userid = user.id where userid == currentUserId {
-            self.userInDetail = user
+            self.myProfile = user
         }
     }
     
@@ -287,7 +287,6 @@ class UserInDetailJSON: UserJSON {
                     return _gender?.rawValue ?? ""
                 }
                 set {
-                    print(newValue)
                     if newValue == "male" || newValue == "Male" {
                         self._gender = Gender.Male
                     } else if newValue == "female" || newValue == "Female" {

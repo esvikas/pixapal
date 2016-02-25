@@ -12,6 +12,9 @@ import MBProgressHUD
 import ImagePicker
 import Kingfisher
 
+protocol ProfileEditViewControllerDelegate {
+    func reloadDataAfterProfileEdit()
+}
 
 
 class ProfileEditViewController: UIViewController, UINavigationControllerDelegate, ImagePickerDelegate, UIPopoverControllerDelegate, UIPopoverPresentationControllerDelegate {
@@ -25,11 +28,11 @@ class ProfileEditViewController: UIViewController, UINavigationControllerDelegat
     @IBOutlet var btnChangePic: UIButton!
     @IBOutlet var userProfilePic: UIImageView!
     @IBOutlet var btnGender: UIButton!
-
-
-    
     @IBOutlet var conformPasswordTextField: UITextField!
     @IBOutlet var newPasswordTextField: UITextField!
+    
+    var delegate: ProfileEditViewControllerDelegate!
+    
     let nsUserDefault = NSUserDefaults.standardUserDefaults()
     
     var userDataAsObject: UserInDetailJSON!
@@ -41,7 +44,7 @@ class ProfileEditViewController: UIViewController, UINavigationControllerDelegat
 
     
     let blurEffectView = UIVisualEffectView(effect: UIBlurEffect(style: UIBlurEffectStyle.ExtraLight))
-
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -213,6 +216,8 @@ class ProfileEditViewController: UIViewController, UINavigationControllerDelegat
 //                    self.navigationItem.hidesBackButton = false
                     self.newBackButton.enabled=true
                     self.newDoneButton.enabled=true
+                    
+                    PixaPalsErrorType.ConnectionError.show(self)
             })
         
     }
@@ -228,7 +233,8 @@ class ProfileEditViewController: UIViewController, UINavigationControllerDelegat
         if newPasswordTextField != nil && conformPasswordTextField != nil {
         if newPasswordTextField.text != conformPasswordTextField.text {
             
-            appDelegate.ShowAlertView("Sorry", message: "Password didn't match")
+            PixaPalsErrorType.PasswordNotConfirmedError.show(self)
+            //appDelegate.ShowAlertView("Sorry", message: "Password didn't match")
             conformPasswordTextField.text=""
             newPasswordTextField.text=""
             oldPasswordTextField.text=""
@@ -261,16 +267,15 @@ class ProfileEditViewController: UIViewController, UINavigationControllerDelegat
         
         let parameters: [String: AnyObject] =
         [
-            "user_id": "\(dataSource.id)",
+            "user_id": userDataAsObject.id!,
             "username": self.userNameTextField.text!,
             "website": self.webSiteTextField.text!,
             "bio": self.bioTextField.text!,
             "email": self.emailTextField.text!,
             "phone": self.phoneTextField.text!,
-            "gender": "Not Set",
+            "gender": (self.btnGender.titleLabel?.text)!,
             "old_password" : oldPasswordTextField.text!,
             "new_password" : newPasswordTextField.text!
-
         ]
         
         let headers = [
@@ -278,7 +283,7 @@ class ProfileEditViewController: UIViewController, UINavigationControllerDelegat
         ]
         
         
-        
+       // print(parameters)
         
         requestWithHeaderXAuthToken(.POST, registerUrlString, parameters: parameters)
             .responseJSON { response in
@@ -300,6 +305,17 @@ class ProfileEditViewController: UIViewController, UINavigationControllerDelegat
                     let statusCode = HTTPResponse.statusCode
                     
                     if statusCode==200{
+                        self.userDataAsObject.username = self.userNameTextField.text
+                        self.userDataAsObject.email = self.emailTextField.text
+                        self.userDataAsObject.gender = self.btnGender.titleLabel?.text
+                        self.userDataAsObject.phone = self.phoneTextField.text
+                        self.userDataAsObject.website = self.webSiteTextField.text
+                        self.userDataAsObject.bio = self.bioTextField.text
+                        
+                        self.delegate.reloadDataAfterProfileEdit()
+                        //let user = UserFeedDistinction.sharedInstance.getUserWithId(self.userDataAsObject.id!)
+                        UserFeedDistinction.sharedInstance.checkDistinctUser(self.userDataAsObject)
+                        
                         MBProgressHUD.hideAllHUDsForView(self.view, animated: true)
                         self.blurEffectView.removeFromSuperview()
                         self.navigationController!.popViewControllerAnimated(true)
@@ -312,11 +328,6 @@ class ProfileEditViewController: UIViewController, UINavigationControllerDelegat
                         self.navigationItem.hidesBackButton = false
                         self.newBackButton.enabled=false
                         self.newDoneButton.enabled=true
-
-                        
-
-
-                        
                     }
                 }
         }

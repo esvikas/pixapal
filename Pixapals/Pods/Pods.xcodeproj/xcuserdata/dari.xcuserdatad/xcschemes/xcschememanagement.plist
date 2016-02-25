@@ -34,6 +34,11 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>FBSDKShareKit.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>IQKeyboardManager.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -102,6 +107,11 @@
 			<key>primary</key>
 			<true/>
 		</dict>
+		<key>54A74CB4C0F4868EDEA81A7AA52ECDFD</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>5855D213D188EE14086C1F827DE7B1FF</key>
 		<dict>
 			<key>primary</key>
@@ -117,22 +127,17 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>7ECAA8AED337F20BD9E921B9B2C20525</key>
+		<key>6EEDCCA408D448FC34FD049F5CF50935</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>A217E0F170967319805042BED9E317BB</key>
+		<key>7F17DC900CD4A552C74F413373E85EA2</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>B71B573F300D79770790EF2BDBD7BEB0</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>BDC7D2FDB014DEDD33C37BCABCC93159</key>
+		<key>83821FE7F889E6E0FB7BB97363BF7B3C</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -143,6 +148,11 @@
 			<true/>
 		</dict>
 		<key>D001DE49152FF44ED8E5FD8B382C4DB7</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>D8470470292BC39EE263E6103508E41A</key>
 		<dict>
 			<key>primary</key>
 			<true/>

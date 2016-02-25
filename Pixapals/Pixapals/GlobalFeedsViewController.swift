@@ -61,7 +61,6 @@ class GlobalFeedsViewController: UIViewController {
         loadingNotification.mode = MBProgressHUDMode.Indeterminate
         loadingNotification.labelText = "Loading"
         
-        
         self.tableViewRefreshControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
         self.tableViewRefreshControl.addTarget(self, action: "refresh:", forControlEvents: UIControlEvents.ValueChanged)
         
@@ -180,7 +179,7 @@ class GlobalFeedsViewController: UIViewController {
                 if let error = feedsResponseJSON.error where error == true {
                     self.loadMoreActivityIndicator.stopAnimating()
                     self.tryAgainButton.hidden = false
-                    showAlertView("Error", message: "Connection to server failed.", controller: self)
+                    //showAlertView("Error", message: "Connection to server failed.", controller: self)
                     print("Error: \(feedsResponseJSON.message)")
                 } else {
                     if let _ = self.feedsFromResponseAsObject {
@@ -213,7 +212,7 @@ class GlobalFeedsViewController: UIViewController {
                     self.footerView.hidden = true
                 }
                 
-                case .Failure(let error):
+            case .Failure(let error):
                 //                appDelegate.ShowAlertView("Connection Error", message: "Try Again", handlerForOk: { (action) -> Void in
                 //                    self.loadDataFromAPI()
                 //                    }, handlerForCancel: nil)
@@ -222,13 +221,13 @@ class GlobalFeedsViewController: UIViewController {
                 print("ERROR: \(error)")
                 self.tableViewRefreshControl.endRefreshing()
                 self.collectionViewRefreshControl.endRefreshing()
-                showAlertView("Error", message: "Can't connect right now.Check your internet settings.", controller: self)
+                PixaPalsErrorType.ConnectionError.show(self)
             }
             
             }.progress { (a, b, c) -> Void in
                 // print("\(a) -- \(b) -- \(c)")
         }
-           }
+    }
     
     func changeViewMode(sender: AnyObject) {
         if self.collectionViewHidden {
@@ -339,12 +338,12 @@ extension GlobalFeedsViewController: UITableViewDataSource {
         cell.loveIcon.image = UIImage(named: self.getIconName(feed.loveit ?? 0))
         
         if feed.mode == 1 {
-        cell.leftCount.text = "\(feed.leaveit ?? 0) Left it"
-    } else {
-    cell.leftCount.text = "\(feed.leaveit ?? 0) Loved it"
-
-    }
-        cell.leftIcon.image = UIImage(named: self.getIconName(feed.leaveit ?? 0, love: false))
+            cell.leftCount.text = "\(feed.leaveit ?? 0) Left it"
+            cell.leftIcon.image = UIImage(named: self.getIconName(feed.leaveit ?? 0, love: false))
+        } else {
+            cell.leftCount.text = "\(feed.leaveit ?? 0) Loved it"
+            cell.leftIcon.image = UIImage(named: self.getIconName(feed.leaveit ?? 0))
+        }
         cell.comment.text = "\(feed.comment ?? "")"
         //print(feedsToShow)
         return cell
@@ -570,13 +569,15 @@ extension GlobalFeedsViewController: CellImageSwippedDelegate {
                     
                 } else {
                     self.leaveCountIncrease(feed)
-                    showAlertView("Error", message: "Can't love the post. Try again.", controller: self)
+                    PixaPalsErrorType.CantLoveItLeaveItError.show(self)
+                    //showAlertView("Error", message: "Can't love the post. Try again.", controller: self)
                     //print("Error: Love it error")
                 }
             case .Failure(let error):
                 self.leaveCountIncrease(feed)
-                showAlertView("Error", message: "Can't connect right now.Check your internet settings.", controller: self)
-               // print("Error in connection \(error)")
+                PixaPalsErrorType.ConnectionError.show(self)
+                //showAlertView("Error", message: "Can't connect right now.Check your internet settings.", controller: self)
+                // print("Error in connection \(error)")
             }
         }
     }
@@ -616,12 +617,14 @@ extension GlobalFeedsViewController: CellImageSwippedDelegate {
                 } else {
                     //print("Error: Love it error")
                     self.loveCountIncrease(feed)
-                    showAlertView("Error", message: "Can't leave the post. Try again.", controller: self)
+                    PixaPalsErrorType.CantLoveItLeaveItError.show(self)
+                    //showAlertView("Error", message: "Can't leave the post. Try again.", controller: self)
                 }
                 
             case .Failure(let error):
-                showAlertView("Error", message: "Can't connect right now.Check your internet settings.", controller: self)
-               // print("Error in connection \(error)")
+                PixaPalsErrorType.ConnectionError.show(self)
+                //showAlertView("Error", message: "Can't connect right now.Check your internet settings.", controller: self)
+                // print("Error in connection \(error)")
                 self.loveCountIncrease(feed)
                 
             }
@@ -675,16 +678,14 @@ extension GlobalFeedsViewController : DZNEmptyDataSetDelegate, DZNEmptyDataSetSo
         return UIImage(named: "logo")
     }
     
-    //    func buttonTitleForEmptyDataSet(scrollView: UIScrollView!, forState state: UIControlState) -> NSAttributedString! {
-    //        let str = "More info"
-    //        let attrs = [NSFontAttributeName: UIFont.preferredFontForTextStyle(UIFontTextStyleBody)]
-    //        return NSAttributedString(string: str, attributes: attrs)
-    //    }
+    func buttonTitleForEmptyDataSet(scrollView: UIScrollView!, forState state: UIControlState) -> NSAttributedString! {
+        let str = "try again"
+        let attrs = [NSFontAttributeName: UIFont.preferredFontForTextStyle(UIFontTextStyleBody)]
+        return NSAttributedString(string: str, attributes: attrs)
+    }
     
     func emptyDataSetDidTapButton(scrollView: UIScrollView!) {
-        let ac = UIAlertController(title: "Info will be listed here", message: nil, preferredStyle: .Alert)
-        ac.addAction(UIAlertAction(title: "ok", style: .Default, handler: nil))
-        presentViewController(ac, animated: true, completion: nil)
+        self.loadDataFromAPI()
     }
 }
 

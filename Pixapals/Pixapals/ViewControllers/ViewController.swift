@@ -133,7 +133,8 @@ class ViewController: UIViewController {
                         // Handle cancellations
                         fbLoginManager.logOut()
                     }else if (error != nil) {
-                        showAlertView("Error", message: "Sorry! Can't connect through facebook.", controller: self)
+                        //showAlertView("Error", message: "Sorry! Can't connect through facebook.", controller: self)
+                        PixaPalsErrorType.FacebookLoginConnectionError.show(self)
                     }else{
                         let fbloginresult : FBSDKLoginManagerLoginResult = result
                         
@@ -151,7 +152,8 @@ class ViewController: UIViewController {
                 
             }
         }catch{
-            showAlertView("Error", message: "Sorry! Can't connect through facebook.", controller: self)
+            PixaPalsErrorType.FacebookLoginConnectionError.show(self)
+            //showAlertView("Error", message: "Sorry! Can't connect through facebook.", controller: self)
         }
     }
     
@@ -172,7 +174,8 @@ class ViewController: UIViewController {
                     
                     NSLog(self.dict.objectForKey("picture")?.objectForKey("data")?.objectForKey("url") as! String)
                 } else {
-                    showAlertView("Error", message: "Sorry! Can't connect through facebook. Can't access your information.", controller: self)
+                    PixaPalsErrorType.CantGetUserInfoFromFacebookError.show(self)
+                    //showAlertView("Error", message: "Sorry! Can't connect through facebook. Can't access your information.", controller: self)
                 }
             })
         }
@@ -189,6 +192,7 @@ class ViewController: UIViewController {
 
                 
             } else {
+                PixaPalsErrorType.CantGetFriendInfoFromFacebookError.show(self)
                 print("Error Getting Friends \(error)");
             }
         }
@@ -204,6 +208,7 @@ class ViewController: UIViewController {
 
 
             } else {
+                PixaPalsErrorType.CantGetFriendInfoFromFacebookError.show(self)
                 print("Error Getting Friends \(error)");
             }
         }
@@ -251,23 +256,27 @@ class ViewController: UIViewController {
                             }
                             else {
                                 print("Invalid Username/Password: \(data["message"])")
-                                showAlertView("Error", message: "The email or password you have entered does not match any account.", controller: self)
+                                //showAlertView("Error", message: "The email or password you have entered does not match any account.", controller: self)
                                 //print("Invalid Username/Password: \(data["message"])")
+                                PixaPalsErrorType.CantAuthenticateError.show(self)
                             }
                         case .Failure(let error):
-                            showAlertView("Error", message: "Can't connect right now.Check your internet settings.", controller: self)
+                            //showAlertView("Error", message: "Can't connect right now.Check your internet settings.", controller: self)
                             //print("Error in connection \(error)")
+                            PixaPalsErrorType.ConnectionError.show(self)
                         }
                         
                 }
                 
             } else{
                 
-                showAlertView("Error", message: "Can't connect right now.Check your internet settings.", controller: self)
+                //showAlertView("Error", message: "Can't connect right now.Check your internet settings.", controller: self)
+                PixaPalsErrorType.ConnectionError.show(self)
                 return
                 
             }}catch{
-                showAlertView("Error", message: "Can't connect right now.Check your internet settings.", controller: self)
+                PixaPalsErrorType.ConnectionError.show(self)
+                //showAlertView("Error", message: "Can't connect right now.Check your internet settings.", controller: self)
         }
         
     }
@@ -284,8 +293,9 @@ extension ViewController : CLLocationManagerDelegate {
     
     func locationManager(manager: CLLocationManager, didFailWithError error: NSError) {
         if error.code == CLError.Denied.rawValue {
-            showAlertView("Access Denied", message: "Location access is denied. You can't proceed. Please change location preference to this app from setting.", controller: self)
+            //showAlertView("Access Denied", message: "Location access is denied. You can't proceed. Please change location preference to this app from setting.", controller: self)
             self.manager.stopUpdatingLocation()
+            PixaPalsErrorType.LocationAccessDeniedError.show(self)
         }
     }
 }

@@ -47,7 +47,7 @@ self.title="Select Gender"
     
     @IBAction func btnDontShare(sender: AnyObject) {
         
-        delegate!.chooseSex("Dont Share")
+        delegate!.chooseSex("Don't Share")
         self.dismissViewControllerAnimated(false, completion: nil);
         
         

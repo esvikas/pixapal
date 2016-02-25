@@ -42,6 +42,7 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
     func locationManager(manager: CLLocationManager, didFailWithError error: NSError) {
         if error.code == CLError.Denied.rawValue {
             appDelegate.ShowAlertView("Access Denied", message: "Location access is denied. You can't proceed. Please change location preference to this app from setting.")
+            //PixaPalsErrorType.LocationAccessDeniedError.show(self)
             self.manager.stopUpdatingLocation()
         }
     }

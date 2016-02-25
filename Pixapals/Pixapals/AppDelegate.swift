@@ -11,6 +11,7 @@ import FBSDKCoreKit
 import FBSDKLoginKit
 import Fabric
 import Crashlytics
+import TwitterKit
 
 
 @UIApplicationMain
@@ -41,7 +42,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         application.registerUserNotificationSettings( settings )
         application.registerForRemoteNotifications()
         
-        Fabric.with([Crashlytics.self])
+        Fabric.with([Crashlytics.self, Twitter.self])
         
         
         

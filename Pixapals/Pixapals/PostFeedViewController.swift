@@ -291,9 +291,10 @@ btnPostFeed.enabled=false
                     self.btnPostFeed.enabled=true
                     self.navigationItem.hidesBackButton = false
                     self.view.userInteractionEnabled=true
+                    
+                    PixaPalsErrorType.ConnectionError.show(self)
 
-
-                    appDelegate.ShowAlertView("Sorry", message: "Something Went Wrong")
+                    //appDelegate.ShowAlertView("Sorry", message: "Something Went Wrong")
                     print("Failure")
                     print(response)
                     print(error)

@@ -75,7 +75,8 @@ class SettingsTableViewController: UITableViewController {
             }
             
         case 1:
-            appDelegate.ShowAlertView("Sorry ", message: "Not available")
+            PixaPalsErrorType.NotAvailableError.show(self)
+            //appDelegate.ShowAlertView("Sorry ", message: "Not available")
             
         case 2:
             logoutRequest()
@@ -243,6 +244,7 @@ class SettingsTableViewController: UITableViewController {
             "gender": String(genderDetailText.text!),
             "region": String(locationDetailText.text!)
         ]
+        print(parameters)
         
         let headers = [
             "X-Auth-Token" : user.api_token!,
@@ -261,12 +263,13 @@ class SettingsTableViewController: UITableViewController {
         
         requestWithHeaderXAuthToken(.POST, registerUrlString, parameters: parameters).responseObject { (response: Response<SuccessFailJSON, NSError>) -> Void in
             switch response.result {
-            case .Success(let leaveItObject):
-                print("Error: Leave it error")
+            case .Success(let successObject):
+                print("Set successfully \(successObject.message)")
                 
             case .Failure(let error):
-                showAlertView("Error", message: "Can't connect right now.Check your internet settings.", controller: self)
+                //showAlertView("Error", message: "Can't connect right now.Check your internet settings.", controller: self)
                 //print("Error in connection \(error)")
+                PixaPalsErrorType.ConnectionError.show(self)
             }
         }
     }
@@ -292,7 +295,8 @@ class SettingsTableViewController: UITableViewController {
                                 
                             case .Failure(let error):
                                 //print("Error in connection \(error)")
-                                showAlertView("Error", message: "Can't connect right now.Check your internet settings.", controller: self)
+                                //showAlertView("Error", message: "Can't connect right now.Check your internet settings.", controller: self)
+                                PixaPalsErrorType.ConnectionError.show(self)
                             }
                         }
         print(headers)

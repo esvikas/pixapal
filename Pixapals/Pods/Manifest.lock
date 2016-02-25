@@ -10,6 +10,7 @@ PODS:
     - Bolts/Tasks
   - Bolts/Tasks (1.6.0)
   - DZNEmptyDataSet (1.7.3)
+  - Fabric (1.6.6)
   - FBSDKCoreKit (4.9.1):
     - Bolts (~> 1.5)
   - FBSDKLoginKit (4.9.1):
@@ -24,11 +25,16 @@ PODS:
   - Spring (1.0.3)
   - SwiftyJSON (2.3.2)
   - Toucan (0.5.0)
+  - TwitterCore (1.15.1):
+    - Fabric
+  - TwitterKit (1.15.1):
+    - TwitterCore (= 1.15.1)
 
 DEPENDENCIES:
   - Alamofire (~> 3.0)
   - AlamofireObjectMapper (~> 2.1)
   - DZNEmptyDataSet
+  - Fabric
   - FBSDKLoginKit
   - FBSDKShareKit
   - ImagePicker
@@ -38,6 +44,7 @@ DEPENDENCIES:
   - Spring (from `https://github.com/MengTo/Spring.git`, branch `swift2`)
   - SwiftyJSON (from `https://github.com/SwiftyJSON/SwiftyJSON.git`)
   - Toucan
+  - TwitterKit
 
 EXTERNAL SOURCES:
   Spring:
@@ -59,6 +66,7 @@ SPEC CHECKSUMS:
   AlamofireObjectMapper: 24097576202064f8b0a583452dd934064f78dc0e
   Bolts: f52a250053bb517ca874523c3913776359ab3def
   DZNEmptyDataSet: dd7cca17c1d07dfa78956859b1e70a52505678ef
+  Fabric: 1abc1e59f11fa39ede6f690ef7309d8563e3ec59
   FBSDKCoreKit: aee20b6d9855f15b618d4fddd1a5ad45f5a4a59d
   FBSDKLoginKit: ec22dc49bd372b064e93d6773df4ffefb3a552a2
   FBSDKShareKit: 54587b4624706ace1e810cf83412a918141f807a
@@ -70,5 +78,7 @@ SPEC CHECKSUMS:
   Spring: 3f02b5dc3308572ef177b3cad0fa7bbc4b0706f7
   SwiftyJSON: 04ccea08915aa0109039157c7974cf0298da292a
   Toucan: 0519c341148252ae114c5a657d2a85bb9ada9e40
+  TwitterCore: 12983a7464e34afbbf18881347898a9db526ac71
+  TwitterKit: b5821570887ec2d77650fa232eaec175665dc443
 
 COCOAPODS: 0.39.0

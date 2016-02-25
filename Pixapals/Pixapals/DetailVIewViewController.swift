@@ -123,12 +123,13 @@ class DetailVIewViewController: UIViewController {
                     self.getFeedButton.enabled = true
                     feed.user?.is_my_fed = false
                     print(getFeed.message)
-                    print("Error: Love it error")
+                    print("Error: feeding error")
+                    PixaPalsErrorType.CantFedTheUserError.show(self)
                 }
             case .Failure(let error):
                 self.getFeedButton.enabled = true
                 feed.user?.is_my_fed = false
-                showAlertView("Error", message: "Can't connect right now.Check your internet settings.", controller: self)
+                PixaPalsErrorType.ConnectionError.show(self)
                 //print("Error in connection \(error)")
             }
         }
@@ -178,23 +179,15 @@ class DetailVIewViewController: UIViewController {
         }
         let urlString = "\(apiUrl)api/v1/feed/\(feedId)"
         
-        //.responseJSON { response in
-        //            switch response.result {
-        //            case .Failure(let error):
-        //                print("ERROR: \(error)")
-        //            case .Success(let value):
-        //                print(value)
-        //            }
-        //        }
         requestWithHeaderXAuthToken(.GET, urlString)
-            .responseJSON { response in
-                switch response.result {
-                case .Failure(let error):
-                    print("ERROR: \(error)")
-                case .Success(let value):
-                    print(value)
-                }
-            }
+//            .responseJSON { response in
+//                switch response.result {
+//                case .Failure(let error):
+//                    print("ERROR: \(error)")
+//                case .Success(let value):
+//                    print(value)
+//                }
+//            }
             .responseObject { (response: Response<FeedsResponseJSON, NSError>) -> Void in
                 switch response.result {
                 case .Success(let getFeed):
@@ -205,10 +198,11 @@ class DetailVIewViewController: UIViewController {
                         self.tableView.reloadData()
                         //appDelegate.ShowAlertView("Success", message: "You are now following to \( (self.feed.user?.username)!)")
                     } else {
-                        print("Error: Love it error")
+                        PixaPalsErrorType.CantFedTheUserError.show(self)
+                        print("Error: getting feed error")
                     }
                 case .Failure(let error):
-                    showAlertView("Error", message: "Can't connect right now.Check your internet settings.", controller: self)
+                    PixaPalsErrorType.ConnectionError.show(self)
                     print("Error in connection \(error)")
                 }
         }
@@ -268,11 +262,11 @@ extension DetailVIewViewController: UITableViewDataSource {
         cell.loveIcon.image = UIImage(named: self.getIconName(feed!.loveit ?? 0))
         if feed!.mode == 1 {
             cell.leftCount.text = "\(feed!.leaveit ?? 0) Left it"
+            cell.leftIcon.image = UIImage(named: self.getIconName(feed!.leaveit ?? 0, love: false))
         } else {
             cell.leftCount.text = "\(feed!.leaveit ?? 0) Loved it"
-            
+            cell.leftIcon.image = UIImage(named: self.getIconName(feed!.leaveit ?? 0))
         }
-        cell.leftIcon.image = UIImage(named: self.getIconName(feed!.leaveit ?? 0, love: false))
         cell.comment.text = "\(feed!.comment ?? "")"
         //print(feedsToShow)
         return cell
@@ -383,12 +377,14 @@ extension DetailVIewViewController: CellImageSwippedDelegate {
                 if !loveItObject.error! {
                     
                 } else {
+                    PixaPalsErrorType.CantLoveItLeaveItError.show(self)
                     print("Error: Love it error")
                     self.leaveCountIncrease()
                 }
             case .Failure(let error):
-                showAlertView("Error", message: "Can't connect right now.Check your internet settings.", controller: self)
+                //showAlertView("Error", message: "Can't connect right now.Check your internet settings.", controller: self)
                 //print("Error in connection \(error)")
+                PixaPalsErrorType.ConnectionError.show(self)
                 self.leaveCountIncrease()
             }
         }
@@ -436,12 +432,14 @@ extension DetailVIewViewController: CellImageSwippedDelegate {
                 if !leaveItObject.error! {
                     
                 } else {
+                    PixaPalsErrorType.CantLoveItLeaveItError.show(self)
                     print("Error: Leave it error")
                     self.loveCountIncrease()
                 }
             case .Failure(let error):
                 self.loveCountIncrease()
-                showAlertView("Error", message: "Can't connect right now.Check your internet settings.", controller: self)
+                PixaPalsErrorType.ConnectionError.show(self)
+                //showAlertView("Error", message: "Can't connect right now.Check your internet settings.", controller: self)
                 //print("Error in connection \(error)")
             }
         }

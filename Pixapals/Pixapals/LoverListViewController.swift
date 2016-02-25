@@ -130,12 +130,14 @@ extension LoverListViewController: loverListTableViewCellDelegate {
                 } else {
                     user.is_my_fed = false
                     sender.enabled = true
-                    print("Error: Love it error")
+                    print("Error: feeding error")
+                    PixaPalsErrorType.CantFedTheUserError.show(self)
                 }
             case .Failure(let error):
                 user.is_my_fed = false
                 sender.enabled = true
-                showAlertView("Error", message: "Can't connect right now.Check your internet settings.", controller: self)
+                PixaPalsErrorType.ConnectionError.show(self)
+                //showAlertView("Error", message: "Can't connect right now.Check your internet settings.", controller: self)
                 //print("Error in connection \(error)")
             }
         }
