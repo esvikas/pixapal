@@ -14,10 +14,12 @@ class NotificationSliderVC: UIViewController {
     var pageMenu : CAPSPageMenu?
     var notifications: NotificationResponseJSON?
     
+    override func viewDidLoad() {
 
-    
-    override func viewDidAppear(animated: Bool) {
-        super.viewDidAppear(animated)
+        
+        
+        
+        super.viewDidLoad()
         
         self.tabBarController?.navigationItem.title = "Notifications"
         self.tabBarController?.navigationItem.rightBarButtonItem = nil

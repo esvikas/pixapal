@@ -99,6 +99,9 @@
                         MBProgressHUD.hideAllHUDsForView(self.view, animated: true)
                         self.blurEffectView.removeFromSuperview()
                         //appDelegate.ShowAlertView("Error", message: "Invalid email address or password")
+                        
+                        self.emailTextfield.text=""
+                        self.passwordTextfield.text=""
                         PixaPalsErrorType.InvalidEmailPasswordError.show(self)
                         
                     }

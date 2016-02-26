@@ -259,6 +259,7 @@ class ViewController: UIViewController {
                                 //showAlertView("Error", message: "The email or password you have entered does not match any account.", controller: self)
                                 //print("Invalid Username/Password: \(data["message"])")
                                 PixaPalsErrorType.CantAuthenticateError.show(self)
+                                
                             }
                         case .Failure(let error):
                             //showAlertView("Error", message: "Can't connect right now.Check your internet settings.", controller: self)

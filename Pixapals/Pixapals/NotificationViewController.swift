@@ -45,8 +45,7 @@ class NotificationViewController: UIViewController {
         self.tableView.alwaysBounceVertical = true
         
         loadDataFromAPI()
-        tableView.emptyDataSetDelegate=self
-        tableView.emptyDataSetSource=self
+
         
         UIApplication.sharedApplication().applicationIconBadgeNumber = 0
 
@@ -149,6 +148,10 @@ class NotificationViewController: UIViewController {
                         MBProgressHUD.hideAllHUDsForView(self.view, animated: true)
                         self.blurEffectView.removeFromSuperview()
                         self.pullToRefresh.endRefreshing()
+                        
+                        self.tableView.emptyDataSetDelegate=self
+                        self.tableView.emptyDataSetSource=self
+                        
                         //self.loadMoreActivityIndicator.stopAnimating()
                     }
                     

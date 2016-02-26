@@ -10,6 +10,9 @@ import UIKit
 
 class CustomTabBarController: UITabBarController {
     var counter: Bool = false
+    
+    var initalTab = 0
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         //self.navigationItem.hidesBackButton = true
@@ -25,6 +28,7 @@ class CustomTabBarController: UITabBarController {
         // remove default border
         tabBar.frame.size.width = self.view.frame.width + 4
         tabBar.frame.origin.x = -2
+        
     }
     
     override func didReceiveMemoryWarning() {
@@ -46,6 +50,9 @@ class CustomTabBarController: UITabBarController {
             var controllers = self.viewControllers  //array of the root view controllers displayed by the tab bar interface
             controllers?.insert(controller, atIndex: 1)
             self.viewControllers = controllers
+        }
+        if appDelegate.fromNotification {
+        self.selectedIndex = 3
         }
     }
     

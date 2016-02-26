@@ -11,7 +11,7 @@ import UIKit
 //server errors
 enum APIConnectionErrorMessage: String {
     case ConnectionErrorMessage = "Can't connect right now. Check your internet settings."
-    case NoDataFoundErrorMessage = "No not found in the server."
+    case NoDataFoundErrorMessage = "No data found in the server."
     case InvalidEmailPasswordErrorMessage = "The email or password you've entered doesn't match any account."
     case FacebookCantLoginErrorMessage = "You can't login using the facebook account."
     case FacebookLoginConnectionErrorMessage = "Can't connect to your facebook account. Please use other form to login or try again later."

@@ -20,6 +20,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
     var deviceTokenString: String!
     var numberOfNotificationBadge: Int?
+    var fromNotification = false
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         UINavigationBar.appearance().backIndicatorImage = UIImage(named: "report_form_left_arrow")
@@ -73,6 +74,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func applicationWillEnterForeground(application: UIApplication) {
         // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
+        
+        fromNotification = true
+
     }
 
     func applicationDidBecomeActive(application: UIApplication) {
@@ -99,7 +103,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject : AnyObject]) {
         if application.applicationState == UIApplicationState.Inactive || application.applicationState == UIApplicationState.Background {
             
-            
+//            let storyBoard = UIStoryboard(name: "Main", bundle: nil)
+//            let vc = storyBoard.instantiateViewControllerWithIdentifier("tabView") as! CustomTabBarController
+//            vc.initalTab = 2
+            fromNotification = true
             
         }
         

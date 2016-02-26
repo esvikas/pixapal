@@ -48,10 +48,10 @@ class GlobalFeedsViewController: UIViewController {
         self.loadMoreActivityIndicator.hidesWhenStopped = true
         self.loadDataFromAPI()
         self.changeViewMode(self)
-        tableView.emptyDataSetDelegate=self
-        tableView.emptyDataSetSource=self
-        collectionView.emptyDataSetSource=self
-        collectionView.emptyDataSetDelegate=self
+//        tableView.emptyDataSetDelegate=self
+//        tableView.emptyDataSetSource=self
+//        collectionView.emptyDataSetSource=self
+//        collectionView.emptyDataSetDelegate=self
         
         
         self.blurEffectView.alpha = 0.4
@@ -210,6 +210,10 @@ class GlobalFeedsViewController: UIViewController {
                     self.collectionViewRefreshControl.endRefreshing()
                     self.loadMoreActivityIndicator.stopAnimating()
                     self.footerView.hidden = true
+                    self.tableView.emptyDataSetDelegate=self
+                    self.tableView.emptyDataSetSource=self
+                    self.collectionView.emptyDataSetSource=self
+                    self.collectionView.emptyDataSetDelegate=self
                 }
                 
             case .Failure(let error):
