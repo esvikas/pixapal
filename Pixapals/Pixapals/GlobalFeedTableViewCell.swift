@@ -15,6 +15,7 @@ protocol CellImageSwippedDelegate {
     
     func SegueToProfile(id: Int?)
     func SegueToLoverList(id: Int?)
+    func SegueToLeaverList(id: Int?)
     
 }
 
@@ -63,11 +64,24 @@ class GlobalFeedTableViewCell: UITableViewCell {
         let gestureRecognizer2 = UITapGestureRecognizer(target: self, action: Selector("labelPressed"))
         loveIcon.addGestureRecognizer(gestureRecognizer2)
         
+        leftCount.userInteractionEnabled = true
+        leftIcon.userInteractionEnabled = true
+        let gestureRecognizerLeft1 = UITapGestureRecognizer(target: self, action: Selector("leftLabelPressed"))
+        leftCount.addGestureRecognizer(gestureRecognizerLeft1)
+        let gestureRecognizerLeft2 = UITapGestureRecognizer(target: self, action: Selector("leftLabelPressed"))
+        loveIcon.addGestureRecognizer(gestureRecognizerLeft2)
+        
     }
     
     func labelPressed(){
         
         delegate.SegueToLoverList(id)
+    }
+    
+    func leftLabelPressed(){
+        if mode == 2 {
+            delegate.SegueToLeaverList(id)
+        }
     }
     
     func   UserIconAndLabelPressed(){

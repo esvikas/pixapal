@@ -319,38 +319,50 @@ extension DetailVIewViewController: UITableViewDelegate {
 
 
 extension DetailVIewViewController: CellImageSwippedDelegate {
+    
     func imageSwipedLeft(id: Int, loved: Bool, left:Bool) {
         print("swipped leave (left)")
         //        print(id)
         //        print(loved)
         //        print(left)
         //left=true
-        
         self.loveFeed(String(id))
+        
+        
     }
-    func imageSwipedRight(id: Int, loved: Bool,  left: Bool, mode:Int) {
-        print(mode)
+    func imageSwipedRight(id: Int, loved: Bool, left: Bool, mode: Int) {
+        print("swipped love (right)")
         //        print(loved)
         //        print(left)
         //        loved = true
         //        left = false
         self.leaveit(String(id))
-    }
-    func SegueToLoverList(id: Int?) {
+        print(mode)
         
-        let storyBoard = UIStoryboard(name: "Main", bundle: nil)
-        let vc = storyBoard.instantiateViewControllerWithIdentifier("LoverListViewController") as! LoverListViewController
-        vc.users = feed!.lovers
-        self.navigationController?.pushViewController(vc, animated: true)
     }
     
+    func SegueToLoverList(id: Int?) {
+        segueToLoverListViewController(usersArrayToDisplay: getFeedWithId(id).lovers!)
+    }
+    func SegueToLeaverList(id: Int?) {
+        segueToLoverListViewController(usersArrayToDisplay: getFeedWithId(id).leavers!)
+    }
     func SegueToProfile(id: Int?) {
         let storyBoard = UIStoryboard(name: "Main", bundle: nil)
         let vc: ProfileViewController = storyBoard.instantiateViewControllerWithIdentifier("ProfileViewController") as! ProfileViewController
-        vc.userId = feed!.user?.id
-        
+        vc.userId = id
         self.navigationController?.pushViewController(vc, animated: true)
-        
+    }
+    
+    func segueToLoverListViewController(usersArrayToDisplay users: [UserJSON]) {
+        let storyBoard = UIStoryboard(name: "Main", bundle: nil)
+        let vc = storyBoard.instantiateViewControllerWithIdentifier("LoverListViewController") as! LoverListViewController
+        vc.users = users
+        self.navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    func getFeedWithId(id: Int?) -> FeedJSON {
+        return self.feed!
     }
     
     func loveFeed(postId:String){

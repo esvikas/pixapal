@@ -36,12 +36,12 @@ class ProfileEditViewController: UIViewController, UINavigationControllerDelegat
     let nsUserDefault = NSUserDefaults.standardUserDefaults()
     
     var userDataAsObject: UserInDetailJSON!
-
+    
     
     var dataSource=UserDataStruct()
     var newBackButton = UIBarButtonItem()
     var newDoneButton = UIBarButtonItem()
-
+    
     
     let blurEffectView = UIVisualEffectView(effect: UIBlurEffect(style: UIBlurEffectStyle.ExtraLight))
     
@@ -59,19 +59,19 @@ class ProfileEditViewController: UIViewController, UINavigationControllerDelegat
         webSiteTextField.text = userDataAsObject.website
         btnGender.setTitle(userDataAsObject.gender, forState: .Normal)
         btnGender.setTitleColor(UIColor.blackColor(), forState: UIControlState.Normal)
-
-
-    
+        
+        
+        
         print(userDataAsObject.gender)
-//        genderTextField.text = userDataAsObject.gender ?? ""
+        //        genderTextField.text = userDataAsObject.gender ?? ""
         
         print(userDataAsObject.photo_thumb)
         userProfilePic.kf_setImageWithURL(NSURL(string: userDataAsObject.photo_thumb ?? "")!, placeholderImage: UIImage(named: "global_feed_user"))
         
         print(userDataAsObject.photo_thumb)
         
-                self.navigationItem.hidesBackButton = true
-         newDoneButton = UIBarButtonItem(image: UIImage(named: "tick_green"), style: UIBarButtonItemStyle.Plain, target: self, action: "done:")
+        self.navigationItem.hidesBackButton = true
+        newDoneButton = UIBarButtonItem(image: UIImage(named: "tick_green"), style: UIBarButtonItemStyle.Plain, target: self, action: "done:")
         UIBarButtonItem.appearance().tintColor = UIColor.whiteColor()
         
         self.navigationItem.rightBarButtonItem = newDoneButton;
@@ -83,7 +83,7 @@ class ProfileEditViewController: UIViewController, UINavigationControllerDelegat
         
         self.navigationItem.leftBarButtonItem = newBackButton;
         self.view.backgroundColor=UIColor(red: 240/255, green: 240/255, blue: 240/255, alpha: 1)
-
+        
         
         
         
@@ -92,7 +92,7 @@ class ProfileEditViewController: UIViewController, UINavigationControllerDelegat
     func back(sender: UIBarButtonItem) {
         
         self.navigationController!.popViewControllerAnimated(true)
-
+        
         
     }
     
@@ -145,7 +145,7 @@ class ProfileEditViewController: UIViewController, UINavigationControllerDelegat
         controller: UIPresentationController) -> UIModalPresentationStyle {
             return .None
     }
-
+    
     
     func changeProfilePic(image: UIImage){
         
@@ -176,9 +176,9 @@ class ProfileEditViewController: UIViewController, UINavigationControllerDelegat
         
         // CREATE AND SEND REQUEST ----------
         
-          var  imageData=((data:(UIImageJPEGRepresentation(image , 1))!))
-            
-    
+        var  imageData=((data:(UIImageJPEGRepresentation(image , 1))!))
+        
+        
         self.blurEffectView.alpha = 0.4
         self.blurEffectView.frame = view.bounds
         self.view.addSubview(self.blurEffectView)
@@ -198,22 +198,22 @@ class ProfileEditViewController: UIViewController, UINavigationControllerDelegat
                 
                 //                    _ = JSON(response)
                 print(response)
-
+                
                 
                 MBProgressHUD.hideAllHUDsForView(self.view, animated: true)
                 self.blurEffectView.removeFromSuperview()
                 
-//                self.navigationItem.hidesBackButton = false
+                //                self.navigationItem.hidesBackButton = false
                 self.newBackButton.enabled=true
                 self.newDoneButton.enabled=true
                 self.userProfilePic.image=image
-
+                
                 
                 },failure:{(response:AnyObject!, error:NSError!) -> Void in
                     MBProgressHUD.hideAllHUDsForView(self.view, animated: true)
                     self.blurEffectView.removeFromSuperview()
                     
-//                    self.navigationItem.hidesBackButton = false
+                    //                    self.navigationItem.hidesBackButton = false
                     self.newBackButton.enabled=true
                     self.newDoneButton.enabled=true
                     
@@ -225,45 +225,45 @@ class ProfileEditViewController: UIViewController, UINavigationControllerDelegat
     func done(sender: UIBarButtonItem) {
         
         self.navigationItem.hidesBackButton = true
-                newDoneButton.enabled=false
+        newDoneButton.enabled=false
         newBackButton.enabled=false
-
-
+        
+        
         
         if newPasswordTextField != nil && conformPasswordTextField != nil {
-        if newPasswordTextField.text != conformPasswordTextField.text {
-            
-            PixaPalsErrorType.PasswordNotConfirmedError.show(self)
-            //appDelegate.ShowAlertView("Sorry", message: "Password didn't match")
-            conformPasswordTextField.text=""
-            newPasswordTextField.text=""
-            oldPasswordTextField.text=""
-            return
+            if newPasswordTextField.text != conformPasswordTextField.text {
+                
+                PixaPalsErrorType.PasswordNotConfirmedError.show(self)
+                //appDelegate.ShowAlertView("Sorry", message: "Password didn't match")
+                conformPasswordTextField.text=""
+                newPasswordTextField.text=""
+                oldPasswordTextField.text=""
+                return
             }}
         
         if newPasswordTextField == nil {
-           newPasswordTextField.text=""
+            newPasswordTextField.text=""
         }
         
-       if conformPasswordTextField == nil {
-        conformPasswordTextField.text=""
-
+        if conformPasswordTextField == nil {
+            conformPasswordTextField.text=""
+            
         }
         if oldPasswordTextField == nil {
             oldPasswordTextField.text=""
-
+            
         }
- 
+        
         self.blurEffectView.alpha = 0.4
         self.blurEffectView.frame = view.bounds
         self.view.addSubview(self.blurEffectView)
         let loadingNotification = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
         loadingNotification.mode = MBProgressHUDMode.Indeterminate
         loadingNotification.labelText = "Saving"
-
+        
         
         let registerUrlString = "\(apiUrl)api/v1/profile/update"
-
+        
         
         let parameters: [String: AnyObject] =
         [
@@ -283,7 +283,7 @@ class ProfileEditViewController: UIViewController, UINavigationControllerDelegat
         ]
         
         
-       // print(parameters)
+        // print(parameters)
         
         requestWithHeaderXAuthToken(.POST, registerUrlString, parameters: parameters)
             .responseJSON { response in
@@ -321,10 +321,10 @@ class ProfileEditViewController: UIViewController, UINavigationControllerDelegat
                         self.navigationController!.popViewControllerAnimated(true)
                     }else  {
                         
-                    
+                        
                         MBProgressHUD.hideAllHUDsForView(self.view, animated: true)
                         self.blurEffectView.removeFromSuperview()
-                    
+                        
                         self.navigationItem.hidesBackButton = false
                         self.newBackButton.enabled=false
                         self.newDoneButton.enabled=true
@@ -335,7 +335,7 @@ class ProfileEditViewController: UIViewController, UINavigationControllerDelegat
         
     }
     
-
+    
     
     
     
@@ -362,7 +362,7 @@ extension ProfileEditViewController: UIImagePickerControllerDelegate{
         changeProfilePic(uploadLiamge)
         
         
-
+        
         
         
     }
@@ -379,7 +379,24 @@ extension ProfileEditViewController : funcDelegate {
         let btnTitle = sex ?? ""
         btnGender.setTitle(btnTitle, forState: .Normal)
         btnGender.setTitleColor(UIColor.blackColor(), forState: UIControlState.Normal)
-
         
+        
+    }
 }
+
+extension ProfileEditViewController : UITextFieldDelegate {
+    func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
+        
+        let currentCharacterCount = textField.text?.characters.count ?? 0
+        if (range.length + range.location > currentCharacterCount){
+            return false
+        }
+        let newLength = currentCharacterCount + string.characters.count - range.length
+        
+        if newLength == 16 {
+            appDelegate.ShowAlertView("Sorry", message: "Maximum 15 characters allowed.")
+        }
+        return newLength <= 16
+    }
+    
 }

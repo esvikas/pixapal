@@ -121,15 +121,19 @@ class ProfileViewController: UIViewController {
         
         self.tableView.reloadData()
         self.collectionView.reloadData()
-        let btnName = UIButton()
-        btnName.setImage(UIImage(named: "setting"), forState: .Normal)
-        btnName.frame = CGRectMake(0, 0, 30, 30)
-        btnName.addTarget(self, action: Selector("action"), forControlEvents: .TouchUpInside)
-        
-        //.... Set Right/Left Bar Button item
-        let rightBarButton = UIBarButtonItem()
-        rightBarButton.customView = btnName
-        self.tabBarController?.navigationItem.rightBarButtonItem = rightBarButton
+        if userId == nil {
+            let btnName = UIButton()
+            btnName.setImage(UIImage(named: "setting"), forState: .Normal)
+            btnName.frame = CGRectMake(0, 0, 30, 30)
+            btnName.addTarget(self, action: Selector("action"), forControlEvents: .TouchUpInside)
+            
+            //.... Set Right/Left Bar Button item
+            let rightBarButton = UIBarButtonItem()
+            rightBarButton.customView = btnName
+            self.tabBarController?.navigationItem.rightBarButtonItem = rightBarButton
+        } else {
+            self.tabBarController?.navigationItem.rightBarButtonItem = UIBarButtonItem()
+        }
         self.checkIfUserIsMyFed()
         //        let camera = UIBarButtonItem(barButtonSystemItem: .Camera, target: self, action: Selector("btnOpenCamera"))
         //        self.navigationItem.rightBarButtonItem = camera
@@ -331,7 +335,7 @@ class ProfileViewController: UIViewController {
                     // print("ERROR: \(error)")
                     PixaPalsErrorType.ConnectionError.show(self)
                 }
-            }
+        }
     }
     
     func setHeader() {
@@ -584,34 +588,43 @@ extension ProfileViewController: CellImageSwippedDelegate {
         //        print(loved)
         //        print(left)
         //left=true
-        
         self.loveFeed(id)
+        
+        
     }
-    func imageSwipedRight(id: Int,  loved: Bool,  left: Bool, mode:Int) {
-        print(mode)
+    func imageSwipedRight(id: Int, loved: Bool, left: Bool, mode: Int) {
+        print("swipped love (right)")
         //        print(loved)
         //        print(left)
         //        loved = true
         //        left = false
         self.leaveit(id)
+        print(mode)
+        
     }
     
     func SegueToLoverList(id: Int?) {
-        let feed = self.feedsFromResponseAsObject.feeds![id!]
-        
+        segueToLoverListViewController(usersArrayToDisplay: getFeedWithId(id).lovers!)
+    }
+    func SegueToLeaverList(id: Int?) {
+        segueToLoverListViewController(usersArrayToDisplay: getFeedWithId(id).leavers!)
+    }
+    func SegueToProfile(id: Int?) {
         let storyBoard = UIStoryboard(name: "Main", bundle: nil)
-        let vc = storyBoard.instantiateViewControllerWithIdentifier("LoverListViewController") as! LoverListViewController
-        vc.users = feed.lovers
+        let vc: ProfileViewController = storyBoard.instantiateViewControllerWithIdentifier("ProfileViewController") as! ProfileViewController
+        vc.userId = id
         self.navigationController?.pushViewController(vc, animated: true)
     }
     
-    func SegueToProfile(id: Int?) {
-        let feed = self.feedsFromResponseAsObject.feeds![id!]
+    func segueToLoverListViewController(usersArrayToDisplay users: [UserJSON]) {
         let storyBoard = UIStoryboard(name: "Main", bundle: nil)
-        let vc: ProfileViewController = storyBoard.instantiateViewControllerWithIdentifier("ProfileViewController") as! ProfileViewController
-        vc.userId = feed.user?.id
+        let vc = storyBoard.instantiateViewControllerWithIdentifier("LoverListViewController") as! LoverListViewController
+        vc.users = users
         self.navigationController?.pushViewController(vc, animated: true)
-        
+    }
+    
+    func getFeedWithId(id: Int?) -> FeedJSON {
+        return self.feedsFromResponseAsObject.feeds![id!]
     }
     
     func loveFeed(id:Int){

@@ -10,6 +10,7 @@ import UIKit
 import Alamofire
 import SwiftyJSON
 import CoreLocation
+import MBProgressHUD
 
 class RegisterViewController: UIViewController, UIPopoverControllerDelegate, UIPopoverPresentationControllerDelegate, CLLocationManagerDelegate {
     
@@ -46,7 +47,7 @@ class RegisterViewController: UIViewController, UIPopoverControllerDelegate, UIP
         // Dispose of any resources that can be recreated.
     }
     override func viewDidAppear(animated: Bool) {
-        let btnTitle = userGender ?? "Sex"
+        let btnTitle = userGender ?? "Gender"
         btnGender.setTitle(btnTitle, forState: .Normal)
     }
     
@@ -141,6 +142,15 @@ class RegisterViewController: UIViewController, UIPopoverControllerDelegate, UIP
             "gender": self.btnGender.titleLabel?.text ?? "",
         ]
         
+        let loadingNotification = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
+        loadingNotification.mode = MBProgressHUDMode.Indeterminate
+        loadingNotification.labelText = "Registering"
+        
+        let blurEffectView = UIVisualEffectView(effect: UIBlurEffect(style: UIBlurEffectStyle.ExtraLight))
+        blurEffectView.alpha = 0.4
+        blurEffectView.frame = view.bounds
+        self.view.addSubview(blurEffectView)
+        
         requestWithDeviceTokenInParam(.POST, registerUrlString, parameters: parameters)
             .responseJSON { response in
                 
@@ -151,18 +161,25 @@ class RegisterViewController: UIViewController, UIPopoverControllerDelegate, UIP
                         let userInfoStruct = UserDataStruct()
                         userInfoStruct.saveUserInfoFromJSON(jsonContainingUserInfo: dict)
                         
+                        MBProgressHUD.hideAllHUDsForView(self.view, animated: true)
+                        blurEffectView.removeFromSuperview()
+                        
                         let storyBoard = UIStoryboard(name: "Main", bundle: nil)
                         let vc = storyBoard.instantiateViewControllerWithIdentifier("tabView")
                         self.navigationController?.pushViewController(vc, animated: true)
                     }
                     else {
                         print(data)
+                        MBProgressHUD.hideAllHUDsForView(self.view, animated: true)
+                        blurEffectView.removeFromSuperview()
                         print("Invalid Username/Password: \(data["message"])")
                         PixaPalsErrorType.CantAuthenticateError.show(self)
                     }
                 case .Failure(let error):
                     //showAlertView("Error", message: "Can't connect right now.Check your internet settings.", controller: self)
                     //print("Error in connection \(error)")
+                    MBProgressHUD.hideAllHUDsForView(self.view, animated: true)
+                    blurEffectView.removeFromSuperview()
                     PixaPalsErrorType.ConnectionError.show(self)
                 }
         }
@@ -236,10 +253,10 @@ extension RegisterViewController : UITextFieldDelegate {
         }
         let newLength = currentCharacterCount + string.characters.count - range.length
         
-        if newLength == 10 {
-            appDelegate.ShowAlertView("Sorry", message: "Maxum 10 characters allowed")
+        if newLength == 16 {
+            appDelegate.ShowAlertView("Sorry", message: "Maximum 15 characters allowed.")
         }
-        return newLength <= 10
+        return newLength <= 16
     }
     
 }
@@ -253,3 +270,13 @@ extension RegisterViewController : funcDelegate {
         
     }
 }
+//extension RegisterViewController: UITextFieldDelegate {
+//    func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
+//        if textField == self.textFieldUsername {
+//            if (textField.text)!.characters.count == 15 {
+//                return false
+//            }
+//        }
+//        return true
+//    }
+//}

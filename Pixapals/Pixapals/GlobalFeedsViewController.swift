@@ -531,17 +531,28 @@ extension GlobalFeedsViewController: CellImageSwippedDelegate {
     }
     
     func SegueToLoverList(id: Int?) {
-        let feed = self.feedsFromResponseAsObject.feeds![id!]
-        let storyBoard = UIStoryboard(name: "Main", bundle: nil)
-        let vc = storyBoard.instantiateViewControllerWithIdentifier("LoverListViewController") as! LoverListViewController
-        vc.users = feed.lovers
-        self.navigationController?.pushViewController(vc, animated: true)
+        segueToLoverListViewController(usersArrayToDisplay: getFeedWithId(id).lovers!)
     }
-    
+    func SegueToLeaverList(id: Int?) {
+        segueToLoverListViewController(usersArrayToDisplay: getFeedWithId(id).leavers!)
+    }
     func SegueToProfile(id: Int?) {
         let storyBoard = UIStoryboard(name: "Main", bundle: nil)
         let vc: ProfileViewController = storyBoard.instantiateViewControllerWithIdentifier("ProfileViewController") as! ProfileViewController
         vc.userId = id
+        self.navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    func getFeedWithId(id: Int?) -> FeedJSON {
+        return self.feedsFromResponseAsObject.feeds![id!]
+    }
+    
+    
+    
+    func segueToLoverListViewController(usersArrayToDisplay users: [UserJSON]) {
+        let storyBoard = UIStoryboard(name: "Main", bundle: nil)
+        let vc = storyBoard.instantiateViewControllerWithIdentifier("LoverListViewController") as! LoverListViewController
+        vc.users = users
         self.navigationController?.pushViewController(vc, animated: true)
     }
     
@@ -638,8 +649,11 @@ extension GlobalFeedsViewController: CellImageSwippedDelegate {
             feed.is_my_left = false
             feed.leaveit = feed.leaveit! - 1
         }
+//        if let user = UserFeedDistinction.sharedInstance.getUserWithId(UserDataStruct().id) {
+//            feed.lovers?.append(user)
+//        
+//        }
         self.tableView.reloadData()
-        
     }
     
     func leaveCountIncrease(feed: FeedJSON){

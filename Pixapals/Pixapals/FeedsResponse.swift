@@ -233,6 +233,15 @@ class UserJSON: Mappable {
     required init?(_ map: Map){
     }
     
+    init (id: Int, username: String, photo_thumb: String, photo: String, is_my_fed: Bool, is_my_profile: Bool) {
+         self.photo_thumb = photo_thumb
+         self.id = id
+         self.username = username
+         self.photo = photo
+         self.is_my_fed = is_my_fed
+         self.is_my_profile = is_my_profile
+    }
+    
     func mapping(map: Map) {
         photo_thumb <- map["photo_thumb"]
         id <- map["id"]
