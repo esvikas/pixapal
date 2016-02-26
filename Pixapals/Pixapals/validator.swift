@@ -13,11 +13,12 @@ enum ValidationRules: String {
     case alphaNumeric = "^[a-zA-Z0-9]+$"
     case alphaNumericWithSpace = "^([0-9A-Za-z]+( )?[0-9A-Za-z]+){1,}$"
     case alphaNumericWithDot = "^([0-9A-Za-z]+(.)?[0-9A-Za-z]+){1,}$"
-    case numeric = "^[0-9]+$"
+    case number = "^[0-9]+$"
     //case email = "^(([A-Z0-9]+(.|_)?[A-Z0-9]+){1,}@([A-Z0-9]+(.|_)?[A-Z0-9]+){1,}\\.([A-Z]+|([A-Z]+\\.[A-Z]{2,3})))$"
     case email = "^([a-zA-Z]+)([._]?[a-zA-Z\\d]+)*@([a-zA-Z\\d-]+)(\\.[a-zA-Z\\d]{2,6})(\\.[a-zA-Z]{2})?$"
     case tel = "^[0-9]{9}$"
     case mobileNumber = "^[1-9][0-9]{9}$"
+    case numeric = "^[1-9][\\d]*$"
 }
 
 enum Either<A, B> {
@@ -51,7 +52,7 @@ struct Validator {
         }
         
         if let range = range {
-            if case ValidationRules.numeric = rule {
+            if case ValidationRules.number = rule {
                 if let number = value as? Int {
                     if number > range.max {
                         errorMsgs.append("greater then \(range.max).")
@@ -85,21 +86,26 @@ struct Validator {
             if text.characters.count > 255 {
                 errorMsgs.append("Email is longer than 255 characters.")
             }
-        case .numeric:
+        case .number:
             regexString = "^[0-9]+$"
         case .mobileNumber:
-            regexString = "^[1-9][0-9]{9}$"
+            regexString = "^[1-9][0-9]{\(range == nil ? 9 : range!.max)}$"
         case .tel:
             regexString = "^[0-9]{9}$"
+        case .numeric:
+            regexString = "^[1-9][\\d]*$"
         }
+       
+        
         print(rule.rawValue)
         let regex = Regex(regex: regexString)
-        if regex.test(text) {
-            return Either.either(true)
-        }else {
+        if !regex.test(text) {
             errorMsgs.append("Input doesn't match the specified datatype.")
+        }
+        if errorMsgs.count > 0 {
             return Either.or(errorMsgs)
         }
+        return Either.either(true)
     }
     
 }

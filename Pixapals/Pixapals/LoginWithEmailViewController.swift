@@ -10,8 +10,7 @@
  import Alamofire
  //import SwiftyJSON
  import MBProgressHUD
- 
- 
+
  class LoginWithEmailViewController: UIViewController {
     
     @IBOutlet var emailTextfield: UITextField!
@@ -120,24 +119,20 @@
     
     func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool
     {
+        var textOfTextField = textField.text! + string
+        textOfTextField = (range.length == 1) ? textOfTextField.substringToIndex(textOfTextField.endIndex.advancedBy(-1)) : textOfTextField
+        let passwordText = (textField == passwordTextfield) ? textOfTextField : passwordTextfield.text!
+        let emailText = (textField == emailTextfield) ? textOfTextField : emailTextfield.text!
         func isValidPassword() -> Bool {
-            if textField != passwordTextfield && passwordTextfield.text?.characters.count > 0{
+            if passwordText.characters.count > 0 {
                 return true
+            } else {
+                return false
             }
-            var validPassword = false
-            print(passwordTextfield.text!.characters.count > 0)
-            print(passwordTextfield.text!.characters.count > 0 && range.length != 1 && textField == passwordTextfield)
-            if (passwordTextfield.text!.characters.count > 0 && range.length != 1 && textField == passwordTextfield) || (textField == passwordTextfield && string != ""){
-                validPassword = true
-            }
-            if passwordTextfield.text!.characters.count > 1 && range.length == 1 && string == "" {
-                validPassword = true
-            }
-            return validPassword
         }
         
         let validator = Validator()
-        if isValidPassword() && validator.isValidEmail(emailTextfield.text!) {
+        if isValidPassword() && validator.isValidEmail(emailText) {
             loginButton.enabled = true
         } else {
             loginButton.enabled = false
@@ -148,7 +143,6 @@
                 
                 password = password+string
                 textField.text = textField.text!+"*"
-                //print("\(password)")
                 return false
                 
             } else {
@@ -156,9 +150,7 @@
                 if password.characters.count != 0 {
                     var truncated = password.substringToIndex(password.endIndex.predecessor())
                     password = truncated
-                    //print("\(password)")
                 }
-                //return true
             }
         }
         return true

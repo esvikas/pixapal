@@ -252,7 +252,7 @@ btnPostFeed.enabled=false
                 self.image1=nil
                 self.image2=nil
 
-                let alertController = UIAlertController(title: "success", message: "Your post successfully posted", preferredStyle: .Alert)
+                let alertController = UIAlertController(title: "Success", message: "Your feed has been successfully posted.", preferredStyle: .Alert)
                 
                 let cancelAction = UIAlertAction(title: "Ok", style: .Cancel) { (action) in
                     print(action)
