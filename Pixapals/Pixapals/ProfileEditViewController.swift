@@ -273,7 +273,8 @@ class ProfileEditViewController: UIViewController, UINavigationControllerDelegat
             "bio": self.bioTextField.text!,
             "email": self.emailTextField.text!,
             "phone": self.phoneTextField.text!,
-            "gender": (self.btnGender.titleLabel?.text)!,
+
+            "gender": self.btnGender.titleLabel?.text ?? "",
             "old_password" : oldPasswordTextField.text!,
             "new_password" : newPasswordTextField.text!
         ]
@@ -328,6 +329,7 @@ class ProfileEditViewController: UIViewController, UINavigationControllerDelegat
                         self.navigationItem.hidesBackButton = false
                         self.newBackButton.enabled=false
                         self.newDoneButton.enabled=true
+
                     }
                 }
         }
