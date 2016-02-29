@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9531" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="eWi-o4-zEa">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9531" systemVersion="15B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="eWi-o4-zEa">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
@@ -2582,6 +2582,36 @@
                                             <action selector="btnGender:" destination="Y2x-dP-U0e" eventType="touchUpInside" id="Ozs-Sv-TsL"/>
                                         </connections>
                                     </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HlD-bG-Ynw">
+                                        <rect key="frame" x="323" y="46" width="25" height="25"/>
+                                        <color key="backgroundColor" red="0.50980392159999999" green="0.73725490199999999" blue="0.1843137255" alpha="1" colorSpace="calibratedRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="45" id="0YL-cb-Q1H"/>
+                                            <constraint firstAttribute="height" constant="45" id="FQ1-To-lop"/>
+                                            <constraint firstAttribute="height" constant="44" id="dRx-Sf-ZGY"/>
+                                            <constraint firstAttribute="width" constant="25" id="gMq-SU-lh4"/>
+                                            <constraint firstAttribute="width" secondItem="HlD-bG-Ynw" secondAttribute="height" multiplier="1:1" id="qsC-x9-apb"/>
+                                        </constraints>
+                                        <state key="normal" backgroundImage="edit"/>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
+                                                <color key="value" red="0.72941176470000002" green="0.72941176470000002" blue="0.72941176470000002" alpha="1" colorSpace="calibratedRGB"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
+                                                <real key="value" value="1"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
+                                        <variation key="default">
+                                            <mask key="constraints">
+                                                <exclude reference="0YL-cb-Q1H"/>
+                                                <exclude reference="FQ1-To-lop"/>
+                                                <exclude reference="dRx-Sf-ZGY"/>
+                                            </mask>
+                                        </variation>
+                                        <connections>
+                                            <action selector="btnChangePic:" destination="Y2x-dP-U0e" eventType="touchUpInside" id="dSJ-A7-uUK"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
                                 <color key="backgroundColor" red="0.94117647059999998" green="0.94117647059999998" blue="0.94117647059999998" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
@@ -2591,6 +2621,7 @@
                                     <constraint firstItem="ssD-KL-BUR" firstAttribute="centerX" secondItem="vWW-TN-lsC" secondAttribute="centerX" id="7vN-cl-vWY"/>
                                     <constraint firstItem="toF-3f-7NL" firstAttribute="top" secondItem="Xln-hq-NnO" secondAttribute="bottom" constant="5" id="8Dg-Ke-wJR"/>
                                     <constraint firstAttribute="trailing" secondItem="ZAx-09-WWz" secondAttribute="trailing" constant="20" id="8oa-wg-m4b"/>
+                                    <constraint firstItem="HlD-bG-Ynw" firstAttribute="trailing" secondItem="AyH-lY-xeW" secondAttribute="trailing" constant="3" id="BSm-O2-FcM"/>
                                     <constraint firstItem="aGX-IB-XTK" firstAttribute="leading" secondItem="F20-To-sBR" secondAttribute="leading" constant="20" id="DbS-na-XRo"/>
                                     <constraint firstItem="ZAx-09-WWz" firstAttribute="top" secondItem="GiJ-mP-nPX" secondAttribute="bottom" constant="10" id="FFF-y4-4rP"/>
                                     <constraint firstItem="mr2-QN-TnY" firstAttribute="centerX" secondItem="F20-To-sBR" secondAttribute="centerX" id="GuQ-ML-AAx"/>
@@ -2620,6 +2651,7 @@
                                     <constraint firstItem="7cd-P1-HAr" firstAttribute="top" secondItem="aGX-IB-XTK" secondAttribute="bottom" constant="8" id="hYY-8V-CLm"/>
                                     <constraint firstItem="ssD-KL-BUR" firstAttribute="width" secondItem="vWW-TN-lsC" secondAttribute="width" id="hcc-La-PQq"/>
                                     <constraint firstItem="vWW-TN-lsC" firstAttribute="height" secondItem="ssD-KL-BUR" secondAttribute="height" id="hf4-bF-7BM"/>
+                                    <constraint firstItem="HlD-bG-Ynw" firstAttribute="top" secondItem="AyH-lY-xeW" secondAttribute="top" id="k8L-8s-39g"/>
                                     <constraint firstItem="aGX-IB-XTK" firstAttribute="height" secondItem="ZAx-09-WWz" secondAttribute="height" id="kVa-It-yVU"/>
                                     <constraint firstItem="7cd-P1-HAr" firstAttribute="leading" secondItem="F20-To-sBR" secondAttribute="leading" constant="20" id="oBD-97-qgJ"/>
                                     <constraint firstItem="toF-3f-7NL" firstAttribute="centerX" secondItem="Xln-hq-NnO" secondAttribute="centerX" id="pCa-sl-8kB"/>
@@ -2651,6 +2683,7 @@
                     <connections>
                         <outlet property="bioTextField" destination="toF-3f-7NL" id="w40-qO-x21"/>
                         <outlet property="btnChangePic" destination="AyH-lY-xeW" id="YD5-Yz-I3d"/>
+                        <outlet property="btnEditProfileImage" destination="HlD-bG-Ynw" id="MUR-Y1-SRX"/>
                         <outlet property="btnGender" destination="4Z3-0T-yKa" id="sBH-Un-8i3"/>
                         <outlet property="conformPasswordTextField" destination="7cd-P1-HAr" id="hOE-4u-YC7"/>
                         <outlet property="emailTextField" destination="vWW-TN-lsC" id="B33-0V-jtp"/>
@@ -2939,6 +2972,7 @@
         <image name="double_image_menu" width="27" height="27"/>
         <image name="double_mode_camera" width="55" height="50"/>
         <image name="double_mode_thumbnail" width="230" height="100"/>
+        <image name="edit" width="44" height="44"/>
         <image name="email" width="34" height="34"/>
         <image name="facebook" width="17" height="17"/>
         <image name="favorite" width="14" height="12"/>

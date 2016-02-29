@@ -28,6 +28,7 @@ class ProfileEditViewController: UIViewController, UINavigationControllerDelegat
     @IBOutlet var btnChangePic: UIButton!
     @IBOutlet var userProfilePic: UIImageView!
     @IBOutlet var btnGender: UIButton!
+    @IBOutlet weak var btnEditProfileImage: UIButton!
     @IBOutlet var conformPasswordTextField: UITextField!
     @IBOutlet var newPasswordTextField: UITextField!
     
@@ -51,6 +52,11 @@ class ProfileEditViewController: UIViewController, UINavigationControllerDelegat
         
         userProfilePic.layer.cornerRadius=userProfilePic.frame.height/2
         userProfilePic.clipsToBounds=true
+        
+        btnEditProfileImage.layer.cornerRadius = btnEditProfileImage.frame.height/2
+        btnEditProfileImage.clipsToBounds = true
+        btnEditProfileImage.layer.borderColor = UIColor.grayColor().CGColor
+        btnEditProfileImage.layer.borderWidth = 1
         
         userNameTextField.text=userDataAsObject.username
         emailTextField.text=userDataAsObject.email
