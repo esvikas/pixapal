@@ -13,6 +13,7 @@ import Alamofire
 import SwiftyJSON
 import CoreLocation
 import FBSDKShareKit
+import TwitterKit
 
 
 class ViewController: UIViewController {
@@ -112,6 +113,16 @@ class ViewController: UIViewController {
         return false
     }
     
+    @IBAction func twitterLogin(sender: AnyObject) {
+        Twitter.sharedInstance().logInWithCompletion { session, error in
+            if (session != nil) {
+                print(session)
+                print("signed in as \(session?.userName)");
+            } else {
+                print("error: \(error?.localizedDescription)");
+            }
+        }
+    }
     
     @IBAction func btnFbLogin(sender: AnyObject) {
         
@@ -230,15 +241,16 @@ class ViewController: UIViewController {
                 let fbName: String = self.dict.objectForKey("name") as! String
                 let userName = fbName.stringByReplacingOccurrencesOfString(" ", withString: "_")
                 let fbId: String = self.dict.objectForKey("id") as! String
+                let type: String = self.dict.objectForKey("type") as! String
                 
                 let parametersToPost: [String: AnyObject] = [
                     "profileid": fbId,
                     "name": fbName,
-                    "type":"facebook",
-                    "gender": self.dict["gender"]!,
+                    "type": type,
+                    "gender": self.dict["gender"] ?? "Don't Share",
                     "latitude": String(location.latitude),
                     "longitude": String(location.longitude),
-                    "email": self.dict["email"]!,
+                    "email": self.dict["email"] ?? "",
                     "username": userName
                 ]
                 
