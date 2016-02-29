@@ -116,8 +116,16 @@ class ViewController: UIViewController {
     @IBAction func twitterLogin(sender: AnyObject) {
         Twitter.sharedInstance().logInWithCompletion { session, error in
             if (session != nil) {
-                print(session)
-                print("signed in as \(session?.userName)");
+                //self.dict.setValue(session!.userName, forKey: "username")
+                //self.dict.setValue(session!.userID, forKey: "id")
+                
+                let client = TWTRAPIClient()
+                client.loadUserWithID(session!.userID) { (user, error) -> Void in
+                    self.dict.setValue(user?.userID, forKey: "id")
+                    self.dict.setValue(session?.userName, forKey: "username")
+                    self.dict.setValue(user?.profileImageMiniURL, forKey: "profileImage")
+                    self.dict.setValue("Twitter", forKey: "type")
+                }
             } else {
                 print("error: \(error?.localizedDescription)");
             }
@@ -178,6 +186,7 @@ class ViewController: UIViewController {
                 if (error == nil){
                     print(result)
                     self.dict = result as! NSDictionary
+                    self.dict.setValue("facebook", forKey: "type")
                     
                     if let _ = self.location {
                         self.loginFbUser()
