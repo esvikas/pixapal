@@ -387,7 +387,8 @@ extension DetailVIewViewController: CellImageSwippedDelegate {
             switch response.result {
             case .Success(let loveItObject):
                 if !loveItObject.error! {
-                    
+                    self.feed?.lovers?.append(loveItObject.user!)
+                    self.feed?.leavers = self.feed?.leavers!.filter{$0.id! != loveItObject.user!.id!}
                 } else {
                     PixaPalsErrorType.CantLoveItLeaveItError.show(self)
                     print("Error: Love it error")
@@ -400,6 +401,16 @@ extension DetailVIewViewController: CellImageSwippedDelegate {
                 self.leaveCountIncrease()
             }
         }
+            
+//            .responseJSON { response in
+//                switch response.result {
+//                case .Failure(let error):
+//                    print(error)
+//                case .Success(let value):
+//                    print(value)
+//                }
+//        }
+
         //        Alamofire.request(.POST, registerUrlString, parameters: parameters, headers:headers).responseJSON { response in
         //            switch response.result {
         //            case .Failure(let error):
@@ -442,7 +453,8 @@ extension DetailVIewViewController: CellImageSwippedDelegate {
             switch response.result {
             case .Success(let leaveItObject):
                 if !leaveItObject.error! {
-                    
+                    self.feed?.leavers?.append(leaveItObject.user!)
+                    self.feed?.lovers = self.feed?.lovers!.filter{$0.id! != leaveItObject.user!.id!}
                 } else {
                     PixaPalsErrorType.CantLoveItLeaveItError.show(self)
                     print("Error: Leave it error")
@@ -455,8 +467,14 @@ extension DetailVIewViewController: CellImageSwippedDelegate {
                 //print("Error in connection \(error)")
             }
         }
-        
-        
+//            .responseJSON { response in
+//                            switch response.result {
+//                            case .Failure(let error):
+//                                print(error)
+//                            case .Success(let value):
+//                                print(value)
+//                            }
+//                        }
     }
     
     func loveCountIncrease(){

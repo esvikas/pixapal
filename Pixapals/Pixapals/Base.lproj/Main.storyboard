@@ -2610,7 +2610,6 @@
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HlD-bG-Ynw">
                                         <rect key="frame" x="323" y="46" width="25" height="25"/>
-                                        <color key="backgroundColor" red="0.50980392159999999" green="0.73725490199999999" blue="0.1843137255" alpha="1" colorSpace="calibratedRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="45" id="0YL-cb-Q1H"/>
                                             <constraint firstAttribute="height" constant="45" id="FQ1-To-lop"/>
@@ -2709,7 +2708,6 @@
                     <connections>
                         <outlet property="bioTextField" destination="toF-3f-7NL" id="w40-qO-x21"/>
                         <outlet property="btnChangePic" destination="AyH-lY-xeW" id="YD5-Yz-I3d"/>
-                        <outlet property="btnEditProfileImage" destination="HlD-bG-Ynw" id="MUR-Y1-SRX"/>
                         <outlet property="btnGender" destination="4Z3-0T-yKa" id="sBH-Un-8i3"/>
                         <outlet property="conformPasswordTextField" destination="7cd-P1-HAr" id="hOE-4u-YC7"/>
                         <outlet property="emailTextField" destination="vWW-TN-lsC" id="B33-0V-jtp"/>

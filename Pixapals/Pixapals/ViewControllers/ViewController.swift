@@ -21,9 +21,9 @@ class ViewController: UIViewController {
     var manager = CLLocationManager()
     var location: CLLocationCoordinate2D!
     
-    var dict : NSDictionary!
+    var dict = NSMutableDictionary()
     
-    var friendsList : NSDictionary!
+    var friendsList = NSMutableDictionary()
 
     //var loginUsingFB = false
     
@@ -114,17 +114,22 @@ class ViewController: UIViewController {
     }
     
     @IBAction func twitterLogin(sender: AnyObject) {
+        if !checkForLocationAccess() {
+            return
+        }
         Twitter.sharedInstance().logInWithCompletion { session, error in
             if (session != nil) {
                 //self.dict.setValue(session!.userName, forKey: "username")
                 //self.dict.setValue(session!.userID, forKey: "id")
-                
+                print(session?.userID)
                 let client = TWTRAPIClient()
                 client.loadUserWithID(session!.userID) { (user, error) -> Void in
-                    self.dict.setValue(user?.userID, forKey: "id")
+                    self.dict.setValue(session?.userID, forKey: "id")
                     self.dict.setValue(session?.userName, forKey: "username")
                     self.dict.setValue(user?.profileImageMiniURL, forKey: "profileImage")
                     self.dict.setValue("Twitter", forKey: "type")
+                    
+                    self.loginFbUser()
                 }
             } else {
                 print("error: \(error?.localizedDescription)");
@@ -133,7 +138,9 @@ class ViewController: UIViewController {
     }
     
     @IBAction func btnFbLogin(sender: AnyObject) {
-        
+        if !checkForLocationAccess() {
+            return
+        }
         let reachability: Reachability
         do {
             reachability = try Reachability.reachabilityForInternetConnection()
@@ -176,16 +183,24 @@ class ViewController: UIViewController {
         }
     }
     
+    func checkForLocationAccess() -> Bool {
+        if let _ = location {
+            return true
+        }
+        PixaPalsErrorType.LocationNotEnabledError.show(self)
+        return false
+    }
+    
     func getFBUserData(){
         if((FBSDKAccessToken.currentAccessToken()) != nil){
             
-            FBSDKGraphRequest(graphPath: "me", parameters: ["fields": "id, name, picture.type(large), email, website, gender, hometown, birthday"]).startWithCompletionHandler({ (connection, result, error) -> Void in
+            FBSDKGraphRequest(graphPath: "me", parameters: ["fields": "id, name, picture.type(thumb), email, website, gender, hometown, birthday"]).startWithCompletionHandler({ (connection, result, error) -> Void in
                 
                 print(FBSDKAccessToken.currentAccessToken().tokenString)
 
                 if (error == nil){
                     print(result)
-                    self.dict = result as! NSDictionary
+                    self.dict = result as! NSMutableDictionary
                     self.dict.setValue("facebook", forKey: "type")
                     
                     if let _ = self.location {
@@ -204,11 +219,11 @@ class ViewController: UIViewController {
         
         request.startWithCompletionHandler { (connection : FBSDKGraphRequestConnection!, result : AnyObject!, error : NSError!) -> Void in
             if error == nil {
-                print("Friends are : \(result)")
+                //print("Friends are : \(result)")
 
-                print("Friends are : \(result.count)")
+               // print("Friends are : \(result.count)")
                 
-                self.friendsList = result as! NSDictionary
+                self.friendsList = result as! NSMutableDictionary
 
                 
             } else {
@@ -247,20 +262,20 @@ class ViewController: UIViewController {
                 
                 registerUrlString = registerUrlString.stringByAddingPercentEscapesUsingEncoding(NSUTF8StringEncoding)!
                 
-                let fbName: String = self.dict.objectForKey("name") as! String
-                let userName = fbName.stringByReplacingOccurrencesOfString(" ", withString: "_")
-                let fbId: String = self.dict.objectForKey("id") as! String
-                let type: String = self.dict.objectForKey("type") as! String
+                let name = self.dict.objectForKey("name") as? String ?? (self.dict.objectForKey("username") as? String ?? "")
+                let username = self.dict.objectForKey("username") as? String ?? name.stringByReplacingOccurrencesOfString(" ", withString: "_")
+                let id = self.dict.objectForKey("id") as! String
+                let type = self.dict.objectForKey("type") as! String
                 
                 let parametersToPost: [String: AnyObject] = [
-                    "profileid": fbId,
-                    "name": fbName,
+                    "profileid": id,
+                    "name": name,
                     "type": type,
                     "gender": self.dict["gender"] ?? "Don't Share",
                     "latitude": String(location.latitude),
                     "longitude": String(location.longitude),
                     "email": self.dict["email"] ?? "",
-                    "username": userName
+                    "username": username
                 ]
                 
                 //print(parametersToPost, terminator: "")

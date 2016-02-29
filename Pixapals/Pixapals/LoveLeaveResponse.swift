@@ -13,6 +13,7 @@ class SuccessFailJSON: Mappable {
     var code: Int?
     var error: Bool?
     var message: String?
+    var user: UserJSON?
     
     required init?(_ map: Map) {
         
@@ -21,5 +22,9 @@ class SuccessFailJSON: Mappable {
         code <- map["code"]
         error <- map["error"]
         message <- map["message"]
+        user <- map["user"]
+        if let user = user {
+            self.user = UserFeedDistinction.sharedInstance.checkDistinctUser(user)
+        }
     }
 }

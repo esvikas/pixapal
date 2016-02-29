@@ -9,13 +9,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Pixapals/ProfileViewController.swift"
-            timestampString = "478150957.678427"
+            filePath = "Pixapals/ViewControllers/ViewController.swift"
+            timestampString = "478432636.877529"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "613"
-            endingLineNumber = "613"
-            landmarkName = "SegueToProfile(_:)"
+            startingLineNumber = "294"
+            endingLineNumber = "294"
+            landmarkName = "loginFbUser()"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -26,11 +26,75 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Pixapals/ViewControllers/ViewController.swift"
-            timestampString = "478421766.375706"
+            timestampString = "478432636.877529"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "118"
-            endingLineNumber = "118"
+            startingLineNumber = "127"
+            endingLineNumber = "127"
+            landmarkName = "twitterLogin(_:)"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Pixapals/ViewControllers/ViewController.swift"
+            timestampString = "478432636.877529"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "120"
+            endingLineNumber = "120"
+            landmarkName = "twitterLogin(_:)"
+            landmarkType = "5">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Pixapals.ViewController.twitterLogin (Pixapals.ViewController)(Swift.AnyObject) -&gt; ()"
+                  moduleName = "Pixapals"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/dari/Documents/pixapals/Pixapals/Pixapals/ViewControllers/ViewController.swift"
+                  timestampString = "478440643.968673"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "120"
+                  endingLineNumber = "120"
+                  offsetFromSymbolStart = "80">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Pixapals.ViewController.(twitterLogin (Pixapals.ViewController) -&gt; (Swift.AnyObject) -&gt; ()).(closure #1)"
+                  moduleName = "Pixapals"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/dari/Documents/pixapals/Pixapals/Pixapals/ViewControllers/ViewController.swift"
+                  timestampString = "478440643.968814"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "121"
+                  endingLineNumber = "121"
+                  offsetFromSymbolStart = "28">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Pixapals/ViewControllers/ViewController.swift"
+            timestampString = "478432636.877529"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "121"
+            endingLineNumber = "121"
             landmarkName = "twitterLogin(_:)"
             landmarkType = "5">
          </BreakpointContent>

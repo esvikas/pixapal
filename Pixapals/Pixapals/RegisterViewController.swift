@@ -115,6 +115,8 @@ class RegisterViewController: UIViewController, UIPopoverControllerDelegate, UIP
         
         if self.textFieldPassword.text! != self.textFieldConfirmPassword.text! {
             //appDelegate.ShowAlertView("Password Not Confirmed", message: "Password and Confirm Password doesn't match.")
+            self.textFieldConfirmPassword.text = ""
+            self.textFieldPassword.text = ""
             PixaPalsErrorType.PasswordNotConfirmedError.show(self)
             return
         }
@@ -142,20 +144,23 @@ class RegisterViewController: UIViewController, UIPopoverControllerDelegate, UIP
             "gender": self.btnGender.titleLabel?.text ?? "",
         ]
         
-        let loadingNotification = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
-        loadingNotification.mode = MBProgressHUDMode.Indeterminate
-        loadingNotification.labelText = "Registering"
         
         let blurEffectView = UIVisualEffectView(effect: UIBlurEffect(style: UIBlurEffectStyle.ExtraLight))
         blurEffectView.alpha = 0.4
         blurEffectView.frame = view.bounds
         self.view.addSubview(blurEffectView)
         
+        let loadingNotification = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
+        loadingNotification.mode = MBProgressHUDMode.Indeterminate
+        loadingNotification.labelText = "Registering"
+
+        
         requestWithDeviceTokenInParam(.POST, registerUrlString, parameters: parameters)
             .responseJSON { response in
                 
                 switch response.result {
                 case .Success(let data):
+                    //let data = JSON(nsdata)
                     if let dict = data["user"] as? [String: AnyObject] {
                         print(dict)
                         let userInfoStruct = UserDataStruct()

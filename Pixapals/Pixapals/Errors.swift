@@ -23,10 +23,10 @@ enum APIConnectionErrorMessage: String {
 //validation errors
 enum ValidationErrorMessage: String {
     case InvalidEmailErrorMessage = "The email you've entered is incorrect."
-    case EmptyPasswordFieldErrorMessage = "Password field is empty."
-    case EmptyUsernameFieldErrorMessage = "Username field is empty."
+    case EmptyPasswordFieldErrorMessage = "Password field is required."
+    case EmptyUsernameFieldErrorMessage = "Username field is required."
     case GenderNotSelectedErrorMessage = "Please choose a gender."
-    case EmptyFullNameErrorMessage = "Full name field is empty."
+    case EmptyFullNameErrorMessage = "Full name field is required."
     case PasswordNotConfirmedErrorMessage = "Password and confirm password doesn't match"
 }
 

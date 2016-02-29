@@ -59,6 +59,10 @@ class NotificationViewController: UIViewController {
     override func viewDidAppear(animated: Bool) {
         self.removeBadge()
     }
+    override func viewWillAppear(animated: Bool) {
+        self.tabBarController?.navigationItem.rightBarButtonItem = UIBarButtonItem()
+        self.tabBarController?.navigationItem.title = "Notifications"
+    }
     /*
     // MARK: - Navigation
     

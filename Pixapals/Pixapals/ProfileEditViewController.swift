@@ -53,10 +53,10 @@ class ProfileEditViewController: UIViewController, UINavigationControllerDelegat
         userProfilePic.layer.cornerRadius=userProfilePic.frame.height/2
         userProfilePic.clipsToBounds=true
         
-        btnEditProfileImage.layer.cornerRadius = btnEditProfileImage.frame.height/2
-        btnEditProfileImage.clipsToBounds = true
-        btnEditProfileImage.layer.borderColor = UIColor.grayColor().CGColor
-        btnEditProfileImage.layer.borderWidth = 1
+//        btnEditProfileImage.layer.cornerRadius = btnEditProfileImage.frame.height/2
+//        btnEditProfileImage.clipsToBounds = true
+//        btnEditProfileImage.layer.borderColor = UIColor.grayColor().CGColor
+//        btnEditProfileImage.layer.borderWidth = 1
         
         userNameTextField.text=userDataAsObject.username
         emailTextField.text=userDataAsObject.email
@@ -437,7 +437,7 @@ extension ProfileEditViewController : UITextFieldDelegate {
     func textFieldDidEndEditing(textField: UITextField) {
         if textField == phoneTextField {
             if (textField.text?.length < 12 || textField.text?.length > 13) && textField.text?.length > 0 {
-                appDelegate.ShowAlertView("Invalid", message: "Invalid Phone number")
+                appDelegate.ShowAlertView("Error", message: "13 digits phone number required.")
                 textField.text = ""
             }
         }

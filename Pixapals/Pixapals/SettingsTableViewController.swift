@@ -48,7 +48,7 @@ class SettingsTableViewController: UITableViewController {
     }
     
     func reloadView(){
-        
+        nsUserDefault.synchronize()
         locationDetailText.text =  nsUserDefault.objectForKey("UserLocationForFilter") as? String
         genderDetailText.text =  nsUserDefault.objectForKey("UserGenderForFilter") as? String
         
