@@ -78,7 +78,7 @@ class SettingsTableViewController: UITableViewController {
             PixaPalsErrorType.NotAvailableError.show(self)
             //appDelegate.ShowAlertView("Sorry ", message: "Not available")
             
-        case 2:
+        case 3:
             logoutRequest()
             
         default:

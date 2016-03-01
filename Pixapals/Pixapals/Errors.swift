@@ -39,6 +39,7 @@ enum AccessibilityErrorMessage: String {
 enum FeedErrorMessage: String {
     case CantLoveItLeaveItErrorMessage = "An error occurred while processing this request. Please try again later."
     case NoFeedDataAvailableErrorMessage = "No feed data is available in the server."
+    case CantRefeedErrorMessage = "Unable to refeed this post."
 }
 
 //fed error
@@ -129,6 +130,9 @@ enum PixaPalsErrorType {
     
     //settings errors
     case NotAvailableError
+    
+    //refeed error
+    case CantRefeedError
 
     
     func show(viewController: UIViewController, var title: String? = nil, var message: String? = nil) {
@@ -181,6 +185,8 @@ enum PixaPalsErrorType {
                     return APIConnectionErrorMessage.CantGetUserInfoFromFacebookErrorMessage.rawValue
                 case CantGetFriendInfoFromFacebookError:
                     return APIConnectionErrorMessage.CantGetFriendInfoFromFacebookErrorMessage.rawValue
+                case .CantRefeedError:
+                    return FeedErrorMessage.CantRefeedErrorMessage.rawValue
                 }
             }()
         }

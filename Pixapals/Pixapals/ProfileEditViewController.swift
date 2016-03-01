@@ -406,10 +406,14 @@ extension ProfileEditViewController : UITextFieldDelegate {
                 return false
             }
             let newLength = currentCharacterCount + string.characters.count - range.length
-            
             //            if newLength == length {
             //                appDelegate.ShowAlertView("Sorry", message: "Maximum 15 characters allowed.")
             //            }
+            if newLength > length {
+                let text = textField.text! + string
+                textField.text = text.stringByReplacingCharactersInRange(text.startIndex.advancedBy(length)...text.endIndex.advancedBy(-1), withString: "")
+                return true
+            }
             return newLength == length
         }
         if textField == userNameTextField {
@@ -420,7 +424,7 @@ extension ProfileEditViewController : UITextFieldDelegate {
             //            let newLength = currentCharacterCount + string.characters.count - range.length
             
             if checkLength(16) {
-                appDelegate.ShowAlertView("Sorry", message: "Maximum 15 characters allowed.")
+                appDelegate.ShowAlertView("Error", message: "Maximum 15 characters allowed.")
                 return false
             }
         } else if textField == phoneTextField {
@@ -428,7 +432,7 @@ extension ProfileEditViewController : UITextFieldDelegate {
                 return false
             }
             if checkLength(14) {
-                appDelegate.ShowAlertView("Sorry", message: "Maximum 13 characters allowed.")
+                appDelegate.ShowAlertView("Error", message: "Maximum 13 digits allowed.")
                 return false
             }
         }
@@ -436,9 +440,16 @@ extension ProfileEditViewController : UITextFieldDelegate {
     }
     func textFieldDidEndEditing(textField: UITextField) {
         if textField == phoneTextField {
-            if (textField.text?.length < 12 || textField.text?.length > 13) && textField.text?.length > 0 {
-                appDelegate.ShowAlertView("Error", message: "13 digits phone number required.")
+            if (textField.text?.length < 11 || textField.text?.length > 13) && textField.text?.length > 0 {
+                appDelegate.ShowAlertView("Error", message: "Minimum 11 digits allowed.")
                 textField.text = ""
+            }
+        } else if textField == userNameTextField {
+            if textField.text!.characters.count > 15 {
+                let text = textField.text!
+                textField.text = text.stringByReplacingCharactersInRange(text.startIndex.advancedBy(15)...text.endIndex.advancedBy(-1), withString: "")
+            } else if textField.text! == "" {
+                PixaPalsErrorType.EmptyUsernameFieldError.show(self)
             }
         }
     }

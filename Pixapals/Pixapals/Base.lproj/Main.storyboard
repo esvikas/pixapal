@@ -646,7 +646,7 @@
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="49"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="setting_facebook" translatesAutoresizingMaskIntoConstraints="NO" id="wAx-zW-5w4">
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="setting_facebook" translatesAutoresizingMaskIntoConstraints="NO" id="wAx-zW-5w4">
                                                     <rect key="frame" x="16" y="8" width="27" height="27"/>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Find Feeders on Facebook" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MCx-Wa-Fpr">
@@ -660,10 +660,39 @@
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
+                            <tableViewSection headerTitle="Report an Issue" id="x3u-ds-8jI">
+                                <cells>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="P9s-ke-r88">
+                                        <rect key="frame" x="0.0" y="286" width="600" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="P9s-ke-r88" id="7ih-dG-oD8">
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="43"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Report" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="d7u-tF-iw9">
+                                                    <rect key="frame" x="51" y="10" width="59" height="24"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="report" translatesAutoresizingMaskIntoConstraints="NO" id="IC3-5b-5yF">
+                                                    <rect key="frame" x="16" y="8" width="27" height="27"/>
+                                                </imageView>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="(anything you didn't like)" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eE2-zs-YBi">
+                                                    <rect key="frame" x="105" y="11" width="156" height="24"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                    <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </cells>
+                            </tableViewSection>
                             <tableViewSection headerTitle="User" id="L7u-pE-UI9">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="FrD-ra-wAt">
-                                        <rect key="frame" x="0.0" y="286" width="600" height="44"/>
+                                        <rect key="frame" x="0.0" y="358" width="600" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="FrD-ra-wAt" id="1l4-zl-a28">
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="43"/>
@@ -675,7 +704,7 @@
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="logout" translatesAutoresizingMaskIntoConstraints="NO" id="zPs-gd-oy7">
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="logout" translatesAutoresizingMaskIntoConstraints="NO" id="zPs-gd-oy7">
                                                     <rect key="frame" x="16" y="8" width="27" height="27"/>
                                                 </imageView>
                                             </subviews>
@@ -702,6 +731,34 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="q82-Eb-fwQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="3780" y="1327"/>
+        </scene>
+        <!--Report Form-->
+        <scene sceneID="MQQ-kP-KMw">
+            <objects>
+                <viewController id="Tgq-hb-bV7" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="4Js-Ui-nzG"/>
+                        <viewControllerLayoutGuide type="bottom" id="GlN-Mu-nX4"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="4aN-QI-Tms">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Izz-FD-Umb">
+                                <rect key="frame" x="20" y="28" width="560" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="Ym7-mu-iSc"/>
+                                </constraints>
+                                <state key="normal" title="Button"/>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="Report Form" id="Vv9-Ry-9v3"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="pkx-fU-4Ko" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4484" y="1327"/>
         </scene>
         <!--Lover List-->
         <scene sceneID="BJ1-mm-RPU">
@@ -2767,42 +2824,72 @@
                                                         </mask>
                                                     </variation>
                                                 </imageView>
-                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PiL-y6-9ND" customClass="DesignableButton" customModule="Spring">
-                                                    <rect key="frame" x="312" y="18" width="88" height="21"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="width" constant="88" id="Ieb-oR-QYX"/>
-                                                    </constraints>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                                    <state key="normal" title="GET FEED">
-                                                        <color key="titleColor" red="0.43529411759999997" green="0.4431372549" blue="0.47450980390000003" alpha="1" colorSpace="calibratedRGB"/>
-                                                    </state>
-                                                    <userDefinedRuntimeAttributes>
-                                                        <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
-                                                            <real key="value" value="1"/>
-                                                        </userDefinedRuntimeAttribute>
-                                                        <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
-                                                            <real key="value" value="7"/>
-                                                        </userDefinedRuntimeAttribute>
-                                                        <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
-                                                            <color key="value" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                                                        </userDefinedRuntimeAttribute>
-                                                    </userDefinedRuntimeAttributes>
-                                                    <connections>
-                                                        <action selector="btnFollowUser:" destination="hHF-Rq-NqM" eventType="touchUpInside" id="0fc-nP-eRR"/>
-                                                    </connections>
-                                                </button>
+                                                <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="iFy-lP-Gi0">
+                                                    <rect key="frame" x="224" y="13" width="176" height="27"/>
+                                                    <subviews>
+                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dmZ-2q-hHW" customClass="DesignableButton" customModule="Spring">
+                                                            <rect key="frame" x="0.0" y="0.0" width="88" height="27"/>
+                                                            <color key="backgroundColor" red="0.50980392159999999" green="0.73725490199999999" blue="0.1843137255" alpha="1" colorSpace="calibratedRGB"/>
+                                                            <constraints>
+                                                                <constraint firstAttribute="width" constant="88" id="dyt-Hu-ynD"/>
+                                                            </constraints>
+                                                            <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                            <state key="normal" title="RE-FEED">
+                                                                <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                            </state>
+                                                            <userDefinedRuntimeAttributes>
+                                                                <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
+                                                                    <real key="value" value="1"/>
+                                                                </userDefinedRuntimeAttribute>
+                                                                <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                                    <real key="value" value="7"/>
+                                                                </userDefinedRuntimeAttribute>
+                                                                <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
+                                                                    <color key="value" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                                                </userDefinedRuntimeAttribute>
+                                                            </userDefinedRuntimeAttributes>
+                                                            <connections>
+                                                                <action selector="refeedFeed:" destination="hHF-Rq-NqM" eventType="touchUpInside" id="9v8-sx-UfM"/>
+                                                            </connections>
+                                                        </button>
+                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PiL-y6-9ND" customClass="DesignableButton" customModule="Spring">
+                                                            <rect key="frame" x="88" y="0.0" width="88" height="27"/>
+                                                            <constraints>
+                                                                <constraint firstAttribute="width" constant="88" id="Ieb-oR-QYX"/>
+                                                            </constraints>
+                                                            <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                            <state key="normal" title="GET FEED">
+                                                                <color key="titleColor" red="0.43529411759999997" green="0.4431372549" blue="0.47450980390000003" alpha="1" colorSpace="calibratedRGB"/>
+                                                            </state>
+                                                            <userDefinedRuntimeAttributes>
+                                                                <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
+                                                                    <real key="value" value="1"/>
+                                                                </userDefinedRuntimeAttribute>
+                                                                <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                                    <real key="value" value="7"/>
+                                                                </userDefinedRuntimeAttribute>
+                                                                <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
+                                                                    <color key="value" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                                                </userDefinedRuntimeAttribute>
+                                                            </userDefinedRuntimeAttributes>
+                                                            <connections>
+                                                                <action selector="btnFollowUser:" destination="hHF-Rq-NqM" eventType="touchUpInside" id="0fc-nP-eRR"/>
+                                                            </connections>
+                                                        </button>
+                                                    </subviews>
+                                                </stackView>
                                             </subviews>
                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <constraints>
+                                                <constraint firstAttribute="bottom" secondItem="iFy-lP-Gi0" secondAttribute="bottom" constant="18" id="Cj5-QY-HZW"/>
+                                                <constraint firstAttribute="trailing" secondItem="iFy-lP-Gi0" secondAttribute="trailing" constant="14" id="Dgv-28-F6p"/>
                                                 <constraint firstAttribute="bottom" secondItem="m89-4P-EyC" secondAttribute="bottom" constant="19" id="Gdf-eA-Y33"/>
                                                 <constraint firstAttribute="bottom" secondItem="Fr6-5V-0DI" secondAttribute="bottom" constant="21" id="GjY-ay-e2u"/>
                                                 <constraint firstItem="m89-4P-EyC" firstAttribute="top" secondItem="uFk-zs-cT4" secondAttribute="top" constant="14" id="KSE-29-Ern"/>
                                                 <constraint firstItem="Fr6-5V-0DI" firstAttribute="leading" secondItem="m89-4P-EyC" secondAttribute="trailing" constant="8" id="Luv-du-Imi"/>
-                                                <constraint firstAttribute="bottom" secondItem="PiL-y6-9ND" secondAttribute="bottom" constant="19" id="MBS-HM-Vjl"/>
                                                 <constraint firstItem="Fr6-5V-0DI" firstAttribute="top" secondItem="uFk-zs-cT4" secondAttribute="top" constant="16" id="Q9K-Ss-gu9"/>
-                                                <constraint firstItem="PiL-y6-9ND" firstAttribute="top" secondItem="uFk-zs-cT4" secondAttribute="top" constant="18" id="VEc-J8-d4D"/>
-                                                <constraint firstAttribute="trailing" secondItem="PiL-y6-9ND" secondAttribute="trailing" constant="14" id="aIy-Li-hOU"/>
                                                 <constraint firstItem="m89-4P-EyC" firstAttribute="leading" secondItem="uFk-zs-cT4" secondAttribute="leading" constant="14" id="l01-Ld-e6u"/>
+                                                <constraint firstItem="iFy-lP-Gi0" firstAttribute="top" secondItem="uFk-zs-cT4" secondAttribute="top" constant="13" id="lWS-2q-0EL"/>
                                             </constraints>
                                         </view>
                                         <prototypes>
@@ -2978,6 +3065,7 @@
                     <size key="freeformSize" width="414" height="1050"/>
                     <connections>
                         <outlet property="getFeedButton" destination="PiL-y6-9ND" id="x71-NE-yuF"/>
+                        <outlet property="refeedButton" destination="dmZ-2q-hHW" id="OoL-e0-eGV"/>
                         <outlet property="tableView" destination="hWV-nY-fxv" id="4zP-uT-Ovg"/>
                         <outlet property="userProfilePic" destination="m89-4P-EyC" id="6nX-NT-Y7Y"/>
                         <outlet property="usernameLbl" destination="Fr6-5V-0DI" id="0Uw-Sv-1rO"/>
@@ -3007,6 +3095,7 @@
         <image name="logout" width="18" height="18"/>
         <image name="notification" width="30" height="36"/>
         <image name="post-feed-img" width="100" height="88"/>
+        <image name="report" width="14" height="19"/>
         <image name="setting" width="15" height="15"/>
         <image name="setting_facebook" width="19" height="19"/>
         <image name="tick" width="15" height="15"/>

@@ -21,9 +21,9 @@ class ViewController: UIViewController {
     var manager = CLLocationManager()
     var location: CLLocationCoordinate2D!
     
-    var dict = NSMutableDictionary()
+    var dict = [String: AnyObject]()
     
-    var friendsList = NSMutableDictionary()
+    var friendsList = [String: AnyObject]()
 
     //var loginUsingFB = false
     
@@ -124,11 +124,16 @@ class ViewController: UIViewController {
                 print(session?.userID)
                 let client = TWTRAPIClient()
                 client.loadUserWithID(session!.userID) { (user, error) -> Void in
-                    self.dict.setValue(session?.userID, forKey: "id")
-                    self.dict.setValue(session?.userName, forKey: "username")
-                    self.dict.setValue(user?.profileImageMiniURL, forKey: "profileImage")
-                    self.dict.setValue("Twitter", forKey: "type")
+//                    self.dict.setValue(session?.userID, forKey: "id")
+//                    self.dict.setValue(session?.userName, forKey: "username")
+//                    self.dict.setValue(user?.profileImageMiniURL, forKey: "profileImage")
+//                    self.dict.setValue("Twitter", forKey: "type")
                     
+                    self.dict["id"] = session?.userID
+                    self.dict["username"] = session?.userName
+                    self.dict["profileImage"] = user?.profileImageMiniURL
+                    self.dict["type"] = "Twitter"
+
                     self.loginFbUser()
                 }
             } else {
@@ -188,27 +193,30 @@ class ViewController: UIViewController {
             return true
         }
         PixaPalsErrorType.LocationNotEnabledError.show(self)
+        self.manager.startUpdatingLocation()
         return false
     }
     
     func getFBUserData(){
         if((FBSDKAccessToken.currentAccessToken()) != nil){
             
-            FBSDKGraphRequest(graphPath: "me", parameters: ["fields": "id, name, picture.type(thumb), email, website, gender, hometown, birthday"]).startWithCompletionHandler({ (connection, result, error) -> Void in
+            FBSDKGraphRequest(graphPath: "me", parameters: ["fields": "id, name, picture.type(small), email, website, gender, hometown, birthday"]).startWithCompletionHandler({ (connection, result, error) -> Void in
                 
                 print(FBSDKAccessToken.currentAccessToken().tokenString)
 
                 if (error == nil){
                     print(result)
-                    self.dict = result as! NSMutableDictionary
-                    self.dict.setValue("facebook", forKey: "type")
+                    self.dict = result as! [String : AnyObject]
+                    //self.dict.setValue("facebook", forKey: "type")
+                    self.dict["type"] = "facebook"
                     
                     if let _ = self.location {
                         self.loginFbUser()
                     }
                     
-                    NSLog(self.dict.objectForKey("picture")?.objectForKey("data")?.objectForKey("url") as! String)
+                    //NSLog(self.dict.objectForKey("picture")?.objectForKey("data")?.objectForKey("url") as! String)
                 } else {
+                    print(error)
                     PixaPalsErrorType.CantGetUserInfoFromFacebookError.show(self)
                     //showAlertView("Error", message: "Sorry! Can't connect through facebook. Can't access your information.", controller: self)
                 }
@@ -223,7 +231,7 @@ class ViewController: UIViewController {
 
                // print("Friends are : \(result.count)")
                 
-                self.friendsList = result as! NSMutableDictionary
+                self.friendsList = result as! [String : AnyObject] //as! NSMutableDictionary
 
                 
             } else {
@@ -262,10 +270,14 @@ class ViewController: UIViewController {
                 
                 registerUrlString = registerUrlString.stringByAddingPercentEscapesUsingEncoding(NSUTF8StringEncoding)!
                 
-                let name = self.dict.objectForKey("name") as? String ?? (self.dict.objectForKey("username") as? String ?? "")
-                let username = self.dict.objectForKey("username") as? String ?? name.stringByReplacingOccurrencesOfString(" ", withString: "_")
-                let id = self.dict.objectForKey("id") as! String
-                let type = self.dict.objectForKey("type") as! String
+//                let name = self.dict.objectForKey("name") as? String ?? (self.dict.objectForKey("username") as? String ?? "")
+//                let username = self.dict.objectForKey("username") as? String ?? name.stringByReplacingOccurrencesOfString(" ", withString: "_")
+//                let id = self.dict.objectForKey("id") as! String
+//                let type = self.dict.objectForKey("type") as! String
+                let name = self.dict["name"] as? String ?? (self.dict["username"] as? String ?? "")
+                let username = self.dict["username"] as? String ?? name.stringByReplacingOccurrencesOfString(" ", withString: "_")
+                let id = self.dict["id"] as! String
+                let type = self.dict["type"] as! String
                 
                 let parametersToPost: [String: AnyObject] = [
                     "profileid": id,
