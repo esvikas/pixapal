@@ -179,7 +179,7 @@ class GlobalFeedsViewController: UIViewController {
                 if let error = feedsResponseJSON.error where error == true {
                     self.loadMoreActivityIndicator.stopAnimating()
                     self.tryAgainButton.hidden = false
-                    //showAlertView("Error", message: "Connection to server failed.", controller: self)
+                    showAlertView("Error", message: "\(feedsResponseJSON.message!)", controller: self)
                     print("Error: \(feedsResponseJSON.message)")
                 } else {
                     if let _ = self.feedsFromResponseAsObject {

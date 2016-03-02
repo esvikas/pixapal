@@ -2,6 +2,9 @@
 <Workspace
    version = "1.0">
    <FileRef
+      location = "group:Pixapals/GetFeedVC.swift">
+   </FileRef>
+   <FileRef
       location = "group:Pixapals.xcodeproj">
    </FileRef>
    <FileRef

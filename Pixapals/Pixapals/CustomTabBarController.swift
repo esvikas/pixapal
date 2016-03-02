@@ -55,9 +55,6 @@ class CustomTabBarController: UITabBarController {
         self.selectedIndex = 3
         }
     }
-    
-
-    
 }
 extension UIImage {
     

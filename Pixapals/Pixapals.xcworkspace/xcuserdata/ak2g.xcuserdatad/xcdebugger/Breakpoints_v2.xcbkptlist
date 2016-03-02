@@ -90,12 +90,12 @@
                   moduleName = "Pixapals"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/ak2g/Documents/Pixapals/Pixapals/Pixapals/ProfileEditViewController.swift"
-                  timestampString = "478180504.166526"
+                  timestampString = "478527631.995422"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "212"
                   endingLineNumber = "212"
-                  offsetFromSymbolStart = "4832">
+                  offsetFromSymbolStart = "5722">
                </Location>
                <Location
                   shouldBeEnabled = "Yes"
@@ -105,12 +105,12 @@
                   moduleName = "Pixapals"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/ak2g/Documents/Pixapals/Pixapals/Pixapals/ProfileEditViewController.swift"
-                  timestampString = "478180504.166685"
+                  timestampString = "478527631.995571"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "212"
                   endingLineNumber = "212"
-                  offsetFromSymbolStart = "828">
+                  offsetFromSymbolStart = "855">
                </Location>
                <Location
                   shouldBeEnabled = "Yes"
@@ -120,12 +120,12 @@
                   moduleName = "Pixapals"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/ak2g/Documents/Pixapals/Pixapals/Pixapals/ProfileEditViewController.swift"
-                  timestampString = "478180504.166833"
+                  timestampString = "478527631.995705"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "213"
                   endingLineNumber = "213"
-                  offsetFromSymbolStart = "28">
+                  offsetFromSymbolStart = "24">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -201,12 +201,12 @@
                   moduleName = "Pixapals"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/ak2g/Documents/Pixapals/Pixapals/Pixapals/LoginWithEmailViewController.swift"
-                  timestampString = "478180504.169312"
+                  timestampString = "478527631.998314"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "96"
                   endingLineNumber = "96"
-                  offsetFromSymbolStart = "2596">
+                  offsetFromSymbolStart = "3376">
                </Location>
                <Location
                   shouldBeEnabled = "Yes"
@@ -216,12 +216,12 @@
                   moduleName = "Pixapals"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/ak2g/Documents/Pixapals/Pixapals/Pixapals/LoginWithEmailViewController.swift"
-                  timestampString = "478180504.169452"
+                  timestampString = "478527631.998449"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "96"
                   endingLineNumber = "96"
-                  offsetFromSymbolStart = "2604">
+                  offsetFromSymbolStart = "3388">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -319,6 +319,38 @@
             startingLineNumber = "78"
             endingLineNumber = "78"
             landmarkName = "applicationWillEnterForeground(_:)"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Pixapals/GlobalFeedsViewController.swift"
+            timestampString = "478527465.52949"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "225"
+            endingLineNumber = "225"
+            landmarkName = "loadDataFromAPI()"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Pixapals/GlobalFeedsViewController.swift"
+            timestampString = "478527553.222956"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "183"
+            endingLineNumber = "183"
+            landmarkName = "loadDataFromAPI()"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
