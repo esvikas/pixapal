@@ -51,6 +51,7 @@ class UserFeedDistinction {
         isDistinct.1.photo = feed.photo
         isDistinct.1.user  = feed.user
         isDistinct.1.mode = feed.mode
+        isDistinct.1.is_outdated = feed.is_outdated
         
         return isDistinct.1
     }
@@ -168,6 +169,7 @@ class FeedJSON: Mappable {
     var photo: String?
     var mode: Int?
     var user : UserJSON?
+    var is_outdated: Bool? = false
     private var _created_at: String? {
         get {
             return nil
@@ -202,8 +204,7 @@ class FeedJSON: Mappable {
         photo <- map ["photo"]
         user <- map["user"]
         mode <- map["mode"]
-        
-        print(mode)
+        is_outdated <- map["is_outdated"]
         
         if let lovers = lovers {
             self.lovers = lovers.map({ (user) -> UserJSON in

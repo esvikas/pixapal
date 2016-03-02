@@ -581,7 +581,8 @@ extension GlobalFeedsViewController: CellImageSwippedDelegate {
             switch response.result {
             case .Success(let loveItObject):
                 if !loveItObject.error! {
-                    
+                    feed.lovers?.append(loveItObject.user!)
+                    feed.leavers = feed.leavers!.filter{$0.id! != loveItObject.user!.id!}
                 } else {
                     self.leaveCountIncrease(feed)
                     PixaPalsErrorType.CantLoveItLeaveItError.show(self)
@@ -626,9 +627,10 @@ extension GlobalFeedsViewController: CellImageSwippedDelegate {
         
         requestWithHeaderXAuthToken(.POST, registerUrlString, parameters: parameters).responseObject { (response: Response<SuccessFailJSON, NSError>) -> Void in
             switch response.result {
-            case .Success(let loveItObject):
-                if !loveItObject.error! {
-                    
+            case .Success(let leaveItObject):
+                if !leaveItObject.error! {
+                    feed.leavers?.append(leaveItObject.user!)
+                    feed.lovers = feed.lovers!.filter{$0.id! != leaveItObject.user!.id!}
                 } else {
                     //print("Error: Love it error")
                     self.loveCountIncrease(feed)

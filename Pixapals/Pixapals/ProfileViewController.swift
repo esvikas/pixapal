@@ -132,7 +132,7 @@ class ProfileViewController: UIViewController {
             rightBarButton.customView = btnName
             self.tabBarController?.navigationItem.rightBarButtonItem = rightBarButton
         } else {
-            self.tabBarController?.navigationItem.rightBarButtonItem = UIBarButtonItem()
+            self.navigationItem.rightBarButtonItem = UIBarButtonItem()
         }
         self.checkIfUserIsMyFed()
         //        let camera = UIBarButtonItem(barButtonSystemItem: .Camera, target: self, action: Selector("btnOpenCamera"))
@@ -648,7 +648,8 @@ extension ProfileViewController: CellImageSwippedDelegate {
             switch response.result {
             case .Success(let loveItObject):
                 if !loveItObject.error! {
-                    
+                    feed.lovers?.append(loveItObject.user!)
+                    feed.leavers = feed.leavers!.filter{$0.id! != loveItObject.user!.id!}
                 } else {
                     self.leaveCountIncrease(feed)
                     print("Error: Love it error")
@@ -692,9 +693,10 @@ extension ProfileViewController: CellImageSwippedDelegate {
         
         requestWithHeaderXAuthToken(.POST, registerUrlString, parameters: parameters).responseObject { (response: Response<SuccessFailJSON, NSError>) -> Void in
             switch response.result {
-            case .Success(let loveItObject):
-                if !loveItObject.error! {
-                    
+            case .Success(let leaveItObject):
+                if !leaveItObject.error! {
+                    feed.leavers?.append(leaveItObject.user!)
+                    feed.lovers = feed.lovers!.filter{$0.id! != leaveItObject.user!.id!}
                 } else {
                     print("Error: Love it error")
                     self.loveCountIncrease(feed)

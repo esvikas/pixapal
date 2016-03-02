@@ -28,6 +28,7 @@ class ProfileEditViewController: UIViewController, UINavigationControllerDelegat
     @IBOutlet var btnChangePic: UIButton!
     @IBOutlet var userProfilePic: UIImageView!
     @IBOutlet var btnGender: UIButton!
+    @IBOutlet weak var btnEditProfileImage: UIButton!
     @IBOutlet var conformPasswordTextField: UITextField!
     @IBOutlet var newPasswordTextField: UITextField!
     
@@ -52,6 +53,11 @@ class ProfileEditViewController: UIViewController, UINavigationControllerDelegat
         userProfilePic.layer.cornerRadius=userProfilePic.frame.height/2
         userProfilePic.clipsToBounds=true
         
+//        btnEditProfileImage.layer.cornerRadius = btnEditProfileImage.frame.height/2
+//        btnEditProfileImage.clipsToBounds = true
+//        btnEditProfileImage.layer.borderColor = UIColor.grayColor().CGColor
+//        btnEditProfileImage.layer.borderWidth = 1
+        
         userNameTextField.text=userDataAsObject.username
         emailTextField.text=userDataAsObject.email
         bioTextField.text = userDataAsObject.bio
@@ -60,7 +66,11 @@ class ProfileEditViewController: UIViewController, UINavigationControllerDelegat
         btnGender.setTitle(userDataAsObject.gender, forState: .Normal)
         btnGender.setTitleColor(UIColor.blackColor(), forState: UIControlState.Normal)
         
-        
+        let lbl = UILabel(frame: CGRect(x: phoneTextField.frame.origin.x, y: phoneTextField.frame.origin.y, width: 15.0, height: phoneTextField.frame.height))
+        lbl.text = "+"
+        lbl.textAlignment = .Right
+        phoneTextField.leftViewMode = .Always
+        phoneTextField.leftView = lbl
         
         print(userDataAsObject.gender)
         //        genderTextField.text = userDataAsObject.gender ?? ""
@@ -225,11 +235,13 @@ class ProfileEditViewController: UIViewController, UINavigationControllerDelegat
     func done(sender: UIBarButtonItem) {
         
         self.navigationItem.hidesBackButton = true
-        newDoneButton.enabled=false
-        newBackButton.enabled=false
+        //newDoneButton.enabled=false
+        //newBackButton.enabled=false
         
-        
-        
+        if !Validator().isValidEmail(emailTextField.text!) {
+            PixaPalsErrorType.InvalidEmailError.show(self)
+            return
+        }
         if newPasswordTextField != nil && conformPasswordTextField != nil {
             if newPasswordTextField.text != conformPasswordTextField.text {
                 
@@ -259,7 +271,7 @@ class ProfileEditViewController: UIViewController, UINavigationControllerDelegat
         self.view.addSubview(self.blurEffectView)
         let loadingNotification = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
         loadingNotification.mode = MBProgressHUDMode.Indeterminate
-        loadingNotification.labelText = "Saving"
+        loadingNotification.labelText = "Updating"
         
         
         let registerUrlString = "\(apiUrl)api/v1/profile/update"
@@ -284,7 +296,7 @@ class ProfileEditViewController: UIViewController, UINavigationControllerDelegat
         ]
         
         
-        // print(parameters)
+        print(parameters)
         
         requestWithHeaderXAuthToken(.POST, registerUrlString, parameters: parameters)
             .responseJSON { response in
@@ -388,17 +400,58 @@ extension ProfileEditViewController : funcDelegate {
 
 extension ProfileEditViewController : UITextFieldDelegate {
     func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
-        
-        let currentCharacterCount = textField.text?.characters.count ?? 0
-        if (range.length + range.location > currentCharacterCount){
-            return false
+        func checkLength(length: Int)->Bool {
+            let currentCharacterCount = textField.text?.characters.count ?? 0
+            if (range.length + range.location > currentCharacterCount){
+                return false
+            }
+            let newLength = currentCharacterCount + string.characters.count - range.length
+            //            if newLength == length {
+            //                appDelegate.ShowAlertView("Sorry", message: "Maximum 15 characters allowed.")
+            //            }
+            if newLength > length {
+                let text = textField.text! + string
+                textField.text = text.stringByReplacingCharactersInRange(text.startIndex.advancedBy(length)...text.endIndex.advancedBy(-1), withString: "")
+                return true
+            }
+            return newLength == length
         }
-        let newLength = currentCharacterCount + string.characters.count - range.length
-        
-        if newLength == 16 {
-            appDelegate.ShowAlertView("Sorry", message: "Maximum 15 characters allowed.")
+        if textField == userNameTextField {
+            //            let currentCharacterCount = textField.text?.characters.count ?? 0
+            //            if (range.length + range.location > currentCharacterCount){
+            //                return false
+            //            }
+            //            let newLength = currentCharacterCount + string.characters.count - range.length
+            
+            if checkLength(16) {
+                appDelegate.ShowAlertView("Error", message: "Maximum 15 characters allowed.")
+                return false
+            }
+        } else if textField == phoneTextField {
+            if nil == Int(string) && string != ""{
+                return false
+            }
+            if checkLength(14) {
+                appDelegate.ShowAlertView("Error", message: "Maximum 13 digits allowed.")
+                return false
+            }
         }
-        return newLength <= 16
+        return true
+    }
+    func textFieldDidEndEditing(textField: UITextField) {
+        if textField == phoneTextField {
+            if (textField.text?.length < 11 || textField.text?.length > 13) && textField.text?.length > 0 {
+                appDelegate.ShowAlertView("Error", message: "Minimum 11 digits allowed.")
+                textField.text = ""
+            }
+        } else if textField == userNameTextField {
+            if textField.text!.characters.count > 15 {
+                let text = textField.text!
+                textField.text = text.stringByReplacingCharactersInRange(text.startIndex.advancedBy(15)...text.endIndex.advancedBy(-1), withString: "")
+            } else if textField.text! == "" {
+                PixaPalsErrorType.EmptyUsernameFieldError.show(self)
+            }
+        }
     }
     
 }

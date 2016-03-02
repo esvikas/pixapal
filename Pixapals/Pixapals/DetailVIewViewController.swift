@@ -24,6 +24,8 @@ class DetailVIewViewController: UIViewController {
     
     @IBOutlet weak var getFeedButton: DesignableButton!
     
+    @IBOutlet weak var refeedButton: DesignableButton!
+    
     @IBOutlet weak var usernameLbl: UILabel!
     
     @IBOutlet weak var userProfilePic: UIImageView!
@@ -53,8 +55,6 @@ class DetailVIewViewController: UIViewController {
         self.userProfilePic.layer.cornerRadius = self.userProfilePic.frame.height / 2
         
         self.getFeedButton.setTitle("Feeding", forState: UIControlState.Disabled)
-        
-        
         
         usernameLbl.userInteractionEnabled = true
         userProfilePic.userInteractionEnabled = true
@@ -87,6 +87,53 @@ class DetailVIewViewController: UIViewController {
         self.tabBarController?.navigationItem.rightBarButtonItem?.enabled=false
     }
     
+    @IBAction func refeedFeed(sender: AnyObject) {
+        guard let feed = feed else {
+            return
+        }
+        
+        let blurEffectView = UIVisualEffectView(effect: UIBlurEffect(style: UIBlurEffectStyle.ExtraLight))
+        blurEffectView.alpha = 0.4
+        blurEffectView.frame = view.bounds
+        self.view.addSubview(blurEffectView)
+        
+        let loadingNotification = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
+        loadingNotification.mode = MBProgressHUDMode.Indeterminate
+        loadingNotification.labelText = "Re-feeding"
+        
+        let refeedUrl = "\(apiUrl)api/v1/feeds/refeed"
+        let parameters: [String: AnyObject] =
+        [
+            "post_id": feed.id!
+        ]
+        self.refeedButton.enabled = false
+        
+        requestWithHeaderXAuthToken(.POST, refeedUrl, parameters: parameters).responseObject { (response: Response<SuccessFailJSON, NSError>) -> Void in
+            switch response.result {
+            case .Success(let refeedResponse):
+                if refeedResponse.error! {
+                    PixaPalsErrorType.CantRefeedError.show(self)
+                } else {
+                    self.refeedButton.hidden = true
+                }
+            case .Failure(let error):
+                print(error)
+                PixaPalsErrorType.ConnectionError.show(self)
+            }
+            blurEffectView.removeFromSuperview()
+            loadingNotification.removeFromSuperview()
+            self.refeedButton.enabled = true
+        }
+//        .responseJSON { response in
+//                    switch response.result {
+//                    case .Failure(let error):
+//                        print("ERROR: \(error)")
+//                    case .Success(let value):
+//                        print(value)
+//                    }
+//                }
+//        
+    }
     
     @IBAction func btnFollowUser(sender: AnyObject) {
         
@@ -168,8 +215,14 @@ class DetailVIewViewController: UIViewController {
         guard let feed = feed else {
             return
         }
-        if (feed.is_my_feed)! || (feed.user?.is_my_fed)! {
-            self.getFeedButton.enabled = false
+        self.refeedButton.hidden = true
+        if feed.is_my_feed! {
+            self.getFeedButton.hidden = true
+            if feed.is_outdated! {
+                self.refeedButton.hidden = false
+            }
+        }else if (feed.user?.is_my_fed)!{
+             self.getFeedButton.enabled = false
         }
     }
     
@@ -387,7 +440,8 @@ extension DetailVIewViewController: CellImageSwippedDelegate {
             switch response.result {
             case .Success(let loveItObject):
                 if !loveItObject.error! {
-                    
+                    self.feed?.lovers?.append(loveItObject.user!)
+                    self.feed?.leavers = self.feed?.leavers!.filter{$0.id! != loveItObject.user!.id!}
                 } else {
                     PixaPalsErrorType.CantLoveItLeaveItError.show(self)
                     print("Error: Love it error")
@@ -400,6 +454,16 @@ extension DetailVIewViewController: CellImageSwippedDelegate {
                 self.leaveCountIncrease()
             }
         }
+            
+//            .responseJSON { response in
+//                switch response.result {
+//                case .Failure(let error):
+//                    print(error)
+//                case .Success(let value):
+//                    print(value)
+//                }
+//        }
+
         //        Alamofire.request(.POST, registerUrlString, parameters: parameters, headers:headers).responseJSON { response in
         //            switch response.result {
         //            case .Failure(let error):
@@ -442,7 +506,8 @@ extension DetailVIewViewController: CellImageSwippedDelegate {
             switch response.result {
             case .Success(let leaveItObject):
                 if !leaveItObject.error! {
-                    
+                    self.feed?.leavers?.append(leaveItObject.user!)
+                    self.feed?.lovers = self.feed?.lovers!.filter{$0.id! != leaveItObject.user!.id!}
                 } else {
                     PixaPalsErrorType.CantLoveItLeaveItError.show(self)
                     print("Error: Leave it error")
@@ -455,8 +520,14 @@ extension DetailVIewViewController: CellImageSwippedDelegate {
                 //print("Error in connection \(error)")
             }
         }
-        
-        
+//            .responseJSON { response in
+//                            switch response.result {
+//                            case .Failure(let error):
+//                                print(error)
+//                            case .Success(let value):
+//                                print(value)
+//                            }
+//                        }
     }
     
     func loveCountIncrease(){

@@ -79,6 +79,7 @@ class RegisterViewController: UIViewController, UIPopoverControllerDelegate, UIP
             //self.registerWithEmailStatus = true
         } else {
             PixaPalsErrorType.LocationNotEnabledError.show(self)
+            self.manager.startUpdatingLocation()
             //appDelegate.ShowAlertView("Location not Enabled", message: "Please enable location. Also allow app to access location from settings.")
         }
     }
@@ -115,6 +116,8 @@ class RegisterViewController: UIViewController, UIPopoverControllerDelegate, UIP
         
         if self.textFieldPassword.text! != self.textFieldConfirmPassword.text! {
             //appDelegate.ShowAlertView("Password Not Confirmed", message: "Password and Confirm Password doesn't match.")
+            self.textFieldConfirmPassword.text = ""
+            self.textFieldPassword.text = ""
             PixaPalsErrorType.PasswordNotConfirmedError.show(self)
             return
         }
@@ -142,20 +145,23 @@ class RegisterViewController: UIViewController, UIPopoverControllerDelegate, UIP
             "gender": self.btnGender.titleLabel?.text ?? "",
         ]
         
-        let loadingNotification = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
-        loadingNotification.mode = MBProgressHUDMode.Indeterminate
-        loadingNotification.labelText = "Registering"
         
         let blurEffectView = UIVisualEffectView(effect: UIBlurEffect(style: UIBlurEffectStyle.ExtraLight))
         blurEffectView.alpha = 0.4
         blurEffectView.frame = view.bounds
         self.view.addSubview(blurEffectView)
         
+        let loadingNotification = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
+        loadingNotification.mode = MBProgressHUDMode.Indeterminate
+        loadingNotification.labelText = "Registering"
+
+        
         requestWithDeviceTokenInParam(.POST, registerUrlString, parameters: parameters)
             .responseJSON { response in
                 
                 switch response.result {
                 case .Success(let data):
+                    //let data = JSON(nsdata)
                     if let dict = data["user"] as? [String: AnyObject] {
                         print(dict)
                         let userInfoStruct = UserDataStruct()
@@ -167,8 +173,7 @@ class RegisterViewController: UIViewController, UIPopoverControllerDelegate, UIP
                         let storyBoard = UIStoryboard(name: "Main", bundle: nil)
                         let vc = storyBoard.instantiateViewControllerWithIdentifier("tabView")
                         self.navigationController?.pushViewController(vc, animated: true)
-                    }
-                    else {
+                    }else {
                         print(data)
                         MBProgressHUD.hideAllHUDsForView(self.view, animated: true)
                         blurEffectView.removeFromSuperview()
@@ -254,7 +259,12 @@ extension RegisterViewController : UITextFieldDelegate {
         let newLength = currentCharacterCount + string.characters.count - range.length
         
         if newLength == 16 {
-            appDelegate.ShowAlertView("Sorry", message: "Maximum 15 characters allowed.")
+            appDelegate.ShowAlertView("Error", message: "Maximum 15 characters allowed.")
+        }
+        if newLength > 16 {
+            let text = textField.text! + string
+            textField.text = text.stringByReplacingCharactersInRange(text.startIndex.advancedBy(16)...text.endIndex.advancedBy(-1), withString: "")
+            return true
         }
         return newLength <= 16
     }

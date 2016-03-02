@@ -23,10 +23,10 @@ enum APIConnectionErrorMessage: String {
 //validation errors
 enum ValidationErrorMessage: String {
     case InvalidEmailErrorMessage = "The email you've entered is incorrect."
-    case EmptyPasswordFieldErrorMessage = "Password field is empty."
-    case EmptyUsernameFieldErrorMessage = "Username field is empty."
+    case EmptyPasswordFieldErrorMessage = "Password field is required."
+    case EmptyUsernameFieldErrorMessage = "Username field is required."
     case GenderNotSelectedErrorMessage = "Please choose a gender."
-    case EmptyFullNameErrorMessage = "Full name field is empty."
+    case EmptyFullNameErrorMessage = "Full name field is required."
     case PasswordNotConfirmedErrorMessage = "Password and confirm password doesn't match"
 }
 
@@ -39,6 +39,7 @@ enum AccessibilityErrorMessage: String {
 enum FeedErrorMessage: String {
     case CantLoveItLeaveItErrorMessage = "An error occurred while processing this request. Please try again later."
     case NoFeedDataAvailableErrorMessage = "No feed data is available in the server."
+    case CantRefeedErrorMessage = "Unable to refeed this post."
 }
 
 //fed error
@@ -129,6 +130,9 @@ enum PixaPalsErrorType {
     
     //settings errors
     case NotAvailableError
+    
+    //refeed error
+    case CantRefeedError
 
     
     func show(viewController: UIViewController, var title: String? = nil, var message: String? = nil) {
@@ -181,6 +185,8 @@ enum PixaPalsErrorType {
                     return APIConnectionErrorMessage.CantGetUserInfoFromFacebookErrorMessage.rawValue
                 case CantGetFriendInfoFromFacebookError:
                     return APIConnectionErrorMessage.CantGetFriendInfoFromFacebookErrorMessage.rawValue
+                case .CantRefeedError:
+                    return FeedErrorMessage.CantRefeedErrorMessage.rawValue
                 }
             }()
         }

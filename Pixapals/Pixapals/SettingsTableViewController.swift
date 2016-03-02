@@ -48,7 +48,7 @@ class SettingsTableViewController: UITableViewController {
     }
     
     func reloadView(){
-        
+        nsUserDefault.synchronize()
         locationDetailText.text =  nsUserDefault.objectForKey("UserLocationForFilter") as? String
         genderDetailText.text =  nsUserDefault.objectForKey("UserGenderForFilter") as? String
         
@@ -78,7 +78,7 @@ class SettingsTableViewController: UITableViewController {
             PixaPalsErrorType.NotAvailableError.show(self)
             //appDelegate.ShowAlertView("Sorry ", message: "Not available")
             
-        case 2:
+        case 3:
             logoutRequest()
             
         default:

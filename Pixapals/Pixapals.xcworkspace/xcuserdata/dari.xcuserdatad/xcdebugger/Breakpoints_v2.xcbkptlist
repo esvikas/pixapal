@@ -9,13 +9,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Pixapals/ProfileViewController.swift"
-            timestampString = "478150957.678427"
+            filePath = "Pixapals/ViewControllers/ViewController.swift"
+            timestampString = "478510841.706539"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "613"
-            endingLineNumber = "613"
-            landmarkName = "SegueToProfile(_:)"
+            startingLineNumber = "306"
+            endingLineNumber = "306"
+            landmarkName = "loginFbUser()"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -25,13 +25,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Pixapals/GlobalFeedTableViewCell.swift"
-            timestampString = "478151047.622809"
+            filePath = "Pixapals/ViewControllers/ViewController.swift"
+            timestampString = "478510841.706539"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "89"
-            endingLineNumber = "89"
-            landmarkName = "UserIconAndLabelPressed()"
+            startingLineNumber = "209"
+            endingLineNumber = "209"
+            landmarkName = "getFBUserData()"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
