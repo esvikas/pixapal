@@ -34,6 +34,8 @@
 		32FE7AA71C6C753400C767BC /* LoverListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32FE7AA61C6C753400C767BC /* LoverListTableViewCell.swift */; };
 		43324F1E1C6480E200E5095E /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43324F1D1C6480E200E5095E /* LocationManager.swift */; };
 		435EC4BF1C44E74B00CF88D4 /* GlobalFeedsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 435EC4BE1C44E74B00CF88D4 /* GlobalFeedsViewController.swift */; };
+		43682C4E1C86EC8B00ADCBCD /* SelectionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43682C4D1C86EC8B00ADCBCD /* SelectionTableViewCell.swift */; };
+		43682C501C86ED3D00ADCBCD /* SelectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43682C4F1C86ED3D00ADCBCD /* SelectionViewController.swift */; };
 		436F7BAA1C71EBB500A38A8C /* NotificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 436F7BA91C71EBB500A38A8C /* NotificationViewController.swift */; };
 		436F7BAC1C71EDCB00A38A8C /* NotificationTableViewHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 436F7BAB1C71EDCB00A38A8C /* NotificationTableViewHeaderCell.swift */; };
 		437901BE1C76F8EB00A69F8F /* DateConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 437901BD1C76F8EA00A69F8F /* DateConverter.swift */; };
@@ -43,6 +45,7 @@
 		4391876C1C4E207C00022B38 /* validator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4391876B1C4E207C00022B38 /* validator.swift */; };
 		439738151C45F3E2001F344F /* PostFeedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439738141C45F3E2001F344F /* PostFeedViewController.swift */; };
 		439A350C1C4CFD5600A036E9 /* UserDataStruct.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439A350B1C4CFD5600A036E9 /* UserDataStruct.swift */; };
+		439BC7B11C86A1E500C07F2B /* ReportAnIssueViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439BC7B01C86A1E500C07F2B /* ReportAnIssueViewController.swift */; };
 		43A0EE5F1C4CA7BC009C4E46 /* GlobalFeedTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43A0EE5E1C4CA7BC009C4E46 /* GlobalFeedTableViewCell.swift */; };
 		43A0EE611C4CCBCB009C4E46 /* GlobalFeedCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43A0EE601C4CCBCB009C4E46 /* GlobalFeedCollectionViewCell.swift */; };
 		43A8E7451C75B57100AB266E /* NotificationResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43A8E7441C75B57100AB266E /* NotificationResponse.swift */; };
@@ -91,6 +94,8 @@
 		32FE7AA61C6C753400C767BC /* LoverListTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoverListTableViewCell.swift; sourceTree = "<group>"; };
 		43324F1D1C6480E200E5095E /* LocationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		435EC4BE1C44E74B00CF88D4 /* GlobalFeedsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GlobalFeedsViewController.swift; sourceTree = "<group>"; };
+		43682C4D1C86EC8B00ADCBCD /* SelectionTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectionTableViewCell.swift; sourceTree = "<group>"; };
+		43682C4F1C86ED3D00ADCBCD /* SelectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectionViewController.swift; sourceTree = "<group>"; };
 		436F7BA91C71EBB500A38A8C /* NotificationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationViewController.swift; sourceTree = "<group>"; };
 		436F7BAB1C71EDCB00A38A8C /* NotificationTableViewHeaderCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationTableViewHeaderCell.swift; sourceTree = "<group>"; };
 		437901BD1C76F8EA00A69F8F /* DateConverter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateConverter.swift; sourceTree = "<group>"; };
@@ -100,6 +105,7 @@
 		4391876B1C4E207C00022B38 /* validator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = validator.swift; sourceTree = "<group>"; };
 		439738141C45F3E2001F344F /* PostFeedViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostFeedViewController.swift; sourceTree = "<group>"; };
 		439A350B1C4CFD5600A036E9 /* UserDataStruct.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserDataStruct.swift; sourceTree = "<group>"; };
+		439BC7B01C86A1E500C07F2B /* ReportAnIssueViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReportAnIssueViewController.swift; sourceTree = "<group>"; };
 		43A0EE5E1C4CA7BC009C4E46 /* GlobalFeedTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GlobalFeedTableViewCell.swift; sourceTree = "<group>"; };
 		43A0EE601C4CCBCB009C4E46 /* GlobalFeedCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GlobalFeedCollectionViewCell.swift; sourceTree = "<group>"; };
 		43A8E7441C75B57100AB266E /* NotificationResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationResponse.swift; sourceTree = "<group>"; };
@@ -216,6 +222,8 @@
 				321F99CF1C5A01A0006A39D0 /* LocationChooserViewController.swift */,
 				32FE7AA41C6C702C00C767BC /* LoverListViewController.swift */,
 				436F7BA91C71EBB500A38A8C /* NotificationViewController.swift */,
+				439BC7B01C86A1E500C07F2B /* ReportAnIssueViewController.swift */,
+				43682C4F1C86ED3D00ADCBCD /* SelectionViewController.swift */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -234,6 +242,7 @@
 				32FE7AA61C6C753400C767BC /* LoverListTableViewCell.swift */,
 				436F7BAB1C71EDCB00A38A8C /* NotificationTableViewHeaderCell.swift */,
 				437901BF1C77151600A69F8F /* NotificationTableViewCell.swift */,
+				43682C4D1C86EC8B00ADCBCD /* SelectionTableViewCell.swift */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -437,6 +446,7 @@
 				437969471C5F64B400CE136D /* ExtensionAlamofire.swift in Sources */,
 				43D2C7651C43B89800F0E2C5 /* PostFeedModeSelectionViewController.swift in Sources */,
 				4391876C1C4E207C00022B38 /* validator.swift in Sources */,
+				43682C501C86ED3D00ADCBCD /* SelectionViewController.swift in Sources */,
 				43FBEE0C1C50D4EB00C25A7D /* GlobalFeedTableViewHeaderCell.swift in Sources */,
 				436F7BAA1C71EBB500A38A8C /* NotificationViewController.swift in Sources */,
 				439738151C45F3E2001F344F /* PostFeedViewController.swift in Sources */,
@@ -464,9 +474,11 @@
 				43C1033E1C450BEF009512C2 /* CustomTabBarController.swift in Sources */,
 				32CBF5571C4F7D330064E91D /* CameraVC.swift in Sources */,
 				43A0EE611C4CCBCB009C4E46 /* GlobalFeedCollectionViewCell.swift in Sources */,
+				43682C4E1C86EC8B00ADCBCD /* SelectionTableViewCell.swift in Sources */,
 				32FE7AA51C6C702C00C767BC /* LoverListViewController.swift in Sources */,
 				439A350C1C4CFD5600A036E9 /* UserDataStruct.swift in Sources */,
 				43BF1F1A1C48B252000980D5 /* DoubleModeFeedImageSelectionViewController.swift in Sources */,
+				439BC7B11C86A1E500C07F2B /* ReportAnIssueViewController.swift in Sources */,
 				32D784571C579A480027AE65 /* SRWebClient.swift in Sources */,
 				321B7F9D1C465CEC0017932E /* HelperFile.swift in Sources */,
 			);

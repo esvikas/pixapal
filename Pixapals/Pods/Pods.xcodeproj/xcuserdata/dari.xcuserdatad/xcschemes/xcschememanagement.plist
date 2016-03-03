@@ -74,6 +74,11 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>SevenSwitch.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>Spring.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -97,22 +102,12 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>432ECC54282C84882B482CCB4CF227FC</key>
+		<key>30D72187AB458826A451F9416987B94A</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
 		<key>454B3E9A6602CC0A6E641A525A8F9075</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>54A74CB4C0F4868EDEA81A7AA52ECDFD</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>5855D213D188EE14086C1F827DE7B1FF</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -127,17 +122,27 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>6EEDCCA408D448FC34FD049F5CF50935</key>
+		<key>651E3782A43FCC16BDD09A6ED2FE80DF</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>7F17DC900CD4A552C74F413373E85EA2</key>
+		<key>79C040AFDDCE1BCBF6D8B5EB0B85887F</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>83821FE7F889E6E0FB7BB97363BF7B3C</key>
+		<key>98332A0B634C0063CDAAEA5F91188825</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>A25A09212364C393784AD86BAE4C9A76</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>A48A6E2E83988EA65674940EDC978043</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -173,6 +178,11 @@
 			<true/>
 		</dict>
 		<key>FBD082A0D35F7917EAB9DD9D3CCA9976</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>FDB4C4DD6DA7ED2041DD488111F62628</key>
 		<dict>
 			<key>primary</key>
 			<true/>
