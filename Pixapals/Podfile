@@ -18,6 +18,7 @@ pod ‘Toucan’
 pod 'AlamofireObjectMapper', '~> 2.1'
 pod 'Fabric'
 pod 'TwitterKit'
+pod 'SevenSwitch', '~> 2.0'
 
 end
 

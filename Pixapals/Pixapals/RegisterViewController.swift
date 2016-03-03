@@ -177,8 +177,20 @@ class RegisterViewController: UIViewController, UIPopoverControllerDelegate, UIP
                         print(data)
                         MBProgressHUD.hideAllHUDsForView(self.view, animated: true)
                         blurEffectView.removeFromSuperview()
-                        print("Invalid Username/Password: \(data["message"])")
-                        PixaPalsErrorType.CantAuthenticateError.show(self)
+                        
+                        func message() -> String? {
+                            if let message = data["message"] as? [String: [String]] {
+                                let msg  = message.reduce("", combine: { (msg, message) -> String in
+                                    return msg + message.1.reduce("", combine: { (indivMsg, msg) -> String in
+                                        return indivMsg + "\n" + msg
+                                    })
+                                })
+                                return msg
+                            }
+                            return nil
+                        }
+                        //print("Invalid Username/Password: \(data["message"])")
+                        PixaPalsErrorType.CantAuthenticateError.show(self, title: nil, message: message())
                     }
                 case .Failure(let error):
                     //showAlertView("Error", message: "Can't connect right now.Check your internet settings.", controller: self)

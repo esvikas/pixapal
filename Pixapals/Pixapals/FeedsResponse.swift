@@ -119,12 +119,12 @@ class FeedsResponseJSON: Mappable {
     required init?(_ map: Map){
         
     }
+    
     func mapping(map: Map) {
         error  <- map["error"]
         message <- map["message"]
         code <- map["code"]
         feeds <- map["feeds"]
-        
         if let feeds = feeds {
             self.feeds = feeds.map({ (feed) -> FeedJSON in
                 UserFeedDistinction.sharedInstance.checkDistinctFeed(feed)

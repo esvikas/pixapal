@@ -68,16 +68,18 @@ class SettingsTableViewController: UITableViewController {
             } else {
                 
                 let storyboard: UIStoryboard = UIStoryboard (name: "Main", bundle: nil)
-                let vc: LocationChooserViewController = storyboard.instantiateViewControllerWithIdentifier("LocationChooserViewController") as! LocationChooserViewController
+                let vc = storyboard.instantiateViewControllerWithIdentifier("LocationChooserViewController") as! LocationChooserViewController
                 self.navigationController?.pushViewController(vc, animated: true)
                 dataChanged=true
-                
             }
             
         case 1:
             PixaPalsErrorType.NotAvailableError.show(self)
             //appDelegate.ShowAlertView("Sorry ", message: "Not available")
-            
+        case 2:
+            let storyboard: UIStoryboard = UIStoryboard (name: "Main", bundle: nil)
+            let vc = storyboard.instantiateViewControllerWithIdentifier("ReportAnIssueViewController") as! ReportAnIssueViewController
+            self.navigationController?.pushViewController(vc, animated: true)
         case 3:
             logoutRequest()
             
