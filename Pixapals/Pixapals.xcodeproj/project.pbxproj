@@ -43,6 +43,7 @@
 		437969451C5F4E8200CE136D /* FeedsResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 437969441C5F4E8200CE136D /* FeedsResponse.swift */; };
 		437969471C5F64B400CE136D /* ExtensionAlamofire.swift in Sources */ = {isa = PBXBuildFile; fileRef = 437969461C5F64B400CE136D /* ExtensionAlamofire.swift */; };
 		4391876C1C4E207C00022B38 /* validator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4391876B1C4E207C00022B38 /* validator.swift */; };
+		4394FD8D1C8984DF008E8394 /* AlamofireNewtork.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4394FD8C1C8984DF008E8394 /* AlamofireNewtork.swift */; };
 		439738151C45F3E2001F344F /* PostFeedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439738141C45F3E2001F344F /* PostFeedViewController.swift */; };
 		439A350C1C4CFD5600A036E9 /* UserDataStruct.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439A350B1C4CFD5600A036E9 /* UserDataStruct.swift */; };
 		439BC7B11C86A1E500C07F2B /* ReportAnIssueViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439BC7B01C86A1E500C07F2B /* ReportAnIssueViewController.swift */; };
@@ -68,8 +69,8 @@
 		3202929C1C69E645007AD662 /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
 		3202929D1C69E645007AD662 /* Fabric.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Fabric.framework; sourceTree = "<group>"; };
 		320933FA1C50EF1100B092B1 /* WobbleView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WobbleView.swift; sourceTree = "<group>"; };
-		321B7F9A1C460E760017932E /* Reachability.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
-		321B7F9C1C465CEC0017932E /* HelperFile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HelperFile.swift; sourceTree = "<group>"; };
+		321B7F9A1C460E760017932E /* Reachability.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Reachability.swift; path = Pixapals/Reachability.swift; sourceTree = "<group>"; };
+		321B7F9C1C465CEC0017932E /* HelperFile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HelperFile.swift; path = Pixapals/HelperFile.swift; sourceTree = "<group>"; };
 		321F99CF1C5A01A0006A39D0 /* LocationChooserViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationChooserViewController.swift; sourceTree = "<group>"; };
 		325279571C62050900978C0C /* DetailVIewViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailVIewViewController.swift; sourceTree = "<group>"; };
 		3275227F1C4E1821002DED9C /* ProfileEditViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileEditViewController.swift; sourceTree = "<group>"; };
@@ -83,7 +84,7 @@
 		329B58271C3E260600C1EE08 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		329B582D1C3E267300C1EE08 /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ViewController.swift; path = ViewControllers/ViewController.swift; sourceTree = "<group>"; };
 		329F013F1C60C4BC008A01B2 /* GenderSelectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GenderSelectionView.swift; sourceTree = "<group>"; };
-		32CBF5561C4F7D330064E91D /* CameraVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraVC.swift; sourceTree = "<group>"; };
+		32CBF5561C4F7D330064E91D /* CameraVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CameraVC.swift; path = Pixapals/CameraVC.swift; sourceTree = "<group>"; };
 		32CBF55A1C4F7DEC0064E91D /* UIColor+Hex.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIColor+Hex.swift"; sourceTree = "<group>"; };
 		32CBF55C1C4F7E090064E91D /* GridView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GridView.swift; sourceTree = "<group>"; };
 		32CBF55E1C4F7E350064E91D /* ImageSelectionVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageSelectionVC.swift; sourceTree = "<group>"; };
@@ -92,19 +93,20 @@
 		32EBBD601C562C2600EF8149 /* RootFBClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RootFBClass.swift; sourceTree = "<group>"; };
 		32FE7AA41C6C702C00C767BC /* LoverListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoverListViewController.swift; sourceTree = "<group>"; };
 		32FE7AA61C6C753400C767BC /* LoverListTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoverListTableViewCell.swift; sourceTree = "<group>"; };
-		43324F1D1C6480E200E5095E /* LocationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
+		43324F1D1C6480E200E5095E /* LocationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LocationManager.swift; path = Pixapals/LocationManager.swift; sourceTree = "<group>"; };
 		435EC4BE1C44E74B00CF88D4 /* GlobalFeedsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GlobalFeedsViewController.swift; sourceTree = "<group>"; };
 		43682C4D1C86EC8B00ADCBCD /* SelectionTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectionTableViewCell.swift; sourceTree = "<group>"; };
 		43682C4F1C86ED3D00ADCBCD /* SelectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectionViewController.swift; sourceTree = "<group>"; };
 		436F7BA91C71EBB500A38A8C /* NotificationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationViewController.swift; sourceTree = "<group>"; };
 		436F7BAB1C71EDCB00A38A8C /* NotificationTableViewHeaderCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationTableViewHeaderCell.swift; sourceTree = "<group>"; };
-		437901BD1C76F8EA00A69F8F /* DateConverter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateConverter.swift; sourceTree = "<group>"; };
+		437901BD1C76F8EA00A69F8F /* DateConverter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DateConverter.swift; path = Pixapals/DateConverter.swift; sourceTree = "<group>"; };
 		437901BF1C77151600A69F8F /* NotificationTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationTableViewCell.swift; sourceTree = "<group>"; };
 		437969441C5F4E8200CE136D /* FeedsResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedsResponse.swift; sourceTree = "<group>"; };
 		437969461C5F64B400CE136D /* ExtensionAlamofire.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExtensionAlamofire.swift; sourceTree = "<group>"; };
-		4391876B1C4E207C00022B38 /* validator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = validator.swift; sourceTree = "<group>"; };
+		4391876B1C4E207C00022B38 /* validator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = validator.swift; path = Pixapals/validator.swift; sourceTree = "<group>"; };
+		4394FD8C1C8984DF008E8394 /* AlamofireNewtork.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlamofireNewtork.swift; sourceTree = "<group>"; };
 		439738141C45F3E2001F344F /* PostFeedViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostFeedViewController.swift; sourceTree = "<group>"; };
-		439A350B1C4CFD5600A036E9 /* UserDataStruct.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserDataStruct.swift; sourceTree = "<group>"; };
+		439A350B1C4CFD5600A036E9 /* UserDataStruct.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UserDataStruct.swift; path = Pixapals/UserDataStruct.swift; sourceTree = "<group>"; };
 		439BC7B01C86A1E500C07F2B /* ReportAnIssueViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReportAnIssueViewController.swift; sourceTree = "<group>"; };
 		43A0EE5E1C4CA7BC009C4E46 /* GlobalFeedTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GlobalFeedTableViewCell.swift; sourceTree = "<group>"; };
 		43A0EE601C4CCBCB009C4E46 /* GlobalFeedCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GlobalFeedCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -146,6 +148,7 @@
 				32D784561C579A480027AE65 /* SRWebClient.swift */,
 			);
 			name = Libs;
+			path = Pixapals;
 			sourceTree = "<group>";
 		};
 		329B580F1C3E260600C1EE08 = {
@@ -169,22 +172,16 @@
 		329B581A1C3E260600C1EE08 /* Pixapals */ = {
 			isa = PBXGroup;
 			children = (
-				43E60CE11C7C638C00BDDEED /* ErrorHandling */,
-				325279561C62049E00978C0C /* Libs */,
+				4394FD771C898155008E8394 /* Utilities */,
 				437969431C5F4E5A00CE136D /* Model */,
 				43C1033C1C44F2A3009512C2 /* Views */,
+				32CBF55C1C4F7E090064E91D /* GridView.swift */,
 				43C103391C44F242009512C2 /* ViewControllers */,
 				329B581B1C3E260600C1EE08 /* AppDelegate.swift */,
 				329B581F1C3E260600C1EE08 /* Main.storyboard */,
 				329B58221C3E260600C1EE08 /* Assets.xcassets */,
 				329B58241C3E260600C1EE08 /* LaunchScreen.storyboard */,
 				329B58271C3E260600C1EE08 /* Info.plist */,
-				437901BD1C76F8EA00A69F8F /* DateConverter.swift */,
-				321B7F9C1C465CEC0017932E /* HelperFile.swift */,
-				4391876B1C4E207C00022B38 /* validator.swift */,
-				439A350B1C4CFD5600A036E9 /* UserDataStruct.swift */,
-				32CBF5561C4F7D330064E91D /* CameraVC.swift */,
-				43324F1D1C6480E200E5095E /* LocationManager.swift */,
 			);
 			path = Pixapals;
 			sourceTree = "<group>";
@@ -199,31 +196,227 @@
 			name = Model;
 			sourceTree = "<group>";
 		};
+		4394FD751C898111008E8394 /* GlobalFeed */ = {
+			isa = PBXGroup;
+			children = (
+				43FBEE0B1C50D4EB00C25A7D /* GlobalFeedTableViewHeaderCell.swift */,
+				43A0EE601C4CCBCB009C4E46 /* GlobalFeedCollectionViewCell.swift */,
+				43A0EE5E1C4CA7BC009C4E46 /* GlobalFeedTableViewCell.swift */,
+			);
+			name = GlobalFeed;
+			sourceTree = "<group>";
+		};
+		4394FD761C89812E008E8394 /* ProfileView */ = {
+			isa = PBXGroup;
+			children = (
+				43BF1F1D1C48DDB7000980D5 /* ProfileCustomCollectionViewCell.swift */,
+			);
+			name = ProfileView;
+			sourceTree = "<group>";
+		};
+		4394FD771C898155008E8394 /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				43324F1D1C6480E200E5095E /* LocationManager.swift */,
+				32CBF5561C4F7D330064E91D /* CameraVC.swift */,
+				439A350B1C4CFD5600A036E9 /* UserDataStruct.swift */,
+				321B7F9C1C465CEC0017932E /* HelperFile.swift */,
+				437901BD1C76F8EA00A69F8F /* DateConverter.swift */,
+				4391876B1C4E207C00022B38 /* validator.swift */,
+				321B7F9A1C460E760017932E /* Reachability.swift */,
+				4394FD8C1C8984DF008E8394 /* AlamofireNewtork.swift */,
+				325279561C62049E00978C0C /* Libs */,
+				43E60CE11C7C638C00BDDEED /* ErrorHandling */,
+			);
+			name = Utilities;
+			path = ..;
+			sourceTree = "<group>";
+		};
+		4394FD781C8981AE008E8394 /* NotificationView */ = {
+			isa = PBXGroup;
+			children = (
+				437901BF1C77151600A69F8F /* NotificationTableViewCell.swift */,
+				436F7BAB1C71EDCB00A38A8C /* NotificationTableViewHeaderCell.swift */,
+			);
+			name = NotificationView;
+			sourceTree = "<group>";
+		};
+		4394FD791C8981C2008E8394 /* OptionSelectionView */ = {
+			isa = PBXGroup;
+			children = (
+				43682C4D1C86EC8B00ADCBCD /* SelectionTableViewCell.swift */,
+			);
+			name = OptionSelectionView;
+			sourceTree = "<group>";
+		};
+		4394FD7A1C8981E0008E8394 /* WobbleView */ = {
+			isa = PBXGroup;
+			children = (
+				320933FA1C50EF1100B092B1 /* WobbleView.swift */,
+			);
+			name = WobbleView;
+			sourceTree = "<group>";
+		};
+		4394FD7B1C8981EC008E8394 /* CAPSPageMenu */ = {
+			isa = PBXGroup;
+			children = (
+				3281875C1C730B95008BEFF3 /* CAPSPageMenu.swift */,
+			);
+			name = CAPSPageMenu;
+			sourceTree = "<group>";
+		};
+		4394FD7C1C898203008E8394 /* CustomButton */ = {
+			isa = PBXGroup;
+			children = (
+				43D2C75C1C43529500F0E2C5 /* ButtonWithCornerRadius.swift */,
+			);
+			name = CustomButton;
+			sourceTree = "<group>";
+		};
+		4394FD7D1C898211008E8394 /* LoverListView */ = {
+			isa = PBXGroup;
+			children = (
+				32FE7AA61C6C753400C767BC /* LoverListTableViewCell.swift */,
+			);
+			name = LoverListView;
+			sourceTree = "<group>";
+		};
+		4394FD7E1C89821F008E8394 /* GlobalFeedAndPersonalisedFeed */ = {
+			isa = PBXGroup;
+			children = (
+				435EC4BE1C44E74B00CF88D4 /* GlobalFeedsViewController.swift */,
+			);
+			name = GlobalFeedAndPersonalisedFeed;
+			sourceTree = "<group>";
+		};
+		4394FD7F1C89822D008E8394 /* Profile */ = {
+			isa = PBXGroup;
+			children = (
+				4394FD851C898269008E8394 /* Settings */,
+				4394FD861C898270008E8394 /* EditProfile */,
+				43C103371C44EF70009512C2 /* ProfileViewController.swift */,
+			);
+			name = Profile;
+			sourceTree = "<group>";
+		};
+		4394FD801C89823C008E8394 /* LoverList */ = {
+			isa = PBXGroup;
+			children = (
+				32FE7AA41C6C702C00C767BC /* LoverListViewController.swift */,
+			);
+			name = LoverList;
+			sourceTree = "<group>";
+		};
+		4394FD811C898241008E8394 /* DetailView */ = {
+			isa = PBXGroup;
+			children = (
+				325279571C62050900978C0C /* DetailVIewViewController.swift */,
+			);
+			name = DetailView;
+			sourceTree = "<group>";
+		};
+		4394FD821C898250008E8394 /* RegisterUser */ = {
+			isa = PBXGroup;
+			children = (
+				43D2C75E1C4378A900F0E2C5 /* RegisterViewController.swift */,
+			);
+			name = RegisterUser;
+			sourceTree = "<group>";
+		};
+		4394FD831C89825A008E8394 /* PostFeed */ = {
+			isa = PBXGroup;
+			children = (
+				43D2C7641C43B89800F0E2C5 /* PostFeedModeSelectionViewController.swift */,
+				439738141C45F3E2001F344F /* PostFeedViewController.swift */,
+				43BF1F191C48B252000980D5 /* DoubleModeFeedImageSelectionViewController.swift */,
+			);
+			name = PostFeed;
+			sourceTree = "<group>";
+		};
+		4394FD841C898261008E8394 /* Notification */ = {
+			isa = PBXGroup;
+			children = (
+				436F7BA91C71EBB500A38A8C /* NotificationViewController.swift */,
+				3281875A1C730B6C008BEFF3 /* NotificationSliderVC.swift */,
+			);
+			name = Notification;
+			sourceTree = "<group>";
+		};
+		4394FD851C898269008E8394 /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				4394FD8B1C8983A6008E8394 /* ReportIssue */,
+				32E9C4011C58DED00055A270 /* SettingsTableViewController.swift */,
+				321F99CF1C5A01A0006A39D0 /* LocationChooserViewController.swift */,
+			);
+			name = Settings;
+			sourceTree = "<group>";
+		};
+		4394FD861C898270008E8394 /* EditProfile */ = {
+			isa = PBXGroup;
+			children = (
+				3275227F1C4E1821002DED9C /* ProfileEditViewController.swift */,
+			);
+			name = EditProfile;
+			sourceTree = "<group>";
+		};
+		4394FD871C89827C008E8394 /* OptionSelection */ = {
+			isa = PBXGroup;
+			children = (
+				43682C4F1C86ED3D00ADCBCD /* SelectionViewController.swift */,
+				329F013F1C60C4BC008A01B2 /* GenderSelectionView.swift */,
+			);
+			name = OptionSelection;
+			sourceTree = "<group>";
+		};
+		4394FD881C898286008E8394 /* LoginUsingEmail */ = {
+			isa = PBXGroup;
+			children = (
+				43C1033A1C44F276009512C2 /* LoginWithEmailViewController.swift */,
+			);
+			name = LoginUsingEmail;
+			sourceTree = "<group>";
+		};
+		4394FD891C898297008E8394 /* TabController */ = {
+			isa = PBXGroup;
+			children = (
+				4394FD801C89823C008E8394 /* LoverList */,
+				4394FD811C898241008E8394 /* DetailView */,
+				4394FD8A1C8982D6008E8394 /* ImageSelection */,
+				4394FD831C89825A008E8394 /* PostFeed */,
+				4394FD841C898261008E8394 /* Notification */,
+				4394FD7F1C89822D008E8394 /* Profile */,
+				4394FD7E1C89821F008E8394 /* GlobalFeedAndPersonalisedFeed */,
+				43C1033D1C450BEF009512C2 /* CustomTabBarController.swift */,
+			);
+			name = TabController;
+			sourceTree = "<group>";
+		};
+		4394FD8A1C8982D6008E8394 /* ImageSelection */ = {
+			isa = PBXGroup;
+			children = (
+				32CBF55E1C4F7E350064E91D /* ImageSelectionVC.swift */,
+			);
+			name = ImageSelection;
+			sourceTree = "<group>";
+		};
+		4394FD8B1C8983A6008E8394 /* ReportIssue */ = {
+			isa = PBXGroup;
+			children = (
+				439BC7B01C86A1E500C07F2B /* ReportAnIssueViewController.swift */,
+			);
+			name = ReportIssue;
+			sourceTree = "<group>";
+		};
 		43C103391C44F242009512C2 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
-				3281875A1C730B6C008BEFF3 /* NotificationSliderVC.swift */,
+				4394FD881C898286008E8394 /* LoginUsingEmail */,
+				4394FD891C898297008E8394 /* TabController */,
+				4394FD871C89827C008E8394 /* OptionSelection */,
+				4394FD821C898250008E8394 /* RegisterUser */,
 				32EBBD601C562C2600EF8149 /* RootFBClass.swift */,
-				32CBF55E1C4F7E350064E91D /* ImageSelectionVC.swift */,
-				32CBF55C1C4F7E090064E91D /* GridView.swift */,
 				329B582D1C3E267300C1EE08 /* ViewController.swift */,
-				43D2C75E1C4378A900F0E2C5 /* RegisterViewController.swift */,
-				43D2C7641C43B89800F0E2C5 /* PostFeedModeSelectionViewController.swift */,
-				435EC4BE1C44E74B00CF88D4 /* GlobalFeedsViewController.swift */,
-				43C103371C44EF70009512C2 /* ProfileViewController.swift */,
-				43C1033A1C44F276009512C2 /* LoginWithEmailViewController.swift */,
-				43C1033D1C450BEF009512C2 /* CustomTabBarController.swift */,
-				439738141C45F3E2001F344F /* PostFeedViewController.swift */,
-				43BF1F191C48B252000980D5 /* DoubleModeFeedImageSelectionViewController.swift */,
-				3275227F1C4E1821002DED9C /* ProfileEditViewController.swift */,
-				32E9C4011C58DED00055A270 /* SettingsTableViewController.swift */,
-				329F013F1C60C4BC008A01B2 /* GenderSelectionView.swift */,
-				325279571C62050900978C0C /* DetailVIewViewController.swift */,
-				321F99CF1C5A01A0006A39D0 /* LocationChooserViewController.swift */,
-				32FE7AA41C6C702C00C767BC /* LoverListViewController.swift */,
-				436F7BA91C71EBB500A38A8C /* NotificationViewController.swift */,
-				439BC7B01C86A1E500C07F2B /* ReportAnIssueViewController.swift */,
-				43682C4F1C86ED3D00ADCBCD /* SelectionViewController.swift */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -231,18 +424,14 @@
 		43C1033C1C44F2A3009512C2 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				3281875C1C730B95008BEFF3 /* CAPSPageMenu.swift */,
-				321B7F9A1C460E760017932E /* Reachability.swift */,
-				320933FA1C50EF1100B092B1 /* WobbleView.swift */,
-				43D2C75C1C43529500F0E2C5 /* ButtonWithCornerRadius.swift */,
-				43BF1F1D1C48DDB7000980D5 /* ProfileCustomCollectionViewCell.swift */,
-				43A0EE5E1C4CA7BC009C4E46 /* GlobalFeedTableViewCell.swift */,
-				43A0EE601C4CCBCB009C4E46 /* GlobalFeedCollectionViewCell.swift */,
-				43FBEE0B1C50D4EB00C25A7D /* GlobalFeedTableViewHeaderCell.swift */,
-				32FE7AA61C6C753400C767BC /* LoverListTableViewCell.swift */,
-				436F7BAB1C71EDCB00A38A8C /* NotificationTableViewHeaderCell.swift */,
-				437901BF1C77151600A69F8F /* NotificationTableViewCell.swift */,
-				43682C4D1C86EC8B00ADCBCD /* SelectionTableViewCell.swift */,
+				4394FD7D1C898211008E8394 /* LoverListView */,
+				4394FD7C1C898203008E8394 /* CustomButton */,
+				4394FD7B1C8981EC008E8394 /* CAPSPageMenu */,
+				4394FD7A1C8981E0008E8394 /* WobbleView */,
+				4394FD791C8981C2008E8394 /* OptionSelectionView */,
+				4394FD781C8981AE008E8394 /* NotificationView */,
+				4394FD761C89812E008E8394 /* ProfileView */,
+				4394FD751C898111008E8394 /* GlobalFeed */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -253,6 +442,7 @@
 				43E60CE21C7C63A900BDDEED /* Errors.swift */,
 			);
 			name = ErrorHandling;
+			path = Pixapals;
 			sourceTree = "<group>";
 		};
 		B08378BA04DD4F3F064BCC5E /* Pods */ = {
@@ -454,6 +644,7 @@
 				321F99D01C5A01A0006A39D0 /* LocationChooserViewController.swift in Sources */,
 				3281875B1C730B6C008BEFF3 /* NotificationSliderVC.swift in Sources */,
 				437901BE1C76F8EB00A69F8F /* DateConverter.swift in Sources */,
+				4394FD8D1C8984DF008E8394 /* AlamofireNewtork.swift in Sources */,
 				32FE7AA71C6C753400C767BC /* LoverListTableViewCell.swift in Sources */,
 				43BF1F1E1C48DDB7000980D5 /* ProfileCustomCollectionViewCell.swift in Sources */,
 				32E9C4021C58DED00055A270 /* SettingsTableViewController.swift in Sources */,

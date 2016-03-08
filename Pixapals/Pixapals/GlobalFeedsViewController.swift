@@ -39,7 +39,6 @@ class GlobalFeedsViewController: UIViewController {
     var feedsFromResponseAsObject: FeedsResponseJSON!
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         self.manageNavBar()
         self.notificationTabItemBadge()
         
@@ -48,10 +47,10 @@ class GlobalFeedsViewController: UIViewController {
         self.loadMoreActivityIndicator.hidesWhenStopped = true
         self.loadDataFromAPI()
         self.changeViewMode(self)
-//        tableView.emptyDataSetDelegate=self
-//        tableView.emptyDataSetSource=self
-//        collectionView.emptyDataSetSource=self
-//        collectionView.emptyDataSetDelegate=self
+        //        tableView.emptyDataSetDelegate=self
+        //        tableView.emptyDataSetSource=self
+        //        collectionView.emptyDataSetSource=self
+        //        collectionView.emptyDataSetDelegate=self
         
         
         self.blurEffectView.alpha = 0.4
@@ -154,83 +153,187 @@ class GlobalFeedsViewController: UIViewController {
             return
         }
         
-        let headers = [
-            "X-Auth-Token" : String(api_token),
-        ]
         
-        //        Alamofire.request(.GET, apiURLString, parameters: nil, headers: headers)
-        //            //requestWithHeaderXAuthToken(.GET, apiURLString)
-        //            .responseJSON { response -> Void in
-        //                print(response.request)
-        //                switch response.result {
-        //                case .Success(let value):
-        //                    print(JSON(value))
-        //                case .Failure(let error):
-        //                    print(error)
+        
+        //                requestWithHeaderXAuthToken(.GET, apiURLString)
+        //                   //requestWithHeaderXAuthToken(.GET, apiURLString)
+        //                    .responseJSON { response -> Void in
+        //                        print(response.request)
+        //                        switch response.result {
+        //                        case .Success(let value):
+        //                            print(JSON(value))
+        //                        case .Failure(let error):
+        //                            print(error)
         //                }
-        //        }
-        //
-        requestWithHeaderXAuthToken(.GET, apiURLString).responseObject { (response: Response<FeedsResponseJSON, NSError>) -> Void in
-            
-            switch response.result {
+        //            }
+        
+        
+        APIManager(requestType: RequestType.WithXAuthTokenInHeader, urlString: apiURLString, method: .GET).handleResponse({ (feedsResponseJSON: FeedsResponseJSON) -> Void in
+            if let error = feedsResponseJSON.error where error == true {
+                self.tryAgainButton.hidden = false
                 
-            case .Success(let feedsResponseJSON):
+                PixaPalsErrorType.NoDataFoundError.show(self)
                 
-                if let error = feedsResponseJSON.error where error == true {
-                    self.loadMoreActivityIndicator.stopAnimating()
-                    self.tryAgainButton.hidden = false
-                    showAlertView("Error", message: "\(feedsResponseJSON.message!)", controller: self)
-                    print("Error: \(feedsResponseJSON.message)")
-                } else {
-                    if let _ = self.feedsFromResponseAsObject {
-                        if self.refreshingStatus == true {
-                            self.refreshingStatus = false
-                            self.feedsFromResponseAsObject = feedsResponseJSON
-                        } else {
-                            if feedsResponseJSON.feeds?.count < self.postLimit && feedsResponseJSON.feeds?.count > 0{
-                                self.feedsFromResponseAsObject.feeds?.appendContentsOf(feedsResponseJSON.feeds!)
-                                self.hasMoreDataInServer = false
-                            } else if feedsResponseJSON.feeds?.count > 0 {
-                                self.feedsFromResponseAsObject.feeds?.appendContentsOf(feedsResponseJSON.feeds!)
-                            }
-                            else {
-                                self.hasMoreDataInServer = false
-                            }
+                print("Error: \(feedsResponseJSON.message)")
+            } else {
+                if let _ = self.feedsFromResponseAsObject {
+                    if self.refreshingStatus == true {
+                        self.refreshingStatus = false
+                        self.feedsFromResponseAsObject = feedsResponseJSON
+                    } else {
+                        if feedsResponseJSON.feeds?.count < self.postLimit && feedsResponseJSON.feeds?.count > 0{
+                            self.feedsFromResponseAsObject.feeds?.appendContentsOf(feedsResponseJSON.feeds!)
+                            self.hasMoreDataInServer = false
+                        } else if feedsResponseJSON.feeds?.count > 0 {
+                            self.feedsFromResponseAsObject.feeds?.appendContentsOf(feedsResponseJSON.feeds!)
+                        }
+                        else {
+                            self.hasMoreDataInServer = false
                         }
                     }
-                    else {
-                        self.feedsFromResponseAsObject = feedsResponseJSON
-                    }
-                    //print(feedsResponseJSON.feeds?.count)
-                    self.tableView.reloadData()
-                    self.collectionView.reloadData()
-                    MBProgressHUD.hideAllHUDsForView(self.view, animated: true)
-                    self.blurEffectView.removeFromSuperview()
-                    self.tableViewRefreshControl.endRefreshing()
-                    self.collectionViewRefreshControl.endRefreshing()
-                    self.loadMoreActivityIndicator.stopAnimating()
-                    self.footerView.hidden = true
-                    self.tableView.emptyDataSetDelegate=self
-                    self.tableView.emptyDataSetSource=self
-                    self.collectionView.emptyDataSetSource=self
-                    self.collectionView.emptyDataSetDelegate=self
                 }
+                else {
+                    self.feedsFromResponseAsObject = feedsResponseJSON
+                }
+                //print(feedsResponseJSON.feeds?.count)
+                self.tableView.reloadData()
+                self.collectionView.reloadData()
+                self.footerView.hidden = true
                 
-            case .Failure(let error):
-                //                appDelegate.ShowAlertView("Connection Error", message: "Try Again", handlerForOk: { (action) -> Void in
-                //                    self.loadDataFromAPI()
-                //                    }, handlerForCancel: nil)
-                self.loadMoreActivityIndicator.stopAnimating()
+            }}, errorBlock: { () -> UIViewController in
+                
                 self.tryAgainButton.hidden = false
-                print("ERROR: \(error)")
+                
+                return self
+                
+            }, onResponse: {
+                
+                self.loadMoreActivityIndicator.stopAnimating()
+                self.blurEffectView.removeFromSuperview()
+                MBProgressHUD.hideAllHUDsForView(self.view, animated: true)
                 self.tableViewRefreshControl.endRefreshing()
                 self.collectionViewRefreshControl.endRefreshing()
-                PixaPalsErrorType.ConnectionError.show(self)
-            }
-            
-            }.progress { (a, b, c) -> Void in
-                // print("\(a) -- \(b) -- \(c)")
-        }
+                self.tableView.emptyDataSetDelegate=self
+                self.tableView.emptyDataSetSource=self
+                self.collectionView.emptyDataSetSource=self
+                self.collectionView.emptyDataSetDelegate=self
+                
+        })
+        
+        
+        //        APIManager(requestType: .WithXAuthTokenInHeader,.GET,
+        //            apiURLString,
+        //            //classType: FeedsResponseJSON(JSON: ["message" : "hello world"])!,
+        //            completionHandler: { (feedsResponseJSON: FeedsResponseJSON) -> Void in
+        //                if let error = feedsResponseJSON.error where error == true {
+        //                    self.loadMoreActivityIndicator.stopAnimating()
+        //                    self.tryAgainButton.hidden = false
+        //                    showAlertView("Error", message: "\(feedsResponseJSON.message!)", controller: self)
+        //                    print("Error: \(feedsResponseJSON.message)")
+        //                } else {
+        //                    if let _ = self.feedsFromResponseAsObject {
+        //                        if self.refreshingStatus == true {
+        //                            self.refreshingStatus = false
+        //                            self.feedsFromResponseAsObject = feedsResponseJSON
+        //                        } else {
+        //                            if feedsResponseJSON.feeds?.count < self.postLimit && feedsResponseJSON.feeds?.count > 0{
+        //                                self.feedsFromResponseAsObject.feeds?.appendContentsOf(feedsResponseJSON.feeds!)
+        //                                self.hasMoreDataInServer = false
+        //                            } else if feedsResponseJSON.feeds?.count > 0 {
+        //                                self.feedsFromResponseAsObject.feeds?.appendContentsOf(feedsResponseJSON.feeds!)
+        //                            }
+        //                            else {
+        //                                self.hasMoreDataInServer = false
+        //                            }
+        //                        }
+        //                    }
+        //                    else {
+        //                        self.feedsFromResponseAsObject = feedsResponseJSON
+        //                    }
+        //                    //print(feedsResponseJSON.feeds?.count)
+        //                    self.tableView.reloadData()
+        //                    self.collectionView.reloadData()
+        //                    MBProgressHUD.hideAllHUDsForView(self.view, animated: true)
+        //                    self.blurEffectView.removeFromSuperview()
+        //                    self.tableViewRefreshControl.endRefreshing()
+        //                    self.collectionViewRefreshControl.endRefreshing()
+        //                    self.loadMoreActivityIndicator.stopAnimating()
+        //                    self.footerView.hidden = true
+        //                    self.tableView.emptyDataSetDelegate=self
+        //                    self.tableView.emptyDataSetSource=self
+        //                    self.collectionView.emptyDataSetSource=self
+        //                    self.collectionView.emptyDataSetDelegate=self
+        //
+        //                }}, errorBlock: { () -> UIViewController in
+        //                self.loadMoreActivityIndicator.stopAnimating()
+        //                self.tryAgainButton.hidden = false
+        //                self.tableViewRefreshControl.endRefreshing()
+        //                self.collectionViewRefreshControl.endRefreshing()
+        //                return self
+        //                })
+        
+        //        requestWithHeaderXAuthToken(.GET, apiURLString).responseObject { (response: Response<FeedsResponseJSON, NSError>) -> Void in
+        //
+        //            switch response.result {
+        //
+        //            case .Success(let feedsResponseJSON):
+        //
+        //                if let error = feedsResponseJSON.error where error == true {
+        //                    self.loadMoreActivityIndicator.stopAnimating()
+        //                    self.tryAgainButton.hidden = false
+        //                    showAlertView("Error", message: "\(feedsResponseJSON.message!)", controller: self)
+        //                    print("Error: \(feedsResponseJSON.message)")
+        //                } else {
+        //                    if let _ = self.feedsFromResponseAsObject {
+        //                        if self.refreshingStatus == true {
+        //                            self.refreshingStatus = false
+        //                            self.feedsFromResponseAsObject = feedsResponseJSON
+        //                        } else {
+        //                            if feedsResponseJSON.feeds?.count < self.postLimit && feedsResponseJSON.feeds?.count > 0{
+        //                                self.feedsFromResponseAsObject.feeds?.appendContentsOf(feedsResponseJSON.feeds!)
+        //                                self.hasMoreDataInServer = false
+        //                            } else if feedsResponseJSON.feeds?.count > 0 {
+        //                                self.feedsFromResponseAsObject.feeds?.appendContentsOf(feedsResponseJSON.feeds!)
+        //                            }
+        //                            else {
+        //                                self.hasMoreDataInServer = false
+        //                            }
+        //                        }
+        //                    }
+        //                    else {
+        //                        self.feedsFromResponseAsObject = feedsResponseJSON
+        //                    }
+        //                    //print(feedsResponseJSON.feeds?.count)
+        //                    self.tableView.reloadData()
+        //                    self.collectionView.reloadData()
+        //                    MBProgressHUD.hideAllHUDsForView(self.view, animated: true)
+        //                    self.blurEffectView.removeFromSuperview()
+        //                    self.tableViewRefreshControl.endRefreshing()
+        //                    self.collectionViewRefreshControl.endRefreshing()
+        //                    self.loadMoreActivityIndicator.stopAnimating()
+        //                    self.footerView.hidden = true
+        //                    self.tableView.emptyDataSetDelegate=self
+        //                    self.tableView.emptyDataSetSource=self
+        //                    self.collectionView.emptyDataSetSource=self
+        //                    self.collectionView.emptyDataSetDelegate=self
+        //                }
+        //
+        //            case .Failure(let error):
+        //                //                appDelegate.ShowAlertView("Connection Error", message: "Try Again", handlerForOk: { (action) -> Void in
+        //                //                    self.loadDataFromAPI()
+        //                //                    }, handlerForCancel: nil)
+        //                self.loadMoreActivityIndicator.stopAnimating()
+        //                self.tryAgainButton.hidden = false
+        //                print("ERROR: \(error)")
+        //                self.tableViewRefreshControl.endRefreshing()
+        //                self.collectionViewRefreshControl.endRefreshing()
+        //                PixaPalsErrorType.ConnectionError.show(self)
+        //            }
+        //
+        //            }.progress { (a, b, c) -> Void in
+        //                // print("\(a) -- \(b) -- \(c)")
+        //        }
+        
     }
     
     func changeViewMode(sender: AnyObject) {
@@ -571,9 +674,9 @@ extension GlobalFeedsViewController: CellImageSwippedDelegate {
             "user_id": String(user.id!),
             "post_id": String(feed.id!)
         ]
-        let headers = [
-            "X-Auth-Token" : user.api_token!,
-        ]
+        //        let headers = [
+        //            "X-Auth-Token" : user.api_token!,
+        //        ]
         
         self.loveCountIncrease(feed)
         
@@ -655,10 +758,10 @@ extension GlobalFeedsViewController: CellImageSwippedDelegate {
             feed.is_my_left = false
             feed.leaveit = feed.leaveit! - 1
         }
-//        if let user = UserFeedDistinction.sharedInstance.getUserWithId(UserDataStruct().id) {
-//            feed.lovers?.append(user)
-//        
-//        }
+        //        if let user = UserFeedDistinction.sharedInstance.getUserWithId(UserDataStruct().id) {
+        //            feed.lovers?.append(user)
+        //
+        //        }
         self.tableView.reloadData()
     }
     

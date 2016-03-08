@@ -108,31 +108,45 @@ class DetailVIewViewController: UIViewController {
         ]
         self.refeedButton.enabled = false
         
-        requestWithHeaderXAuthToken(.POST, refeedUrl, parameters: parameters).responseObject { (response: Response<SuccessFailJSON, NSError>) -> Void in
-            switch response.result {
-            case .Success(let refeedResponse):
+        APIManager(requestType: RequestType.WithXAuthTokenInHeader, urlString: refeedUrl, parameters: parameters).handleResponse(
+            { (refeedResponse: SuccessFailJSON) -> Void in
                 if refeedResponse.error! {
                     PixaPalsErrorType.CantRefeedError.show(self)
                 } else {
                     self.refeedButton.hidden = true
                 }
-            case .Failure(let error):
-                print(error)
-                PixaPalsErrorType.ConnectionError.show(self)
+            }, errorBlock: {
+                return self
+            }, onResponse: {
+                blurEffectView.removeFromSuperview()
+                loadingNotification.removeFromSuperview()
+                self.refeedButton.enabled = true
             }
-            blurEffectView.removeFromSuperview()
-            loadingNotification.removeFromSuperview()
-            self.refeedButton.enabled = true
-        }
-//        .responseJSON { response in
-//                    switch response.result {
-//                    case .Failure(let error):
-//                        print("ERROR: \(error)")
-//                    case .Success(let value):
-//                        print(value)
-//                    }
-//                }
-//        
+        )
+        
+        //        requestWithHeaderXAuthToken(.POST, refeedUrl, parameters: parameters).responseObject { (response: Response<SuccessFailJSON, NSError>) -> Void in
+        //            switch response.result {
+        //            case .Success(let refeedResponse):
+        //                if refeedResponse.error! {
+        //                    PixaPalsErrorType.CantRefeedError.show(self)
+        //                } else {
+        //                    self.refeedButton.hidden = true
+        //                }
+        //            case .Failure(let error):
+        //                print(error)
+        //                PixaPalsErrorType.ConnectionError.show(self)
+        //            }
+        //
+        //        }
+        //        .responseJSON { response in
+        //                    switch response.result {
+        //                    case .Failure(let error):
+        //                        print("ERROR: \(error)")
+        //                    case .Success(let value):
+        //                        print(value)
+        //                    }
+        //                }
+        //
     }
     
     @IBAction func btnFollowUser(sender: AnyObject) {
@@ -142,7 +156,7 @@ class DetailVIewViewController: UIViewController {
         }
         let user = UserDataStruct()
         
-        let registerUrlString = "\(apiUrl)api/v1/profile/getfed"
+        let urlString = "\(apiUrl)api/v1/profile/getfed"
         
         let parameters: [String: AnyObject] =
         [
@@ -159,27 +173,52 @@ class DetailVIewViewController: UIViewController {
         //                print(value)
         //            }
         //        }
-        requestWithHeaderXAuthToken(.POST, registerUrlString, parameters: parameters).responseObject { (response: Response<SuccessFailJSON, NSError>) -> Void in
-            switch response.result {
-            case .Success(let getFeed):
+        
+        func getFeedButtonEnabled() {
+            self.getFeedButton.enabled = true
+            feed.user?.is_my_fed = false
+        }
+        
+        APIManager(requestType: RequestType.WithXAuthTokenInHeader, urlString: urlString, parameters: parameters).handleResponse(
+            { (getFeed: SuccessFailJSON) -> Void in
                 if !getFeed.error! {
                     print("getting feed")
                     self.triggerDelegateNeedReloadData()
                     //appDelegate.ShowAlertView("Success", message: "You are now following to \( (self.feed.user?.username)!)")
                 } else {
-                    self.getFeedButton.enabled = true
-                    feed.user?.is_my_fed = false
+                    getFeedButtonEnabled()
                     print(getFeed.message)
                     print("Error: feeding error")
                     PixaPalsErrorType.CantFedTheUserError.show(self)
                 }
-            case .Failure(let error):
-                self.getFeedButton.enabled = true
-                feed.user?.is_my_fed = false
-                PixaPalsErrorType.ConnectionError.show(self)
-                //print("Error in connection \(error)")
+            }, errorBlock: {
+                getFeedButtonEnabled()
+                return self
             }
-        }
+        )
+        
+        
+        //        requestWithHeaderXAuthToken(.POST, urlString, parameters: parameters).responseObject { (response: Response<SuccessFailJSON, NSError>) -> Void in
+        //            switch response.result {
+        //            case .Success(let getFeed):
+        //                if !getFeed.error! {
+        //                    print("getting feed")
+        //                    self.triggerDelegateNeedReloadData()
+        //                    //appDelegate.ShowAlertView("Success", message: "You are now following to \( (self.feed.user?.username)!)")
+        //                } else {
+        //                    self.getFeedButton.enabled = true
+        //                    feed.user?.is_my_fed = false
+        //                    print(getFeed.message)
+        //                    print("Error: feeding error")
+        //                    PixaPalsErrorType.CantFedTheUserError.show(self)
+        //                }
+        //            case .Failure(let error):
+        //                self.getFeedButton.enabled = true
+        //                feed.user?.is_my_fed = false
+        //                PixaPalsErrorType.ConnectionError.show(self)
+        //                //print("Error in connection \(error)")
+        //            }
+        //        }
         
     }
     private func feedIsNotNil() {
@@ -222,7 +261,7 @@ class DetailVIewViewController: UIViewController {
                 self.refeedButton.hidden = false
             }
         }else if (feed.user?.is_my_fed)!{
-             self.getFeedButton.enabled = false
+            self.getFeedButton.enabled = false
         }
     }
     
@@ -232,33 +271,47 @@ class DetailVIewViewController: UIViewController {
         }
         let urlString = "\(apiUrl)api/v1/feed/\(feedId)"
         
-        requestWithHeaderXAuthToken(.GET, urlString)
-//            .responseJSON { response in
-//                switch response.result {
-//                case .Failure(let error):
-//                    print("ERROR: \(error)")
-//                case .Success(let value):
-//                    print(value)
-//                }
-//            }
-            .responseObject { (response: Response<FeedsResponseJSON, NSError>) -> Void in
-                switch response.result {
-                case .Success(let getFeed):
-                    if let count = getFeed.feeds?.count where count > 0{
-                        print("getting feed")
-                        self.feed = getFeed.feeds?.first
-                        self.feedIsNotNil()
-                        self.tableView.reloadData()
-                        //appDelegate.ShowAlertView("Success", message: "You are now following to \( (self.feed.user?.username)!)")
-                    } else {
-                        PixaPalsErrorType.CantFedTheUserError.show(self)
-                        print("Error: getting feed error")
-                    }
-                case .Failure(let error):
-                    PixaPalsErrorType.ConnectionError.show(self)
-                    print("Error in connection \(error)")
+        APIManager(requestType: RequestType.WithXAuthTokenInHeader, urlString: urlString, method: .GET).handleResponse(
+            { (getFeed: FeedsResponseJSON) -> Void in
+                if let count = getFeed.feeds?.count where count > 0{
+                    print("getting feed")
+                    self.feed = getFeed.feeds?.first
+                    self.feedIsNotNil()
+                    self.tableView.reloadData()
+                    //appDelegate.ShowAlertView("Success", message: "You are now following to \( (self.feed.user?.username)!)")
+                } else {
+                    PixaPalsErrorType.CantFedTheUserError.show(self)
+                    print("Error: getting feed error")
                 }
-        }
+            }, errorBlock: {self})
+        
+        //        requestWithHeaderXAuthToken(.GET, urlString)
+        //            //            .responseJSON { response in
+        //            //                switch response.result {
+        //            //                case .Failure(let error):
+        //            //                    print("ERROR: \(error)")
+        //            //                case .Success(let value):
+        //            //                    print(value)
+        //            //                }
+        //            //            }
+        //            .responseObject { (response: Response<FeedsResponseJSON, NSError>) -> Void in
+        //                switch response.result {
+        //                case .Success(let getFeed):
+        //                    if let count = getFeed.feeds?.count where count > 0{
+        //                        print("getting feed")
+        //                        self.feed = getFeed.feeds?.first
+        //                        self.feedIsNotNil()
+        //                        self.tableView.reloadData()
+        //                        //appDelegate.ShowAlertView("Success", message: "You are now following to \( (self.feed.user?.username)!)")
+        //                    } else {
+        //                        PixaPalsErrorType.CantFedTheUserError.show(self)
+        //                        print("Error: getting feed error")
+        //                    }
+        //                case .Failure(let error):
+        //                    PixaPalsErrorType.ConnectionError.show(self)
+        //                    print("Error in connection \(error)")
+        //                }
+        //        }
     }
 }
 
@@ -421,7 +474,7 @@ extension DetailVIewViewController: CellImageSwippedDelegate {
     func loveFeed(postId:String){
         let user = UserDataStruct()
         
-        let registerUrlString = "\(apiUrl)api/v1/feeds/loveit"
+        let urlString = "\(apiUrl)api/v1/feeds/loveit"
         
         let parameters: [String: AnyObject] =
         [
@@ -435,10 +488,8 @@ extension DetailVIewViewController: CellImageSwippedDelegate {
         
         self.loveCountIncrease()
         
-        //Alamofire.request(.GET, apiURLString, parameters: nil, headers: headers).responseObject { (response: Response<FeedsResponseJSON, NSError>) -> Void in
-        requestWithHeaderXAuthToken(.POST, registerUrlString, parameters: parameters).responseObject { (response: Response<SuccessFailJSON, NSError>) -> Void in
-            switch response.result {
-            case .Success(let loveItObject):
+        APIManager(requestType: RequestType.WithXAuthTokenInHeader, urlString: urlString, parameters: parameters).handleResponse(
+            { (loveItObject: SuccessFailJSON) -> Void in
                 if !loveItObject.error! {
                     self.feed?.lovers?.append(loveItObject.user!)
                     self.feed?.leavers = self.feed?.leavers!.filter{$0.id! != loveItObject.user!.id!}
@@ -447,23 +498,41 @@ extension DetailVIewViewController: CellImageSwippedDelegate {
                     print("Error: Love it error")
                     self.leaveCountIncrease()
                 }
-            case .Failure(let error):
-                //showAlertView("Error", message: "Can't connect right now.Check your internet settings.", controller: self)
-                //print("Error in connection \(error)")
-                PixaPalsErrorType.ConnectionError.show(self)
+            }, errorBlock: {
                 self.leaveCountIncrease()
+                return self
             }
-        }
-            
-//            .responseJSON { response in
-//                switch response.result {
-//                case .Failure(let error):
-//                    print(error)
-//                case .Success(let value):
-//                    print(value)
+        )
+        
+        
+//        requestWithHeaderXAuthToken(.POST, urlString, parameters: parameters).responseObject { (response: Response<SuccessFailJSON, NSError>) -> Void in
+//            switch response.result {
+//            case .Success(let loveItObject):
+//                if !loveItObject.error! {
+//                    self.feed?.lovers?.append(loveItObject.user!)
+//                    self.feed?.leavers = self.feed?.leavers!.filter{$0.id! != loveItObject.user!.id!}
+//                } else {
+//                    PixaPalsErrorType.CantLoveItLeaveItError.show(self)
+//                    print("Error: Love it error")
+//                    self.leaveCountIncrease()
 //                }
+//            case .Failure(let error):
+//                //showAlertView("Error", message: "Can't connect right now.Check your internet settings.", controller: self)
+//                //print("Error in connection \(error)")
+//                PixaPalsErrorType.ConnectionError.show(self)
+//                self.leaveCountIncrease()
+//            }
 //        }
-
+        
+        //            .responseJSON { response in
+        //                switch response.result {
+        //                case .Failure(let error):
+        //                    print(error)
+        //                case .Success(let value):
+        //                    print(value)
+        //                }
+        //        }
+        
         //        Alamofire.request(.POST, registerUrlString, parameters: parameters, headers:headers).responseJSON { response in
         //            switch response.result {
         //            case .Failure(let error):
@@ -520,14 +589,14 @@ extension DetailVIewViewController: CellImageSwippedDelegate {
                 //print("Error in connection \(error)")
             }
         }
-//            .responseJSON { response in
-//                            switch response.result {
-//                            case .Failure(let error):
-//                                print(error)
-//                            case .Success(let value):
-//                                print(value)
-//                            }
-//                        }
+        //            .responseJSON { response in
+        //                            switch response.result {
+        //                            case .Failure(let error):
+        //                                print(error)
+        //                            case .Success(let value):
+        //                                print(value)
+        //                            }
+        //                        }
     }
     
     func loveCountIncrease(){

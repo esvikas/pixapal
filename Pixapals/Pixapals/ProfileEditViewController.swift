@@ -380,7 +380,7 @@ class ProfileEditViewController: UIViewController, UINavigationControllerDelegat
                         func message() -> String? {
                             if let message = data["message"] as? [String] {
                                 let msg = message.reduce("", combine: {
-                                    $0 + " " + $1
+                                    $0 + "\n" + $1
                                 })
                                 return msg
                             }
