@@ -7,6 +7,10 @@
 //
 
 import UIKit
+import Alamofire
+import SwiftyJSON
+
+
 
 class GetFeedVC: UIViewController {
 
@@ -14,7 +18,7 @@ class GetFeedVC: UIViewController {
         super.viewDidLoad()
     
     
-    
+//    loadDataFromAPI()
     
     
     
@@ -28,6 +32,47 @@ class GetFeedVC: UIViewController {
     
     }
     
+    
+    
+    private func loadDataFromAPI(){
+        guard let id = UserDataStruct().id else {
+            print("no user id")
+            return
+        }
+        
+        var apiURLString = ""
+
+        apiURLString = "\(apiUrl)api/v1/profile/fb-following-details"
+        
+       
+        //print(apiURLString)
+        guard let api_token = UserDataStruct().api_token else{
+            print("no api token")
+            return
+        }
+        
+        let headers = [
+            "X-Auth-Token" : String(api_token),
+        ]
+        
+        let parameters = [
+            "X-Auth-Token" : ["213423531","123456"]
+        ]
+        
+                Alamofire.request(.GET, apiURLString, parameters: parameters, headers: headers)
+                    //requestWithHeaderXAuthToken(.GET, apiURLString)
+                    .responseJSON { response -> Void in
+                        print(response.request)
+                        switch response.result {
+                        case .Success(let value):
+                            print(JSON(value))
+                        case .Failure(let error):
+                            print(error)
+                        }
+                }
+        
+
+    }
 
 
 }
@@ -36,21 +81,19 @@ class GetFeedVC: UIViewController {
 extension GetFeedVC: UITableViewDataSource {
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         
-        print(self.feedsFromResponseAsObject?.feeds?.count)
-        return self.feedsFromResponseAsObject?.feeds?.count ?? 0
+        
+        return 1
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 1
+        return 5
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
-        let cell = tableView.dequeueReusableCellWithIdentifier("globalFeedTableViewCell", forIndexPath: indexPath) as! GlobalFeedTableViewCell
+        let cell = tableView.dequeueReusableCellWithIdentifier("GetFeedTableViewCell", forIndexPath: indexPath) as! GetFeedTableViewCell
         
-        let feed = (self.feedsFromResponseAsObject.feeds?[indexPath.section])!
         
-        print(feed.mode)
         cell.selectionStyle =  UITableViewCellSelectionStyle.None
         
         //print(feedsToShow)
@@ -62,9 +105,7 @@ extension GetFeedVC: UITableViewDataSource {
     
     func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
 
-        if indexPath.section == self.feedsFromResponseAsObject.feeds!.count - 1 && self.hasMoreDataInServer {
-            self.loadMore()
-        }
+      
     }
     
 }
@@ -73,22 +114,15 @@ extension GetFeedVC: UITableViewDelegate {
         func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
             tableView.deselectRowAtIndexPath(indexPath, animated: true)
             
-            let feed = (self.feedsFromResponseAsObject.feeds?[indexPath.section])!
             
             
-            self.goToDetailFeedView(feed)
             
             
         }
         
-        func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-            return UITableViewAutomaticDimension
-            //return self.view.frame.height - (20 + 44 + 49)
-        }
+
         
-        func tableView(tableView: UITableView, estimatedHeightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-            return UITableViewAutomaticDimension
-        }
+  
         
 
         
