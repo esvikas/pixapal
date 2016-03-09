@@ -161,6 +161,38 @@
             endingLineNumber = "92"
             landmarkName = "loginWithEmail()"
             landmarkType = "5">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Pixapals.LoginWithEmailViewController.(loginWithEmail (Pixapals.LoginWithEmailViewController) -&gt; () -&gt; ()).(closure #1)"
+                  moduleName = "Pixapals"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/ak2g/Documents/Pixapals/Pixapals/Pixapals/LoginWithEmailViewController.swift"
+                  timestampString = "479195045.764135"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "94"
+                  endingLineNumber = "94"
+                  offsetFromSymbolStart = "3465">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Pixapals.LoginWithEmailViewController.(loginWithEmail (Pixapals.LoginWithEmailViewController) -&gt; () -&gt; ()).(closure #1)"
+                  moduleName = "Pixapals"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/ak2g/Documents/Pixapals/Pixapals/Pixapals/LoginWithEmailViewController.swift"
+                  timestampString = "479195045.764278"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "94"
+                  endingLineNumber = "94"
+                  offsetFromSymbolStart = "3477">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
