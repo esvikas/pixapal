@@ -9,10 +9,10 @@
 import UIKit
 import FBSDKCoreKit
 import FBSDKLoginKit
+import FBSDKShareKit
 import Alamofire
 import SwiftyJSON
 import CoreLocation
-import FBSDKShareKit
 import TwitterKit
 
 
@@ -121,7 +121,8 @@ class ViewController: UIViewController {
             if (session != nil) {
                 //self.dict.setValue(session!.userName, forKey: "username")
                 //self.dict.setValue(session!.userID, forKey: "id")
-                print(session?.userID)
+               //print(session?.userID)
+                //appDelegate.twitterSession = session
                 let client = TWTRAPIClient()
                 client.loadUserWithID(session!.userID) { (user, error) -> Void in
 //                    self.dict.setValue(session?.userID, forKey: "id")
@@ -152,8 +153,11 @@ class ViewController: UIViewController {
             if reachability.isReachable()  {
                 
                 let fbLoginManager : FBSDKLoginManager = FBSDKLoginManager()
-                
-                fbLoginManager .logInWithReadPermissions(["public_profile", "email"], handler: {
+                fbLoginManager.logInWithReadPermissions(["public_profile", "email"], fromViewController: self, handler: {
+//                    (<#FBSDKLoginManagerLoginResult!#>, <#NSError!#>) -> Void in
+//                    <#code#>
+//                })
+//                fbLoginManager.logInWithReadPermissions(["public_profile", "email"], handler: {
                     (result, error) -> Void in
                     
                     if result == nil{
@@ -171,6 +175,7 @@ class ViewController: UIViewController {
                         
                         if(fbloginresult.grantedPermissions.contains("email"))
                         {
+                            //appDelegate.fbLoginManager = fbLoginManager
                             self.getFBUserData()
                         }
                     }
@@ -198,6 +203,7 @@ class ViewController: UIViewController {
     }
     
     func getFBUserData(){
+        
         if((FBSDKAccessToken.currentAccessToken()) != nil){
             
             FBSDKGraphRequest(graphPath: "me", parameters: ["fields": "id, name, picture.type(small), email, website, gender, hometown, birthday"]).startWithCompletionHandler({ (connection, result, error) -> Void in
@@ -223,38 +229,39 @@ class ViewController: UIViewController {
             })
         }
 
-        let request = FBSDKGraphRequest(graphPath:"me/taggable_friends", parameters: ["limit" : "1000","fields": "id"]);
+//        let request = FBSDKGraphRequest(graphPath:"me/taggable_friends", parameters: ["limit" : "1000","fields": "id"]);
+//        
+//        request.startWithCompletionHandler { (connection : FBSDKGraphRequestConnection!, result : AnyObject!, error : NSError!) -> Void in
+//            if error == nil {
+//                //print("Friends are : \(result)")
+//
+//               // print("Friends are : \(result.count)")
+//                
+//                self.friendsList = result as! [String : AnyObject] //as! NSMutableDictionary
+//
+//                
+//            } else {
+//                PixaPalsErrorType.CantGetFriendInfoFromFacebookError.show(self)
+//                print("Error Getting Friends \(error)");
+//            }
+//        }
+//
+//        
+//        var requestx = FBSDKGraphRequest(graphPath:"me/friends", parameters: nil);
+//        
+//        requestx.startWithCompletionHandler { (connection : FBSDKGraphRequestConnection!, result : AnyObject!, error : NSError!) -> Void in
+//            if error == nil {
+//                print("Friends are : \(result)")
+//                print("Friends are : \(result.count)")
+//                
+//
+//
+//            } else {
+//                PixaPalsErrorType.CantGetFriendInfoFromFacebookError.show(self)
+//                print("Error Getting Friends \(error)");
+//            }
+//        }
         
-        request.startWithCompletionHandler { (connection : FBSDKGraphRequestConnection!, result : AnyObject!, error : NSError!) -> Void in
-            if error == nil {
-                //print("Friends are : \(result)")
-
-               // print("Friends are : \(result.count)")
-                
-                self.friendsList = result as! [String : AnyObject] //as! NSMutableDictionary
-
-                
-            } else {
-                PixaPalsErrorType.CantGetFriendInfoFromFacebookError.show(self)
-                print("Error Getting Friends \(error)");
-            }
-        }
-
-        
-        var requestx = FBSDKGraphRequest(graphPath:"me/friends", parameters: nil);
-        
-        requestx.startWithCompletionHandler { (connection : FBSDKGraphRequestConnection!, result : AnyObject!, error : NSError!) -> Void in
-            if error == nil {
-                print("Friends are : \(result)")
-                print("Friends are : \(result.count)")
-                
-
-
-            } else {
-                PixaPalsErrorType.CantGetFriendInfoFromFacebookError.show(self)
-                print("Error Getting Friends \(error)");
-            }
-        }
 }
     
     func loginFbUser(){

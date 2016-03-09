@@ -108,69 +108,105 @@ class NotificationViewController: UIViewController {
             "X-Auth-Token" : user.api_token!,
         ]
         
-        requestWithHeaderXAuthToken(.GET, urlString)
-            //                        .responseJSON { response -> Void in
-            //                            print(response.request)
-            //                            switch response.result {
-            //                            case .Success(let value):
-            //                                let json = (JSON(value))
-            //                                print(json)
-            //                            case .Failure(let error):
-            //                                print(error)
-            //                            }
-            //                        }
-            .responseObject { (response: Response<NotificationResponseJSON, NSError>) -> Void in
-                switch response.result {
-                    
-                case .Success(let notificationResponseJSON):
-                    
-                    if let error = notificationResponseJSON.error where error == true {
-                        PixaPalsErrorType.NoDataFoundError.show(self)
-                        //showAlertView("Error", message: "Server Not Found. Try again.", controller: self)
-                        self.pullToRefresh.endRefreshing()
-                    } else {
-                        if let _ = self.notifications {
-                            if self.refreshingStatus == true {
-                                self.refreshingStatus = false
-                                self.notifications = notificationResponseJSON
-                            } else {
-                                if notificationResponseJSON.notifications?.count < self.notificationLimit && notificationResponseJSON.notifications?.count > 0{
-                                    self.notifications?.notifications?.appendContentsOf(notificationResponseJSON.notifications!)
-                                    self.hasMoreDataInServer = false
-                                } else if notificationResponseJSON.notifications?.count > 0 {
-                                    self.notifications?.notifications?.appendContentsOf(notificationResponseJSON.notifications!)
-                                }
-                                else {
-                                    self.hasMoreDataInServer = false
-                                }
+        APIManager(requestType: RequestType.WithXAuthTokenInHeader, urlString: urlString, method: .GET).handleResponse(
+            { (notificationResponseJSON: NotificationResponseJSON) -> Void in
+                if let error = notificationResponseJSON.error where error == true {
+                    PixaPalsErrorType.NoDataFoundError.show(self)
+                    //showAlertView("Error", message: "Server Not Found. Try again.", controller: self)
+                } else {
+                    if let _ = self.notifications {
+                        if self.refreshingStatus == true {
+                            self.refreshingStatus = false
+                            self.notifications = notificationResponseJSON
+                        } else {
+                            if notificationResponseJSON.notifications?.count < self.notificationLimit && notificationResponseJSON.notifications?.count > 0{
+                                self.notifications?.notifications?.appendContentsOf(notificationResponseJSON.notifications!)
+                                self.hasMoreDataInServer = false
+                            } else if notificationResponseJSON.notifications?.count > 0 {
+                                self.notifications?.notifications?.appendContentsOf(notificationResponseJSON.notifications!)
+                            }
+                            else {
+                                self.hasMoreDataInServer = false
                             }
                         }
-                        else {
-                            self.notifications = notificationResponseJSON
-                        }
-                        self.tableView.reloadData()
-                        MBProgressHUD.hideAllHUDsForView(self.view, animated: true)
-                        self.blurEffectView.removeFromSuperview()
-                        self.pullToRefresh.endRefreshing()
-                        
-                        self.tableView.emptyDataSetDelegate=self
-                        self.tableView.emptyDataSetSource=self
-                        
-                        //self.loadMoreActivityIndicator.stopAnimating()
                     }
-                    
-                case .Failure(let error):
-                    //                appDelegate.ShowAlertView("Connection Error", message: "Try Again", handlerForOk: { (action) -> Void in
-                    //                    self.loadDataFromAPI()
-                    //                    }, handlerForCancel: nil)
-                    //self.loadMoreActivityIndicator.stopAnimating()
-                    //self.tryAgainButton.hidden = false
-                    //print("ERROR: \(error)")
-                    //showAlertView("Error", message: "Can't connect right now.Check your internet settings.", controller: self)
-                    PixaPalsErrorType.ConnectionError.show(self)
-                    self.pullToRefresh.endRefreshing()
+                    else {
+                        self.notifications = notificationResponseJSON
+                    }
+                    self.tableView.reloadData()
                 }
-        }
+            }, errorBlock: {self}, onResponse: {
+                self.blurEffectView.removeFromSuperview()
+                MBProgressHUD.hideAllHUDsForView(self.view, animated: true)
+                self.pullToRefresh.endRefreshing()
+                self.tableView.emptyDataSetDelegate=self
+                self.tableView.emptyDataSetSource=self
+            }
+        )
+//        
+//        requestWithHeaderXAuthToken(.GET, urlString)
+//            //                        .responseJSON { response -> Void in
+//            //                            print(response.request)
+//            //                            switch response.result {
+//            //                            case .Success(let value):
+//            //                                let json = (JSON(value))
+//            //                                print(json)
+//            //                            case .Failure(let error):
+//            //                                print(error)
+//            //                            }
+//            //                        }
+//            .responseObject { (response: Response<NotificationResponseJSON, NSError>) -> Void in
+//                switch response.result {
+//                    
+//                case .Success(let notificationResponseJSON):
+//                    
+//                    if let error = notificationResponseJSON.error where error == true {
+//                        PixaPalsErrorType.NoDataFoundError.show(self)
+//                        //showAlertView("Error", message: "Server Not Found. Try again.", controller: self)
+//                        self.pullToRefresh.endRefreshing()
+//                    } else {
+//                        if let _ = self.notifications {
+//                            if self.refreshingStatus == true {
+//                                self.refreshingStatus = false
+//                                self.notifications = notificationResponseJSON
+//                            } else {
+//                                if notificationResponseJSON.notifications?.count < self.notificationLimit && notificationResponseJSON.notifications?.count > 0{
+//                                    self.notifications?.notifications?.appendContentsOf(notificationResponseJSON.notifications!)
+//                                    self.hasMoreDataInServer = false
+//                                } else if notificationResponseJSON.notifications?.count > 0 {
+//                                    self.notifications?.notifications?.appendContentsOf(notificationResponseJSON.notifications!)
+//                                }
+//                                else {
+//                                    self.hasMoreDataInServer = false
+//                                }
+//                            }
+//                        }
+//                        else {
+//                            self.notifications = notificationResponseJSON
+//                        }
+//                        self.tableView.reloadData()
+//                        MBProgressHUD.hideAllHUDsForView(self.view, animated: true)
+//                        self.blurEffectView.removeFromSuperview()
+//                        self.pullToRefresh.endRefreshing()
+//                        
+//                        self.tableView.emptyDataSetDelegate=self
+//                        self.tableView.emptyDataSetSource=self
+//                        
+//                        //self.loadMoreActivityIndicator.stopAnimating()
+//                    }
+//                    
+//                case .Failure(let error):
+//                    //                appDelegate.ShowAlertView("Connection Error", message: "Try Again", handlerForOk: { (action) -> Void in
+//                    //                    self.loadDataFromAPI()
+//                    //                    }, handlerForCancel: nil)
+//                    //self.loadMoreActivityIndicator.stopAnimating()
+//                    //self.tryAgainButton.hidden = false
+//                    //print("ERROR: \(error)")
+//                    //showAlertView("Error", message: "Can't connect right now.Check your internet settings.", controller: self)
+//                    PixaPalsErrorType.ConnectionError.show(self)
+//                    self.pullToRefresh.endRefreshing()
+//                }
+//        }
     }
 }
 

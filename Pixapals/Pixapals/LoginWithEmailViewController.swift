@@ -76,7 +76,6 @@
         
         requestWithDeviceTokenInParam(.POST, loginUrlString, parameters: parametersToPost)
             .responseJSON { response in
-                
                 switch response.result {
                 case .Success(let data):
                     if let dict = data["user"] as? [String: AnyObject] {

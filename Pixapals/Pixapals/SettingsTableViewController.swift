@@ -8,6 +8,9 @@
 
 import UIKit
 import Alamofire
+import FBSDKCoreKit
+import FBSDKLoginKit
+import FBSDKShareKit
 
 class SettingsTableViewController: UITableViewController {
     
@@ -74,7 +77,79 @@ class SettingsTableViewController: UITableViewController {
             }
             
         case 1:
-            PixaPalsErrorType.NotAvailableError.show(self)
+            func getFBUserData() {
+                
+                //            if((FBSDKAccessToken.currentAccessToken()) != nil){
+                //
+                //                FBSDKGraphRequest(graphPath: "me", parameters: ["fields": "id, name, picture.type(small), email, website, gender, hometown, birthday"]).startWithCompletionHandler({ (connection, result, error) -> Void in
+                //
+                //                    print(FBSDKAccessToken.currentAccessToken().tokenString)
+                //
+                //                    if (error == nil){
+                //                        print(result)
+                //                        //self.dict = result as! [String : AnyObject]
+                //                        //self.dict.setValue("facebook", forKey: "type")
+                //                        //self.dict["type"] = "facebook"
+                //
+                ////                        if let _ = self.location {
+                ////                            self.loginFbUser()
+                ////                        }
+                //
+                //                        //NSLog(self.dict.objectForKey("picture")?.objectForKey("data")?.objectForKey("url") as! String)
+                //                    } else {
+                //                        print(error)
+                //                        PixaPalsErrorType.CantGetUserInfoFromFacebookError.show(self)
+                //                        //showAlertView("Error", message: "Sorry! Can't connect through facebook. Can't access your information.", controller: self)
+                //                    }
+                //                })
+                //            }
+                print(FBSDKAccessToken.currentAccessToken()?.tokenString)
+                let request = FBSDKGraphRequest(graphPath:"me/taggable_friends", parameters: ["limit" : "1000","fields": "id"]);
+                
+                request.startWithCompletionHandler { (connection : FBSDKGraphRequestConnection!, result : AnyObject!, error : NSError!) -> Void in
+                    if error == nil {
+                        //print("Friends are : \(result)")
+                        
+                        // print("Friends are : \(result.count)")
+                        
+                        // self.friendsList = result as! [String : AnyObject] //as! NSMutableDictionary
+                        print(result)
+                        
+                    } else {
+                        PixaPalsErrorType.CantGetFriendInfoFromFacebookError.show(self)
+                        print("Error Getting Friends \(error)");
+                    }
+                }
+            }
+            
+            let fbLoginManager = FBSDKLoginManager()
+            fbLoginManager.logInWithReadPermissions(["public_profile", "email"], fromViewController: self, handler: {
+                //                (<#FBSDKLoginManagerLoginResult!#>, <#NSError!#>) -> Void in
+                //                <#code#>
+                //            })
+                //            fbLoginManager.logInWithReadPermissions(["public_profile", "email"], handler: {
+                (result, error) -> Void in
+                
+                if result == nil{
+                    return
+                }
+                
+                if result.isCancelled {
+                    // Handle cancellations
+                    fbLoginManager.logOut()
+                }else if (error != nil) {
+                    //showAlertView("Error", message: "Sorry! Can't connect through facebook.", controller: self)
+                    PixaPalsErrorType.FacebookLoginConnectionError.show(self)
+                }else{
+                    let fbloginresult : FBSDKLoginManagerLoginResult = result
+                    
+                    if(fbloginresult.grantedPermissions.contains("email"))
+                    {
+                        getFBUserData()
+                    }
+                }
+            })
+            //PixaPalsErrorType.NotAvailableError.show(self)
             //appDelegate.ShowAlertView("Sorry ", message: "Not available")
         case 2:
             let storyboard: UIStoryboard = UIStoryboard (name: "Main", bundle: nil)
@@ -102,7 +177,7 @@ class SettingsTableViewController: UITableViewController {
         
     }
     
-
+    
     
     func PickerAction(){
         
@@ -238,7 +313,7 @@ class SettingsTableViewController: UITableViewController {
     
     func preference(){
         let user = UserDataStruct()
-        let registerUrlString = "\(apiUrl)api/v1/preference/set"
+        let urlString = "\(apiUrl)api/v1/preference/set"
         
         let parameters: [String: AnyObject] =
         [
@@ -246,11 +321,11 @@ class SettingsTableViewController: UITableViewController {
             "gender": String(genderDetailText.text!),
             "region": String(locationDetailText.text!)
         ]
-        print(parameters)
-        
-        let headers = [
-            "X-Auth-Token" : user.api_token!,
-        ]
+        //        print(parameters)
+        //
+        //        let headers = [
+        //            "X-Auth-Token" : user.api_token!,
+        //        ]
         
         
         //                Alamofire.request(.POST, registerUrlString, parameters: parameters, headers:headers).responseJSON { response in
@@ -263,17 +338,22 @@ class SettingsTableViewController: UITableViewController {
         //                    }
         //                }
         
-        requestWithHeaderXAuthToken(.POST, registerUrlString, parameters: parameters).responseObject { (response: Response<SuccessFailJSON, NSError>) -> Void in
-            switch response.result {
-            case .Success(let successObject):
+        APIManager(requestType: RequestType.WithXAuthTokenInHeader, urlString: urlString, parameters: parameters).handleResponse(
+            { (successObject: SuccessFailJSON) -> Void in
                 print("Set successfully \(successObject.message)")
-                
-            case .Failure(let error):
-                //showAlertView("Error", message: "Can't connect right now.Check your internet settings.", controller: self)
-                //print("Error in connection \(error)")
-                PixaPalsErrorType.ConnectionError.show(self)
-            }
-        }
+            }, errorBlock: {self})
+        
+        //        requestWithHeaderXAuthToken(.POST, registerUrlString, parameters: parameters).responseObject { (response: Response<SuccessFailJSON, NSError>) -> Void in
+        //            switch response.result {
+        //            case .Success(let successObject):
+        //                print("Set successfully \(successObject.message)")
+        //
+        //            case .Failure(let error):
+        //                //showAlertView("Error", message: "Can't connect right now.Check your internet settings.", controller: self)
+        //                //print("Error in connection \(error)")
+        //                PixaPalsErrorType.ConnectionError.show(self)
+        //            }
+        //        }
     }
     
     
@@ -287,22 +367,22 @@ class SettingsTableViewController: UITableViewController {
         ]
         
         
-                        Alamofire.request(.GET, registerUrlString, parameters: nil, headers:headers).responseJSON { response in
-                            print(response.request)
-                            switch response.result {
-                            case .Success( _ ):
-                                
-                                self.logOut()
-                                
-                                
-                            case .Failure(let error):
-                                //print("Error in connection \(error)")
-                                //showAlertView("Error", message: "Can't connect right now.Check your internet settings.", controller: self)
-                                PixaPalsErrorType.ConnectionError.show(self)
-                            }
-                        }
+        Alamofire.request(.GET, registerUrlString, parameters: nil, headers:headers).responseJSON { response in
+            print(response.request)
+            switch response.result {
+            case .Success( _ ):
+                
+                self.logOut()
+                
+                
+            case .Failure(let error):
+                //print("Error in connection \(error)")
+                //showAlertView("Error", message: "Can't connect right now.Check your internet settings.", controller: self)
+                PixaPalsErrorType.ConnectionError.show(self)
+            }
+        }
         print(headers)
-  
+        
     }
     func logOut(){
         
@@ -317,7 +397,7 @@ class SettingsTableViewController: UITableViewController {
         
         
     }
-
+    
 }
 extension SettingsTableViewController : UIPickerViewDataSource, UIPickerViewDelegate {
     

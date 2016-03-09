@@ -52,7 +52,8 @@ class CustomTabBarController: UITabBarController {
             self.viewControllers = controllers
         }
         if appDelegate.fromNotification {
-        self.selectedIndex = 3
+            appDelegate.fromNotification = false
+            self.selectedIndex = 3
         }
     }
 }

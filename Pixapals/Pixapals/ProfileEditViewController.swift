@@ -271,7 +271,7 @@ class ProfileEditViewController: UIViewController, UINavigationControllerDelegat
         loadingNotification.labelText = "Updating"
         
         
-        let registerUrlString = "\(apiUrl)api/v1/profile/update"
+        let urlString = "\(apiUrl)api/v1/profile/update"
         
         
         let parameters: [String: AnyObject] =
@@ -295,106 +295,143 @@ class ProfileEditViewController: UIViewController, UINavigationControllerDelegat
         
         print(parameters)
         
-        requestWithHeaderXAuthToken(.POST, registerUrlString, parameters: parameters)
-            .responseJSON { response in
-                //                debugPrint(response)     // prints detailed description of all response properties
-                //
-                //                print(response.request)  // original URL request
-                //                print(response.response) // URL response
-                //                print(response.data)     // server data
-                //                print(response.result)   // result of response serialization
-                
-                //                if let JSON = response.result.value {
-                //                    print("JSON: \(JSON)")
-                //                }
-                //
-                //                if let HTTPResponse = response.response {
-                //
-                //                    let statusCode = HTTPResponse.statusCode
-                //
-                //                    if statusCode==200{
-                //                        self.userDataAsObject.username = self.userNameTextField.text
-                //                        self.userDataAsObject.email = self.emailTextField.text
-                //                        self.userDataAsObject.gender = self.btnGender.titleLabel?.text
-                //                        self.userDataAsObject.phone = self.phoneTextField.text
-                //                        self.userDataAsObject.website = self.webSiteTextField.text
-                //                        self.userDataAsObject.bio = self.bioTextField.text
-                //
-                //                        self.delegate.reloadDataAfterProfileEdit()
-                //                        //let user = UserFeedDistinction.sharedInstance.getUserWithId(self.userDataAsObject.id!)
-                //                        UserFeedDistinction.sharedInstance.checkDistinctUser(self.userDataAsObject)
-                //
-                //                        MBProgressHUD.hideAllHUDsForView(self.view, animated: true)
-                //                        self.blurEffectView.removeFromSuperview()
-                //                        self.navigationController!.popViewControllerAnimated(true)
-                //                    }else  {
-                //
-                //
-                //                        MBProgressHUD.hideAllHUDsForView(self.view, animated: true)
-                //                        self.blurEffectView.removeFromSuperview()
-                //
-                //                        //self.navigationItem.hidesBackButton = false
-                //                        self.newBackButton.enabled=true
-                //                        self.newDoneButton.enabled=true
-                //                    }
-                //                }
-                
-                switch response.result {
-                case .Success(let data):
-                    print(data)
-                    //let data = JSON(nsdata)
-                    if let isError = data["error"] as? Bool where isError == false{
-                        self.userDataAsObject.username = self.userNameTextField.text
-                        self.userDataAsObject.email = self.emailTextField.text
-                        self.userDataAsObject.gender = self.btnGender.titleLabel?.text
-                        self.userDataAsObject.phone = self.phoneTextField.text
-                        self.userDataAsObject.website = self.webSiteTextField.text
-                        self.userDataAsObject.bio = self.bioTextField.text
-                        
-                        self.delegate.reloadDataAfterProfileEdit()
-                        //let user = UserFeedDistinction.sharedInstance.getUserWithId(self.userDataAsObject.id!)
-                        UserFeedDistinction.sharedInstance.checkDistinctUser(self.userDataAsObject)
-                        
-                        MBProgressHUD.hideAllHUDsForView(self.view, animated: true)
-                        self.blurEffectView.removeFromSuperview()
-                        self.navigationController!.popViewControllerAnimated(true)
-                    }else {
-                        MBProgressHUD.hideAllHUDsForView(self.view, animated: true)
-                        self.blurEffectView.removeFromSuperview()
-                        
-                        //self.navigationItem.hidesBackButton = false
-                        self.newBackButton.enabled=true
-                        self.newDoneButton.enabled=true
-                        
+        APIManager(requestType: RequestType.WithXAuthTokenInHeader, urlString: urlString, parameters:  parameters).giveResponseJSON(
+            { (data) -> Void in
+                if let isError = data["error"] as? Bool where isError == false{
+                    self.userDataAsObject.username = self.userNameTextField.text
+                    self.userDataAsObject.email = self.emailTextField.text
+                    self.userDataAsObject.gender = self.btnGender.titleLabel?.text
+                    self.userDataAsObject.phone = self.phoneTextField.text
+                    self.userDataAsObject.website = self.webSiteTextField.text
+                    self.userDataAsObject.bio = self.bioTextField.text
+                    
+                    self.delegate.reloadDataAfterProfileEdit()
+                    //let user = UserFeedDistinction.sharedInstance.getUserWithId(self.userDataAsObject.id!)
+                    UserFeedDistinction.sharedInstance.checkDistinctUser(self.userDataAsObject)
+
+                    self.navigationController!.popViewControllerAnimated(true)
+                }else {
+                    
+                    self.newBackButton.enabled=true
+                    self.newDoneButton.enabled=true
+                    func message() -> String? {
+                        if let message = data["message"] as? [String] {
+                            let msg = message.reduce("", combine: {
+                                $0 + "\n" + $1
+                            })
+                            return msg
+                        }
+                        return nil
+                    }
+                    //print("Invalid Username/Password: \(data["message"])")
+                    PixaPalsErrorType.CantAuthenticateError.show(self, title: nil, message: message())
+                }
+            }, errorBlock: {self}, onResponse: {
+                MBProgressHUD.hideAllHUDsForView(self.view, animated: true)
+                self.blurEffectView.removeFromSuperview()
+            }
+        )
+        
+//        requestWithHeaderXAuthToken(.POST, urlString, parameters: parameters)
+//            .responseJSON { response in
+//                //                debugPrint(response)     // prints detailed description of all response properties
+//                //
+//                //                print(response.request)  // original URL request
+//                //                print(response.response) // URL response
+//                //                print(response.data)     // server data
+//                //                print(response.result)   // result of response serialization
+//                
+//                //                if let JSON = response.result.value {
+//                //                    print("JSON: \(JSON)")
+//                //                }
+//                //
+//                //                if let HTTPResponse = response.response {
+//                //
+//                //                    let statusCode = HTTPResponse.statusCode
+//                //
+//                //                    if statusCode==200{
+//                //                        self.userDataAsObject.username = self.userNameTextField.text
+//                //                        self.userDataAsObject.email = self.emailTextField.text
+//                //                        self.userDataAsObject.gender = self.btnGender.titleLabel?.text
+//                //                        self.userDataAsObject.phone = self.phoneTextField.text
+//                //                        self.userDataAsObject.website = self.webSiteTextField.text
+//                //                        self.userDataAsObject.bio = self.bioTextField.text
+//                //
+//                //                        self.delegate.reloadDataAfterProfileEdit()
+//                //                        //let user = UserFeedDistinction.sharedInstance.getUserWithId(self.userDataAsObject.id!)
+//                //                        UserFeedDistinction.sharedInstance.checkDistinctUser(self.userDataAsObject)
+//                //
+//                //                        MBProgressHUD.hideAllHUDsForView(self.view, animated: true)
+//                //                        self.blurEffectView.removeFromSuperview()
+//                //                        self.navigationController!.popViewControllerAnimated(true)
+//                //                    }else  {
+//                //
+//                //
+//                //                        MBProgressHUD.hideAllHUDsForView(self.view, animated: true)
+//                //                        self.blurEffectView.removeFromSuperview()
+//                //
+//                //                        //self.navigationItem.hidesBackButton = false
+//                //                        self.newBackButton.enabled=true
+//                //                        self.newDoneButton.enabled=true
+//                //                    }
+//                //                }
+//                
+//                switch response.result {
+//                case .Success(let data):
+//                    print(data)
+//                    //let data = JSON(nsdata)
+//                    if let isError = data["error"] as? Bool where isError == false{
+//                        self.userDataAsObject.username = self.userNameTextField.text
+//                        self.userDataAsObject.email = self.emailTextField.text
+//                        self.userDataAsObject.gender = self.btnGender.titleLabel?.text
+//                        self.userDataAsObject.phone = self.phoneTextField.text
+//                        self.userDataAsObject.website = self.webSiteTextField.text
+//                        self.userDataAsObject.bio = self.bioTextField.text
+//                        
+//                        self.delegate.reloadDataAfterProfileEdit()
+//                        //let user = UserFeedDistinction.sharedInstance.getUserWithId(self.userDataAsObject.id!)
+//                        UserFeedDistinction.sharedInstance.checkDistinctUser(self.userDataAsObject)
+//                        
+//                        MBProgressHUD.hideAllHUDsForView(self.view, animated: true)
+//                        self.blurEffectView.removeFromSuperview()
+//                        self.navigationController!.popViewControllerAnimated(true)
+//                    }else {
+//                        MBProgressHUD.hideAllHUDsForView(self.view, animated: true)
+//                        self.blurEffectView.removeFromSuperview()
+//                        
+//                        //self.navigationItem.hidesBackButton = false
+//                        self.newBackButton.enabled=true
+//                        self.newDoneButton.enabled=true
+//                        
+////                        func message() -> String? {
+////                            if let message = data["message"] as? [String: [String]] {
+////                                let msg  = message.reduce("", combine: { (msg, message) -> String in
+////                                    return msg + message.1.reduce("", combine: { (indivMsg, msg) -> String in
+////                                        return indivMsg + "\n" + msg
+////                                    })
+////                                })
+////                                return msg
+////                            }
+////                            return nil
+////                        }
 //                        func message() -> String? {
-//                            if let message = data["message"] as? [String: [String]] {
-//                                let msg  = message.reduce("", combine: { (msg, message) -> String in
-//                                    return msg + message.1.reduce("", combine: { (indivMsg, msg) -> String in
-//                                        return indivMsg + "\n" + msg
-//                                    })
+//                            if let message = data["message"] as? [String] {
+//                                let msg = message.reduce("", combine: {
+//                                    $0 + "\n" + $1
 //                                })
 //                                return msg
 //                            }
-//                            return nil
+//                           return nil
 //                        }
-                        func message() -> String? {
-                            if let message = data["message"] as? [String] {
-                                let msg = message.reduce("", combine: {
-                                    $0 + " " + $1
-                                })
-                                return msg
-                            }
-                           return nil
-                        }
-                        //print("Invalid Username/Password: \(data["message"])")
-                        PixaPalsErrorType.CantAuthenticateError.show(self, title: nil, message: message())
-                    }
-                case .Failure(let error):
-                    MBProgressHUD.hideAllHUDsForView(self.view, animated: true)
-                    self.blurEffectView.removeFromSuperview()
-                    PixaPalsErrorType.ConnectionError.show(self)
-                }
-        }
+//                        //print("Invalid Username/Password: \(data["message"])")
+//                        PixaPalsErrorType.CantAuthenticateError.show(self, title: nil, message: message())
+//                    }
+//                case .Failure(let error):
+//                    MBProgressHUD.hideAllHUDsForView(self.view, animated: true)
+//                    self.blurEffectView.removeFromSuperview()
+//                    PixaPalsErrorType.ConnectionError.show(self)
+//                }
+//        }
         
         
     }

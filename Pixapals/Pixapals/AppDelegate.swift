@@ -21,7 +21,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var deviceTokenString: String!
     var numberOfNotificationBadge: Int?
     var fromNotification = false
-
+    //var twitterSession: TWTRSession?
+    //var fbLoginManager: FBSDKLoginManager?
+    
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         UINavigationBar.appearance().backIndicatorImage = UIImage(named: "report_form_left_arrow")
         UINavigationBar.appearance().backIndicatorTransitionMaskImage = UIImage(named: "report_form_left_arrow")
