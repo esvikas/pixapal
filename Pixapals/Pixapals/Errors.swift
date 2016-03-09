@@ -56,6 +56,15 @@ enum MiscErrorMessage: String {
    case NotAvailableErrorMessage = "Not Available"
 }
 
+
+//report issue error
+enum ReportIssueErrorMessage: String {
+    case CantReportIssueErrorMessage = "Reporting issue is unsuccessful."
+    case CommentBoxIsEmptyErrorMessage = "Comment field is required."
+    case RelatedToNotSelectedErrorMessage = "Related to field is required. Select an option."
+    case ReportIssueSuccessfulMessage = "Thank you! the issue is received. We will try to resolve the issue as soon as possible."
+    case ReportNotEnsuredErrorMessage = "Ensure that the report is legit and valid one."
+}
 ////error titles
 ////server error title
 //enum APIConnectionErrorTitle: String {
@@ -133,6 +142,13 @@ enum PixaPalsErrorType {
     
     //refeed error
     case CantRefeedError
+    
+    //report an issue
+    case CantReportIssueError
+    case CommentBoxIsEmptyError
+    case RelatedToNotSelectedError
+    case ReportIssueSuccessful
+    case ReportNotEnsuredError
 
     
     func show(viewController: UIViewController, var title: String? = nil, var message: String? = nil) {
@@ -187,6 +203,16 @@ enum PixaPalsErrorType {
                     return APIConnectionErrorMessage.CantGetFriendInfoFromFacebookErrorMessage.rawValue
                 case .CantRefeedError:
                     return FeedErrorMessage.CantRefeedErrorMessage.rawValue
+                case .CantReportIssueError:
+                    return ReportIssueErrorMessage.CantReportIssueErrorMessage.rawValue
+                case .CommentBoxIsEmptyError:
+                    return ReportIssueErrorMessage.CommentBoxIsEmptyErrorMessage.rawValue
+                case .RelatedToNotSelectedError:
+                    return ReportIssueErrorMessage.RelatedToNotSelectedErrorMessage.rawValue
+                case .ReportIssueSuccessful:
+                    return ReportIssueErrorMessage.ReportIssueSuccessfulMessage.rawValue
+                case .ReportNotEnsuredError:
+                    return ReportIssueErrorMessage.ReportNotEnsuredErrorMessage.rawValue
                 }
             }()
         }

@@ -53,10 +53,10 @@ class ProfileEditViewController: UIViewController, UINavigationControllerDelegat
         userProfilePic.layer.cornerRadius=userProfilePic.frame.height/2
         userProfilePic.clipsToBounds=true
         
-//        btnEditProfileImage.layer.cornerRadius = btnEditProfileImage.frame.height/2
-//        btnEditProfileImage.clipsToBounds = true
-//        btnEditProfileImage.layer.borderColor = UIColor.grayColor().CGColor
-//        btnEditProfileImage.layer.borderWidth = 1
+        //        btnEditProfileImage.layer.cornerRadius = btnEditProfileImage.frame.height/2
+        //        btnEditProfileImage.clipsToBounds = true
+        //        btnEditProfileImage.layer.borderColor = UIColor.grayColor().CGColor
+        //        btnEditProfileImage.layer.borderWidth = 1
         
         userNameTextField.text=userDataAsObject.username
         emailTextField.text=userDataAsObject.email
@@ -93,9 +93,6 @@ class ProfileEditViewController: UIViewController, UINavigationControllerDelegat
         
         self.navigationItem.leftBarButtonItem = newBackButton;
         self.view.backgroundColor=UIColor(red: 240/255, green: 240/255, blue: 240/255, alpha: 1)
-        
-        
-        
         
     }
     
@@ -285,7 +282,7 @@ class ProfileEditViewController: UIViewController, UINavigationControllerDelegat
             "bio": self.bioTextField.text!,
             "email": self.emailTextField.text!,
             "phone": self.phoneTextField.text!,
-
+            
             "gender": self.btnGender.titleLabel?.text ?? "",
             "old_password" : oldPasswordTextField.text!,
             "new_password" : newPasswordTextField.text!
@@ -300,24 +297,53 @@ class ProfileEditViewController: UIViewController, UINavigationControllerDelegat
         
         requestWithHeaderXAuthToken(.POST, registerUrlString, parameters: parameters)
             .responseJSON { response in
-                debugPrint(response)     // prints detailed description of all response properties
+                //                debugPrint(response)     // prints detailed description of all response properties
+                //
+                //                print(response.request)  // original URL request
+                //                print(response.response) // URL response
+                //                print(response.data)     // server data
+                //                print(response.result)   // result of response serialization
                 
-                print(response.request)  // original URL request
-                print(response.response) // URL response
-                print(response.data)     // server data
-                print(response.result)   // result of response serialization
+                //                if let JSON = response.result.value {
+                //                    print("JSON: \(JSON)")
+                //                }
+                //
+                //                if let HTTPResponse = response.response {
+                //
+                //                    let statusCode = HTTPResponse.statusCode
+                //
+                //                    if statusCode==200{
+                //                        self.userDataAsObject.username = self.userNameTextField.text
+                //                        self.userDataAsObject.email = self.emailTextField.text
+                //                        self.userDataAsObject.gender = self.btnGender.titleLabel?.text
+                //                        self.userDataAsObject.phone = self.phoneTextField.text
+                //                        self.userDataAsObject.website = self.webSiteTextField.text
+                //                        self.userDataAsObject.bio = self.bioTextField.text
+                //
+                //                        self.delegate.reloadDataAfterProfileEdit()
+                //                        //let user = UserFeedDistinction.sharedInstance.getUserWithId(self.userDataAsObject.id!)
+                //                        UserFeedDistinction.sharedInstance.checkDistinctUser(self.userDataAsObject)
+                //
+                //                        MBProgressHUD.hideAllHUDsForView(self.view, animated: true)
+                //                        self.blurEffectView.removeFromSuperview()
+                //                        self.navigationController!.popViewControllerAnimated(true)
+                //                    }else  {
+                //
+                //
+                //                        MBProgressHUD.hideAllHUDsForView(self.view, animated: true)
+                //                        self.blurEffectView.removeFromSuperview()
+                //
+                //                        //self.navigationItem.hidesBackButton = false
+                //                        self.newBackButton.enabled=true
+                //                        self.newDoneButton.enabled=true
+                //                    }
+                //                }
                 
-                if let JSON = response.result.value {
-                    print("JSON: \(JSON)")
-                }
-                
-                
-                
-                if let HTTPResponse = response.response {
-                    
-                    let statusCode = HTTPResponse.statusCode
-                    
-                    if statusCode==200{
+                switch response.result {
+                case .Success(let data):
+                    print(data)
+                    //let data = JSON(nsdata)
+                    if let isError = data["error"] as? Bool where isError == false{
                         self.userDataAsObject.username = self.userNameTextField.text
                         self.userDataAsObject.email = self.emailTextField.text
                         self.userDataAsObject.gender = self.btnGender.titleLabel?.text
@@ -332,17 +358,41 @@ class ProfileEditViewController: UIViewController, UINavigationControllerDelegat
                         MBProgressHUD.hideAllHUDsForView(self.view, animated: true)
                         self.blurEffectView.removeFromSuperview()
                         self.navigationController!.popViewControllerAnimated(true)
-                    }else  {
-                        
-                        
+                    }else {
                         MBProgressHUD.hideAllHUDsForView(self.view, animated: true)
                         self.blurEffectView.removeFromSuperview()
                         
-                        self.navigationItem.hidesBackButton = false
-                        self.newBackButton.enabled=false
+                        //self.navigationItem.hidesBackButton = false
+                        self.newBackButton.enabled=true
                         self.newDoneButton.enabled=true
-
+                        
+//                        func message() -> String? {
+//                            if let message = data["message"] as? [String: [String]] {
+//                                let msg  = message.reduce("", combine: { (msg, message) -> String in
+//                                    return msg + message.1.reduce("", combine: { (indivMsg, msg) -> String in
+//                                        return indivMsg + "\n" + msg
+//                                    })
+//                                })
+//                                return msg
+//                            }
+//                            return nil
+//                        }
+                        func message() -> String? {
+                            if let message = data["message"] as? [String] {
+                                let msg = message.reduce("", combine: {
+                                    $0 + " " + $1
+                                })
+                                return msg
+                            }
+                           return nil
+                        }
+                        //print("Invalid Username/Password: \(data["message"])")
+                        PixaPalsErrorType.CantAuthenticateError.show(self, title: nil, message: message())
                     }
+                case .Failure(let error):
+                    MBProgressHUD.hideAllHUDsForView(self.view, animated: true)
+                    self.blurEffectView.removeFromSuperview()
+                    PixaPalsErrorType.ConnectionError.show(self)
                 }
         }
         

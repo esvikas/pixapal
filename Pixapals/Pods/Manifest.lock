@@ -1,7 +1,7 @@
 PODS:
-  - Alamofire (3.1.5)
-  - AlamofireObjectMapper (2.1.0):
-    - Alamofire (~> 3.1.0)
+  - Alamofire (3.2.1)
+  - AlamofireObjectMapper (2.1.2):
+    - Alamofire (~> 3.2)
     - ObjectMapper (~> 1.0)
   - Bolts (1.6.0):
     - Bolts/AppLinks (= 1.6.0)
@@ -11,17 +11,18 @@ PODS:
   - Bolts/Tasks (1.6.0)
   - DZNEmptyDataSet (1.7.3)
   - Fabric (1.6.6)
-  - FBSDKCoreKit (4.9.1):
+  - FBSDKCoreKit (4.10.0):
     - Bolts (~> 1.5)
-  - FBSDKLoginKit (4.9.1):
+  - FBSDKLoginKit (4.10.0):
     - FBSDKCoreKit
   - FBSDKShareKit (4.10.0):
     - FBSDKCoreKit
   - ImagePicker (1.1)
-  - IQKeyboardManager (3.3.6)
-  - Kingfisher (1.9.2)
+  - IQKeyboardManager (4.0.0)
+  - Kingfisher (1.9.3)
   - MBProgressHUD (0.9.2)
-  - ObjectMapper (1.1.1)
+  - ObjectMapper (1.1.5)
+  - SevenSwitch (2.0.0)
   - Spring (1.0.3)
   - SwiftyJSON (2.3.2)
   - Toucan (0.5.0)
@@ -41,6 +42,7 @@ DEPENDENCIES:
   - IQKeyboardManager
   - Kingfisher (~> 1.9)
   - MBProgressHUD (~> 0.9.2)
+  - SevenSwitch (~> 2.0)
   - Spring (from `https://github.com/MengTo/Spring.git`, branch `swift2`)
   - SwiftyJSON (from `https://github.com/SwiftyJSON/SwiftyJSON.git`)
   - Toucan
@@ -58,23 +60,24 @@ CHECKOUT OPTIONS:
     :commit: 18d5c7b74489de8044e34767f856d1e574f0820e
     :git: https://github.com/MengTo/Spring.git
   SwiftyJSON:
-    :commit: 929539eb6a3304eaa9153ca44041a78b85bf2ee5
+    :commit: 42bdb102d2624b143c07850ebdc1537d5b6579b6
     :git: https://github.com/SwiftyJSON/SwiftyJSON.git
 
 SPEC CHECKSUMS:
-  Alamofire: 5f730ba29fd113b7ddd71c1e65d0c630acf5d7b0
-  AlamofireObjectMapper: 24097576202064f8b0a583452dd934064f78dc0e
+  Alamofire: f11d8624a05f5d39e0c99309b3e600a3ba64298a
+  AlamofireObjectMapper: 82391c31f23e37bdb2660da174bcf81b202da39d
   Bolts: f52a250053bb517ca874523c3913776359ab3def
   DZNEmptyDataSet: dd7cca17c1d07dfa78956859b1e70a52505678ef
   Fabric: 1abc1e59f11fa39ede6f690ef7309d8563e3ec59
-  FBSDKCoreKit: aee20b6d9855f15b618d4fddd1a5ad45f5a4a59d
-  FBSDKLoginKit: ec22dc49bd372b064e93d6773df4ffefb3a552a2
+  FBSDKCoreKit: 13bec8373fb3af94d44daf2aa1e0958687897fbd
+  FBSDKLoginKit: d3d4a2e9d31954deb00bfea964167a05ca1ea976
   FBSDKShareKit: 54587b4624706ace1e810cf83412a918141f807a
   ImagePicker: 2a904341bbc47c96457de00558d2f8dd186eff7c
-  IQKeyboardManager: 037cf3aec1d0a045108859a47818714eb1bfc149
-  Kingfisher: 7b6df0fa9d211807152c32c46494f9bc08f0e07b
+  IQKeyboardManager: b91928f7927ba55a5829b4dcf4b7a6736ac9fc22
+  Kingfisher: 9e37d2a78a082dc123bfe8a16de65de85518daae
   MBProgressHUD: 1569cf7ace17a8bac47aabfbb8580a49690386d1
-  ObjectMapper: 4143abed1dbd49b73d75092fe8fa1c88ed6434b7
+  ObjectMapper: 528b1a6677a6acac7747edd508576983e76a9148
+  SevenSwitch: 4ae92ffcad0ef93b38553b39a25e753c94eb7847
   Spring: 3f02b5dc3308572ef177b3cad0fa7bbc4b0706f7
   SwiftyJSON: 04ccea08915aa0109039157c7974cf0298da292a
   Toucan: 0519c341148252ae114c5a657d2a85bb9ada9e40

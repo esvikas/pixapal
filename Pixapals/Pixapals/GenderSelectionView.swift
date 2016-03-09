@@ -13,36 +13,36 @@ protocol funcDelegate {
 }
 
 class GenderSelectionView: UIViewController {
-
+    
     
     var delegate: funcDelegate?
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
-self.title="Select Gender"
+        
+        self.title="Select Gender"
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
     
     @IBAction func btnMale(sender: AnyObject) {
-
         
-        delegate!.chooseSex("Male")
+        let textToReturn = (sender as! UIButton).titleLabel?.text
+       // delegate!.chooseSex("Male")
+        delegate!.chooseSex(textToReturn!)
         self.dismissViewControllerAnimated(false, completion: nil);
-
-
+        
     }
-
+    
     @IBAction func btnFemale(sender: AnyObject) {
-
+        
         delegate!.chooseSex("Female")
         self.dismissViewControllerAnimated(false, completion: nil);
-
-
+        
+        
     }
     
     @IBAction func btnDontShare(sender: AnyObject) {
@@ -52,6 +52,6 @@ self.title="Select Gender"
         
         
     }
-
-
+    
+    
 }
