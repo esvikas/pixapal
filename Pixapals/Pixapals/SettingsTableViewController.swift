@@ -103,6 +103,7 @@ class SettingsTableViewController: UITableViewController {
                 //                    }
                 //                })
                 //            }
+                print(FBSDKAccessToken.currentAccessToken()?.tokenString)
                 let request = FBSDKGraphRequest(graphPath:"me/taggable_friends", parameters: ["limit" : "1000","fields": "id"]);
                 
                 request.startWithCompletionHandler { (connection : FBSDKGraphRequestConnection!, result : AnyObject!, error : NSError!) -> Void in

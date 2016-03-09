@@ -151,7 +151,7 @@ enum PixaPalsErrorType {
     case ReportNotEnsuredError
 
     
-    func show(viewController: UIViewController, var title: String? = nil, var message: String? = nil) {
+    func show(viewController: UIViewController, var title: String? = nil, var message: String? = nil, afterCompletion: (() -> ())? = nil) {
         if let _ = message {
             
         } else {
@@ -220,13 +220,17 @@ enum PixaPalsErrorType {
         if title == nil {
             title = "Error"
         }
-        self.showAlert(viewController, title: title!, message: message!)
+        self.showAlert(viewController, title: title!, message: message!, afterCompletion: afterCompletion)
     }
     
-    private func showAlert(viewController: UIViewController, title: String, message: String) {
+    private func showAlert(viewController: UIViewController, title: String, message: String, afterCompletion: (()->())? = nil) {
         let alertController = UIAlertController(title: title, message: message, preferredStyle: .Alert)
-        
-        let okAction = UIAlertAction(title: "Ok", style: .Default, handler: nil)
+        let okAction = UIAlertAction(title: "Ok", style: .Default) { (alertAction) -> Void in
+            if let afterCompletion = afterCompletion {
+                afterCompletion()
+            }
+        }
+        //let okAction = UIAlertAction(title: "Ok", style: .Default, handler: nil)
         alertController.addAction(okAction)
         
         viewController.presentViewController(alertController, animated: true, completion: nil)

@@ -70,7 +70,7 @@ class ReportAnIssueViewController: UIViewController {
             return
         }
         
-        let registerUrlString = "\(apiUrl)api/v1/app/issue"
+        let urlString = "\(apiUrl)api/v1/app/issue"
         
         let parameters: [String: AnyObject] =
         [
@@ -88,23 +88,39 @@ class ReportAnIssueViewController: UIViewController {
         loadingNotification.mode = MBProgressHUDMode.Indeterminate
         loadingNotification.labelText = "Reporting"
         
-        
-        requestWithHeaderXAuthToken(.POST, registerUrlString, parameters: parameters).responseObject { (response: Response<SuccessFailJSON, NSError>) -> Void in
-            loadingNotification.removeFromSuperview()
-            blurEffectView.removeFromSuperview()
-            switch response.result {
-            case .Success(let getFeed):
+        APIManager(requestType: RequestType.WithXAuthTokenInHeader, urlString: urlString, parameters: parameters).handleResponse(
+            { (getFeed: SuccessFailJSON) -> Void in
                 if !getFeed.error! {
-                    PixaPalsErrorType.ReportIssueSuccessful.show(self)
+                    PixaPalsErrorType.ReportIssueSuccessful.show(self, afterCompletion: {
+                        self.navigationController?.popViewControllerAnimated(true)
+                    })
                     //print("Reporting issue")
                 } else {
                     print("Error: reporting error")
                     PixaPalsErrorType.CantReportIssueError.show(self)
                 }
-            case .Failure(let error):
-                PixaPalsErrorType.ConnectionError.show(self)
+            }, errorBlock: {self}, onResponse: {
+                loadingNotification.removeFromSuperview()
+                blurEffectView.removeFromSuperview()
             }
-        }
+        )
+        
+//        requestWithHeaderXAuthToken(.POST, urlString, parameters: parameters).responseObject { (response: Response<SuccessFailJSON, NSError>) -> Void in
+//            loadingNotification.removeFromSuperview()
+//            blurEffectView.removeFromSuperview()
+//            switch response.result {
+//            case .Success(let getFeed):
+//                if !getFeed.error! {
+//                    PixaPalsErrorType.ReportIssueSuccessful.show(self)
+//                    //print("Reporting issue")
+//                } else {
+//                    print("Error: reporting error")
+//                    PixaPalsErrorType.CantReportIssueError.show(self)
+//                }
+//            case .Failure(let error):
+//                PixaPalsErrorType.ConnectionError.show(self)
+//            }
+//        }
     }
     /*
     // MARK: - Navigation

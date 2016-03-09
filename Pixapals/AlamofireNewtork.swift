@@ -64,18 +64,50 @@ public class APIManager{
     
     func handleResponse<T: Mappable>(completionHandler: (T)-> Void, errorBlock: ()-> UIViewController, onResponse: (Void -> Void)? = nil) {
         self.request.responseObject { (response: Response<T, NSError>) -> Void in
-            switch response.result {
-            case .Success(let data):
-                completionHandler(data)
-            case .Failure(let error):
-                print(error)
-                let viewController = errorBlock()
-                PixaPalsErrorType.ConnectionError.show(viewController)
-            }
-            
-            if let onResponse = onResponse {
-                onResponse()
-            }
+//            switch response.result {
+//            case .Success(let data):
+//                completionHandler(data)
+//            case .Failure(let error):
+//                print(error)
+//                let viewController = errorBlock()
+//                PixaPalsErrorType.ConnectionError.show(viewController)
+//            }
+//            
+//            if let onResponse = onResponse {
+//                onResponse()
+//            }
+            self.responseHandling(response, completionHandler: completionHandler, errorBlock: errorBlock, onResponse: onResponse)
+        }
+    }
+    
+    func giveResponseJSON(completionHandler: (AnyObject)-> Void, errorBlock: ()-> UIViewController, onResponse: (Void -> Void)? = nil){
+        request.responseJSON { (response) -> Void in
+//            switch response.result {
+//            case .Success(let data):
+//                completionHandler(data)
+//            case .Failure(let error):
+//                print(error)
+//                let viewController = errorBlock()
+//                PixaPalsErrorType.ConnectionError.show(viewController)
+//            }
+//            if let onResponse = onResponse {
+//                onResponse()
+//            }
+            self.responseHandling(response, completionHandler: completionHandler, errorBlock: errorBlock, onResponse: onResponse)
+        }
+    }
+    
+    private func responseHandling<T> (response: Response<T, NSError>, completionHandler: (T)-> Void, errorBlock: ()-> UIViewController, onResponse: (Void -> Void)? = nil) {
+        switch response.result {
+        case .Success(let data):
+            completionHandler(data)
+        case .Failure(let error):
+            print(error)
+            let viewController = errorBlock()
+            PixaPalsErrorType.ConnectionError.show(viewController)
+        }
+        if let onResponse = onResponse {
+            onResponse()
         }
     }
     

@@ -113,7 +113,7 @@ extension LoverListViewController: loverListTableViewCellDelegate {
         
         let LoggedInUser = UserDataStruct()
         
-        let registerUrlString = "\(apiUrl)api/v1/profile/getfed"
+        let urlString = "\(apiUrl)api/v1/profile/getfed"
         
         let parameters: [String: AnyObject] =
         [
@@ -121,26 +121,48 @@ extension LoverListViewController: loverListTableViewCellDelegate {
             "fed_id": user.id!,
         ]
         user.is_my_fed = true
-        requestWithHeaderXAuthToken(.POST, registerUrlString, parameters: parameters).responseObject { (response: Response<SuccessFailJSON, NSError>) -> Void in
-            switch response.result {
-            case .Success(let getFeed):
+        
+        func changeUserIsMyFed() {
+            user.is_my_fed = false
+            sender.enabled = true
+        }
+        
+        APIManager(requestType: RequestType.WithXAuthTokenInHeader, urlString: urlString, parameters:  parameters).handleResponse(
+            {(getFeed: SuccessFailJSON) -> Void in
                 if !getFeed.error! {
                     
                     print("Getting feed")
                 } else {
-                    user.is_my_fed = false
-                    sender.enabled = true
+                    changeUserIsMyFed()
                     print("Error: feeding error")
                     PixaPalsErrorType.CantFedTheUserError.show(self)
                 }
-            case .Failure(let error):
-                user.is_my_fed = false
-                sender.enabled = true
-                PixaPalsErrorType.ConnectionError.show(self)
-                //showAlertView("Error", message: "Can't connect right now.Check your internet settings.", controller: self)
-                //print("Error in connection \(error)")
+            }, errorBlock: {
+                changeUserIsMyFed()
+                return self
             }
-        }
+        )
+        
+//        requestWithHeaderXAuthToken(.POST, urlString, parameters: parameters).responseObject { (response: Response<SuccessFailJSON, NSError>) -> Void in
+//            switch response.result {
+//            case .Success(let getFeed):
+//                if !getFeed.error! {
+//                    
+//                    print("Getting feed")
+//                } else {
+//                    user.is_my_fed = false
+//                    sender.enabled = true
+//                    print("Error: feeding error")
+//                    PixaPalsErrorType.CantFedTheUserError.show(self)
+//                }
+//            case .Failure(let error):
+//                user.is_my_fed = false
+//                sender.enabled = true
+//                PixaPalsErrorType.ConnectionError.show(self)
+//                //showAlertView("Error", message: "Can't connect right now.Check your internet settings.", controller: self)
+//                //print("Error in connection \(error)")
+//            }
+//        }
     }
     
     func usernameClicked(id: Int?) {

@@ -547,7 +547,7 @@ extension DetailVIewViewController: CellImageSwippedDelegate {
     
     func leaveit(postId:String){
         let user = UserDataStruct()
-        let registerUrlString = "\(apiUrl)api/v1/feeds/leaveit"
+        let urlString = "\(apiUrl)api/v1/feeds/leaveit"
         
         let parameters: [String: AnyObject] =
         [
@@ -571,9 +571,8 @@ extension DetailVIewViewController: CellImageSwippedDelegate {
         //            }
         //        }
         
-        requestWithHeaderXAuthToken(.POST, registerUrlString, parameters: parameters).responseObject { (response: Response<SuccessFailJSON, NSError>) -> Void in
-            switch response.result {
-            case .Success(let leaveItObject):
+        APIManager(requestType: RequestType.WithXAuthTokenInHeader, urlString: urlString, parameters: parameters).handleResponse(
+            { (leaveItObject: SuccessFailJSON) -> Void in
                 if !leaveItObject.error! {
                     self.feed?.leavers?.append(leaveItObject.user!)
                     self.feed?.lovers = self.feed?.lovers!.filter{$0.id! != leaveItObject.user!.id!}
@@ -582,13 +581,30 @@ extension DetailVIewViewController: CellImageSwippedDelegate {
                     print("Error: Leave it error")
                     self.loveCountIncrease()
                 }
-            case .Failure(let error):
+            }, errorBlock: {
                 self.loveCountIncrease()
-                PixaPalsErrorType.ConnectionError.show(self)
-                //showAlertView("Error", message: "Can't connect right now.Check your internet settings.", controller: self)
-                //print("Error in connection \(error)")
+                return self
             }
-        }
+        )
+        
+//        requestWithHeaderXAuthToken(.POST, urlString, parameters: parameters).responseObject { (response: Response<SuccessFailJSON, NSError>) -> Void in
+//            switch response.result {
+//            case .Success(let leaveItObject):
+//                if !leaveItObject.error! {
+//                    self.feed?.leavers?.append(leaveItObject.user!)
+//                    self.feed?.lovers = self.feed?.lovers!.filter{$0.id! != leaveItObject.user!.id!}
+//                } else {
+//                    PixaPalsErrorType.CantLoveItLeaveItError.show(self)
+//                    print("Error: Leave it error")
+//                    self.loveCountIncrease()
+//                }
+//            case .Failure(let error):
+//                self.loveCountIncrease()
+//                PixaPalsErrorType.ConnectionError.show(self)
+//                //showAlertView("Error", message: "Can't connect right now.Check your internet settings.", controller: self)
+//                //print("Error in connection \(error)")
+//            }
+//        }
         //            .responseJSON { response in
         //                            switch response.result {
         //                            case .Failure(let error):

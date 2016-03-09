@@ -179,7 +179,7 @@ class ProfileViewController: UIViewController {
     func followUser(id: Int){
         let user = UserDataStruct()
         
-        let registerUrlString = "\(apiUrl)api/v1/profile/getfed"
+        let urlString = "\(apiUrl)api/v1/profile/getfed"
         
         let parameters: [String: AnyObject] =
         [
@@ -207,33 +207,61 @@ class ProfileViewController: UIViewController {
         //                print(value)
         //            }
         //        }
-        requestWithHeaderXAuthToken(.POST, registerUrlString, parameters: parameters).responseObject { (response: Response<SuccessFailJSON, NSError>) -> Void in
-            switch response.result {
-            case .Success(let getFeed):
+        
+        func enableDisableEditButton() {
+            self.btnEdit.enabled = true
+            if let existingUser = existingUser {
+                existingUser.is_my_fed = false
+            }
+        }
+        
+        APIManager(requestType: RequestType.WithXAuthTokenInHeader, urlString: urlString, parameters:  parameters).handleResponse(
+            { (getFeed: SuccessFailJSON) -> Void in
                 if !getFeed.error! {
                     //print("getting feed")
                     
                     //appDelegate.ShowAlertView("Success", message: "You are now following to \( (self.feed.user?.username)!)")
                 } else {
-                    self.btnEdit.enabled = true
-                    if let existingUser = existingUser {
-                        existingUser.is_my_fed = false
-                    }
+                    enableDisableEditButton()
                     //showAlertView("Error", message: "Can't get feeds from the user. Try again.", controller: self)
                     //print("Error: Love it error")
                     PixaPalsErrorType.CantFedTheUserError.show(self)
                 }
-            case .Failure(let error):
-                self.btnEdit.enabled = true
-                if let existingUser = existingUser {
-                    existingUser.is_my_fed = false
-                }
-                //showAlertView("Error", message: "Can't connect right now.Check your internet settings.", controller: self)
-                //print("Error in connection \(error)")
-                PixaPalsErrorType.ConnectionError.show(self)
+            }, errorBlock: {
+                enableDisableEditButton()
+                return self
+            }, onResponse: {
+                self.tableView.reloadData()
             }
-            self.tableView.reloadData()
-        }
+        )
+        
+        //        requestWithHeaderXAuthToken(.POST, urlString, parameters: parameters).responseObject { (response: Response<SuccessFailJSON, NSError>) -> Void in
+        //            switch response.result {
+        //            case .Success(let getFeed):
+        //                if !getFeed.error! {
+        //                    //print("getting feed")
+        //
+        //                    //appDelegate.ShowAlertView("Success", message: "You are now following to \( (self.feed.user?.username)!)")
+        //                } else {
+        //                    self.btnEdit.enabled = true
+        //                    if let existingUser = existingUser {
+        //                        existingUser.is_my_fed = false
+        //                    }
+        //                    //showAlertView("Error", message: "Can't get feeds from the user. Try again.", controller: self)
+        //                    //print("Error: Love it error")
+        //                    PixaPalsErrorType.CantFedTheUserError.show(self)
+        //                }
+        //            case .Failure(let error):
+        //                self.btnEdit.enabled = true
+        //                if let existingUser = existingUser {
+        //                    existingUser.is_my_fed = false
+        //                }
+        //                //showAlertView("Error", message: "Can't connect right now.Check your internet settings.", controller: self)
+        //                //print("Error in connection \(error)")
+        //                PixaPalsErrorType.ConnectionError.show(self)
+        //            }
+        //            self.tableView.reloadData()
+        //        }
     }
     
     func changeNavTitle(){
@@ -277,65 +305,112 @@ class ProfileViewController: UIViewController {
         // print(api_token)
         
         
-        requestWithHeaderXAuthToken(.GET, apiURLString)
-            //            .responseJSON { response in
-            //                print(response.request)
-            //                switch response.result {
-            //                case .Failure(let error):
-            //                    print(error)
-            //                case .Success(let value):
-            //                    print(value)
-            //                }
-            //            }
-            .responseObject { (response: Response<ProfileResponseJSON, NSError>) -> Void in
-                switch response.result {
-                case .Success(let feedsResponseJSON):
+        APIManager(requestType: RequestType.WithXAuthTokenInHeader, urlString: apiURLString, method: .GET).handleResponse(
+            { (feedsResponseJSON: ProfileResponseJSON) -> Void in
+                if let error = feedsResponseJSON.error where error == true {
+                    self.tryAgainButton.hidden = false
+                    //showAlertView("Error", message: "Error loading data from server.", controller: self)
                     
-                    if let error = feedsResponseJSON.error where error == true {
-                        self.loadMoreActivityIndicator.stopAnimating()
-                        self.tryAgainButton.hidden = false
-                        //showAlertView("Error", message: "Error loading data from server.", controller: self)
-                        
-                        //print("Error: \(feedsResponseJSON.message)")
-                    } else {
-                        if let _ = self.feedsFromResponseAsObject {
-                            if self.refreshingStatus == true {
-                                self.refreshingStatus = false
-                                self.feedsFromResponseAsObject = feedsResponseJSON
-                            } else {
-                                if feedsResponseJSON.feeds?.count < self.postLimit && feedsResponseJSON.feeds?.count > 0{
-                                    self.feedsFromResponseAsObject.feeds?.appendContentsOf(feedsResponseJSON.feeds!)
-                                    self.hasMoreDataInServer = false
-                                } else if feedsResponseJSON.feeds?.count > 0 {
-                                    self.feedsFromResponseAsObject.feeds?.appendContentsOf(feedsResponseJSON.feeds!)
-                                }
-                                else {
-                                    self.hasMoreDataInServer = false
-                                }
+                    //print("Error: \(feedsResponseJSON.message)")
+                } else {
+                    if let _ = self.feedsFromResponseAsObject {
+                        if self.refreshingStatus == true {
+                            self.refreshingStatus = false
+                            self.feedsFromResponseAsObject = feedsResponseJSON
+                        } else {
+                            if feedsResponseJSON.feeds?.count < self.postLimit && feedsResponseJSON.feeds?.count > 0{
+                                self.feedsFromResponseAsObject.feeds?.appendContentsOf(feedsResponseJSON.feeds!)
+                                self.hasMoreDataInServer = false
+                            } else if feedsResponseJSON.feeds?.count > 0 {
+                                self.feedsFromResponseAsObject.feeds?.appendContentsOf(feedsResponseJSON.feeds!)
+                            }
+                            else {
+                                self.hasMoreDataInServer = false
                             }
                         }
-                        else {
-                            self.feedsFromResponseAsObject = feedsResponseJSON
-                        }
-                        
-                        self.tableView.reloadData()
-                        self.collectionView.reloadData()
-                        MBProgressHUD.hideAllHUDsForView(self.view, animated: true)
-                        self.blurEffectView.removeFromSuperview()
-                        self.tableViewRefreshControl.endRefreshing()
-                        self.collectionViewRefreshContol.endRefreshing()
-                        self.loadMoreActivityIndicator.stopAnimating()
-                        self.footerView.hidden = true
-                        //print(feedsResponseJSON.user.username)
-                        self.navTitle = feedsResponseJSON.user.username
-                        self.setHeader()
                     }
-                case .Failure(let error):
-                    //showAlertView("Error", message: "Can't connect right now.Check your internet settings.", controller: self)
-                    // print("ERROR: \(error)")
-                    PixaPalsErrorType.ConnectionError.show(self)
+                    else {
+                        self.feedsFromResponseAsObject = feedsResponseJSON
+                    }
+                    
+                    self.tableView.reloadData()
+                    self.collectionView.reloadData()
+                    self.footerView.hidden = true
+                    //print(feedsResponseJSON.user.username)
+                    self.navTitle = feedsResponseJSON.user.username
+                    self.setHeader()
                 }
-        }
+            }, errorBlock: {
+                return self
+            }, onResponse: {
+                MBProgressHUD.hideAllHUDsForView(self.view, animated: true)
+                self.blurEffectView.removeFromSuperview()
+                self.tableViewRefreshControl.endRefreshing()
+                self.collectionViewRefreshContol.endRefreshing()
+                self.loadMoreActivityIndicator.stopAnimating()
+            }
+        )
+        
+        
+//        requestWithHeaderXAuthToken(.GET, apiURLString)
+//            //            .responseJSON { response in
+//            //                print(response.request)
+//            //                switch response.result {
+//            //                case .Failure(let error):
+//            //                    print(error)
+//            //                case .Success(let value):
+//            //                    print(value)
+//            //                }
+//            //            }
+//            .responseObject { (response: Response<ProfileResponseJSON, NSError>) -> Void in
+//                switch response.result {
+//                case .Success(let feedsResponseJSON):
+//                    
+//                    if let error = feedsResponseJSON.error where error == true {
+//                        self.loadMoreActivityIndicator.stopAnimating()
+//                        self.tryAgainButton.hidden = false
+//                        //showAlertView("Error", message: "Error loading data from server.", controller: self)
+//                        
+//                        //print("Error: \(feedsResponseJSON.message)")
+//                    } else {
+//                        if let _ = self.feedsFromResponseAsObject {
+//                            if self.refreshingStatus == true {
+//                                self.refreshingStatus = false
+//                                self.feedsFromResponseAsObject = feedsResponseJSON
+//                            } else {
+//                                if feedsResponseJSON.feeds?.count < self.postLimit && feedsResponseJSON.feeds?.count > 0{
+//                                    self.feedsFromResponseAsObject.feeds?.appendContentsOf(feedsResponseJSON.feeds!)
+//                                    self.hasMoreDataInServer = false
+//                                } else if feedsResponseJSON.feeds?.count > 0 {
+//                                    self.feedsFromResponseAsObject.feeds?.appendContentsOf(feedsResponseJSON.feeds!)
+//                                }
+//                                else {
+//                                    self.hasMoreDataInServer = false
+//                                }
+//                            }
+//                        }
+//                        else {
+//                            self.feedsFromResponseAsObject = feedsResponseJSON
+//                        }
+//                        
+//                        self.tableView.reloadData()
+//                        self.collectionView.reloadData()
+//                        MBProgressHUD.hideAllHUDsForView(self.view, animated: true)
+//                        self.blurEffectView.removeFromSuperview()
+//                        self.tableViewRefreshControl.endRefreshing()
+//                        self.collectionViewRefreshContol.endRefreshing()
+//                        self.loadMoreActivityIndicator.stopAnimating()
+//                        self.footerView.hidden = true
+//                        //print(feedsResponseJSON.user.username)
+//                        self.navTitle = feedsResponseJSON.user.username
+//                        self.setHeader()
+//                    }
+//                case .Failure(let error):
+//                    //showAlertView("Error", message: "Can't connect right now.Check your internet settings.", controller: self)
+//                    // print("ERROR: \(error)")
+//                    PixaPalsErrorType.ConnectionError.show(self)
+//                }
+//        }
     }
     
     func setHeader() {
