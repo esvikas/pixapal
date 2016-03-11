@@ -29,11 +29,9 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        //self.setLocation()
         self.hideBackButtonTitle()
-        
         self.checkLogin()
-        
     }
     
     override func didReceiveMemoryWarning() {
@@ -54,6 +52,7 @@ class ViewController: UIViewController {
     }
     
     func prepareWhenCommingToThisView() {
+        self.setLocation()
         self.hideNavigationBar(true)
         self.changeStatusBarStyle(.Default)
     }
@@ -79,22 +78,30 @@ class ViewController: UIViewController {
         if self.isUserAlreadyLoggedIn() {
             self.openTabView()
         } else {
-            self.setLocationManager()
+            self.setLocation()
             self.changeBackgroundColorToDefault()
         }
     }
     
     func openTabView(){
-        let storyBoard = UIStoryboard(name: "Main", bundle: nil)
-        let vc = storyBoard.instantiateViewControllerWithIdentifier("tabView")
-        self.navigationController?.pushViewController(vc, animated: false)
+        if appDelegate.internetConnected() {
+            let storyBoard = UIStoryboard(name: "Main", bundle: nil)
+            let vc = storyBoard.instantiateViewControllerWithIdentifier("tabView")
+            self.navigationController?.pushViewController(vc, animated: false)
+        } else {
+            PixaPalsErrorType.ConnectionError.show(self)
+        }
     }
     
     func changeBackgroundColorToDefault(){
         self.view.backgroundColor=UIColor(red: 240/255, green: 240/255, blue: 240/255, alpha: 1)
     }
     
-    func setLocationManager(){
+    func setLocation(){
+//        LocationManager {
+//            self.location = $0
+//            return self
+//        }
         self.manager.delegate = self
         self.manager.desiredAccuracy = kCLLocationAccuracyThreeKilometers
         self.manager.requestWhenInUseAuthorization()
@@ -153,7 +160,7 @@ class ViewController: UIViewController {
             if reachability.isReachable()  {
                 
                 let fbLoginManager : FBSDKLoginManager = FBSDKLoginManager()
-                fbLoginManager.logInWithReadPermissions(["public_profile", "email"], fromViewController: self, handler: {
+                fbLoginManager.logInWithReadPermissions(["public_profile", "email", "user_friends"], fromViewController: self, handler: {
 //                    (<#FBSDKLoginManagerLoginResult!#>, <#NSError!#>) -> Void in
 //                    <#code#>
 //                })
@@ -198,7 +205,7 @@ class ViewController: UIViewController {
             return true
         }
         PixaPalsErrorType.LocationNotEnabledError.show(self)
-        self.manager.startUpdatingLocation()
+        self.setLocation()
         return false
     }
     
@@ -206,7 +213,7 @@ class ViewController: UIViewController {
         
         if((FBSDKAccessToken.currentAccessToken()) != nil){
             
-            FBSDKGraphRequest(graphPath: "me", parameters: ["fields": "id, name, picture.type(small), email, website, gender, hometown, birthday"]).startWithCompletionHandler({ (connection, result, error) -> Void in
+            FBSDKGraphRequest(graphPath: "me", parameters: ["fields": "id, name, picture.type(small), email, website, gender, hometown, birthday, friends"]).startWithCompletionHandler({ (connection, result, error) -> Void in
                 
                 print(FBSDKAccessToken.currentAccessToken().tokenString)
 
@@ -273,7 +280,7 @@ class ViewController: UIViewController {
             if reachability.isReachable()  {
                 
                 
-                var registerUrlString = "\(apiUrl)api/v1/login"
+                var registerUrlString = URLType.Login.make()
                 
                 registerUrlString = registerUrlString.stringByAddingPercentEscapesUsingEncoding(NSUTF8StringEncoding)!
                 
@@ -299,30 +306,45 @@ class ViewController: UIViewController {
                 
                 //print(parametersToPost, terminator: "")
                 
-                requestWithDeviceTokenInParam(.POST, registerUrlString, parameters: parametersToPost)
-                    .responseJSON { response in
-                        debugPrint(response)
+                APIManager(requestType: RequestType.WithDeviceTokenInParam, urlString: registerUrlString, parameters:  parametersToPost).giveResponseJSON({ (data) -> Void in
+                    if let dict = data["user"] as? [String: AnyObject] {
+                        UserDataStruct().saveUserInfoFromJSON(jsonContainingUserInfo: dict)
+                        self.openTabView()
+                    }
+                    else {
+                        print("Invalid Username/Password: \(data["message"])")
+                        //showAlertView("Error", message: "The email or password you have entered does not match any account.", controller: self)
+                        //print("Invalid Username/Password: \(data["message"])")
+                        PixaPalsErrorType.CantAuthenticateError.show(self)
                         
-                        switch response.result {
-                        case .Success(let data):
-                            if let dict = data["user"] as? [String: AnyObject] {
-                                UserDataStruct().saveUserInfoFromJSON(jsonContainingUserInfo: dict)
-                                self.openTabView()
-                            }
-                            else {
-                                print("Invalid Username/Password: \(data["message"])")
-                                //showAlertView("Error", message: "The email or password you have entered does not match any account.", controller: self)
-                                //print("Invalid Username/Password: \(data["message"])")
-                                PixaPalsErrorType.CantAuthenticateError.show(self)
-                                
-                            }
-                        case .Failure(let error):
-                            //showAlertView("Error", message: "Can't connect right now.Check your internet settings.", controller: self)
-                            //print("Error in connection \(error)")
-                            PixaPalsErrorType.ConnectionError.show(self)
-                        }
-                        
-                }
+                    }
+                    }, errorBlock: {self})
+                
+                
+//                requestWithDeviceTokenInParam(.POST, registerUrlString, parameters: parametersToPost)
+//                    .responseJSON { response in
+//                        debugPrint(response)
+//                        
+//                        switch response.result {
+//                        case .Success(let data):
+//                            if let dict = data["user"] as? [String: AnyObject] {
+//                                UserDataStruct().saveUserInfoFromJSON(jsonContainingUserInfo: dict)
+//                                self.openTabView()
+//                            }
+//                            else {
+//                                print("Invalid Username/Password: \(data["message"])")
+//                                //showAlertView("Error", message: "The email or password you have entered does not match any account.", controller: self)
+//                                //print("Invalid Username/Password: \(data["message"])")
+//                                PixaPalsErrorType.CantAuthenticateError.show(self)
+//                                
+//                            }
+//                        case .Failure(let error):
+//                            //showAlertView("Error", message: "Can't connect right now.Check your internet settings.", controller: self)
+//                            //print("Error in connection \(error)")
+//                            PixaPalsErrorType.ConnectionError.show(self)
+//                        }
+//                        
+//                }
                 
             } else{
                 
@@ -336,8 +358,6 @@ class ViewController: UIViewController {
         }
         
     }
-    
-    
 }
 
 
@@ -349,7 +369,6 @@ extension ViewController : CLLocationManagerDelegate {
     
     func locationManager(manager: CLLocationManager, didFailWithError error: NSError) {
         if error.code == CLError.Denied.rawValue {
-            //showAlertView("Access Denied", message: "Location access is denied. You can't proceed. Please change location preference to this app from setting.", controller: self)
             self.manager.stopUpdatingLocation()
             PixaPalsErrorType.LocationAccessDeniedError.show(self)
         }

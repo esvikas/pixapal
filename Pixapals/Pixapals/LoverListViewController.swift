@@ -113,7 +113,7 @@ extension LoverListViewController: loverListTableViewCellDelegate {
         
         let LoggedInUser = UserDataStruct()
         
-        let urlString = "\(apiUrl)api/v1/profile/getfed"
+        let urlString = URLType.GetFed.make()
         
         let parameters: [String: AnyObject] =
         [

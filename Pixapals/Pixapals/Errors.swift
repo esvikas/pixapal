@@ -65,6 +65,11 @@ enum ReportIssueErrorMessage: String {
     case ReportIssueSuccessfulMessage = "Thank you! the issue is received. We will try to resolve the issue as soon as possible."
     case ReportNotEnsuredErrorMessage = "Ensure that the report is legit and valid one."
 }
+
+//find feeders error
+enum FindFeedersErrorMessage: String {
+    case CantFindFeedersErrorMessage = "Can't find feeders"
+}
 ////error titles
 ////server error title
 //enum APIConnectionErrorTitle: String {
@@ -149,6 +154,9 @@ enum PixaPalsErrorType {
     case RelatedToNotSelectedError
     case ReportIssueSuccessful
     case ReportNotEnsuredError
+    
+    //find feeders error
+    case CantFindFeedersError
 
     
     func show(viewController: UIViewController, var title: String? = nil, var message: String? = nil, afterCompletion: (() -> ())? = nil) {
@@ -213,6 +221,8 @@ enum PixaPalsErrorType {
                     return ReportIssueErrorMessage.ReportIssueSuccessfulMessage.rawValue
                 case .ReportNotEnsuredError:
                     return ReportIssueErrorMessage.ReportNotEnsuredErrorMessage.rawValue
+                case .CantFindFeedersError:
+                    return FindFeedersErrorMessage.CantFindFeedersErrorMessage.rawValue
                 }
             }()
         }

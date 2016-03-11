@@ -10,7 +10,7 @@
  import Alamofire
  //import SwiftyJSON
  import MBProgressHUD
-
+ 
  class LoginWithEmailViewController: UIViewController {
     
     @IBOutlet var emailTextfield: UITextField!
@@ -29,6 +29,7 @@
         loginButton.setTitleColor(UIColor.grayColor(), forState: UIControlState.Disabled)
         
         self.view.backgroundColor=UIColor(red: 240/255, green: 240/255, blue: 240/255, alpha: 1)
+         self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .Plain, target: nil, action: nil)
     }
     
     override func didReceiveMemoryWarning() {
@@ -44,7 +45,7 @@
         
         
     }
-    
+
     func loginWithEmail(){
         
         
@@ -55,17 +56,17 @@
         loadingNotification.mode = MBProgressHUDMode.Indeterminate
         loadingNotification.labelText = "Logging In"
         
-        let loginUrlString = "\(apiUrl)api/v1/login-using-email"
+        let loginUrlString = URLType.LoginWithEmail.make()
         
-//        let validator = Validator()
-//        if !validator.isValidEmail(emailTextfield.text!){
-//            print("invalid email")
-//            PixaPalsErrorType.InvalidEmailError.show(self)
-//            //appDelegate.ShowAlertView("Error", message: "Invalid email address")
-//            MBProgressHUD.hideAllHUDsForView(self.view, animated: true)
-//            self.blurEffectView.removeFromSuperview()
-//            return
-//        }
+        //        let validator = Validator()
+        //        if !validator.isValidEmail(emailTextfield.text!){
+        //            print("invalid email")
+        //            PixaPalsErrorType.InvalidEmailError.show(self)
+        //            //appDelegate.ShowAlertView("Error", message: "Invalid email address")
+        //            MBProgressHUD.hideAllHUDsForView(self.view, animated: true)
+        //            self.blurEffectView.removeFromSuperview()
+        //            return
+        //        }
         
         
         let parametersToPost = [
@@ -73,44 +74,72 @@
             "password": password,
             //"device_token" : appDelegate.deviceTokenString ?? "werrrrrr"
         ]
-        
-        requestWithDeviceTokenInParam(.POST, loginUrlString, parameters: parametersToPost)
-            .responseJSON { response in
-                switch response.result {
-                case .Success(let data):
-                    if let dict = data["user"] as? [String: AnyObject] {
-                        print(dict)
-                        let userInfoStruct = UserDataStruct()
-                        userInfoStruct.saveUserInfoFromJSON(jsonContainingUserInfo: dict)
-                        
-                        let storyBoard = UIStoryboard(name: "Main", bundle: nil)
-                        let vc = storyBoard.instantiateViewControllerWithIdentifier("tabView")
-                        
-                        self.navigationController?.pushViewController(vc, animated: true)
-                        MBProgressHUD.hideAllHUDsForView(self.view, animated: true)
-                        self.blurEffectView.removeFromSuperview()
-                        
-                        
-                    } else {
-                        print(data)
-                        print("Invalid Username/Password: \(data["message"])")
-                        MBProgressHUD.hideAllHUDsForView(self.view, animated: true)
-                        self.blurEffectView.removeFromSuperview()
-                        //appDelegate.ShowAlertView("Error", message: "Invalid email address or password")
-                        
-                        self.emailTextfield.text=""
-                        self.passwordTextfield.text=""
-                        PixaPalsErrorType.InvalidEmailPasswordError.show(self)
-                        
-                    }
-                case .Failure(let error):
-                    //showAlertView("Error", message: "Can't connect right now.Check your internet settings.", controller: self)
-                    //print("Error in connection \(error)")
+        APIManager(requestType: RequestType.WithDeviceTokenInParam, urlString: loginUrlString, parameters: parametersToPost).giveResponseJSON(
+            { (data) -> Void in
+                if let dict = data["user"] as? [String: AnyObject] {
+                    print(dict)
+                    let userInfoStruct = UserDataStruct()
+                    userInfoStruct.saveUserInfoFromJSON(jsonContainingUserInfo: dict)
+                    
+                    let storyBoard = UIStoryboard(name: "Main", bundle: nil)
+                    let vc = storyBoard.instantiateViewControllerWithIdentifier("tabView")
+                    
+                    self.navigationController?.pushViewController(vc, animated: true)
                     MBProgressHUD.hideAllHUDsForView(self.view, animated: true)
                     self.blurEffectView.removeFromSuperview()
-                    PixaPalsErrorType.ConnectionError.show(self)
+                    
+                    
+                } else {
+                    print(data)
+                    print("Invalid Username/Password: \(data["message"])")
+                    //appDelegate.ShowAlertView("Error", message: "Invalid email address or password")
+                    
+                    self.emailTextfield.text=""
+                    self.passwordTextfield.text=""
+                    PixaPalsErrorType.InvalidEmailPasswordError.show(self)
+                    
                 }
+            }, errorBlock: {self}) {
+                MBProgressHUD.hideAllHUDsForView(self.view, animated: true)
+                self.blurEffectView.removeFromSuperview()
         }
+//        requestWithDeviceTokenInParam(.POST, loginUrlString, parameters: parametersToPost)
+//            .responseJSON { response in
+//                switch response.result {
+//                case .Success(let data):
+//                    if let dict = data["user"] as? [String: AnyObject] {
+//                        print(dict)
+//                        let userInfoStruct = UserDataStruct()
+//                        userInfoStruct.saveUserInfoFromJSON(jsonContainingUserInfo: dict)
+//                        
+//                        let storyBoard = UIStoryboard(name: "Main", bundle: nil)
+//                        let vc = storyBoard.instantiateViewControllerWithIdentifier("tabView")
+//                        
+//                        self.navigationController?.pushViewController(vc, animated: true)
+//                        MBProgressHUD.hideAllHUDsForView(self.view, animated: true)
+//                        self.blurEffectView.removeFromSuperview()
+//                        
+//                        
+//                    } else {
+//                        print(data)
+//                        print("Invalid Username/Password: \(data["message"])")
+//                        MBProgressHUD.hideAllHUDsForView(self.view, animated: true)
+//                        self.blurEffectView.removeFromSuperview()
+//                        //appDelegate.ShowAlertView("Error", message: "Invalid email address or password")
+//                        
+//                        self.emailTextfield.text=""
+//                        self.passwordTextfield.text=""
+//                        PixaPalsErrorType.InvalidEmailPasswordError.show(self)
+//                        
+//                    }
+//                case .Failure(let error):
+//                    //showAlertView("Error", message: "Can't connect right now.Check your internet settings.", controller: self)
+//                    //print("Error in connection \(error)")
+//                    MBProgressHUD.hideAllHUDsForView(self.view, animated: true)
+//                    self.blurEffectView.removeFromSuperview()
+//                    PixaPalsErrorType.ConnectionError.show(self)
+//                }
+//        }
         
     }
     

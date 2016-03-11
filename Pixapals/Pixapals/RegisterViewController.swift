@@ -85,7 +85,7 @@ class RegisterViewController: UIViewController, UIPopoverControllerDelegate, UIP
     }
     
     func registerWithEmail(){
-        let registerUrlString = "\(apiUrl)api/v1/register"
+        let registerUrlString = URLType.Register.make()
         
         // let deviceToken = nsUserDefault.objectForKey("deviceTokenString") as! String
         let deviceToken = appDelegate.deviceTokenString ?? "wewrwer"
@@ -155,51 +155,80 @@ class RegisterViewController: UIViewController, UIPopoverControllerDelegate, UIP
         loadingNotification.mode = MBProgressHUDMode.Indeterminate
         loadingNotification.labelText = "Registering"
 
-        
-        requestWithDeviceTokenInParam(.POST, registerUrlString, parameters: parameters)
-            .responseJSON { response in
+        APIManager(requestType: RequestType.WithDeviceTokenInParam, urlString: registerUrlString, parameters:  parameters).giveResponseJSON({ (data) -> Void in
+            if let dict = data["user"] as? [String: AnyObject] {
+                print(dict)
+                let userInfoStruct = UserDataStruct()
+                userInfoStruct.saveUserInfoFromJSON(jsonContainingUserInfo: dict)
                 
-                switch response.result {
-                case .Success(let data):
-                    //let data = JSON(nsdata)
-                    if let dict = data["user"] as? [String: AnyObject] {
-                        print(dict)
-                        let userInfoStruct = UserDataStruct()
-                        userInfoStruct.saveUserInfoFromJSON(jsonContainingUserInfo: dict)
-                        
-                        MBProgressHUD.hideAllHUDsForView(self.view, animated: true)
-                        blurEffectView.removeFromSuperview()
-                        
-                        let storyBoard = UIStoryboard(name: "Main", bundle: nil)
-                        let vc = storyBoard.instantiateViewControllerWithIdentifier("tabView")
-                        self.navigationController?.pushViewController(vc, animated: true)
-                    }else {
-                        print(data)
-                        MBProgressHUD.hideAllHUDsForView(self.view, animated: true)
-                        blurEffectView.removeFromSuperview()
-                        
-                        func message() -> String? {
-                            if let message = data["message"] as? [String: [String]] {
-                                let msg  = message.reduce("", combine: { (msg, message) -> String in
-                                    return msg + message.1.reduce("", combine: { (indivMsg, msg) -> String in
-                                        return indivMsg + "\n" + msg
-                                    })
-                                })
-                                return msg
-                            }
-                            return nil
-                        }
-                        //print("Invalid Username/Password: \(data["message"])")
-                        PixaPalsErrorType.CantAuthenticateError.show(self, title: nil, message: message())
+                let storyBoard = UIStoryboard(name: "Main", bundle: nil)
+                let vc = storyBoard.instantiateViewControllerWithIdentifier("tabView")
+                self.navigationController?.pushViewController(vc, animated: true)
+            }else {
+                print(data)
+                
+                func message() -> String? {
+                    if let message = data["message"] as? [String: [String]] {
+                        let msg  = message.reduce("", combine: { (msg, message) -> String in
+                            return msg + message.1.reduce("", combine: { (indivMsg, msg) -> String in
+                                return indivMsg + "\n" + msg
+                            })
+                        })
+                        return msg
                     }
-                case .Failure(let error):
-                    //showAlertView("Error", message: "Can't connect right now.Check your internet settings.", controller: self)
-                    //print("Error in connection \(error)")
-                    MBProgressHUD.hideAllHUDsForView(self.view, animated: true)
-                    blurEffectView.removeFromSuperview()
-                    PixaPalsErrorType.ConnectionError.show(self)
+                    return nil
                 }
+                //print("Invalid Username/Password: \(data["message"])")
+                PixaPalsErrorType.CantAuthenticateError.show(self, title: nil, message: message())
+            }
+            }, errorBlock: {self}) {
+                MBProgressHUD.hideAllHUDsForView(self.view, animated: true)
+                blurEffectView.removeFromSuperview()
         }
+//        requestWithDeviceTokenInParam(.POST, registerUrlString, parameters: parameters)
+//            .responseJSON { response in
+//                
+//                switch response.result {
+//                case .Success(let data):
+//                    //let data = JSON(nsdata)
+//                    if let dict = data["user"] as? [String: AnyObject] {
+//                        print(dict)
+//                        let userInfoStruct = UserDataStruct()
+//                        userInfoStruct.saveUserInfoFromJSON(jsonContainingUserInfo: dict)
+//                        
+//                        MBProgressHUD.hideAllHUDsForView(self.view, animated: true)
+//                        blurEffectView.removeFromSuperview()
+//                        
+//                        let storyBoard = UIStoryboard(name: "Main", bundle: nil)
+//                        let vc = storyBoard.instantiateViewControllerWithIdentifier("tabView")
+//                        self.navigationController?.pushViewController(vc, animated: true)
+//                    }else {
+//                        print(data)
+//                        MBProgressHUD.hideAllHUDsForView(self.view, animated: true)
+//                        blurEffectView.removeFromSuperview()
+//                        
+//                        func message() -> String? {
+//                            if let message = data["message"] as? [String: [String]] {
+//                                let msg  = message.reduce("", combine: { (msg, message) -> String in
+//                                    return msg + message.1.reduce("", combine: { (indivMsg, msg) -> String in
+//                                        return indivMsg + "\n" + msg
+//                                    })
+//                                })
+//                                return msg
+//                            }
+//                            return nil
+//                        }
+//                        //print("Invalid Username/Password: \(data["message"])")
+//                        PixaPalsErrorType.CantAuthenticateError.show(self, title: nil, message: message())
+//                    }
+//                case .Failure(let error):
+//                    //showAlertView("Error", message: "Can't connect right now.Check your internet settings.", controller: self)
+//                    //print("Error in connection \(error)")
+//                    MBProgressHUD.hideAllHUDsForView(self.view, animated: true)
+//                    blurEffectView.removeFromSuperview()
+//                    PixaPalsErrorType.ConnectionError.show(self)
+//                }
+//        }
         
 //=======
 //        LocationManager(manager: CLLocationManager() ,afterLocationRetrived: { (location) -> () in

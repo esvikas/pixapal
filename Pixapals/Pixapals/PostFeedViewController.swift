@@ -237,7 +237,7 @@ btnPostFeed.enabled=false
 
 
         
-        SRWebClient.POST("\(apiUrl)api/v1/feeds")
+        SRWebClient.POST(URLType.PostFeed.make())
             
             .data(imageData, fieldName:fieldNameArray, data:parameters)
             .headers(headers)

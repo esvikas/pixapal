@@ -196,7 +196,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
             } else {
                 
-                ShowAlertView("Sorry ", message: "you are not conected with internet")
+                //ShowAlertView("Sorry ", message: "you are not conected with internet")
             }
             
         } catch {

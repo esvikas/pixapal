@@ -77,7 +77,7 @@ class UserFeedDistinction {
         isDistinct.1.username = user.username
         isDistinct.1.photo = user.photo
         isDistinct.1.is_my_fed = user.is_my_fed
-        print("sddddd--->\(user.is_my_fed)")
+        //print("sddddd--->\(user.is_my_fed)")
         isDistinct.1.is_my_profile = user.is_my_profile
         return isDistinct.1
     }
@@ -220,6 +220,86 @@ class FeedJSON: Mappable {
             self.user = UserFeedDistinction.sharedInstance.checkDistinctUser(user)
         }
     }
+    
+    func loveFeed(viewController: UIViewController, completionHandler: ()->()) {
+        let user = UserDataStruct()
+        
+        let urlString = URLType.LoveIt.make()
+        
+        let parameters: [String: AnyObject] =
+        [
+            "user_id": String(user.id!),
+            "post_id": String(self.id!)
+        ]
+        
+        self.loveFeed(completionHandler)
+        
+        APIManager(requestType: RequestType.WithXAuthTokenInHeader, urlString: urlString, parameters:  parameters).handleResponse(
+            { (loveItObject: SuccessFailJSON) -> Void in
+                if !loveItObject.error! {
+                    self.lovers?.append(loveItObject.user!)
+                    self.leavers = self.leavers!.filter{$0.id! != loveItObject.user!.id!}
+                } else {
+                    self.leaveFeed(completionHandler)
+                    PixaPalsErrorType.CantLoveItLeaveItError.show(viewController)
+                }
+            }, errorBlock: {
+                self.leaveFeed(completionHandler)
+               return viewController
+        })
+    }
+    
+    func leaveFeed(viewController: UIViewController, completionHandler: ()->()) {
+        let user = UserDataStruct()
+        
+        let urlString = URLType.LeaveIt.make()
+        
+        let parameters: [String: AnyObject] =
+        [
+            "user_id": String(user.id!),
+            "post_id": String(self.id!)
+        ]
+        
+        self.leaveFeed(completionHandler)
+        
+        APIManager(requestType: RequestType.WithXAuthTokenInHeader, urlString: urlString, parameters:  parameters).handleResponse(
+            { (loveItObject: SuccessFailJSON) -> Void in
+                if !loveItObject.error! {
+                    self.leavers?.append(loveItObject.user!)
+                    self.lovers = self.lovers!.filter{$0.id! != loveItObject.user!.id!}
+                } else {
+                    self.loveFeed(completionHandler)
+                    PixaPalsErrorType.CantLoveItLeaveItError.show(viewController)
+                }
+            }, errorBlock: {
+                self.loveFeed(completionHandler)
+                return viewController
+        })
+    }
+    
+    private func loveFeed(completionHandler: ((Void) -> ())? = nil ) {
+        self.is_my_love = true
+        self.loveit = self.loveit! + 1
+        if self.is_my_left! {
+            self.is_my_left = false
+            self.leaveit = self.leaveit! - 1
+        }
+        if let completionHandler = completionHandler {
+            completionHandler()
+        }
+    }
+    
+    private func leaveFeed(completionHandler: ((Void)-> ())? = nil) {
+        self.is_my_left = true
+        self.leaveit = self.leaveit! + 1
+        if self.is_my_love! {
+            self.is_my_love = false
+            self.loveit = self.loveit! - 1
+        }
+        if let completionHandler = completionHandler {
+            completionHandler()
+        }
+    }
 }
 
 class UserJSON: Mappable {
@@ -234,14 +314,14 @@ class UserJSON: Mappable {
     required init?(_ map: Map){
     }
     
-    init (id: Int, username: String, photo_thumb: String, photo: String, is_my_fed: Bool, is_my_profile: Bool) {
-         self.photo_thumb = photo_thumb
-         self.id = id
-         self.username = username
-         self.photo = photo
-         self.is_my_fed = is_my_fed
-         self.is_my_profile = is_my_profile
-    }
+//    init (id: Int, username: String, photo_thumb: String, photo: String, is_my_fed: Bool, is_my_profile: Bool) {
+//         self.photo_thumb = photo_thumb
+//         self.id = id
+//         self.username = username
+//         self.photo = photo
+//         self.is_my_fed = is_my_fed
+//         self.is_my_profile = is_my_profile
+//    }
     
     func mapping(map: Map) {
         photo_thumb <- map["photo_thumb"]
@@ -249,7 +329,7 @@ class UserJSON: Mappable {
         username <- map["username"]
         photo <- map["photo"]
         is_my_fed <- map["is_my_fed"]
-        print(is_my_fed)
+        //print(is_my_fed)
         is_my_profile <- map["is_my_profile"]
         
         if let is_my_profile = is_my_profile where is_my_profile == true {

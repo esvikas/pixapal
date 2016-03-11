@@ -42,7 +42,7 @@ class GetFeedVC: UIViewController {
         
         var apiURLString = ""
 
-        apiURLString = "\(apiUrl)api/v1/profile/fb-following-details"
+        apiURLString = "api/v1/profile/fb-following-details"
         
        
         //print(apiURLString)
