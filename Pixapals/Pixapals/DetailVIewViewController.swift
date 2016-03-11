@@ -73,6 +73,11 @@ class DetailVIewViewController: UIViewController {
         } else {
             self.feedIsNotNil()
         }
+        
+        
+        if navigationController!.respondsToSelector(Selector("interactivePopGestureRecognizer")) {
+            navigationController!.view.removeGestureRecognizer(navigationController!.interactivePopGestureRecognizer!)
+        }
     }
     
     override func didReceiveMemoryWarning() {

@@ -14,6 +14,7 @@ import Alamofire
 import SwiftyJSON
 import CoreLocation
 import TwitterKit
+import OAuthSwift
 
 
 class ViewController: UIViewController {
@@ -33,6 +34,28 @@ class ViewController: UIViewController {
         self.hideBackButtonTitle()
         
         self.checkLogin()
+        
+        
+        
+//        let oauthswift = OAuth2Swift(
+//            consumerKey:    "1fac22188ce74cd7837f9e5a996a861c",
+//            consumerSecret: "4ae39220108f455686f04efbbe060fec",
+//            authorizeUrl:   "https://api.instagram.com/oauth/authorize",
+//            responseType:   "token"
+//        )
+//        oauthswift.authorizeWithCallbackURL(
+//            NSURL(string: "http://ak2g.com")!,
+//            scope: "likes+comments", state:"INSTAGRAM",
+//            success: { credential, response, parameters in
+//                print(response)
+//                print(credential)
+//            },
+//            failure: { error in
+//                print(error.localizedDescription)
+//            }
+//        )
+        
+    
         
     }
     
@@ -229,38 +252,38 @@ class ViewController: UIViewController {
             })
         }
 
-//        let request = FBSDKGraphRequest(graphPath:"me/taggable_friends", parameters: ["limit" : "1000","fields": "id"]);
-//        
-//        request.startWithCompletionHandler { (connection : FBSDKGraphRequestConnection!, result : AnyObject!, error : NSError!) -> Void in
-//            if error == nil {
-//                //print("Friends are : \(result)")
-//
-//               // print("Friends are : \(result.count)")
-//                
-//                self.friendsList = result as! [String : AnyObject] //as! NSMutableDictionary
-//
-//                
-//            } else {
-//                PixaPalsErrorType.CantGetFriendInfoFromFacebookError.show(self)
-//                print("Error Getting Friends \(error)");
-//            }
-//        }
-//
-//        
-//        var requestx = FBSDKGraphRequest(graphPath:"me/friends", parameters: nil);
-//        
-//        requestx.startWithCompletionHandler { (connection : FBSDKGraphRequestConnection!, result : AnyObject!, error : NSError!) -> Void in
-//            if error == nil {
-//                print("Friends are : \(result)")
-//                print("Friends are : \(result.count)")
-//                
-//
-//
-//            } else {
-//                PixaPalsErrorType.CantGetFriendInfoFromFacebookError.show(self)
-//                print("Error Getting Friends \(error)");
-//            }
-//        }
+        let request = FBSDKGraphRequest(graphPath:"me/taggable_friends", parameters: ["limit" : "1000","fields": "id"]);
+        
+        request.startWithCompletionHandler { (connection : FBSDKGraphRequestConnection!, result : AnyObject!, error : NSError!) -> Void in
+            if error == nil {
+                //print("Friends are : \(result)")
+
+               // print("Friends are : \(result.count)")
+                
+                self.friendsList = result as! [String : AnyObject] //as! NSMutableDictionary
+
+                
+            } else {
+                PixaPalsErrorType.CantGetFriendInfoFromFacebookError.show(self)
+                print("Error Getting Friends \(error)");
+            }
+        }
+
+        
+        let requestx = FBSDKGraphRequest(graphPath:"me/friends", parameters: nil);
+        
+        requestx.startWithCompletionHandler { (connection : FBSDKGraphRequestConnection!, result : AnyObject!, error : NSError!) -> Void in
+            if error == nil {
+                print("Friends are : \(result)")
+                print("Friends are : \(result.count)")
+                
+
+
+            } else {
+                PixaPalsErrorType.CantGetFriendInfoFromFacebookError.show(self)
+                print("Error Getting Friends \(error)");
+            }
+        }
         
 }
     

@@ -88,7 +88,7 @@ class PostFeedModeSelectionViewController: UIViewController, UINavigationControl
         
             let uploadLiamge:UIImage = images[0].fixOrientation()
         
-        let cropedImage = Toucan(image: uploadLiamge).resize(CGSize(width: 100, height: 100), fitMode: Toucan.Resize.FitMode.Crop).image
+        let cropedImage = Toucan(image: uploadLiamge).resize(CGSize(width: 400, height: 400), fitMode: Toucan.Resize.FitMode.Crop).image
         CapturedImage = cropedImage
 
         

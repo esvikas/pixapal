@@ -21,6 +21,7 @@ PODS:
   - IQKeyboardManager (4.0.0)
   - Kingfisher (1.9.3)
   - MBProgressHUD (0.9.2)
+  - OAuthSwift (0.5.1)
   - ObjectMapper (1.1.5)
   - SevenSwitch (2.0.0)
   - Spring (1.0.3)
@@ -42,6 +43,7 @@ DEPENDENCIES:
   - IQKeyboardManager
   - Kingfisher (~> 1.9)
   - MBProgressHUD (~> 0.9.2)
+  - OAuthSwift (~> 0.5.0)
   - SevenSwitch (~> 2.0)
   - Spring (from `https://github.com/MengTo/Spring.git`, branch `swift2`)
   - SwiftyJSON (from `https://github.com/SwiftyJSON/SwiftyJSON.git`)
@@ -76,6 +78,7 @@ SPEC CHECKSUMS:
   IQKeyboardManager: b91928f7927ba55a5829b4dcf4b7a6736ac9fc22
   Kingfisher: 9e37d2a78a082dc123bfe8a16de65de85518daae
   MBProgressHUD: 1569cf7ace17a8bac47aabfbb8580a49690386d1
+  OAuthSwift: d63f7f329f49787319a7e35974c18b10865fe636
   ObjectMapper: 528b1a6677a6acac7747edd508576983e76a9148
   SevenSwitch: 4ae92ffcad0ef93b38553b39a25e753c94eb7847
   Spring: 3f02b5dc3308572ef177b3cad0fa7bbc4b0706f7

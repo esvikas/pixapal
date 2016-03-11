@@ -133,7 +133,7 @@ class DoubleModeFeedImageSelectionViewController: UIViewController, ImagePickerD
             image1.contentMode = UIViewContentMode.ScaleToFill
             let uploadLiamge:UIImage = images[0].fixOrientation()
             
-            let cropedImage = Toucan(image: uploadLiamge).resize(CGSize(width: 100, height: 200), fitMode: Toucan.Resize.FitMode.Crop).image
+            let cropedImage = Toucan(image: uploadLiamge).resize(CGSize(width: 200, height: 400), fitMode: Toucan.Resize.FitMode.Crop).image
             CapturedImage = cropedImage
             
             
@@ -147,7 +147,7 @@ class DoubleModeFeedImageSelectionViewController: UIViewController, ImagePickerD
             let uploadLiamge:UIImage = images[0].fixOrientation()
             image2.contentMode = UIViewContentMode.ScaleToFill
             
-            let cropedImage = Toucan(image: uploadLiamge).resize(CGSize(width: 100, height: 200), fitMode: Toucan.Resize.FitMode.Crop).image
+            let cropedImage = Toucan(image: uploadLiamge).resize(CGSize(width: 200, height: 400), fitMode: Toucan.Resize.FitMode.Crop).image
             CapturedImage2 = cropedImage
             
             image2.image = cropedImage
