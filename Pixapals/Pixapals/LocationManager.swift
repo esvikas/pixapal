@@ -7,20 +7,19 @@
 //
 
 import CoreLocation
+import UIKit
 
 class LocationManager: NSObject, CLLocationManagerDelegate {
-    typealias afterLocationCompletes = (CLLocationCoordinate2D) -> ()
     
-    private let manager: CLLocationManager
+    typealias CompletionHandler = CLLocationCoordinate2D? -> UIViewController?
     
-    private var afterLocationGet: afterLocationCompletes!
+    private var completionHandler: CompletionHandler!
     
-    init(manager: CLLocationManager, afterLocationRetrived: afterLocationCompletes) {
-        self.manager = manager
-        self.afterLocationGet = afterLocationRetrived
-        
+    required init(completionHandler: CompletionHandler) {
         super.init()
         
+        self.completionHandler = completionHandler
+        let manager = CLLocationManager()
         manager.delegate = self
         manager.desiredAccuracy = kCLLocationAccuracyThreeKilometers
         manager.requestWhenInUseAuthorization()
@@ -29,25 +28,17 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
     
     
     func locationManager(manager: CLLocationManager, didUpdateToLocation newLocation: CLLocation, fromLocation oldLocation: CLLocation) {
-        self.afterLocationGet(newLocation.coordinate)
+        self.completionHandler(newLocation.coordinate)
         manager.stopUpdatingLocation()
     }
     
-//    func locationManager(manager: CLLocationManager, didChangeAuthorizationStatus status: CLAuthorizationStatus) {
-//        if case 0...2 = status.rawValue {
-//            appDelegate.ShowAlertView("Access Denied", message: "Location access is denied. You can't proceed. Please change location preference to this app from setting.")
-//        }
-//    }
-    
     func locationManager(manager: CLLocationManager, didFailWithError error: NSError) {
         if error.code == CLError.Denied.rawValue {
-            appDelegate.ShowAlertView("Access Denied", message: "Location access is denied. You can't proceed. Please change location preference to this app from setting.")
-            //PixaPalsErrorType.LocationAccessDeniedError.show(self)
-            self.manager.stopUpdatingLocation()
+            let vc = self.completionHandler(nil)
+            if let vc = vc {
+                PixaPalsErrorType.LocationAccessDeniedError.show(vc)
+            }
+            manager.stopUpdatingLocation()
         }
-    }
-    
-    func getLocation(afterLocationGet: afterLocationCompletes){
-        //self.afterLocationGet = afterLocationGet
     }
 }

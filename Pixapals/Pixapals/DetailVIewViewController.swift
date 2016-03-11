@@ -106,7 +106,7 @@ class DetailVIewViewController: UIViewController {
         loadingNotification.mode = MBProgressHUDMode.Indeterminate
         loadingNotification.labelText = "Re-feeding"
         
-        let refeedUrl = "\(apiUrl)api/v1/feeds/refeed"
+        let refeedUrl = URLType.Refeed.make()
         let parameters: [String: AnyObject] =
         [
             "post_id": feed.id!
@@ -161,7 +161,7 @@ class DetailVIewViewController: UIViewController {
         }
         let user = UserDataStruct()
         
-        let urlString = "\(apiUrl)api/v1/profile/getfed"
+        let urlString = URLType.GetFed.make()
         
         let parameters: [String: AnyObject] =
         [
@@ -274,9 +274,13 @@ class DetailVIewViewController: UIViewController {
         guard let feedId = feedId else {
             return
         }
-        let urlString = "\(apiUrl)api/v1/feed/\(feedId)"
         
-        APIManager(requestType: RequestType.WithXAuthTokenInHeader, urlString: urlString, method: .GET).handleResponse(
+        let urls: Int -> String = {
+            id in
+            return URLType.Feed.make() + String(id)
+        }
+        
+        APIManager(requestType: RequestType.WithXAuthTokenInHeader, urlString: urls(feedId), method: .GET).handleResponse(
             { (getFeed: FeedsResponseJSON) -> Void in
                 if let count = getFeed.feeds?.count where count > 0{
                     print("getting feed")
@@ -432,24 +436,12 @@ extension DetailVIewViewController: UITableViewDelegate {
 extension DetailVIewViewController: CellImageSwippedDelegate {
     
     func imageSwipedLeft(id: Int, loved: Bool, left:Bool) {
-        print("swipped leave (left)")
-        //        print(id)
-        //        print(loved)
-        //        print(left)
-        //left=true
-        self.loveFeed(String(id))
-        
-        
+        print("swipped love (left)")
+        self.feed?.loveFeed(self, completionHandler: {self.tableView.reloadData()})
     }
     func imageSwipedRight(id: Int, loved: Bool, left: Bool, mode: Int) {
-        print("swipped love (right)")
-        //        print(loved)
-        //        print(left)
-        //        loved = true
-        //        left = false
-        self.leaveit(String(id))
-        print(mode)
-        
+        print("swipped leave (right)")
+        self.feed?.leaveFeed(self, completionHandler: {self.tableView.reloadData()})
     }
     
     func SegueToLoverList(id: Int?) {
@@ -476,43 +468,25 @@ extension DetailVIewViewController: CellImageSwippedDelegate {
         return self.feed!
     }
     
-    func loveFeed(postId:String){
-        let user = UserDataStruct()
-        
-        let urlString = "\(apiUrl)api/v1/feeds/loveit"
-        
-        let parameters: [String: AnyObject] =
-        [
-            "user_id": user.id!,
-            "post_id": postId
-            
-        ]
-        let headers = [
-            "X-Auth-Token" : user.api_token!,
-        ]
-        
-        self.loveCountIncrease()
-        
-        APIManager(requestType: RequestType.WithXAuthTokenInHeader, urlString: urlString, parameters: parameters).handleResponse(
-            { (loveItObject: SuccessFailJSON) -> Void in
-                if !loveItObject.error! {
-                    self.feed?.lovers?.append(loveItObject.user!)
-                    self.feed?.leavers = self.feed?.leavers!.filter{$0.id! != loveItObject.user!.id!}
-                } else {
-                    PixaPalsErrorType.CantLoveItLeaveItError.show(self)
-                    print("Error: Love it error")
-                    self.leaveCountIncrease()
-                }
-            }, errorBlock: {
-                self.leaveCountIncrease()
-                return self
-            }
-        )
-        
-        
-//        requestWithHeaderXAuthToken(.POST, urlString, parameters: parameters).responseObject { (response: Response<SuccessFailJSON, NSError>) -> Void in
-//            switch response.result {
-//            case .Success(let loveItObject):
+//    func loveFeed(postId:String){
+//        let user = UserDataStruct()
+//        
+//        let urlString = "\(apiUrl)api/v1/feeds/loveit"
+//        
+//        let parameters: [String: AnyObject] =
+//        [
+//            "user_id": user.id!,
+//            "post_id": postId
+//            
+//        ]
+//        let headers = [
+//            "X-Auth-Token" : user.api_token!,
+//        ]
+//        
+//        self.loveCountIncrease()
+//        
+//        APIManager(requestType: RequestType.WithXAuthTokenInHeader, urlString: urlString, parameters: parameters).handleResponse(
+//            { (loveItObject: SuccessFailJSON) -> Void in
 //                if !loveItObject.error! {
 //                    self.feed?.lovers?.append(loveItObject.user!)
 //                    self.feed?.leavers = self.feed?.leavers!.filter{$0.id! != loveItObject.user!.id!}
@@ -521,80 +495,81 @@ extension DetailVIewViewController: CellImageSwippedDelegate {
 //                    print("Error: Love it error")
 //                    self.leaveCountIncrease()
 //                }
-//            case .Failure(let error):
-//                //showAlertView("Error", message: "Can't connect right now.Check your internet settings.", controller: self)
-//                //print("Error in connection \(error)")
-//                PixaPalsErrorType.ConnectionError.show(self)
+//            }, errorBlock: {
 //                self.leaveCountIncrease()
+//                return self
 //            }
-//        }
-        
-        //            .responseJSON { response in
-        //                switch response.result {
-        //                case .Failure(let error):
-        //                    print(error)
-        //                case .Success(let value):
-        //                    print(value)
-        //                }
-        //        }
-        
-        //        Alamofire.request(.POST, registerUrlString, parameters: parameters, headers:headers).responseJSON { response in
-        //            switch response.result {
-        //            case .Failure(let error):
-        //                print(error)
-        //            case .Success(let value):
-        //                print(value)
-        //            }
-        //        }
-        
-    }
-    
-    
-    func leaveit(postId:String){
-        let user = UserDataStruct()
-        let urlString = "\(apiUrl)api/v1/feeds/leaveit"
-        
-        let parameters: [String: AnyObject] =
-        [
-            "user_id": user.id!,
-            "post_id": postId
-            
-        ]
-        let headers = [
-            "X-Auth-Token" : user.api_token!,
-        ]
-        
-        self.leaveCountIncrease()
-        
-        
-        //        Alamofire.request(.POST, registerUrlString, parameters: parameters, headers:headers).responseJSON { response in
-        //            switch response.result {
-        //            case .Failure(let error):
-        //                print(error)
-        //            case .Success(let value):
-        //                print(value)
-        //            }
-        //        }
-        
-        APIManager(requestType: RequestType.WithXAuthTokenInHeader, urlString: urlString, parameters: parameters).handleResponse(
-            { (leaveItObject: SuccessFailJSON) -> Void in
-                if !leaveItObject.error! {
-                    self.feed?.leavers?.append(leaveItObject.user!)
-                    self.feed?.lovers = self.feed?.lovers!.filter{$0.id! != leaveItObject.user!.id!}
-                } else {
-                    PixaPalsErrorType.CantLoveItLeaveItError.show(self)
-                    print("Error: Leave it error")
-                    self.loveCountIncrease()
-                }
-            }, errorBlock: {
-                self.loveCountIncrease()
-                return self
-            }
-        )
-        
-//        requestWithHeaderXAuthToken(.POST, urlString, parameters: parameters).responseObject { (response: Response<SuccessFailJSON, NSError>) -> Void in
-//            switch response.result {
-//            case .Success(let leaveItObject):
+//        )
+//        
+//        
+////        requestWithHeaderXAuthToken(.POST, urlString, parameters: parameters).responseObject { (response: Response<SuccessFailJSON, NSError>) -> Void in
+////            switch response.result {
+////            case .Success(let loveItObject):
+////                if !loveItObject.error! {
+////                    self.feed?.lovers?.append(loveItObject.user!)
+////                    self.feed?.leavers = self.feed?.leavers!.filter{$0.id! != loveItObject.user!.id!}
+////                } else {
+////                    PixaPalsErrorType.CantLoveItLeaveItError.show(self)
+////                    print("Error: Love it error")
+////                    self.leaveCountIncrease()
+////                }
+////            case .Failure(let error):
+////                //showAlertView("Error", message: "Can't connect right now.Check your internet settings.", controller: self)
+////                //print("Error in connection \(error)")
+////                PixaPalsErrorType.ConnectionError.show(self)
+////                self.leaveCountIncrease()
+////            }
+////        }
+//        
+//        //            .responseJSON { response in
+//        //                switch response.result {
+//        //                case .Failure(let error):
+//        //                    print(error)
+//        //                case .Success(let value):
+//        //                    print(value)
+//        //                }
+//        //        }
+//        
+//        //        Alamofire.request(.POST, registerUrlString, parameters: parameters, headers:headers).responseJSON { response in
+//        //            switch response.result {
+//        //            case .Failure(let error):
+//        //                print(error)
+//        //            case .Success(let value):
+//        //                print(value)
+//        //            }
+//        //        }
+//        
+//    }
+//    
+//    
+//    func leaveit(postId:String){
+//        let user = UserDataStruct()
+//        let urlString = "\(apiUrl)api/v1/feeds/leaveit"
+//        
+//        let parameters: [String: AnyObject] =
+//        [
+//            "user_id": user.id!,
+//            "post_id": postId
+//            
+//        ]
+//        let headers = [
+//            "X-Auth-Token" : user.api_token!,
+//        ]
+//        
+//        self.leaveCountIncrease()
+//        
+//        
+//        //        Alamofire.request(.POST, registerUrlString, parameters: parameters, headers:headers).responseJSON { response in
+//        //            switch response.result {
+//        //            case .Failure(let error):
+//        //                print(error)
+//        //            case .Success(let value):
+//        //                print(value)
+//        //            }
+//        //        }
+//        
+//        APIManager(requestType: RequestType.WithXAuthTokenInHeader, urlString: urlString, parameters: parameters).handleResponse(
+//            { (leaveItObject: SuccessFailJSON) -> Void in
 //                if !leaveItObject.error! {
 //                    self.feed?.leavers?.append(leaveItObject.user!)
 //                    self.feed?.lovers = self.feed?.lovers!.filter{$0.id! != leaveItObject.user!.id!}
@@ -603,22 +578,39 @@ extension DetailVIewViewController: CellImageSwippedDelegate {
 //                    print("Error: Leave it error")
 //                    self.loveCountIncrease()
 //                }
-//            case .Failure(let error):
+//            }, errorBlock: {
 //                self.loveCountIncrease()
-//                PixaPalsErrorType.ConnectionError.show(self)
-//                //showAlertView("Error", message: "Can't connect right now.Check your internet settings.", controller: self)
-//                //print("Error in connection \(error)")
+//                return self
 //            }
-//        }
-        //            .responseJSON { response in
-        //                            switch response.result {
-        //                            case .Failure(let error):
-        //                                print(error)
-        //                            case .Success(let value):
-        //                                print(value)
-        //                            }
-        //                        }
-    }
+//        )
+//        
+////        requestWithHeaderXAuthToken(.POST, urlString, parameters: parameters).responseObject { (response: Response<SuccessFailJSON, NSError>) -> Void in
+////            switch response.result {
+////            case .Success(let leaveItObject):
+////                if !leaveItObject.error! {
+////                    self.feed?.leavers?.append(leaveItObject.user!)
+////                    self.feed?.lovers = self.feed?.lovers!.filter{$0.id! != leaveItObject.user!.id!}
+////                } else {
+////                    PixaPalsErrorType.CantLoveItLeaveItError.show(self)
+////                    print("Error: Leave it error")
+////                    self.loveCountIncrease()
+////                }
+////            case .Failure(let error):
+////                self.loveCountIncrease()
+////                PixaPalsErrorType.ConnectionError.show(self)
+////                //showAlertView("Error", message: "Can't connect right now.Check your internet settings.", controller: self)
+////                //print("Error in connection \(error)")
+////            }
+////        }
+//        //            .responseJSON { response in
+//        //                            switch response.result {
+//        //                            case .Failure(let error):
+//        //                                print(error)
+//        //                            case .Success(let value):
+//        //                                print(value)
+//        //                            }
+//        //                        }
+//    }
     
     func loveCountIncrease(){
         self.feed!.is_my_love = true

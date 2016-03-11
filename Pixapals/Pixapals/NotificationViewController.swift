@@ -93,20 +93,23 @@ class NotificationViewController: UIViewController {
     private func loadDataFromAPI() {
         let user = UserDataStruct()
         
-        var urlString = "\(apiUrl)api/v1/"
+        let urlString = (URLs().makeNotification(userId: user.id, pageNumber: self.pageNumber, notificationLimit: self.notificationLimit))(self.title == "YOU")
+        //let urlString  = (URLs().makeURLByAddingTrailling(userId: user.id, pageNumber: self.pageNumber, limit: self.notificationLimit))(URLs.URLType.)
+       // let urlString = (self.title == "YOU") ? url(true) : url(false)
         
-        if self.title == "YOU" {
-            urlString += "my"
-        }else {
-            urlString += "fed"
-        }
-        urlString += "-notifications/\(user.id)/\(pageNumber)/\(notificationLimit)"
+        
+//        if self.title == "YOU" {
+//            urlString += "my"
+//        }else {
+//            urlString += "fed"
+//        }
+//        urlString += "-notifications/\(user.id)/\(pageNumber)/\(notificationLimit)"
         // {user_id}/{page}/{limit}
         
         
-        let headers = [
-            "X-Auth-Token" : user.api_token!,
-        ]
+//        let headers = [
+//            "X-Auth-Token" : user.api_token!,
+//        ]
         
         APIManager(requestType: RequestType.WithXAuthTokenInHeader, urlString: urlString, method: .GET).handleResponse(
             { (notificationResponseJSON: NotificationResponseJSON) -> Void in

@@ -97,11 +97,9 @@ class ProfileViewController: UIViewController {
         
         self.view.backgroundColor=UIColor(red: 240/255, green: 240/255, blue: 240/255, alpha: 1)
         
-        self.btnEdit.setTitle("Feeding", forState: UIControlState.Disabled)
+        self.btnEdit.setTitle("Processing", forState: UIControlState.Disabled)
         if let userId = userId  where userId != UserDataStruct().id{
-            self.btnEdit.setTitle("GET FEED", forState: UIControlState.Normal)
             checkIfUserIsMyFed()
-            
         }
         
         self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .Plain, target: nil, action: nil)
@@ -167,10 +165,14 @@ class ProfileViewController: UIViewController {
         
     }
     func checkIfUserIsMyFed() {
+        self.btnEdit.enabled = true
         if let userId = userId {
             if let existingUser = UserFeedDistinction.sharedInstance.getUserWithId(userId) {
                 if existingUser.is_my_fed! {
-                    self.btnEdit.enabled = false
+                    //self.btnEdit.enabled = false
+                    self.btnEdit.setTitle("UNFEED", forState: UIControlState.Normal)
+                } else {
+                    self.btnEdit.setTitle("GET FEED", forState: UIControlState.Normal)
                 }
             }
         }
@@ -179,19 +181,19 @@ class ProfileViewController: UIViewController {
     func followUser(id: Int){
         let user = UserDataStruct()
         
-        let urlString = "\(apiUrl)api/v1/profile/getfed"
+        let urlString = URLType.GetFed.make()
         
         let parameters: [String: AnyObject] =
         [
             "user_id": user.id!,
             "fed_id": id,
         ]
-        print(parameters)
         
         let existingUser = UserFeedDistinction.sharedInstance.getUserWithId(id)
-        if let existingUser = existingUser {
-            existingUser.is_my_fed = true
-        }
+        
+//        if let existingUser = existingUser {
+//            existingUser.is_my_fed = true
+//        }
         self.btnEdit.enabled = false
         self.tableView.reloadData()
         let headers = [
@@ -212,14 +214,16 @@ class ProfileViewController: UIViewController {
             self.btnEdit.enabled = true
             if let existingUser = existingUser {
                 existingUser.is_my_fed = false
+                //checkIfUserIsMyFed()
             }
         }
         
         APIManager(requestType: RequestType.WithXAuthTokenInHeader, urlString: urlString, parameters:  parameters).handleResponse(
             { (getFeed: SuccessFailJSON) -> Void in
                 if !getFeed.error! {
-                    //print("getting feed")
                     
+                    //print("getting feed")
+                    existingUser?.is_my_fed = !(existingUser?.is_my_fed)!
                     //appDelegate.ShowAlertView("Success", message: "You are now following to \( (self.feed.user?.username)!)")
                 } else {
                     enableDisableEditButton()
@@ -231,6 +235,7 @@ class ProfileViewController: UIViewController {
                 enableDisableEditButton()
                 return self
             }, onResponse: {
+                self.checkIfUserIsMyFed()
                 self.tableView.reloadData()
             }
         )
@@ -292,7 +297,8 @@ class ProfileViewController: UIViewController {
         if let _ = self.userId {
             id = self.userId!
         }
-        let apiURLString = "\(apiUrl)api/v1/profile/\(id)/\(self.pageNumber)/\(self.postLimit)"
+        //let apiURLString = "\(apiUrl)api/v1/profile/\(id)/\(self.pageNumber)/\(self.postLimit)"
+        let apiURLString = (URLs().makeURLByAddingTrailling(userId: id, pageNumber: self.pageNumber, limit: self.postLimit))(.Profile)
         //print(apiURLString)
         guard let api_token = UserDataStruct().api_token else{
             print("no api token")
@@ -658,23 +664,26 @@ extension ProfileViewController: UITableViewDataSource {
 }
 extension ProfileViewController: CellImageSwippedDelegate {
     func imageSwipedLeft(id: Int, loved: Bool, left:Bool) {
-        print("swipped leave (left)")
+        print("swipped love (left)")
         //        print(id)
         //        print(loved)
         //        print(left)
         //left=true
-        self.loveFeed(id)
-        
+       // self.loveFeed(id)
+        let feed = self.feedsFromResponseAsObject.feeds![id]
+        feed.loveFeed(self) {self.tableView.reloadData()}
         
     }
     func imageSwipedRight(id: Int, loved: Bool, left: Bool, mode: Int) {
-        print("swipped love (right)")
+        print("swipped leave (right)")
         //        print(loved)
         //        print(left)
         //        loved = true
         //        left = false
-        self.leaveit(id)
-        print(mode)
+        //self.leaveit(id)
+        //print(mode)
+         let feed = self.feedsFromResponseAsObject.feeds![id]
+        feed.leaveFeed(self) {self.tableView.reloadData()}
         
     }
     
@@ -702,112 +711,112 @@ extension ProfileViewController: CellImageSwippedDelegate {
         return self.feedsFromResponseAsObject.feeds![id!]
     }
     
-    func loveFeed(id:Int){
-        let feed = self.feedsFromResponseAsObject.feeds![id]
-        let user = UserDataStruct()
-        
-        let registerUrlString = "\(apiUrl)api/v1/feeds/loveit"
-        
-        let parameters: [String: AnyObject] =
-        [
-            "user_id": String(user.id!),
-            "post_id": String(feed.id!)
-        ]
-        let headers = [
-            "X-Auth-Token" : user.api_token!,
-        ]
-        
-        self.loveCountIncrease(feed)
-        
-        requestWithHeaderXAuthToken(.POST, registerUrlString, parameters: parameters).responseObject { (response: Response<SuccessFailJSON, NSError>) -> Void in
-            switch response.result {
-            case .Success(let loveItObject):
-                if !loveItObject.error! {
-                    feed.lovers?.append(loveItObject.user!)
-                    feed.leavers = feed.leavers!.filter{$0.id! != loveItObject.user!.id!}
-                } else {
-                    self.leaveCountIncrease(feed)
-                    print("Error: Love it error")
-                    PixaPalsErrorType.CantLoveItLeaveItError.show(self)
-                }
-            case .Failure(let error):
-                self.leaveCountIncrease(feed)
-                //showAlertView("Error", message: "Can't connect right now.Check your internet settings.", controller: self)
-                //print("Error in connection \(error)")
-                PixaPalsErrorType.ConnectionError.show(self)
-            }
-        }
-    }
-    
-    
-    func leaveit(id: Int){
-        let feed = self.feedsFromResponseAsObject.feeds![id]
-        let user = UserDataStruct()
-        let registerUrlString = "\(apiUrl)api/v1/feeds/leaveit"
-        
-        let parameters: [String: AnyObject] =
-        [
-            "user_id": String(user.id!),
-            "post_id": String(feed.id!)
-        ]
-        let headers = [
-            "X-Auth-Token" : user.api_token!,
-        ]
-        
-        self.leaveCountIncrease(feed)
-        
-        //                Alamofire.request(.POST, registerUrlString, parameters: parameters, headers:headers).responseJSON { response in
-        //                    print(response.request)
-        //                    switch response.result {
-        //                    case .Failure(let error):
-        //                        print(error)
-        //                    case .Success(let value):
-        //                        print(value)
-        //                    }
-        //                }
-        
-        requestWithHeaderXAuthToken(.POST, registerUrlString, parameters: parameters).responseObject { (response: Response<SuccessFailJSON, NSError>) -> Void in
-            switch response.result {
-            case .Success(let leaveItObject):
-                if !leaveItObject.error! {
-                    feed.leavers?.append(leaveItObject.user!)
-                    feed.lovers = feed.lovers!.filter{$0.id! != leaveItObject.user!.id!}
-                } else {
-                    print("Error: Love it error")
-                    self.loveCountIncrease(feed)
-                    PixaPalsErrorType.CantLoveItLeaveItError.show(self)
-                }
-                
-            case .Failure(let error):
-                //showAlertView("Error", message: "Can't connect right now.Check your internet settings.", controller: self)
-                //print("Error in connection \(error)")
-                self.loveCountIncrease(feed)
-                PixaPalsErrorType.ConnectionError.show(self)
-                
-            }
-        }
-    }
-    
-    func loveCountIncrease(feed: FeedJSON){
-        feed.is_my_love = true
-        feed.loveit = feed.loveit! + 1
-        if feed.is_my_left! {
-            feed.is_my_left = false
-            feed.leaveit = feed.leaveit! - 1
-        }
-        self.tableView.reloadData()
-        
-    }
-    
-    func leaveCountIncrease(feed: FeedJSON){
-        feed.is_my_left = true
-        feed.leaveit = feed.leaveit! + 1
-        if feed.is_my_love! {
-            feed.is_my_love = false
-            feed.loveit = feed.loveit! - 1
-        }
-        self.tableView.reloadData()
-    }
+//    func loveFeed(id:Int){
+//        let feed = self.feedsFromResponseAsObject.feeds![id]
+//        let user = UserDataStruct()
+//        
+//        let registerUrlString = "\(apiUrl)api/v1/feeds/loveit"
+//        
+//        let parameters: [String: AnyObject] =
+//        [
+//            "user_id": String(user.id!),
+//            "post_id": String(feed.id!)
+//        ]
+//        let headers = [
+//            "X-Auth-Token" : user.api_token!,
+//        ]
+//        
+//        self.loveCountIncrease(feed)
+//        
+//        requestWithHeaderXAuthToken(.POST, registerUrlString, parameters: parameters).responseObject { (response: Response<SuccessFailJSON, NSError>) -> Void in
+//            switch response.result {
+//            case .Success(let loveItObject):
+//                if !loveItObject.error! {
+//                    feed.lovers?.append(loveItObject.user!)
+//                    feed.leavers = feed.leavers!.filter{$0.id! != loveItObject.user!.id!}
+//                } else {
+//                    self.leaveCountIncrease(feed)
+//                    print("Error: Love it error")
+//                    PixaPalsErrorType.CantLoveItLeaveItError.show(self)
+//                }
+//            case .Failure(let error):
+//                self.leaveCountIncrease(feed)
+//                //showAlertView("Error", message: "Can't connect right now.Check your internet settings.", controller: self)
+//                //print("Error in connection \(error)")
+//                PixaPalsErrorType.ConnectionError.show(self)
+//            }
+//        }
+//    }
+//    
+//    
+//    func leaveit(id: Int){
+//        let feed = self.feedsFromResponseAsObject.feeds![id]
+//        let user = UserDataStruct()
+//        let registerUrlString = "\(apiUrl)api/v1/feeds/leaveit"
+//        
+//        let parameters: [String: AnyObject] =
+//        [
+//            "user_id": String(user.id!),
+//            "post_id": String(feed.id!)
+//        ]
+//        let headers = [
+//            "X-Auth-Token" : user.api_token!,
+//        ]
+//        
+//        self.leaveCountIncrease(feed)
+//        
+//        //                Alamofire.request(.POST, registerUrlString, parameters: parameters, headers:headers).responseJSON { response in
+//        //                    print(response.request)
+//        //                    switch response.result {
+//        //                    case .Failure(let error):
+//        //                        print(error)
+//        //                    case .Success(let value):
+//        //                        print(value)
+//        //                    }
+//        //                }
+//        
+//        requestWithHeaderXAuthToken(.POST, registerUrlString, parameters: parameters).responseObject { (response: Response<SuccessFailJSON, NSError>) -> Void in
+//            switch response.result {
+//            case .Success(let leaveItObject):
+//                if !leaveItObject.error! {
+//                    feed.leavers?.append(leaveItObject.user!)
+//                    feed.lovers = feed.lovers!.filter{$0.id! != leaveItObject.user!.id!}
+//                } else {
+//                    print("Error: Love it error")
+//                    self.loveCountIncrease(feed)
+//                    PixaPalsErrorType.CantLoveItLeaveItError.show(self)
+//                }
+//                
+//            case .Failure(let error):
+//                //showAlertView("Error", message: "Can't connect right now.Check your internet settings.", controller: self)
+//                //print("Error in connection \(error)")
+//                self.loveCountIncrease(feed)
+//                PixaPalsErrorType.ConnectionError.show(self)
+//                
+//            }
+//        }
+//    }
+//    
+//    func loveCountIncrease(feed: FeedJSON){
+//        feed.is_my_love = true
+//        feed.loveit = feed.loveit! + 1
+//        if feed.is_my_left! {
+//            feed.is_my_left = false
+//            feed.leaveit = feed.leaveit! - 1
+//        }
+//        self.tableView.reloadData()
+//        
+//    }
+//    
+//    func leaveCountIncrease(feed: FeedJSON){
+//        feed.is_my_left = true
+//        feed.leaveit = feed.leaveit! + 1
+//        if feed.is_my_love! {
+//            feed.is_my_love = false
+//            feed.loveit = feed.loveit! - 1
+//        }
+//        self.tableView.reloadData()
+//    }
 }
 
 extension ProfileViewController: DetailViewViewControllerProtocol {

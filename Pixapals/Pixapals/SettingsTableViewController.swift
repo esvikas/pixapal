@@ -8,9 +8,6 @@
 
 import UIKit
 import Alamofire
-import FBSDKCoreKit
-import FBSDKLoginKit
-import FBSDKShareKit
 
 class SettingsTableViewController: UITableViewController {
     
@@ -77,87 +74,15 @@ class SettingsTableViewController: UITableViewController {
             }
             
         case 1:
-            func getFBUserData() {
-                
-                //            if((FBSDKAccessToken.currentAccessToken()) != nil){
-                //
-                //                FBSDKGraphRequest(graphPath: "me", parameters: ["fields": "id, name, picture.type(small), email, website, gender, hometown, birthday"]).startWithCompletionHandler({ (connection, result, error) -> Void in
-                //
-                //                    print(FBSDKAccessToken.currentAccessToken().tokenString)
-                //
-                //                    if (error == nil){
-                //                        print(result)
-                //                        //self.dict = result as! [String : AnyObject]
-                //                        //self.dict.setValue("facebook", forKey: "type")
-                //                        //self.dict["type"] = "facebook"
-                //
-                ////                        if let _ = self.location {
-                ////                            self.loginFbUser()
-                ////                        }
-                //
-                //                        //NSLog(self.dict.objectForKey("picture")?.objectForKey("data")?.objectForKey("url") as! String)
-                //                    } else {
-                //                        print(error)
-                //                        PixaPalsErrorType.CantGetUserInfoFromFacebookError.show(self)
-                //                        //showAlertView("Error", message: "Sorry! Can't connect through facebook. Can't access your information.", controller: self)
-                //                    }
-                //                })
-                //            }
-                print(FBSDKAccessToken.currentAccessToken()?.tokenString)
-                let request = FBSDKGraphRequest(graphPath:"me/taggable_friends", parameters: ["limit" : "1000","fields": "id"]);
-                
-                request.startWithCompletionHandler { (connection : FBSDKGraphRequestConnection!, result : AnyObject!, error : NSError!) -> Void in
-                    if error == nil {
-                        //print("Friends are : \(result)")
-                        
-                        // print("Friends are : \(result.count)")
-                        
-                        // self.friendsList = result as! [String : AnyObject] //as! NSMutableDictionary
-                        print(result)
-                        
-                    } else {
-                        PixaPalsErrorType.CantGetFriendInfoFromFacebookError.show(self)
-                        print("Error Getting Friends \(error)");
-                    }
-                }
-            }
-            
-            let fbLoginManager = FBSDKLoginManager()
-            fbLoginManager.logInWithReadPermissions(["public_profile", "email"], fromViewController: self, handler: {
-                //                (<#FBSDKLoginManagerLoginResult!#>, <#NSError!#>) -> Void in
-                //                <#code#>
-                //            })
-                //            fbLoginManager.logInWithReadPermissions(["public_profile", "email"], handler: {
-                (result, error) -> Void in
-                
-                if result == nil{
-                    return
-                }
-                
-                if result.isCancelled {
-                    // Handle cancellations
-                    fbLoginManager.logOut()
-                }else if (error != nil) {
-                    //showAlertView("Error", message: "Sorry! Can't connect through facebook.", controller: self)
-                    PixaPalsErrorType.FacebookLoginConnectionError.show(self)
-                }else{
-                    let fbloginresult : FBSDKLoginManagerLoginResult = result
-                    
-                    if(fbloginresult.grantedPermissions.contains("email"))
-                    {
-                        getFBUserData()
-                    }
-                }
-            })
-            //PixaPalsErrorType.NotAvailableError.show(self)
-            //appDelegate.ShowAlertView("Sorry ", message: "Not available")
+            let storyboard: UIStoryboard = UIStoryboard (name: "Main", bundle: nil)
+            let vc = storyboard.instantiateViewControllerWithIdentifier("SocialFeedersViewController") as! SocialFeedersViewController
+            self.navigationController?.pushViewController(vc, animated: true)
         case 2:
             let storyboard: UIStoryboard = UIStoryboard (name: "Main", bundle: nil)
             let vc = storyboard.instantiateViewControllerWithIdentifier("ReportAnIssueViewController") as! ReportAnIssueViewController
             self.navigationController?.pushViewController(vc, animated: true)
         case 3:
             logoutRequest()
-            
         default:
             print("Error")
             
@@ -313,7 +238,7 @@ class SettingsTableViewController: UITableViewController {
     
     func preference(){
         let user = UserDataStruct()
-        let urlString = "\(apiUrl)api/v1/preference/set"
+        let urlString = URLType.PreferencesPost.make()
         
         let parameters: [String: AnyObject] =
         [
@@ -358,30 +283,31 @@ class SettingsTableViewController: UITableViewController {
     
     
     func logoutRequest(){
-        let user = UserDataStruct()
-        let registerUrlString = "\(apiUrl)api/v1/profile/logout"
+        //let user = UserDataStruct()
+        let registerUrlString = URLType.Logout.make()
         
         
-        let headers = [
-            "X-Auth-Token" : String(user.api_token!),
-        ]
+//        let headers = [
+//            "X-Auth-Token" : String(user.api_token!),
+//        ]
         
+        APIManager(requestType: RequestType.WithXAuthTokenInHeader, urlString: registerUrlString, method: .GET).giveResponseJSON({_ in self.logOut()}, errorBlock:{self})
         
-        Alamofire.request(.GET, registerUrlString, parameters: nil, headers:headers).responseJSON { response in
-            print(response.request)
-            switch response.result {
-            case .Success( _ ):
-                
-                self.logOut()
-                
-                
-            case .Failure(let error):
-                //print("Error in connection \(error)")
-                //showAlertView("Error", message: "Can't connect right now.Check your internet settings.", controller: self)
-                PixaPalsErrorType.ConnectionError.show(self)
-            }
-        }
-        print(headers)
+//        Alamofire.request(.GET, registerUrlString, parameters: nil, headers:headers).responseJSON { response in
+//            print(response.request)
+//            switch response.result {
+//            case .Success( _ ):
+//                
+//                self.logOut()
+//                
+//                
+//            case .Failure(let error):
+//                //print("Error in connection \(error)")
+//                //showAlertView("Error", message: "Can't connect right now.Check your internet settings.", controller: self)
+//                PixaPalsErrorType.ConnectionError.show(self)
+//            }
+//        }
+//        print(headers)
         
     }
     func logOut(){

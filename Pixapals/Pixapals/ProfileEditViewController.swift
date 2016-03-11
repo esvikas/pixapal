@@ -196,7 +196,7 @@ class ProfileEditViewController: UIViewController, UINavigationControllerDelegat
         
         
         
-        SRWebClient.POST("\(apiUrl)api/v1/profile/photo")
+        SRWebClient.POST(URLType.ProfilePhoto.make())
             
             .data(imageData, fieldName:fieldNameArray, data:parameters)
             .headers(headers)
@@ -271,7 +271,7 @@ class ProfileEditViewController: UIViewController, UINavigationControllerDelegat
         loadingNotification.labelText = "Updating"
         
         
-        let urlString = "\(apiUrl)api/v1/profile/update"
+        let urlString = URLType.ProfileUpdate.make()
         
         
         let parameters: [String: AnyObject] =

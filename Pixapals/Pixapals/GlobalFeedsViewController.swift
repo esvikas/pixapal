@@ -56,6 +56,7 @@ class GlobalFeedsViewController: UIViewController {
         self.blurEffectView.alpha = 0.4
         blurEffectView.frame = view.bounds
         self.view.addSubview(self.blurEffectView)
+        
         let loadingNotification = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
         loadingNotification.mode = MBProgressHUDMode.Indeterminate
         loadingNotification.labelText = "Loading"
@@ -138,20 +139,21 @@ class GlobalFeedsViewController: UIViewController {
             return
         }
         
-        var apiURLString = ""
-        if let _ = self.title {
-            //api/v1/feeds/all/
-            apiURLString = "\(apiUrl)api/v1/feeds/all/\(id)/\(self.pageNumber)/\(self.postLimit)"
-        }
-            
-        else {
-            apiURLString = "\(apiUrl)api/v1/feeds/global/\(id)/\(self.pageNumber)/\(self.postLimit)"
-        }
+        let apiURLString = (URLs().makeGlobal(userId: id, pageNumber: self.pageNumber, postLimit: self.postLimit))(self.title == nil)
+        
+//        var apiURLString = ""
+//        if let _ = self.title {
+//            //api/v1/feeds/all/
+//            apiURLString = URLs().makeGetPersonalisedFeed(userId: id, pageNumber: self.pageNumber, postLimit: self.postLimit)
+//        }
+//        else {
+//            apiURLString = URLs().makeGetGLobalFeed(userId: id, pageNumber: self.pageNumber, postLimit: self.postLimit)
+//        }
         //print(apiURLString)
-        guard let api_token = UserDataStruct().api_token else{
-            print("no api token")
-            return
-        }
+//        guard let api_token = UserDataStruct().api_token else{
+//            print("no api token")
+//            return
+//        }
         
         
         
@@ -617,24 +619,16 @@ extension GlobalFeedsViewController: UICollectionViewDelegateFlowLayout {
 
 extension GlobalFeedsViewController: CellImageSwippedDelegate {
     func imageSwipedLeft(id: Int, loved: Bool, left:Bool) {
-        print("swipped leave (left)")
-        //        print(id)
-        //        print(loved)
-        //        print(left)
-        //left=true
-        self.loveFeed(id)
-        
+        print("swipped love (left)")
+        let feed = self.feedsFromResponseAsObject.feeds![id]
+        feed.loveFeed(self) {self.tableView.reloadData()}
         
     }
     func imageSwipedRight(id: Int, loved: Bool, left: Bool, mode: Int) {
-        print("swipped love (right)")
-        //        print(loved)
-        //        print(left)
-        //        loved = true
-        //        left = false
-        self.leaveit(id)
-        print(mode)
+        print("swipped leave (right)")
         
+        let feed = self.feedsFromResponseAsObject.feeds![id]
+        feed.leaveFeed(self) {self.tableView.reloadData()}
     }
     
     func SegueToLoverList(id: Int?) {
@@ -663,117 +657,122 @@ extension GlobalFeedsViewController: CellImageSwippedDelegate {
         self.navigationController?.pushViewController(vc, animated: true)
     }
     
-    func loveFeed(id:Int){
-        let feed = self.feedsFromResponseAsObject.feeds![id]
-        let user = UserDataStruct()
-        
-        let registerUrlString = "\(apiUrl)api/v1/feeds/loveit"
-        
-        let parameters: [String: AnyObject] =
-        [
-            "user_id": String(user.id!),
-            "post_id": String(feed.id!)
-        ]
-        //        let headers = [
-        //            "X-Auth-Token" : user.api_token!,
-        //        ]
-        
-        self.loveCountIncrease(feed)
-        
-        requestWithHeaderXAuthToken(.POST, registerUrlString, parameters: parameters).responseObject { (response: Response<SuccessFailJSON, NSError>) -> Void in
-            switch response.result {
-            case .Success(let loveItObject):
-                if !loveItObject.error! {
-                    feed.lovers?.append(loveItObject.user!)
-                    feed.leavers = feed.leavers!.filter{$0.id! != loveItObject.user!.id!}
-                } else {
-                    self.leaveCountIncrease(feed)
-                    PixaPalsErrorType.CantLoveItLeaveItError.show(self)
-                    //showAlertView("Error", message: "Can't love the post. Try again.", controller: self)
-                    //print("Error: Love it error")
-                }
-            case .Failure(let error):
-                self.leaveCountIncrease(feed)
-                PixaPalsErrorType.ConnectionError.show(self)
-                //showAlertView("Error", message: "Can't connect right now.Check your internet settings.", controller: self)
-                // print("Error in connection \(error)")
-            }
-        }
-    }
+//    func loveFeed(id:Int){
+//        let feed = self.feedsFromResponseAsObject.feeds![id]
+////        let user = UserDataStruct()
+////        
+////        let registerUrlString = "\(apiUrl)api/v1/feeds/loveit"
+////        
+////        let parameters: [String: AnyObject] =
+////        [
+////            "user_id": String(user.id!),
+////            "post_id": String(feed.id!)
+////        ]
+//        feed.loveFeed(self) {self.tableView.reloadData()}
+//        //        let headers = [
+//        //            "X-Auth-Token" : user.api_token!,
+//        //        ]
+//        
+////        //self.loveCountIncrease(feed)
+////        feed.loveTheFeed({self.tableView.reloadData()})
+////        
+////        requestWithHeaderXAuthToken(.POST, registerUrlString, parameters: parameters).responseObject { (response: Response<SuccessFailJSON, NSError>) -> Void in
+////            switch response.result {
+////            case .Success(let loveItObject):
+////                if !loveItObject.error! {
+////                    feed.lovers?.append(loveItObject.user!)
+////                    feed.leavers = feed.leavers!.filter{$0.id! != loveItObject.user!.id!}
+////                } else {
+////                    feed.leaveTheFeed({self.tableView.reloadData()})
+////                    PixaPalsErrorType.CantLoveItLeaveItError.show(self)
+////                    //showAlertView("Error", message: "Can't love the post. Try again.", controller: self)
+////                    //print("Error: Love it error")
+////                }
+////            case .Failure(let error):
+////                feed.leaveTheFeed({self.tableView.reloadData()})
+////                PixaPalsErrorType.ConnectionError.show(self)
+////                //showAlertView("Error", message: "Can't connect right now.Check your internet settings.", controller: self)
+////                // print("Error in connection \(error)")
+////            }
+////        }
+//    }
+//    
+//    
+//    func leaveit(id: Int){
+//        let feed = self.feedsFromResponseAsObject.feeds![id]
+////        let user = UserDataStruct()
+////        let registerUrlString = "\(apiUrl)api/v1/feeds/leaveit"
+////        
+////        let parameters: [String: AnyObject] =
+////        [
+////            "user_id": String(user.id!),
+////            "post_id": String(feed.id!)
+////        ]
+//        feed.leaveFeed(self) {self.tableView.reloadData()}
+//////        let headers = [
+//////            "X-Auth-Token" : user.api_token!,
+//////        ]
+////        
+////        //self.leaveCountIncrease(feed)
+////        feed.leaveTheFeed({self.tableView.reloadData()})
+////        
+////        //                Alamofire.request(.POST, registerUrlString, parameters: parameters, headers:headers).responseJSON { response in
+////        //                    print(response.request)
+////        //                    switch response.result {
+////        //                    case .Failure(let error):
+////        //                        print(error)
+////        //                    case .Success(let value):
+////        //                        print(value)
+////        //                    }
+////        //                }
+////        
+////        requestWithHeaderXAuthToken(.POST, registerUrlString, parameters: parameters).responseObject { (response: Response<SuccessFailJSON, NSError>) -> Void in
+////            switch response.result {
+////            case .Success(let leaveItObject):
+////                if !leaveItObject.error! {
+////                    feed.leavers?.append(leaveItObject.user!)
+////                    feed.lovers = feed.lovers!.filter{$0.id! != leaveItObject.user!.id!}
+////                } else {
+////                    //print("Error: Love it error")
+////                    feed.loveTheFeed({self.tableView.reloadData()})
+////                    PixaPalsErrorType.CantLoveItLeaveItError.show(self)
+////                    //showAlertView("Error", message: "Can't leave the post. Try again.", controller: self)
+////                }
+////                
+////            case .Failure(let error):
+////                PixaPalsErrorType.ConnectionError.show(self)
+////                //showAlertView("Error", message: "Can't connect right now.Check your internet settings.", controller: self)
+////                // print("Error in connection \(error)")
+////                feed.loveTheFeed({self.tableView.reloadData()})
+////                
+////            }
+////        }
+//    }
+//    
+//    func loveCountIncrease(feed: FeedJSON){
+////        feed.is_my_love = true
+////        feed.loveit = feed.loveit! + 1
+////        if feed.is_my_left! {
+////            feed.is_my_left = false
+////            feed.leaveit = feed.leaveit! - 1
+////        }
+//        feed.loveTheFeed({self.tableView.reloadData()})
+//        //        if let user = UserFeedDistinction.sharedInstance.getUserWithId(UserDataStruct().id) {
+//        //            feed.lovers?.append(user)
+//        //
+//        //        }
+//        //self.tableView.reloadData()
+//    }
     
-    
-    func leaveit(id: Int){
-        let feed = self.feedsFromResponseAsObject.feeds![id]
-        let user = UserDataStruct()
-        let registerUrlString = "\(apiUrl)api/v1/feeds/leaveit"
-        
-        let parameters: [String: AnyObject] =
-        [
-            "user_id": String(user.id!),
-            "post_id": String(feed.id!)
-        ]
-        let headers = [
-            "X-Auth-Token" : user.api_token!,
-        ]
-        
-        self.leaveCountIncrease(feed)
-        
-        //                Alamofire.request(.POST, registerUrlString, parameters: parameters, headers:headers).responseJSON { response in
-        //                    print(response.request)
-        //                    switch response.result {
-        //                    case .Failure(let error):
-        //                        print(error)
-        //                    case .Success(let value):
-        //                        print(value)
-        //                    }
-        //                }
-        
-        requestWithHeaderXAuthToken(.POST, registerUrlString, parameters: parameters).responseObject { (response: Response<SuccessFailJSON, NSError>) -> Void in
-            switch response.result {
-            case .Success(let leaveItObject):
-                if !leaveItObject.error! {
-                    feed.leavers?.append(leaveItObject.user!)
-                    feed.lovers = feed.lovers!.filter{$0.id! != leaveItObject.user!.id!}
-                } else {
-                    //print("Error: Love it error")
-                    self.loveCountIncrease(feed)
-                    PixaPalsErrorType.CantLoveItLeaveItError.show(self)
-                    //showAlertView("Error", message: "Can't leave the post. Try again.", controller: self)
-                }
-                
-            case .Failure(let error):
-                PixaPalsErrorType.ConnectionError.show(self)
-                //showAlertView("Error", message: "Can't connect right now.Check your internet settings.", controller: self)
-                // print("Error in connection \(error)")
-                self.loveCountIncrease(feed)
-                
-            }
-        }
-    }
-    
-    func loveCountIncrease(feed: FeedJSON){
-        feed.is_my_love = true
-        feed.loveit = feed.loveit! + 1
-        if feed.is_my_left! {
-            feed.is_my_left = false
-            feed.leaveit = feed.leaveit! - 1
-        }
-        //        if let user = UserFeedDistinction.sharedInstance.getUserWithId(UserDataStruct().id) {
-        //            feed.lovers?.append(user)
-        //
-        //        }
-        self.tableView.reloadData()
-    }
-    
-    func leaveCountIncrease(feed: FeedJSON){
-        feed.is_my_left = true
-        feed.leaveit = feed.leaveit! + 1
-        if feed.is_my_love! {
-            feed.is_my_love = false
-            feed.loveit = feed.loveit! - 1
-        }
-        self.tableView.reloadData()
-    }
+//    func leaveCountIncrease(feed: FeedJSON){
+//        feed.is_my_left = true
+//        feed.leaveit = feed.leaveit! + 1
+//        if feed.is_my_love! {
+//            feed.is_my_love = false
+//            feed.loveit = feed.loveit! - 1
+//        }
+//        self.tableView.reloadData()
+//    }
 }
 
 extension GlobalFeedsViewController: DetailViewViewControllerProtocol {

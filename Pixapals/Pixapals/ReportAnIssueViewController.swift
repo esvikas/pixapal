@@ -70,7 +70,7 @@ class ReportAnIssueViewController: UIViewController {
             return
         }
         
-        let urlString = "\(apiUrl)api/v1/app/issue"
+        let urlString = URLType.AppIssue.make()
         
         let parameters: [String: AnyObject] =
         [
