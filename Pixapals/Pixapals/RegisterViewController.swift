@@ -165,12 +165,13 @@ class RegisterViewController: UIViewController, UIPopoverControllerDelegate, UIP
                 let vc = storyBoard.instantiateViewControllerWithIdentifier("tabView")
                 self.navigationController?.pushViewController(vc, animated: true)
             }else {
-                print(data)
-                
                 func message() -> String? {
                     if let message = data["message"] as? [String: [String]] {
                         let msg  = message.reduce("", combine: { (msg, message) -> String in
                             return msg + message.1.reduce("", combine: { (indivMsg, msg) -> String in
+                                if msg == "The email has already been taken." {
+                                    self.textFieldEmail.text = ""
+                                }
                                 return indivMsg + "\n" + msg
                             })
                         })

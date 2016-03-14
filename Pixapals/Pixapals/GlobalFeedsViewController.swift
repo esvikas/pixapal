@@ -391,7 +391,7 @@ class GlobalFeedsViewController: UIViewController {
 extension GlobalFeedsViewController: UITableViewDataSource {
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         
-        print(self.feedsFromResponseAsObject?.feeds?.count)
+        //print(self.feedsFromResponseAsObject?.feeds?.count)
         return self.feedsFromResponseAsObject?.feeds?.count ?? 0
     }
     
@@ -523,9 +523,8 @@ extension GlobalFeedsViewController: UITableViewDelegate {
         let feed = self.feedsFromResponseAsObject.feeds![section]
         let cell = tableView.dequeueReusableCellWithIdentifier("globalFeedTableViewHeaderCell") as! GlobalFeedTableViewHeaderCell
         cell.userProfilePic.kf_setImageWithURL(NSURL(string: feed.user!.photo_thumb!)!, placeholderImage: cell.userProfilePic.image)
-        
-        
-        cell.username.text = feed.user?.username
+        cell.username.text = (feed.user!.is_my_profile!) ? (feed.user?.username)! + " (YOU)" : feed.user?.username
+        //cell.username.text = feed.user?.username
         cell.id = feed.user?.id
         cell.delegate = self
         if let createdAt = feed.created_at {
@@ -638,6 +637,9 @@ extension GlobalFeedsViewController: CellImageSwippedDelegate {
         segueToLoverListViewController(usersArrayToDisplay: getFeedWithId(id).leavers!)
     }
     func SegueToProfile(id: Int?) {
+        if let is_my_profile = UserFeedDistinction.sharedInstance.getUserWithId(id!)?.is_my_profile where is_my_profile {
+            return
+        }
         let storyBoard = UIStoryboard(name: "Main", bundle: nil)
         let vc: ProfileViewController = storyBoard.instantiateViewControllerWithIdentifier("ProfileViewController") as! ProfileViewController
         vc.userId = id
@@ -647,8 +649,6 @@ extension GlobalFeedsViewController: CellImageSwippedDelegate {
     func getFeedWithId(id: Int?) -> FeedJSON {
         return self.feedsFromResponseAsObject.feeds![id!]
     }
-    
-    
     
     func segueToLoverListViewController(usersArrayToDisplay users: [UserJSON]) {
         let storyBoard = UIStoryboard(name: "Main", bundle: nil)

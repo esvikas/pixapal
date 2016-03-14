@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import MBProgressHUD
 
 class ForgotPasswordViewController: UIViewController {
 
@@ -30,6 +31,16 @@ class ForgotPasswordViewController: UIViewController {
         
         let validator = Validator()
         if validator.isValidEmail(emailTextField.text!) {
+            
+            let blurEffectView = UIVisualEffectView(effect: UIBlurEffect(style: UIBlurEffectStyle.ExtraLight))
+            blurEffectView.alpha = 0.4
+            blurEffectView.frame = view.bounds
+            self.view.addSubview(blurEffectView)
+            
+            let loadingNotification = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
+            loadingNotification.mode = MBProgressHUDMode.Indeterminate
+            loadingNotification.labelText = "Sending an Email"
+            
             let parameters: [String: AnyObject] = ["email": emailTextField.text!]
             APIManager(requestType: RequestType.WithDeviceTokenInParam, urlString: URLType.ForgotPassword.make(), parameters: parameters).handleResponse(
                 { (response: SuccessFailJSON) -> Void in
@@ -42,7 +53,10 @@ class ForgotPasswordViewController: UIViewController {
                 }, errorBlock: {
                     button.enabled = true
                     return self
-            })
+                }) {
+                    blurEffectView.removeFromSuperview()
+                    loadingNotification.removeFromSuperview()
+            }
         }else {
             button.enabled = true
             PixaPalsErrorType.InvalidEmailError.show(self)

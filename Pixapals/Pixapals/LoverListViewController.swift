@@ -55,9 +55,17 @@ extension LoverListViewController: UITableViewDataSource {
         let cell = tableView.dequeueReusableCellWithIdentifier("LoverListTableViewCell", forIndexPath: indexPath) as! LoverListTableViewCell
         let user = users[indexPath.row]
         cell.user = user
-        cell.username.text = user.username
+        if user.is_my_profile! {
+            cell.username.text = user.username! + " (YOU)"
+        }else {
+            cell.username.text = user.username
+        }
+        
         if (user.is_my_fed)! {
             cell.getFeedButton.enabled = false
+        }
+        if (user.is_my_profile)! {
+            cell.getFeedButton.hidden = true
         }
         cell.profileImageView.kf_setImageWithURL(NSURL(string: user.photo_thumb!)!, placeholderImage: cell.profileImageView.image)
         cell.delegate = self
@@ -166,6 +174,9 @@ extension LoverListViewController: loverListTableViewCellDelegate {
     }
     
     func usernameClicked(id: Int?) {
+        if UserFeedDistinction.sharedInstance.getUserWithId(id!)!.is_my_profile! {
+            return
+        }
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let vc = storyboard.instantiateViewControllerWithIdentifier("ProfileViewController") as! ProfileViewController
         vc.userId = id

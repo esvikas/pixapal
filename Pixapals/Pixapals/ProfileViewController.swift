@@ -297,6 +297,7 @@ class ProfileViewController: UIViewController {
         if let _ = self.userId {
             id = self.userId!
         }
+        print(id)
         //let apiURLString = "\(apiUrl)api/v1/profile/\(id)/\(self.pageNumber)/\(self.postLimit)"
         let apiURLString = (URLs().makeURLByAddingTrailling(userId: id, pageNumber: self.pageNumber, limit: self.postLimit))(.Profile)
         //print(apiURLString)

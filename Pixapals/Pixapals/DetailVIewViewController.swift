@@ -234,7 +234,8 @@ class DetailVIewViewController: UIViewController {
     }
     
     private func setUserInfo() {
-        self.usernameLbl.text = feed!.user?.username
+        self.usernameLbl.text = (feed!.user!.is_my_profile!) ? (feed?.user?.username)! + " (YOU)" : feed!.user?.username
+        //self.usernameLbl.text = feed!.user?.username
         self.userProfilePic.kf_setImageWithURL(NSURL(string: feed!.user!.photo_thumb!)!, placeholderImage: self.userProfilePic.image)
     }
     private func triggerDelegateNeedReloadData() {
@@ -451,6 +452,9 @@ extension DetailVIewViewController: CellImageSwippedDelegate {
         segueToLoverListViewController(usersArrayToDisplay: getFeedWithId(id).leavers!)
     }
     func SegueToProfile(id: Int?) {
+        if let is_my_profile = self.feed?.user?.is_my_profile where is_my_profile {
+            return
+        }
         let storyBoard = UIStoryboard(name: "Main", bundle: nil)
         let vc: ProfileViewController = storyBoard.instantiateViewControllerWithIdentifier("ProfileViewController") as! ProfileViewController
         vc.userId = id
