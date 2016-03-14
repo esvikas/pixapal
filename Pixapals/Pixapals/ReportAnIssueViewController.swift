@@ -83,6 +83,8 @@ class ReportAnIssueViewController: UIViewController {
         blurEffectView.alpha = 0.4
         blurEffectView.frame = view.bounds
         self.view.addSubview(blurEffectView)
+        self.navigationItem.hidesBackButton = true
+        self.view.userInteractionEnabled=false
         
         let loadingNotification = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
         loadingNotification.mode = MBProgressHUDMode.Indeterminate
@@ -90,6 +92,9 @@ class ReportAnIssueViewController: UIViewController {
         
         APIManager(requestType: RequestType.WithXAuthTokenInHeader, urlString: urlString, parameters: parameters).handleResponse(
             { (getFeed: SuccessFailJSON) -> Void in
+                
+                self.navigationItem.hidesBackButton = false
+                self.view.userInteractionEnabled=true
                 if !getFeed.error! {
                     PixaPalsErrorType.ReportIssueSuccessful.show(self, afterCompletion: {
                         self.navigationController?.popViewControllerAnimated(true)
@@ -102,6 +107,8 @@ class ReportAnIssueViewController: UIViewController {
             }, errorBlock: {self}, onResponse: {
                 loadingNotification.removeFromSuperview()
                 blurEffectView.removeFromSuperview()
+                self.navigationItem.hidesBackButton = false
+                self.view.userInteractionEnabled=true
             }
         )
         
