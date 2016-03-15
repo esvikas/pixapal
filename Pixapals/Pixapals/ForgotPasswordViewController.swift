@@ -41,6 +41,8 @@ class ForgotPasswordViewController: UIViewController {
             loadingNotification.mode = MBProgressHUDMode.Indeterminate
             loadingNotification.labelText = "Sending an Email"
             
+            (self.disableBackButtonAndUserInteraction())(true)
+            
             let parameters: [String: AnyObject] = ["email": emailTextField.text!]
             APIManager(requestType: RequestType.WithDeviceTokenInParam, urlString: URLType.ForgotPassword.make(), parameters: parameters).handleResponse(
                 { (response: SuccessFailJSON) -> Void in
@@ -56,13 +58,21 @@ class ForgotPasswordViewController: UIViewController {
                 }) {
                     blurEffectView.removeFromSuperview()
                     loadingNotification.removeFromSuperview()
+                    (self.disableBackButtonAndUserInteraction())(false)
             }
         }else {
             button.enabled = true
             PixaPalsErrorType.InvalidEmailError.show(self)
         }
     }
-
+    
+    func disableBackButtonAndUserInteraction()->Bool -> Void{
+        return {
+            enable in
+            self.navigationItem.hidesBackButton = enable
+            self.view.userInteractionEnabled = !enable
+        }
+    }
     /*
     // MARK: - Navigation
 

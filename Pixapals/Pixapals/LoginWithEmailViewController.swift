@@ -56,6 +56,8 @@
         loadingNotification.mode = MBProgressHUDMode.Indeterminate
         loadingNotification.labelText = "Logging In"
         
+        self.navigationItem.hidesBackButton = true
+        
         let loginUrlString = URLType.LoginWithEmail.make()
         
         //        let validator = Validator()
@@ -100,6 +102,7 @@
                     
                 }
             }, errorBlock: {self}) {
+                self.navigationItem.hidesBackButton = false
                 MBProgressHUD.hideAllHUDsForView(self.view, animated: true)
                 self.blurEffectView.removeFromSuperview()
         }

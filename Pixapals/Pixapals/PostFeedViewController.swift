@@ -336,7 +336,7 @@ scrollView.contentOffset = CGPoint(x: 0, y: 0)
     }
     
     func textViewDidBeginEditing(textView: UITextView) {
-scrollView.scrollEnabled=false
+        scrollView.scrollEnabled=false
         if commentTextField.text == "Comments" {
             commentTextField.text=""
 

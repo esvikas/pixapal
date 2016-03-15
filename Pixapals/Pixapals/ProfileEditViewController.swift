@@ -239,14 +239,26 @@ class ProfileEditViewController: UIViewController, UINavigationControllerDelegat
             PixaPalsErrorType.InvalidEmailError.show(self)
             return
         }
-        if newPasswordTextField != nil && conformPasswordTextField != nil {
+        if (newPasswordTextField.text! != "" || conformPasswordTextField.text! != "") || (oldPasswordTextField.text! != ""){
+            func emptyTextFields(){
+                conformPasswordTextField.text=""
+                newPasswordTextField.text=""
+                oldPasswordTextField.text=""
+            }
+            if oldPasswordTextField.text! == "" {
+                emptyTextFields()
+                PixaPalsErrorType.EmptyPasswordFieldError.show(self, message: "Old Password field is required.")
+            }
+            if newPasswordTextField.text! == ""{
+                PixaPalsErrorType.EmptyPasswordFieldError.show(self)
+                emptyTextFields()
+                return
+            }
             if newPasswordTextField.text != conformPasswordTextField.text {
                 
                 PixaPalsErrorType.PasswordNotConfirmedError.show(self)
                 //appDelegate.ShowAlertView("Sorry", message: "Password didn't match")
-                conformPasswordTextField.text=""
-                newPasswordTextField.text=""
-                oldPasswordTextField.text=""
+                emptyTextFields()
                 return
             }}
         
@@ -269,6 +281,10 @@ class ProfileEditViewController: UIViewController, UINavigationControllerDelegat
         let loadingNotification = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
         loadingNotification.mode = MBProgressHUDMode.Indeterminate
         loadingNotification.labelText = "Updating"
+        
+        self.navigationItem.hidesBackButton = true
+        newDoneButton.enabled=false
+        newBackButton.enabled=false
         
         
         let urlString = URLType.ProfileUpdate.make()
@@ -327,10 +343,13 @@ class ProfileEditViewController: UIViewController, UINavigationControllerDelegat
                     PixaPalsErrorType.CantAuthenticateError.show(self, title: nil, message: message())
                 }
             }, errorBlock: {self}, onResponse: {
+                //self.navigationItem.hidesBackButton = false
+                self.newDoneButton.enabled=true
+                self.newBackButton.enabled=true
                 MBProgressHUD.hideAllHUDsForView(self.view, animated: true)
                 self.blurEffectView.removeFromSuperview()
             }
-        )
+            )
         
 //        requestWithHeaderXAuthToken(.POST, urlString, parameters: parameters)
 //            .responseJSON { response in

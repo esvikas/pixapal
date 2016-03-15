@@ -48,7 +48,7 @@ class SocialFeedersViewController: UIViewController {
     
     func getDataFrom() {
         
-        self.checkFbLogin {
+        self.checkFbLogin {loginManager in
             let url = URLType.FaceBookFriends.make()
             let parameters: [String: AnyObject] =
             [
@@ -81,7 +81,10 @@ class SocialFeedersViewController: UIViewController {
                             func message() -> String? {
                                 if let message = feedersFriendsJSON.message {
                                     let msg = message.reduce("", combine: {
-                                        $0 + "\n" + $1
+                                        if $1 == "This facebook is already used." && loginManager != nil{
+                                            loginManager!.logOut()
+                                        }
+                                       return $0 + "\n" + $1
                                     })
                                     return msg
                                 }
@@ -148,12 +151,13 @@ class SocialFeedersViewController: UIViewController {
         return (loading, view)
     }
     
-    func checkFbLogin(completionHandler: () -> ()){
+    func checkFbLogin(completionHandler: (FBSDKLoginManager?) -> ()){
         //print(FBSDKAccessToken.currentAccessToken()?.tokenString)
         //print(FBSDKAccessToken.currentAccessToken()?.userID)
         
         FBSDKAccessToken.refreshCurrentAccessToken(nil)
-        if FBSDKAccessToken.currentAccessToken().expirationDate.compare(NSDate()) == NSComparisonResult.OrderedAscending {
+        
+        func fbLogin() {
             let fbLoginManager = FBSDKLoginManager()
             fbLoginManager.logInWithReadPermissions(["public_profile", "email", "user_friends"], fromViewController: self, handler: {
                 (result, error) -> Void in
@@ -174,13 +178,19 @@ class SocialFeedersViewController: UIViewController {
                     if(fbloginresult.grantedPermissions.contains("user_friends"))
                     {
                         //getFBUserData()
-                        completionHandler()
+                        completionHandler(fbLoginManager)
                     }
                 }
             })
+        }
+        if FBSDKAccessToken.currentAccessToken() == nil {
+            fbLogin()
         } else {
-            //getFBUserData()
-            completionHandler()
+            if FBSDKAccessToken.currentAccessToken().expirationDate.compare(NSDate()) == NSComparisonResult.OrderedAscending {
+                fbLogin()
+            }else {
+                completionHandler(nil)
+            }
         }
     }
     

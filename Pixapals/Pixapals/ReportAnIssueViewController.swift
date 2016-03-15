@@ -9,14 +9,14 @@
 import UIKit
 import Spring
 import SevenSwitch
-import Alamofire
 import MBProgressHUD
 
 class ReportAnIssueViewController: UIViewController {
     
     @IBOutlet weak var btnSelectRelatedTo: DesignableButton!
     @IBOutlet weak var iEnsureSwitch: SevenSwitch!
-    @IBOutlet weak var txtComment: UITextField!
+    @IBOutlet weak var lblLetterCount: UILabel!
+    @IBOutlet weak var txtComment: DesignableTextView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -83,6 +83,7 @@ class ReportAnIssueViewController: UIViewController {
         blurEffectView.alpha = 0.4
         blurEffectView.frame = view.bounds
         self.view.addSubview(blurEffectView)
+        
         self.navigationItem.hidesBackButton = true
         self.view.userInteractionEnabled=false
         
@@ -153,4 +154,34 @@ extension ReportAnIssueViewController: UIPopoverPresentationControllerDelegate {
         controller: UIPresentationController) -> UIModalPresentationStyle {
             return .None
     }
+}
+
+extension ReportAnIssueViewController: UITextViewDelegate {
+
+    func textView(textView: UITextView, shouldChangeTextInRange range: NSRange, replacementText text: String) -> Bool {
+        
+        let currentCharacterCount = textView.text?.characters.count ?? 0
+        if (range.length + range.location > currentCharacterCount){
+            return false
+        }
+        let newLength = currentCharacterCount + text.characters.count - range.length
+        return newLength <= 240
+        
+    }
+    
+    
+    func textViewDidChange(textView: UITextView) {
+        
+        
+        //print(commentTextField.text.characters.count)
+        
+        lblLetterCount.text="\(240 - txtComment.text.characters.count) Characters Left"
+    }
+    
+    func textViewDidBeginEditing(textView: UITextView) {
+        if txtComment.text == "Comments" {
+            txtComment.text=""
+        }
+    }
+
 }
