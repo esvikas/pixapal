@@ -73,10 +73,9 @@ class NotificationViewController: UIViewController {
     }
     */
     private func removeBadge(){
-        let tabArray = self.tabBarController?.tabBar.items as NSArray!
-        let tabItem = tabArray.objectAtIndex(3) as! UITabBarItem
-        tabItem.badgeValue = nil
-        appDelegate.numberOfNotificationBadge = nil
+        if let tabBarController = self.tabBarController as? CustomTabBarController {
+            tabBarController.reduceBadge(notificationLimit)
+        }
     }
     func refresh(sender:AnyObject) {
         pullToRefresh.endRefreshing()
@@ -117,6 +116,8 @@ class NotificationViewController: UIViewController {
                     PixaPalsErrorType.NoDataFoundError.show(self)
                     //showAlertView("Error", message: "Server Not Found. Try again.", controller: self)
                 } else {
+                    self.removeBadge()
+                    appDelegate.getNotificationCount()
                     if let _ = self.notifications {
                         if self.refreshingStatus == true {
                             self.refreshingStatus = false

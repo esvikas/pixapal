@@ -86,10 +86,8 @@ class GlobalFeedsViewController: UIViewController {
     }
     
     private func notificationTabItemBadge() {
-        if let numberOfNotificationBadge = appDelegate.numberOfNotificationBadge {
-            let tabArray = self.tabBarController?.tabBar.items as NSArray!
-            let tabItem = tabArray.objectAtIndex(3) as! UITabBarItem
-            tabItem.badgeValue = String(numberOfNotificationBadge)
+        if let tabBarController = self.tabBarController as? CustomTabBarController {
+            tabBarController.changeBadge()
         }
     }
     
@@ -523,8 +521,8 @@ extension GlobalFeedsViewController: UITableViewDelegate {
         let feed = self.feedsFromResponseAsObject.feeds![section]
         let cell = tableView.dequeueReusableCellWithIdentifier("globalFeedTableViewHeaderCell") as! GlobalFeedTableViewHeaderCell
         cell.userProfilePic.kf_setImageWithURL(NSURL(string: feed.user!.photo_thumb!)!, placeholderImage: cell.userProfilePic.image)
-        cell.username.text = (feed.user!.is_my_profile!) ? (feed.user?.username)! + " (YOU)" : feed.user?.username
-        //cell.username.text = feed.user?.username
+        //cell.username.text = (feed.user!.is_my_profile!) ? (feed.user?.username)! + " (YOU)" : feed.user?.username
+        cell.username.text = feed.user?.username
         cell.id = feed.user?.id
         cell.delegate = self
         if let createdAt = feed.created_at {

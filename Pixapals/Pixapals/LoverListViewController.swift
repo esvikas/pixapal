@@ -56,7 +56,7 @@ extension LoverListViewController: UITableViewDataSource {
         let user = users[indexPath.row]
         cell.user = user
         if user.is_my_profile! {
-            cell.username.text = user.username! + " (YOU)"
+            cell.username.text = user.username! + " (You)"
         }else {
             cell.username.text = user.username
         }

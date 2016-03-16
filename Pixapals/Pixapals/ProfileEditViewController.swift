@@ -247,10 +247,10 @@ class ProfileEditViewController: UIViewController, UINavigationControllerDelegat
             }
             if oldPasswordTextField.text! == "" {
                 emptyTextFields()
-                PixaPalsErrorType.EmptyPasswordFieldError.show(self, message: "Old Password field is required.")
+                PixaPalsErrorType.EmptyPasswordFieldError.show(self, message: "Old Password is required.")
             }
             if newPasswordTextField.text! == ""{
-                PixaPalsErrorType.EmptyPasswordFieldError.show(self)
+                PixaPalsErrorType.EmptyPasswordFieldError.show(self, message: "New password is required.")
                 emptyTextFields()
                 return
             }

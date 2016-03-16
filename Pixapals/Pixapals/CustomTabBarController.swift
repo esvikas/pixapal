@@ -8,6 +8,11 @@
 
 import UIKit
 
+protocol CustomTabBarControllerDelegate {
+    func fromNotificationClick()
+    func changeBadge()
+}
+
 class CustomTabBarController: UITabBarController {
     var counter: Bool = false
     
@@ -15,6 +20,7 @@ class CustomTabBarController: UITabBarController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        appDelegate.tabBarDelegate = self
         //self.navigationItem.hidesBackButton = true
         
         //self.selectedViewController?.tabBarItem
@@ -51,12 +57,50 @@ class CustomTabBarController: UITabBarController {
             controllers?.insert(controller, atIndex: 1)
             self.viewControllers = controllers
         }
+        changeBadge()
         if appDelegate.fromNotification {
             appDelegate.fromNotification = false
             self.selectedIndex = 3
         }
     }
+    
+    func changeBadge() {
+        if let numberOfNotificationBadge = appDelegate.numberOfNotificationBadge {
+            let tabArray = self.tabBar.items as NSArray!
+            let tabItem = tabArray.objectAtIndex(3) as! UITabBarItem
+            tabItem.badgeValue = String(numberOfNotificationBadge)
+            if numberOfNotificationBadge <= 0 {
+                self.removeBadge()
+            }
+        }
+    }
+    
+    func removeBadge(){
+        let tabArray = self.tabBar.items as NSArray!
+        let tabItem = tabArray.objectAtIndex(3) as! UITabBarItem
+        tabItem.badgeValue = nil
+        appDelegate.numberOfNotificationBadge = nil
+    }
+    func reduceBadge(by: Int) {
+        if let numberOfNotificationBadge = appDelegate.numberOfNotificationBadge {
+            let tabArray = self.tabBar.items as NSArray!
+            let tabItem = tabArray.objectAtIndex(3) as! UITabBarItem
+            appDelegate.numberOfNotificationBadge = appDelegate.numberOfNotificationBadge! - by
+            if appDelegate.numberOfNotificationBadge! <= 0 {
+                self.removeBadge()
+            }
+            tabItem.badgeValue = String(numberOfNotificationBadge - by)
+        }
+    }
 }
+
+extension CustomTabBarController: CustomTabBarControllerDelegate {
+    func fromNotificationClick() {
+        appDelegate.fromNotification = false
+        self.selectedIndex = 3
+    }
+}
+
 extension UIImage {
     
     class func imageWithColor(color: UIColor, size: CGSize) -> UIImage {

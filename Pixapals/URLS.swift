@@ -30,6 +30,7 @@ enum URLType: String {
     case Login = "login"
     case FaceBookFriends = "friends-list"
     case ForgotPassword = "forget-password"
+    case NotificationCount = "unread-notification-count"
     
     func make()-> String{
         let apiUrl = "http://pixapals.com/API/public/"

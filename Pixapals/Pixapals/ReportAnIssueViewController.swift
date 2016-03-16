@@ -60,7 +60,7 @@ class ReportAnIssueViewController: UIViewController {
             return
         }
         
-        if comment.isEmpty {
+        if comment.isEmpty || comment == "Comments .." {
             PixaPalsErrorType.CommentBoxIsEmptyError.show(self)
             return
         }
@@ -179,7 +179,7 @@ extension ReportAnIssueViewController: UITextViewDelegate {
     }
     
     func textViewDidBeginEditing(textView: UITextView) {
-        if txtComment.text == "Comments" {
+        if txtComment.text == "Comments .." {
             txtComment.text=""
         }
     }
