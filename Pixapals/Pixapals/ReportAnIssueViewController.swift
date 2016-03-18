@@ -13,14 +13,23 @@ import MBProgressHUD
 
 class ReportAnIssueViewController: UIViewController {
     
+    enum ReportType {
+        case User(Int), Feed(Int), App
+    }
+    
     @IBOutlet weak var btnSelectRelatedTo: DesignableButton!
     @IBOutlet weak var iEnsureSwitch: SevenSwitch!
     @IBOutlet weak var lblLetterCount: UILabel!
     @IBOutlet weak var txtComment: DesignableTextView!
+    @IBOutlet weak var lblComment: UILabel!
+    
+    @IBOutlet weak var dropDownView: UIView!
+    
+    var type: ReportType = .App
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        self.checkShouldHideOrUnhideDropDown()
         // Do any additional setup after loading the view.
     }
     
@@ -55,11 +64,12 @@ class ReportAnIssueViewController: UIViewController {
         let comment = txtComment.text!
         let issue_type = btnSelectRelatedTo.titleLabel?.text
         
-        if !["Spam or Abuse","Something Isn't Working","General Feedback"].contains(issue_type!) {
-            PixaPalsErrorType.RelatedToNotSelectedError.show(self)
-            return
+        if case ReportType.App = self.type {
+            if !["Spam or Abuse","Something Isn't Working","General Feedback"].contains(issue_type!) {
+                PixaPalsErrorType.RelatedToNotSelectedError.show(self)
+                return
+            }
         }
-        
         if comment.isEmpty || comment == "Comments .." {
             PixaPalsErrorType.CommentBoxIsEmptyError.show(self)
             return
@@ -70,13 +80,27 @@ class ReportAnIssueViewController: UIViewController {
             return
         }
         
-        let urlString = URLType.AppIssue.make()
-        
-        let parameters: [String: AnyObject] =
+        var urlString = URLType.AppIssue.make()
+        var parameters: [String: AnyObject] =
         [
             "issue_type": issue_type!,
             "comment": comment,
         ]
+        
+        
+        switch self.type {
+        case .App: break
+        case .Feed(let id):
+            urlString = URLType.BlockUserFeed.make()
+            parameters =
+                [
+                    "type" : "post",
+                    "blocked_id" : id,
+                    "comments" : comment
+            ]
+        case .User(let id):
+            parameters["commented_user_id"] = id
+        }
         
         
         let blurEffectView = UIVisualEffectView(effect: UIBlurEffect(style: UIBlurEffectStyle.ExtraLight))
@@ -98,6 +122,13 @@ class ReportAnIssueViewController: UIViewController {
                 self.view.userInteractionEnabled=true
                 if !getFeed.error! {
                     PixaPalsErrorType.ReportIssueSuccessful.show(self, afterCompletion: {
+//                        switch self.type{
+//                        case .User(let id):
+//                            UserFeedDistinction.sharedInstance.removeUserWithId(id)
+//                        case .Feed(let id):
+//                            UserFeedDistinction.sharedInstance.removeFeedWithId(id)
+//                        case .App: break
+//                        }
                         self.navigationController?.popViewControllerAnimated(true)
                     })
                     //print("Reporting issue")
@@ -113,22 +144,44 @@ class ReportAnIssueViewController: UIViewController {
             }
         )
         
-//        requestWithHeaderXAuthToken(.POST, urlString, parameters: parameters).responseObject { (response: Response<SuccessFailJSON, NSError>) -> Void in
-//            loadingNotification.removeFromSuperview()
-//            blurEffectView.removeFromSuperview()
-//            switch response.result {
-//            case .Success(let getFeed):
-//                if !getFeed.error! {
-//                    PixaPalsErrorType.ReportIssueSuccessful.show(self)
-//                    //print("Reporting issue")
-//                } else {
-//                    print("Error: reporting error")
-//                    PixaPalsErrorType.CantReportIssueError.show(self)
-//                }
-//            case .Failure(let error):
-//                PixaPalsErrorType.ConnectionError.show(self)
-//            }
-//        }
+        //        requestWithHeaderXAuthToken(.POST, urlString, parameters: parameters).responseObject { (response: Response<SuccessFailJSON, NSError>) -> Void in
+        //            loadingNotification.removeFromSuperview()
+        //            blurEffectView.removeFromSuperview()
+        //            switch response.result {
+        //            case .Success(let getFeed):
+        //                if !getFeed.error! {
+        //                    PixaPalsErrorType.ReportIssueSuccessful.show(self)
+        //                    //print("Reporting issue")
+        //                } else {
+        //                    print("Error: reporting error")
+        //                    PixaPalsErrorType.CantReportIssueError.show(self)
+        //                }
+        //            case .Failure(let error):
+        //                PixaPalsErrorType.ConnectionError.show(self)
+        //            }
+        //        }
+    }
+    
+    func checkShouldHideOrUnhideDropDown(){
+        
+        self.hideUnhideDropDown()(true)
+        
+        switch type {
+        case .App:
+            self.hideUnhideDropDown()(false)
+        case .User:
+            self.lblComment.text = "Why are you reporting this user?"
+            
+        case .Feed:
+            self.lblComment.text = "Why are you reporting this feed?"
+        }
+    }
+    
+    func hideUnhideDropDown() -> Bool -> Void {
+        return {
+            hide in
+            self.dropDownView.hidden = hide
+        }
     }
     /*
     // MARK: - Navigation
@@ -157,7 +210,7 @@ extension ReportAnIssueViewController: UIPopoverPresentationControllerDelegate {
 }
 
 extension ReportAnIssueViewController: UITextViewDelegate {
-
+    
     func textView(textView: UITextView, shouldChangeTextInRange range: NSRange, replacementText text: String) -> Bool {
         
         let currentCharacterCount = textView.text?.characters.count ?? 0
@@ -183,5 +236,5 @@ extension ReportAnIssueViewController: UITextViewDelegate {
             txtComment.text=""
         }
     }
-
+    
 }

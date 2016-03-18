@@ -57,7 +57,7 @@ class NotificationViewController: UIViewController {
     }
     
     override func viewDidAppear(animated: Bool) {
-        self.removeBadge()
+        //self.removeBadge()
     }
     override func viewWillAppear(animated: Bool) {
         self.tabBarController?.navigationItem.rightBarButtonItem = UIBarButtonItem()
@@ -116,7 +116,6 @@ class NotificationViewController: UIViewController {
                     PixaPalsErrorType.NoDataFoundError.show(self)
                     //showAlertView("Error", message: "Server Not Found. Try again.", controller: self)
                 } else {
-                    self.removeBadge()
                     appDelegate.getNotificationCount()
                     if let _ = self.notifications {
                         if self.refreshingStatus == true {

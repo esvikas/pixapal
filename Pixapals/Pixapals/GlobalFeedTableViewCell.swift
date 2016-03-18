@@ -31,8 +31,9 @@ class GlobalFeedTableViewCell: UITableViewCell {
     @IBOutlet weak var leftIcon: UIImageView!
     
     @IBOutlet var loadingView: SpringView!
-
+    @IBOutlet weak var moreButton: UIButton!
     
+    var feedId: Int!
     var id: Int!
     var loved : Bool!
     var left : Bool!
@@ -47,7 +48,7 @@ class GlobalFeedTableViewCell: UITableViewCell {
         // Initialization code
         
         loadingView.showLoading()
-
+        
         let swipeRight = UISwipeGestureRecognizer(target: self, action: "respondToSwipeGesture:")
         swipeRight.direction = UISwipeGestureRecognizerDirection.Right
         self.addGestureRecognizer(swipeRight)
@@ -115,17 +116,17 @@ class GlobalFeedTableViewCell: UITableViewCell {
                     
                     print(mode)
                     if mode == 1 {
-                    DynamicView.image=UIImage(named: "leaveit")
+                        DynamicView.image=UIImage(named: "leaveit")
                         
                     } else {
                         
                         DynamicView.image=UIImage(named: "loveit2")
-        
-
+                        
+                        
                     }
                     
-                DynamicView.frame=(frame: CGRectMake(self.feedImage.layer.frame.origin.x, self.feedImage.layer.frame.origin.y, self.feedImage.frame.width, self.feedImage.frame.height))
-  
+                    DynamicView.frame=(frame: CGRectMake(self.feedImage.layer.frame.origin.x, self.feedImage.layer.frame.origin.y, self.feedImage.frame.width, self.feedImage.frame.height))
+                    
                     self.DynamicView.hidden=false
                     
                     UIView.animateWithDuration(0.5, delay: 0.1, options: .CurveEaseIn, animations: { () -> Void in
@@ -161,5 +162,66 @@ class GlobalFeedTableViewCell: UITableViewCell {
                 break
             }
         }
+    }
+    
+    @IBAction func moreButton(sender: AnyObject) {
+        //        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        //        let vc = storyboard.instantiateViewControllerWithIdentifier("SelectionViewController") as! SelectionViewController
+        //        vc.delegate = self
+        //        vc.options = ["Spam or Abuse","Something Isn't Working","General Feedback"]
+        //
+        //        //let nav = UINavigationController(rootViewController: vc)
+        //        //nav.modalPresentationStyle = UIModalPresentationStyle.Popover
+        //        //let popover = nav.popoverPresentationController!
+        //        vc.modalPresentationStyle = UIModalPresentationStyle.Popover
+        //        let popover = vc.popoverPresentationController!
+        //
+        //        //let popover = UIPopoverPresentationController(presentedViewController: vc, presentingViewController: self)
+        let viewControllerInWhichToDisplay = appDelegate.getCurrentViewController() as! UINavigationController
+        //        vc.preferredContentSize = CGSizeMake(viewControllerInWhichToDisplay!.view.layer.frame.width, 44.0 * CGFloat(vc.options.count) + 8)
+        //        popover.delegate = self
+        //        popover.sourceView = self.loveIcon
+        //        popover.sourceRect = self.loveIcon.frame
+        //                popover.sourceRect = CGRect(x: self.moreButton.frame.origin.x, y: 0, width: viewControllerInWhichToDisplay!.view.frame.width, height: viewControllerInWhichToDisplay!.view.frame.height)
+        //viewControllerInWhichToDisplay!.presentViewController(vc, animated: true, completion: nil)
+        
+        
+        let popoverContent = (viewControllerInWhichToDisplay.storyboard?.instantiateViewControllerWithIdentifier("SelectionViewController"))! as! SelectionViewController
+        popoverContent.delegate = self
+        popoverContent.options = ["Spam or Abuse","Something Isn't Working","General Feedback"]
+        
+        //let nav = UINavigationController(rootViewController: popoverContent)
+        popoverContent.modalPresentationStyle = UIModalPresentationStyle.Popover
+        let popover = popoverContent.popoverPresentationController
+        
+        popoverContent.preferredContentSize = CGSizeMake(viewControllerInWhichToDisplay.view.layer.frame.width,170)
+        popover!.delegate = self
+        popover!.sourceView = viewControllerInWhichToDisplay.view
+        popover!.sourceRect = self.moreButton.frame
+        //viewControllerInWhichToDisplay!.presentViewController(popoverContent, animated: false, completion: nil)
+        
+        let actionsheet = UIAlertController(title: "Choose Action", message: "", preferredStyle: UIAlertControllerStyle.ActionSheet)
+        let cancel = UIAlertAction(title: "Cancel", style: .Default, handler: nil)
+        let report = UIAlertAction(title: "Report Feed", style: .Default, handler: { (_) -> Void in
+            let storyboard: UIStoryboard = UIStoryboard (name: "Main", bundle: nil)
+            let vc = storyboard.instantiateViewControllerWithIdentifier("ReportAnIssueViewController") as! ReportAnIssueViewController
+            vc.type = ReportAnIssueViewController.ReportType.Feed(self.feedId)
+            viewControllerInWhichToDisplay.pushViewController(vc, animated: true)
+        })
+        actionsheet.addAction(cancel)
+        actionsheet.addAction(report)
+        viewControllerInWhichToDisplay.presentViewController(actionsheet, animated: true, completion: nil)
+    }
+}
+extension GlobalFeedTableViewCell: SelectionViewControllerDelegate {
+    func selectedOptionText(text: String) {
+        
+    }
+}
+
+extension GlobalFeedTableViewCell: UIPopoverPresentationControllerDelegate {
+    func adaptivePresentationStyleForPresentationController(
+        controller: UIPresentationController) -> UIModalPresentationStyle {
+            return .None
     }
 }

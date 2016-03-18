@@ -108,6 +108,18 @@ class UserFeedDistinction {
         return nil
     }
     
+    func removeUserWithId(id: Int) {
+        self.users  = self.users.filter({ (user) -> Bool in
+            user.id! != id
+        })
+    }
+    
+    func removeFeedWithId(id: Int) {
+        self.feeds  = self.feeds.filter({ (feed) -> Bool in
+            feed.id! != id
+        })
+    }
+    
 }
 
 class FeedsResponseJSON: Mappable {

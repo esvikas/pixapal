@@ -366,10 +366,12 @@ extension DetailVIewViewController: UITableViewDataSource {
         //        } else {
         //            cell.feedImage2.hidden = true
         //        }
-        
+        if feed!.is_my_feed! {
+            cell.moreButton.hidden = true
+        }
         cell.delegate = self
         cell.selectionStyle =  UITableViewCellSelectionStyle.None
-        
+        cell.feedId = feed!.id
         cell.id = feed!.id
         cell.left = feed!.is_my_left
         cell.loved = feed!.is_my_love

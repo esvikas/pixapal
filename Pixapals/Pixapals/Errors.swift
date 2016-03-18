@@ -64,6 +64,7 @@ enum ReportIssueErrorMessage: String {
     case RelatedToNotSelectedErrorMessage = "Related to required. Please select an option."
     case ReportIssueSuccessfulMessage = "Thank you! the issue is received. We will try to resolve the issue as soon as possible."
     case ReportNotEnsuredErrorMessage = "Ensure that the report is legit and valid one."
+    case CantBlockTheUserErrorMessage = "Can't block the user."
 }
 
 //find feeders error
@@ -154,6 +155,7 @@ enum PixaPalsErrorType {
     case RelatedToNotSelectedError
     case ReportIssueSuccessful
     case ReportNotEnsuredError
+    case CantBlockTheUserError
     
     //find feeders error
     case CantFindFeedersError
@@ -223,6 +225,8 @@ enum PixaPalsErrorType {
                     return ReportIssueErrorMessage.ReportNotEnsuredErrorMessage.rawValue
                 case .CantFindFeedersError:
                     return FindFeedersErrorMessage.CantFindFeedersErrorMessage.rawValue
+                case .CantBlockTheUserError:
+                    return ReportIssueErrorMessage.CantBlockTheUserErrorMessage.rawValue
                 }
             }()
         }

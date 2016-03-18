@@ -68,6 +68,15 @@ public class APIManager{
         request.responseJSON { (response) -> Void in
             self.responseHandling(response, completionHandler: completionHandler, errorBlock: errorBlock, onResponse: onResponse)
         }
+        self.request.responseJSON{ (response) -> Void in
+            print(response.request)
+            switch response.result {
+            case .Failure(let error):
+                print(error)
+            case .Success(let val):
+                print(val)
+            }
+        }
     }
     
     private func responseHandling<T> (response: Response<T, NSError>, completionHandler: (T)-> Void, errorBlock: ()-> UIViewController, onResponse: (Void -> Void)? = nil) {

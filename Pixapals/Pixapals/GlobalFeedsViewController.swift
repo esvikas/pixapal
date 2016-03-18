@@ -434,11 +434,19 @@ extension GlobalFeedsViewController: UITableViewDataSource {
         
         cell.delegate = self
         
+        cell.feedId = feed.id
         cell.id = indexPath.section
         cell.left = feed.is_my_left
         cell.loved = feed.is_my_love
         cell.mode = feed.mode
-        print(feed.mode)
+        
+        if feed.is_my_feed! {
+            cell.moreButton.hidden = true
+        }else {
+            cell.moreButton.hidden = false
+        }
+        print(feed.is_my_feed)
+        
         cell.selectionStyle =  UITableViewCellSelectionStyle.None
         
         cell.loveCount.text = "\(feed.loveit ?? 0) Loved it"
