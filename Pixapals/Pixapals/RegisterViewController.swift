@@ -154,6 +154,11 @@ class RegisterViewController: UIViewController, UIPopoverControllerDelegate, UIP
         let loadingNotification = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
         loadingNotification.mode = MBProgressHUDMode.Indeterminate
         loadingNotification.labelText = "Registering"
+        
+        self.navigationItem.hidesBackButton = true
+        self.view.userInteractionEnabled=false
+        self.navigationItem.rightBarButtonItem?.enabled = false
+
 
         APIManager(requestType: RequestType.WithDeviceTokenInParam, urlString: registerUrlString, parameters:  parameters).giveResponseJSON({ (data) -> Void in
             if let dict = data["user"] as? [String: AnyObject] {
@@ -185,6 +190,9 @@ class RegisterViewController: UIViewController, UIPopoverControllerDelegate, UIP
             }, errorBlock: {self}) {
                 MBProgressHUD.hideAllHUDsForView(self.view, animated: true)
                 blurEffectView.removeFromSuperview()
+                self.navigationItem.hidesBackButton = false
+                self.view.userInteractionEnabled = true
+                self.navigationItem.rightBarButtonItem?.enabled = true
         }
 //        requestWithDeviceTokenInParam(.POST, registerUrlString, parameters: parameters)
 //            .responseJSON { response in

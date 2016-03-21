@@ -26,6 +26,7 @@ enum URLType: String {
     case Register = "register"
     case AppIssue = "app/issue"
     case PreferencesPost = "preference/set"
+    case PreferenceGet = "preference/get/"
     case Logout = "profile/logout"
     case Login = "login"
     case FaceBookFriends = "friends-list"

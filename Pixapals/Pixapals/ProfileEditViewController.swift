@@ -333,7 +333,12 @@ class ProfileEditViewController: UIViewController, UINavigationControllerDelegat
                     func message() -> String? {
                         if let message = data["message"] as? [String] {
                             let msg = message.reduce("", combine: {
-                                $0 + "\n" + $1
+                                if $1 == "Old password didn't match." {
+                                    self.oldPasswordTextField.text = ""
+                                    self.newPasswordTextField.text = ""
+                                    self.conformPasswordTextField.text = ""	
+                                }
+                                return $0 + "\n" + $1
                             })
                             return msg
                         }

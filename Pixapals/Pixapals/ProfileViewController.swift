@@ -183,42 +183,14 @@ class ProfileViewController: UIViewController {
             self.navigationController?.pushViewController(vc, animated: true)
         })
         let block = UIAlertAction(title: "Block User", style: UIAlertActionStyle.Destructive) { (_) -> Void in
-            let urlString = URLType.BlockUserFeed.make()
-            let parameters: [String: AnyObject] =
-                [
-                    "type" : "user",
-                    "blocked_id" : String(self.userId!),
-                    "comments" : "User Block"
-            ]
-            
-            let blurEffectView = UIVisualEffectView(effect: UIBlurEffect(style: UIBlurEffectStyle.ExtraLight))
-            blurEffectView.alpha = 0.4
-            blurEffectView.frame = self.view.bounds
-            self.view.addSubview(blurEffectView)
-            
-            self.navigationItem.hidesBackButton = true
-            self.view.userInteractionEnabled=false
-            
-            let loadingNotification = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
-            loadingNotification.mode = MBProgressHUDMode.Indeterminate
-            loadingNotification.labelText = "Blocking User"
-
-            APIManager(requestType: RequestType.WithXAuthTokenInHeader, urlString: urlString, parameters:  parameters).handleResponse({ (successOrFail: SuccessFailJSON) -> Void in
-                self.navigationItem.hidesBackButton = false
-                self.view.userInteractionEnabled=true
-                if successOrFail.error! {
-                    PixaPalsErrorType.CantBlockTheUserError.show(self)
-                }else {
-                    PixaPalsErrorType.ReportIssueSuccessful.show(self, title: "User Blocked", message: "User is blocked successfully.")
-                    self.btnEdit.setTitle("Blocked", forState: .Disabled)
-                    self.btnEdit.enabled = false
-                }
-                }, errorBlock: {self}, onResponse: {
-                    loadingNotification.removeFromSuperview()
-                    blurEffectView.removeFromSuperview()
-                    self.navigationItem.hidesBackButton = false
-                    self.view.userInteractionEnabled=true
+            let alertView = UIAlertController(title: "Confirmation", message: "Are you sure want to block?", preferredStyle: UIAlertControllerStyle.Alert)
+            let okAction = UIAlertAction(title: "Yes", style: .Destructive, handler: { _ in
+                self.blockUser()
             })
+            let cancelAction = UIAlertAction(title: "Cancel", style: .Default, handler: nil)
+            alertView.addAction(okAction)
+            alertView.addAction(cancelAction)
+            self.presentViewController(alertView, animated: true, completion: nil)
         }
         
         actionsheet.addAction(cancel)
@@ -227,6 +199,46 @@ class ProfileViewController: UIViewController {
         self.presentViewController(actionsheet, animated: true, completion: nil)
     }
     
+    func blockUser(){
+        let urlString = URLType.BlockUserFeed.make()
+        let parameters: [String: AnyObject] =
+        [
+            "type" : "user",
+            "blocked_id" : String(self.userId!),
+            "comments" : "User Block"
+        ]
+        
+        let blurEffectView = UIVisualEffectView(effect: UIBlurEffect(style: UIBlurEffectStyle.ExtraLight))
+        blurEffectView.alpha = 0.4
+        blurEffectView.frame = self.view.bounds
+        self.view.addSubview(blurEffectView)
+        
+        self.navigationItem.hidesBackButton = true
+        self.view.userInteractionEnabled=false
+        self.navigationItem.rightBarButtonItem?.enabled = false
+        
+        let loadingNotification = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
+        loadingNotification.mode = MBProgressHUDMode.Indeterminate
+        loadingNotification.labelText = "Blocking User"
+        
+        APIManager(requestType: RequestType.WithXAuthTokenInHeader, urlString: urlString, parameters:  parameters).handleResponse({ (successOrFail: ReportResponseJSON) -> Void in
+            self.navigationItem.hidesBackButton = false
+            self.view.userInteractionEnabled=true
+            if successOrFail.error! {
+                PixaPalsErrorType.CantBlockTheUserError.show(self, title: "Error", message: successOrFail.message.first, afterCompletion: nil)
+            }else {
+                PixaPalsErrorType.ReportIssueSuccessful.show(self, title: "User Blocked", message: "User is blocked successfully.")
+                self.btnEdit.setTitle("Blocked", forState: .Disabled)
+                self.btnEdit.enabled = false
+            }
+            }, errorBlock: {self}, onResponse: {
+                loadingNotification.removeFromSuperview()
+                blurEffectView.removeFromSuperview()
+                self.navigationItem.hidesBackButton = false
+                self.view.userInteractionEnabled=true
+                self.navigationItem.rightBarButtonItem?.enabled = true
+        })
+    }
     func checkIfUserIsMyFed() {
         self.btnEdit.enabled = true
         if let userId = userId {

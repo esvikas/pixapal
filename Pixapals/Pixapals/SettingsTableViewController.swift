@@ -34,6 +34,7 @@ class SettingsTableViewController: UITableViewController {
         
         self.view.backgroundColor=UIColor(red: 240/255, green: 240/255, blue: 240/255, alpha: 1)
         reloadView()
+        self.getPreferencesData()
     }
     
     override func didReceiveMemoryWarning() {
@@ -45,6 +46,22 @@ class SettingsTableViewController: UITableViewController {
         
         reloadView()
         
+    }
+    func getPreferencesData(){
+        let url = URLType.PreferenceGet.make() + "\(UserDataStruct().id)"
+        APIManager(requestType: RequestType.WithXAuthTokenInHeader, urlString: url, method: .GET).giveResponseJSON({ (data) -> Void in
+            if let dict = data as? [String: AnyObject] {
+                if let errorStatus = dict["error"] as? Bool where !errorStatus {
+                    if let gender = dict["message"]?["gender"] as? String{
+                        nsUserDefault.setObject((gender == "") ? "All" : gender, forKey: "UserGenderForFilter")
+                    }
+                    if let region = dict["message"]?["region"]?["name"] as? String {
+                        nsUserDefault.setObject(region, forKey: "UserLocationForFilter")
+                    }
+                }
+            }
+            self.reloadView()
+            }, errorBlock: {self})
     }
     
     func reloadView(){
@@ -289,27 +306,27 @@ class SettingsTableViewController: UITableViewController {
         let registerUrlString = URLType.Logout.make()
         
         
-//        let headers = [
-//            "X-Auth-Token" : String(user.api_token!),
-//        ]
+        //        let headers = [
+        //            "X-Auth-Token" : String(user.api_token!),
+        //        ]
         
         APIManager(requestType: RequestType.WithXAuthTokenInHeader, urlString: registerUrlString, method: .GET).giveResponseJSON({_ in self.logOut()}, errorBlock:{self})
         
-//        Alamofire.request(.GET, registerUrlString, parameters: nil, headers:headers).responseJSON { response in
-//            print(response.request)
-//            switch response.result {
-//            case .Success( _ ):
-//                
-//                self.logOut()
-//                
-//                
-//            case .Failure(let error):
-//                //print("Error in connection \(error)")
-//                //showAlertView("Error", message: "Can't connect right now.Check your internet settings.", controller: self)
-//                PixaPalsErrorType.ConnectionError.show(self)
-//            }
-//        }
-//        print(headers)
+        //        Alamofire.request(.GET, registerUrlString, parameters: nil, headers:headers).responseJSON { response in
+        //            print(response.request)
+        //            switch response.result {
+        //            case .Success( _ ):
+        //
+        //                self.logOut()
+        //
+        //
+        //            case .Failure(let error):
+        //                //print("Error in connection \(error)")
+        //                //showAlertView("Error", message: "Can't connect right now.Check your internet settings.", controller: self)
+        //                PixaPalsErrorType.ConnectionError.show(self)
+        //            }
+        //        }
+        //        print(headers)
         
     }
     func logOut(){
