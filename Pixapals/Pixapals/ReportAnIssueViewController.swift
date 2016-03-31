@@ -39,24 +39,43 @@ class ReportAnIssueViewController: UIViewController {
     }
     
     @IBAction func relatedToButton(sender: AnyObject) {
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let vc = storyboard.instantiateViewControllerWithIdentifier("SelectionViewController") as! SelectionViewController
-        vc.delegate = self
-        vc.options = ["Spam or Abuse","Something Isn't Working","General Feedback"]
+        let alertViewController = UIAlertController(title: "Related to?", message: nil, preferredStyle: UIAlertControllerStyle.Alert)
+        let actionSpam = UIAlertAction(title: "Spam or abuse", style: .Default) { action -> Void in
+            self.btnSelectRelatedTo.setTitle(action.title, forState: .Normal)
+        }
+        let actionSthNotWorking = UIAlertAction(title: "Something isn't working", style: .Default) { action -> Void in
+            self.btnSelectRelatedTo.setTitle(action.title, forState: .Normal)
+        }
         
-        //let nav = UINavigationController(rootViewController: vc)
-        //nav.modalPresentationStyle = UIModalPresentationStyle.Popover
-        //let popover = nav.popoverPresentationController!
-        vc.modalPresentationStyle = UIModalPresentationStyle.Popover
-        let popover = vc.popoverPresentationController!
+        let actionFeedback = UIAlertAction(title: "General feedback", style: .Default) { action -> Void in
+            self.btnSelectRelatedTo.setTitle(action.title, forState: .Normal)
+        }
         
-        //let popover = UIPopoverPresentationController(presentedViewController: vc, presentingViewController: self)
-        vc.preferredContentSize = CGSizeMake(self.view.layer.frame.width, 44.0 * CGFloat(vc.options.count) + 8)
-        popover.delegate = self
-        popover.sourceView = self.btnSelectRelatedTo
-        popover.sourceRect = CGRect(x: self.btnSelectRelatedTo.frame.width/2 - 30, y: 0, width: self.btnSelectRelatedTo.frame.width, height: self.btnSelectRelatedTo.frame.height)
-        //self.presentViewController(nav, animated: false, completion: nil)
-        self.presentViewController(vc, animated: true, completion: nil)
+        alertViewController.addAction(actionSpam)
+        alertViewController.addAction(actionSthNotWorking)
+        alertViewController.addAction(actionFeedback)
+        
+        self.presentViewController(alertViewController, animated: true, completion: nil)
+        
+        
+//        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+//        let vc = storyboard.instantiateViewControllerWithIdentifier("SelectionViewController") as! SelectionViewController
+//        vc.delegate = self
+//        vc.options = ["Spam or Abuse","Something Isn't Working","General Feedback"]
+//        
+//        //let nav = UINavigationController(rootViewController: vc)
+//        //nav.modalPresentationStyle = UIModalPresentationStyle.Popover
+//        //let popover = nav.popoverPresentationController!
+//        vc.modalPresentationStyle = UIModalPresentationStyle.Popover
+//        let popover = vc.popoverPresentationController!
+//        
+//        //let popover = UIPopoverPresentationController(presentedViewController: vc, presentingViewController: self)
+//        vc.preferredContentSize = CGSizeMake(self.view.layer.frame.width, 44.0 * CGFloat(vc.options.count) + 8)
+//        popover.delegate = self
+//        popover.sourceView = self.btnSelectRelatedTo
+//        popover.sourceRect = CGRect(x: self.btnSelectRelatedTo.frame.width/2 - 30, y: 0, width: self.btnSelectRelatedTo.frame.width, height: self.btnSelectRelatedTo.frame.height)
+//        //self.presentViewController(nav, animated: false, completion: nil)
+//        self.presentViewController(vc, animated: true, completion: nil)
         
     }
     
