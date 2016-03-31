@@ -234,7 +234,7 @@ class DetailVIewViewController: UIViewController {
     }
     
     private func setUserInfo() {
-        self.usernameLbl.text = (feed!.user!.is_my_profile!) ? (feed?.user?.username)! + " (YOU)" : feed!.user?.username
+        self.usernameLbl.text = feed!.user?.username
         //self.usernameLbl.text = feed!.user?.username
         self.userProfilePic.kf_setImageWithURL(NSURL(string: feed!.user!.photo_thumb!)!, placeholderImage: self.userProfilePic.image)
     }

@@ -298,11 +298,11 @@ extension NotificationViewController: UITableViewDataSource, UITableViewDelegate
         if let cellData = cellData {
             cell.messageLbl.text = cellData.message
             cell.usernameButton.setTitle(cellData.user?.username, forState: UIControlState.Normal)
-            cell.userButton.kf_setBackgroundImageWithURL(NSURL(string: cellData.user?.photo_thumb ?? "")!, forState: UIControlState.Normal)
+            cell.userButton.kf_setBackgroundImageWithURL(NSURL(string: cellData.user?.photo_thumb ?? "")!, forState: UIControlState.Normal, placeholderImage: UIImage(named: "view_lover_list_user"))
             if let isUser = cellData.item2?.isUser  where self.title == "YOU" && isUser == true {
                 cell.item2Button.hidden = true
             } else {
-                cell.item2Button.kf_setBackgroundImageWithURL(NSURL(string: cellData.item2?.photo_thumb ?? "")!, forState: UIControlState.Normal)
+                cell.item2Button.kf_setBackgroundImageWithURL(NSURL(string: cellData.item2?.photo_thumb ?? "")!, forState: UIControlState.Normal, placeholderImage: UIImage(named: "view_lover_list_user"))
                 if let isUser = cellData.item2?.isUser where isUser == true {
                     cell.item2Button.layer.cornerRadius = cell.item2Button.frame.height / 2
                 }
