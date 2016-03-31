@@ -25,7 +25,7 @@ class CustomTabBarController: UITabBarController {
         
         //self.selectedViewController?.tabBarItem
         // Do any additional setup after loading the view.
-        addViewController()
+        //addViewController()
         self.view.backgroundColor=UIColor(red: 240/255, green: 240/255, blue: 240/255, alpha: 1)
 
         let numberOfItems = CGFloat(tabBar.items!.count)
@@ -63,7 +63,7 @@ class CustomTabBarController: UITabBarController {
             
             controller.title = "Personalized Feeds" //view = self.viewControllers?[0].view
             
-            let icon1 = UITabBarItem(title: "", image: UIImage(named: "profile_menu_white"), selectedImage: nil)
+            let icon1 = UITabBarItem(title: "", image: UIImage(named: "profile_menu_white")?.imageWithRenderingMode(.AlwaysOriginal), selectedImage: nil)
             icon1.imageInsets = UIEdgeInsets(top: 6, left: 0, bottom: -6, right: 0)
             controller.tabBarItem = icon1
             var controllers = self.viewControllers  //array of the root view controllers displayed by the tab bar interface

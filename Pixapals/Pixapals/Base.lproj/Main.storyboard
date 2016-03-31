@@ -452,7 +452,7 @@
                         <viewControllerLayoutGuide type="bottom" id="ed4-1V-O2L"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="j2y-ch-TLy">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="551"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Dhp-77-j9S">
@@ -1528,17 +1528,17 @@
                         <viewControllerLayoutGuide type="bottom" id="vW0-qc-GRn"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="a4j-UI-gBX">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="1001"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="1050"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="j3B-8u-zXw">
-                                <rect key="frame" x="0.0" y="20" width="414" height="932"/>
+                                <rect key="frame" x="0.0" y="20" width="414" height="981"/>
                                 <userGuides>
                                     <userLayoutGuide location="401" affinity="minX"/>
                                 </userGuides>
                                 <subviews>
                                     <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="90O-sY-FEp">
-                                        <rect key="frame" x="0.0" y="0.0" width="414" height="214"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="414" height="263"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="3.5" minimumInteritemSpacing="1" id="u25-de-Db1">
                                             <size key="itemSize" width="115" height="114"/>
@@ -1587,7 +1587,7 @@
                                         </connections>
                                     </collectionView>
                                     <tableView clipsSubviews="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="50" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="SfV-l8-itb">
-                                        <rect key="frame" x="0.0" y="214" width="414" height="678"/>
+                                        <rect key="frame" x="0.0" y="263" width="414" height="678"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <prototypes>
                                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="globalFeedTableViewHeaderCell" id="dNs-IN-Uyt" customClass="GlobalFeedTableViewHeaderCell" customModule="Pixapals" customModuleProvider="target">
@@ -1831,7 +1831,7 @@
                                         </connections>
                                     </tableView>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Drz-1J-qLK" userLabel="Footer View">
-                                        <rect key="frame" x="0.0" y="892" width="414" height="40"/>
+                                        <rect key="frame" x="0.0" y="941" width="414" height="40"/>
                                         <subviews>
                                             <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="MlA-Km-uFN">
                                                 <rect key="frame" x="197" y="10" width="20" height="20"/>
@@ -1904,7 +1904,7 @@
                         <viewControllerLayoutGuide type="bottom" id="vre-vZ-EdJ"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="hiZ-8v-lNN">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="687"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
@@ -2094,7 +2094,7 @@
                         <viewControllerLayoutGuide type="bottom" id="L5j-bO-yBZ"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="mSl-o9-6H7">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="1201"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="1250"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="nhr-41-SEH">
@@ -2849,13 +2849,12 @@
         <scene sceneID="llN-2I-W7I">
             <objects>
                 <tabBarController storyboardIdentifier="tabView" automaticallyAdjustsScrollViewInsets="NO" id="szp-OA-VCz" customClass="CustomTabBarController" customModule="Pixapals" customModuleProvider="target" sceneMemberID="viewController">
-                    <tabBar key="tabBar" contentMode="scaleToFill" translucent="NO" id="7a9-ce-cru">
+                    <tabBar key="tabBar" contentMode="scaleToFill" id="7a9-ce-cru">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="49"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                        <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         <color key="barTintColor" red="0.50980392159999999" green="0.73725490199999999" blue="0.1843137255" alpha="1" colorSpace="calibratedRGB"/>
-                        <color key="selectedImageTintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <userDefinedRuntimeAttributes>
                             <userDefinedRuntimeAttribute type="color" keyPath="tintColor">
                                 <color key="value" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
