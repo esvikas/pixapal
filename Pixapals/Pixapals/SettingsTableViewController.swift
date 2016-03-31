@@ -178,7 +178,7 @@ class SettingsTableViewController: UITableViewController {
         
         pickerDateToolbar = UIToolbar(frame: CGRectMake(0, 0, kSCREEN_WIDTH, 44))
         pickerDateToolbar!.barStyle = UIBarStyle.Black
-        pickerDateToolbar!.barTintColor = UIColor(red: 20/255, green: 153/255, blue: 236/255, alpha: 1)
+        pickerDateToolbar!.barTintColor = UIColor.blackColor()
         pickerDateToolbar!.translucent = true
         
     }
