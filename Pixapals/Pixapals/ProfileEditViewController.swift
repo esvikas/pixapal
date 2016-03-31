@@ -67,10 +67,12 @@ class ProfileEditViewController: UIViewController, UINavigationControllerDelegat
         btnGender.setTitleColor(UIColor.blackColor(), forState: UIControlState.Normal)
         
         let lbl = UILabel(frame: CGRect(x: phoneTextField.frame.origin.x, y: phoneTextField.frame.origin.y, width: 15.0, height: phoneTextField.frame.height))
-        lbl.text = "+"
+        lbl.text = "  "
         lbl.textAlignment = .Right
         phoneTextField.leftViewMode = .Always
         phoneTextField.leftView = lbl
+//        let x = phoneTextField.leftView?.frame.insetBy(dx: 0, dy: -15)
+//        phoneTextField.leftView?.frame = x!
         
         ////print(userDataAsObject.gender)
         //        genderTextField.text = userDataAsObject.gender ?? ""
