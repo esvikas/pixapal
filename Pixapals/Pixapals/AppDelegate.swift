@@ -31,11 +31,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         //self.navigationController.navigationBar.titleTextAttributes = [ NSFontAttributeName: UIFont(name: "CaviarDreams", size: 20)!]
         let font = UIFont(name: "Helvetica-Condensed-Bold", size: 20)!
         UINavigationBar.appearance().titleTextAttributes = [ NSFontAttributeName: font, NSForegroundColorAttributeName: UIColor.whiteColor()]
-        //UINavigationBar.appearance().tintColor = UIColor.whiteColor()
+        UINavigationBar.appearance().tintColor = UIColor.whiteColor()
+        UITabBarItem.appearance().setTitleTextAttributes([NSForegroundColorAttributeName: UIColor.whiteColor()], forState: UIControlState.Normal)
         //UINavigationBar.appearance().barTintColor = UIColor.whiteColor()
         
         UIApplication.sharedApplication().statusBarStyle = .LightContent
-        UITabBar.appearance().tintColor = UIColor.whiteColor()
         
         // Override point for customization after application launch.
         
