@@ -36,6 +36,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         //UINavigationBar.appearance().barTintColor = UIColor.whiteColor()
         
         UIApplication.sharedApplication().statusBarStyle = .LightContent
+         //[[UILabel appearance] setFont:[UIFont fontWithName:@"YourFontName" size:17.0]];
+        //UILabel.appearance().font = UIFont(name: "Helvetica-Condensed", size: 17.0)
         
         // Override point for customization after application launch.
         
