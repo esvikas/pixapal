@@ -28,6 +28,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         UINavigationBar.appearance().backIndicatorImage = UIImage(named: "report_form_left_arrow")
         UINavigationBar.appearance().backIndicatorTransitionMaskImage = UIImage(named: "report_form_left_arrow")
+        //self.navigationController.navigationBar.titleTextAttributes = [ NSFontAttributeName: UIFont(name: "CaviarDreams", size: 20)!]
+        let font = UIFont(name: "Helvetica-Condensed-Bold", size: 20)!
+        UINavigationBar.appearance().titleTextAttributes = [ NSFontAttributeName: font, NSForegroundColorAttributeName: UIColor.whiteColor()]
+        //UINavigationBar.appearance().tintColor = UIColor.whiteColor()
+        //UINavigationBar.appearance().barTintColor = UIColor.whiteColor()
         
         UIApplication.sharedApplication().statusBarStyle = .LightContent
         UITabBar.appearance().tintColor = UIColor.whiteColor()
@@ -64,7 +69,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             .stringByReplacingOccurrencesOfString( " ", withString: "" ) as String
         let nsUserDefault = NSUserDefaults.standardUserDefaults()
         nsUserDefault.setObject(deviceTokenString, forKey: "deviceTokenString")
-        print(deviceTokenString)
+        //print(deviceTokenString)
     }
     
     func applicationWillResignActive(application: UIApplication) {
@@ -214,7 +219,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
             
         } catch {
-            print("Unable to create Reachability")
+            //print("Unable to create Reachability")
             return false
         }
         return false

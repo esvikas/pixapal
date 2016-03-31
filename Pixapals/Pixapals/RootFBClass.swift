@@ -31,27 +31,27 @@ class RootFBClass: NSObject,FBSDKLoginButtonDelegate {
         //loginStatus.text = "You are currently Logged in as "
         
         // var token = FBSDKAccessToken.currentAccessToken()
-        // print("the tokent is \(token.tokenString)")
+        // //print("the tokent is \(token.tokenString)")
         
         //to get basic info
         let graphRequest: FBSDKGraphRequest = FBSDKGraphRequest(graphPath: "me", parameters: nil)
         graphRequest.startWithCompletionHandler({(connection,result,error)-> Void in
-            print(result, terminator: "")
+            ////print(result, terminator: "")
             
             let id : NSString = result.valueForKey("id") as! NSString
-            print("id is: \(id)", terminator: "")
+            ////print("id is: \(id)", terminator: "")
             
             let FName : NSString = result.valueForKey("name") as! NSString
-            print("User name is: \(FName)", terminator: "")
+            ////print("User name is: \(FName)", terminator: "")
             
             
             
             let userEmail : NSString = result.valueForKey("email") as! NSString
-            print("User Email is: \(userEmail)", terminator: "")
+            ////print("User Email is: \(userEmail)", terminator: "")
 
             
 //            let access_token : NSString = result.valueForKey("access_token") as! NSString
-//            print("access_token is: \(userEmail)")
+//            //print("access_token is: \(userEmail)")
             
         })
         
@@ -59,7 +59,7 @@ class RootFBClass: NSObject,FBSDKLoginButtonDelegate {
         let LikesgraphRequest: FBSDKGraphRequest = FBSDKGraphRequest(graphPath: "me/likes", parameters: nil)
         LikesgraphRequest.startWithCompletionHandler({(connection,result,error)-> Void in
             
-            print("\(result)", terminator: "")
+            ////print("\(result)", terminator: "")
             
         })
         
@@ -68,7 +68,7 @@ class RootFBClass: NSObject,FBSDKLoginButtonDelegate {
         let FriendsgraphRequest: FBSDKGraphRequest = FBSDKGraphRequest(graphPath: "me/friends", parameters: nil)
         FriendsgraphRequest.startWithCompletionHandler({(connection,result,error)-> Void in
             
-            print("\(result)", terminator: "")
+            ////print("\(result)", terminator: "")
             
             
         })
@@ -78,7 +78,7 @@ class RootFBClass: NSObject,FBSDKLoginButtonDelegate {
         let AgegraphRequest: FBSDKGraphRequest = FBSDKGraphRequest(graphPath: "/me?fields=age_range", parameters: nil)
         AgegraphRequest.startWithCompletionHandler({(connection,result,error)-> Void in
             
-            print("the age is \(result)", terminator: "")
+            ////print("the age is \(result)", terminator: "")
             
         })
 
@@ -97,23 +97,23 @@ class RootFBClass: NSObject,FBSDKLoginButtonDelegate {
     
     
             if error != nil{
-                print("error might be of process", terminator: "")
+                ////print("error might be of process", terminator: "")
     
             }else if result.isCancelled{
-                print("user cancelled the permission", terminator: "")
+                ////print("user cancelled the permission", terminator: "")
     
             }else {
     
                 if result.grantedPermissions.contains("public_profile") && result.grantedPermissions.contains("email") && result.grantedPermissions.contains("user_friends") {
     
-                    print("public profile, email, user_friends info is granted", terminator: "")
+                    ////print("public profile, email, user_friends info is granted", terminator: "")
                    
                     returnUserData()
                     
                     delegate?.loginSuccess()
     
                 }else{
-                    print("something is missing,please accept all ", terminator: "")
+                    ////print("something is missing,please accept all ", terminator: "")
     
                 }
     
@@ -128,7 +128,7 @@ class RootFBClass: NSObject,FBSDKLoginButtonDelegate {
         func loginButtonDidLogOut(loginButton: FBSDKLoginButton!){
     
     
-            print("user logs out now ", terminator: "")
+            ////print("user logs out now ", terminator: "")
            // loginStatus.text = "Successfully logged out"
            // name.text = ""
     

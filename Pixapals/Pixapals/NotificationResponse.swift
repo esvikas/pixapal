@@ -62,7 +62,7 @@ class NotificationJSON: Mappable {
         message <- map["message"]
         created_at <- map["created_at"]
         //x <- map["created_at", "date"]
-        //print(x)
+        ////print(x)
     }
 }
 

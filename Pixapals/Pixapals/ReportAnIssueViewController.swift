@@ -131,9 +131,9 @@ class ReportAnIssueViewController: UIViewController {
 //                        }
                         self.navigationController?.popViewControllerAnimated(true)
                     })
-                    //print("Reporting issue")
+                    ////print("Reporting issue")
                 } else {
-                    print("Error: reporting error")
+                    ////print("Error: reporting error")
                     PixaPalsErrorType.CantReportIssueError.show(self)
                 }
             }, errorBlock: {self}, onResponse: {
@@ -151,9 +151,9 @@ class ReportAnIssueViewController: UIViewController {
         //            case .Success(let getFeed):
         //                if !getFeed.error! {
         //                    PixaPalsErrorType.ReportIssueSuccessful.show(self)
-        //                    //print("Reporting issue")
+        //                    ////print("Reporting issue")
         //                } else {
-        //                    print("Error: reporting error")
+        //                    //print("Error: reporting error")
         //                    PixaPalsErrorType.CantReportIssueError.show(self)
         //                }
         //            case .Failure(let error):
@@ -226,7 +226,7 @@ extension ReportAnIssueViewController: UITextViewDelegate {
     func textViewDidChange(textView: UITextView) {
         
         
-        //print(commentTextField.text.characters.count)
+        ////print(commentTextField.text.characters.count)
         
         lblLetterCount.text="\(240 - txtComment.text.characters.count) Characters Left"
     }

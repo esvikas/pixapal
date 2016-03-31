@@ -107,14 +107,14 @@ class GlobalFeedTableViewCell: UITableViewCell {
             switch swipeGesture.direction {
             case UISwipeGestureRecognizerDirection.Right:
                 
-                //                print(id)
-                //                print(loved)
-                //                print(left)
+                //                //print(id)
+                //                //print(loved)
+                //                //print(left)
                 
-                print(mode)
+                ////print(mode)
                 if left != true {
                     
-                    print(mode)
+                    ////print(mode)
                     if mode == 1 {
                         DynamicView.image=UIImage(named: "leaveit")
                         

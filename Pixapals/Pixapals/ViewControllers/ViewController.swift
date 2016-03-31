@@ -47,11 +47,11 @@ class ViewController: UIViewController {
 //            NSURL(string: "http://ak2g.com")!,
 //            scope: "likes+comments", state:"INSTAGRAM",
 //            success: { credential, response, parameters in
-//                print(response)
-//                print(credential)
+//                //print(response)
+//                //print(credential)
 //            },
 //            failure: { error in
-//                print(error.localizedDescription)
+//                //print(error.localizedDescription)
 //            }
 //        )
         
@@ -154,7 +154,7 @@ class ViewController: UIViewController {
             if (session != nil) {
                 //self.dict.setValue(session!.userName, forKey: "username")
                 //self.dict.setValue(session!.userID, forKey: "id")
-               //print(session?.userID)
+               ////print(session?.userID)
                 //appDelegate.twitterSession = session
                 let client = TWTRAPIClient()
                 client.loadUserWithID(session!.userID) { (user, error) -> Void in
@@ -171,7 +171,7 @@ class ViewController: UIViewController {
                     self.loginFbUser()
                 }
             } else {
-                print("error: \(error?.localizedDescription)");
+                //print("error: \(error?.localizedDescription)");
             }
         }
     }
@@ -241,10 +241,10 @@ class ViewController: UIViewController {
             
             FBSDKGraphRequest(graphPath: "me", parameters: ["fields": "id, name, picture.type(small), email, website, gender, hometown, birthday, friends"]).startWithCompletionHandler({ (connection, result, error) -> Void in
                 
-                print(FBSDKAccessToken.currentAccessToken().tokenString)
+                //print(FBSDKAccessToken.currentAccessToken().tokenString)
 
                 if (error == nil){
-                    print(result)
+                    //print(result)
                     self.dict = result as! [String : AnyObject]
                     //self.dict.setValue("facebook", forKey: "type")
                     self.dict["type"] = "facebook"
@@ -255,7 +255,7 @@ class ViewController: UIViewController {
                     
                     //NSLog(self.dict.objectForKey("picture")?.objectForKey("data")?.objectForKey("url") as! String)
                 } else {
-                    print(error)
+                    //print(error)
                     PixaPalsErrorType.CantGetUserInfoFromFacebookError.show(self)
                     //showAlertView("Error", message: "Sorry! Can't connect through facebook. Can't access your information.", controller: self)
                 }
@@ -266,16 +266,16 @@ class ViewController: UIViewController {
         
         request.startWithCompletionHandler { (connection : FBSDKGraphRequestConnection!, result : AnyObject!, error : NSError!) -> Void in
             if error == nil {
-                //print("Friends are : \(result)")
+                ////print("Friends are : \(result)")
 
-               // print("Friends are : \(result.count)")
+               // //print("Friends are : \(result.count)")
                 
                 self.friendsList = result as! [String : AnyObject] //as! NSMutableDictionary
 
                 
             } else {
                 PixaPalsErrorType.CantGetFriendInfoFromFacebookError.show(self)
-                print("Error Getting Friends \(error)");
+                //print("Error Getting Friends \(error)");
             }
         }
 
@@ -284,14 +284,14 @@ class ViewController: UIViewController {
         
         requestx.startWithCompletionHandler { (connection : FBSDKGraphRequestConnection!, result : AnyObject!, error : NSError!) -> Void in
             if error == nil {
-                print("Friends are : \(result)")
-                print("Friends are : \(result.count)")
+                //print("Friends are : \(result)")
+                //print("Friends are : \(result.count)")
                 
 
 
             } else {
                 PixaPalsErrorType.CantGetFriendInfoFromFacebookError.show(self)
-                print("Error Getting Friends \(error)");
+                //print("Error Getting Friends \(error)");
             }
         }
         
@@ -330,7 +330,7 @@ class ViewController: UIViewController {
                     "username": username
                 ]
                 
-                //print(parametersToPost, terminator: "")
+                ////print(parametersToPost, terminator: "")
                 
                 APIManager(requestType: RequestType.WithDeviceTokenInParam, urlString: registerUrlString, parameters:  parametersToPost).giveResponseJSON({ (data) -> Void in
                     if let dict = data["user"] as? [String: AnyObject] {
@@ -338,9 +338,9 @@ class ViewController: UIViewController {
                         self.openTabView()
                     }
                     else {
-                        print("Invalid Username/Password: \(data["message"])")
-                        //showAlertView("Error", message: "The email or password you have entered does not match any account.", controller: self)
                         //print("Invalid Username/Password: \(data["message"])")
+                        //showAlertView("Error", message: "The email or password you have entered does not match any account.", controller: self)
+                        ////print("Invalid Username/Password: \(data["message"])")
                         PixaPalsErrorType.CantAuthenticateError.show(self)
                         
                     }
@@ -349,7 +349,7 @@ class ViewController: UIViewController {
                 
 //                requestWithDeviceTokenInParam(.POST, registerUrlString, parameters: parametersToPost)
 //                    .responseJSON { response in
-//                        debugPrint(response)
+//                        debug//print(response)
 //                        
 //                        switch response.result {
 //                        case .Success(let data):
@@ -358,15 +358,15 @@ class ViewController: UIViewController {
 //                                self.openTabView()
 //                            }
 //                            else {
-//                                print("Invalid Username/Password: \(data["message"])")
-//                                //showAlertView("Error", message: "The email or password you have entered does not match any account.", controller: self)
 //                                //print("Invalid Username/Password: \(data["message"])")
+//                                //showAlertView("Error", message: "The email or password you have entered does not match any account.", controller: self)
+//                                ////print("Invalid Username/Password: \(data["message"])")
 //                                PixaPalsErrorType.CantAuthenticateError.show(self)
 //                                
 //                            }
 //                        case .Failure(let error):
 //                            //showAlertView("Error", message: "Can't connect right now.Check your internet settings.", controller: self)
-//                            //print("Error in connection \(error)")
+//                            ////print("Error in connection \(error)")
 //                            PixaPalsErrorType.ConnectionError.show(self)
 //                        }
 //                        

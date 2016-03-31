@@ -187,13 +187,13 @@ class DetailVIewViewController: UIViewController {
         APIManager(requestType: RequestType.WithXAuthTokenInHeader, urlString: urlString, parameters: parameters).handleResponse(
             { (getFeed: SuccessFailJSON) -> Void in
                 if !getFeed.error! {
-                    print("getting feed")
+                    //print("getting feed")
                     self.triggerDelegateNeedReloadData()
                     //appDelegate.ShowAlertView("Success", message: "You are now following to \( (self.feed.user?.username)!)")
                 } else {
                     getFeedButtonEnabled()
-                    print(getFeed.message)
-                    print("Error: feeding error")
+                    //print(getFeed.message)
+                    //print("Error: feeding error")
                     PixaPalsErrorType.CantFedTheUserError.show(self)
                 }
             }, errorBlock: {
@@ -284,14 +284,14 @@ class DetailVIewViewController: UIViewController {
         APIManager(requestType: RequestType.WithXAuthTokenInHeader, urlString: urls(feedId), method: .GET).handleResponse(
             { (getFeed: FeedsResponseJSON) -> Void in
                 if let count = getFeed.feeds?.count where count > 0{
-                    print("getting feed")
+                    //print("getting feed")
                     self.feed = getFeed.feeds?.first
                     self.feedIsNotNil()
                     self.tableView.reloadData()
                     //appDelegate.ShowAlertView("Success", message: "You are now following to \( (self.feed.user?.username)!)")
                 } else {
                     PixaPalsErrorType.CantFedTheUserError.show(self)
-                    print("Error: getting feed error")
+                    //print("Error: getting feed error")
                 }
             }, errorBlock: {self})
         
@@ -439,11 +439,11 @@ extension DetailVIewViewController: UITableViewDelegate {
 extension DetailVIewViewController: CellImageSwippedDelegate {
     
     func imageSwipedLeft(id: Int, loved: Bool, left:Bool) {
-        print("swipped love (left)")
+        //print("swipped love (left)")
         self.feed?.loveFeed(self, completionHandler: {self.tableView.reloadData()})
     }
     func imageSwipedRight(id: Int, loved: Bool, left: Bool, mode: Int) {
-        print("swipped leave (right)")
+        //print("swipped leave (right)")
         self.feed?.leaveFeed(self, completionHandler: {self.tableView.reloadData()})
     }
     

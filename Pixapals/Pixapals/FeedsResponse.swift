@@ -77,7 +77,7 @@ class UserFeedDistinction {
         isDistinct.1.username = user.username
         isDistinct.1.photo = user.photo
         isDistinct.1.is_my_fed = user.is_my_fed
-        //print("sddddd--->\(user.is_my_fed)")
+        ////print("sddddd--->\(user.is_my_fed)")
         isDistinct.1.is_my_profile = user.is_my_profile
         return isDistinct.1
     }
@@ -341,7 +341,7 @@ class UserJSON: Mappable {
         username <- map["username"]
         photo <- map["photo"]
         is_my_fed <- map["is_my_fed"]
-        //print(is_my_fed)
+        ////print(is_my_fed)
         is_my_profile <- map["is_my_profile"]
         
         if let is_my_profile = is_my_profile where is_my_profile == true {
@@ -375,7 +375,7 @@ class UserInDetailJSON: UserJSON {
 //            return nil
 //        }
 //        set {
-//            print(newValue)
+//            //print(newValue)
 //            if newValue == "male" || newValue == "Male" {
 //                self.gender = Gender.Male
 //            } else {

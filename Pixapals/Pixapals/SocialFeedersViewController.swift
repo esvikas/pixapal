@@ -60,7 +60,7 @@ class SocialFeedersViewController: UIViewController {
             let gettingDataViews = self.showProcessHUD()
             APIManager(requestType: RequestType.WithXAuthTokenInHeader, urlString: url, parameters: parameters)
 //                            .giveResponseJSON({ (x) -> Void in
-//                                print(x)
+//                                //print(x)
 //                                }, errorBlock: { () -> UIViewController in
 //                                    self
 //                            })
@@ -69,7 +69,7 @@ class SocialFeedersViewController: UIViewController {
                         if !feedersFriendsJSON.error {
                             if let users = feedersFriendsJSON.users {
                                 self.users.appendContentsOf(users)
-                                print(users.count)
+                                ////print(users.count)
                                 if users.count < self.itemLimit {
                                     self.serverHasMoreData = false
                                 }
@@ -92,7 +92,7 @@ class SocialFeedersViewController: UIViewController {
                             }
                             (self.hideActivityIndicator())(true)
                             (self.hideButtonTryAgain())(false)
-                            print("Error: finding feeders error")
+                            ////print("Error: finding feeders error")
                             PixaPalsErrorType.CantFindFeedersError.show(self, message: message())
                         }
                     }, errorBlock:
@@ -152,8 +152,8 @@ class SocialFeedersViewController: UIViewController {
     }
     
     func checkFbLogin(completionHandler: (FBSDKLoginManager?) -> ()){
-        //print(FBSDKAccessToken.currentAccessToken()?.tokenString)
-        //print(FBSDKAccessToken.currentAccessToken()?.userID)
+        ////print(FBSDKAccessToken.currentAccessToken()?.tokenString)
+        ////print(FBSDKAccessToken.currentAccessToken()?.userID)
         
         FBSDKAccessToken.refreshCurrentAccessToken(nil)
         
@@ -258,10 +258,10 @@ extension SocialFeedersViewController: loverListTableViewCellDelegate {
             {(getFeed: SuccessFailJSON) -> Void in
                 if !getFeed.error! {
                     
-                    print("Getting feed")
+                    ////print("Getting feed")
                 } else {
                     changeUserIsMyFed()
-                    print("Error: feeding error")
+                    ////print("Error: feeding error")
                     PixaPalsErrorType.CantFedTheUserError.show(self)
                 }
             }, errorBlock: {

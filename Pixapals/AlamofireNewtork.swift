@@ -46,37 +46,37 @@ public class APIManager{
             encoding: encoding,
             headers: headers
         )
-        print(request)
+        //print(request)
     }
     
     func handleResponse<T: Mappable>(completionHandler: (T)-> Void, errorBlock: ()-> UIViewController, onResponse: (Void -> Void)? = nil) {
         self.request.responseObject { (response: Response<T, NSError>) -> Void in
             self.responseHandling(response, completionHandler: completionHandler, errorBlock: errorBlock, onResponse: onResponse)
         }
-        self.request.responseJSON{ (response) -> Void in
-            print(response.request)
-            switch response.result {
-            case .Failure(let error):
-                print(error)
-            case .Success(let val):
-                print(val)
-            }
-        }
+//        self.request.responseJSON{ (response) -> Void in
+//            print(response.request)
+//            switch response.result {
+//            case .Failure(let error):
+//                print(error)
+//            case .Success(let val):
+//                print(val)
+//            }
+//        }
     }
     
     func giveResponseJSON(completionHandler: (AnyObject)-> Void, errorBlock: ()-> UIViewController, onResponse: (Void -> Void)? = nil){
         request.responseJSON { (response) -> Void in
             self.responseHandling(response, completionHandler: completionHandler, errorBlock: errorBlock, onResponse: onResponse)
         }
-        self.request.responseJSON{ (response) -> Void in
-            print(response.request)
-            switch response.result {
-            case .Failure(let error):
-                print(error)
-            case .Success(let val):
-                print(val)
-            }
-        }
+//        self.request.responseJSON{ (response) -> Void in
+//            print(response.request)
+//            switch response.result {
+//            case .Failure(let error):
+//                print(error)
+//            case .Success(let val):
+//                print(val)
+//            }
+//        }
     }
     
     private func responseHandling<T> (response: Response<T, NSError>, completionHandler: (T)-> Void, errorBlock: ()-> UIViewController, onResponse: (Void -> Void)? = nil) {
@@ -84,7 +84,7 @@ public class APIManager{
         case .Success(let data):
             completionHandler(data)
         case .Failure(let error):
-            print(error)
+            //print(error)
             let viewController = errorBlock()
             PixaPalsErrorType.ConnectionError.show(viewController)
         }

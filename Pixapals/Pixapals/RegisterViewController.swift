@@ -53,8 +53,8 @@ class RegisterViewController: UIViewController, UIPopoverControllerDelegate, UIP
     
     func locationManager(manager: CLLocationManager, didUpdateToLocation newLocation: CLLocation, fromLocation oldLocation: CLLocation) {
         self.location = newLocation.coordinate
-        print(newLocation.coordinate.longitude)
-        print(newLocation.coordinate.latitude)
+//        print(newLocation.coordinate.longitude)
+//        //print(newLocation.coordinate.latitude)
         manager.stopUpdatingLocation()
     }
     
@@ -162,7 +162,7 @@ class RegisterViewController: UIViewController, UIPopoverControllerDelegate, UIP
 
         APIManager(requestType: RequestType.WithDeviceTokenInParam, urlString: registerUrlString, parameters:  parameters).giveResponseJSON({ (data) -> Void in
             if let dict = data["user"] as? [String: AnyObject] {
-                print(dict)
+                ////print(dict)
                 let userInfoStruct = UserDataStruct()
                 userInfoStruct.saveUserInfoFromJSON(jsonContainingUserInfo: dict)
                 
@@ -184,7 +184,7 @@ class RegisterViewController: UIViewController, UIPopoverControllerDelegate, UIP
                     }
                     return nil
                 }
-                //print("Invalid Username/Password: \(data["message"])")
+                ////print("Invalid Username/Password: \(data["message"])")
                 PixaPalsErrorType.CantAuthenticateError.show(self, title: nil, message: message())
             }
             }, errorBlock: {self}) {
@@ -201,7 +201,7 @@ class RegisterViewController: UIViewController, UIPopoverControllerDelegate, UIP
 //                case .Success(let data):
 //                    //let data = JSON(nsdata)
 //                    if let dict = data["user"] as? [String: AnyObject] {
-//                        print(dict)
+//                        //print(dict)
 //                        let userInfoStruct = UserDataStruct()
 //                        userInfoStruct.saveUserInfoFromJSON(jsonContainingUserInfo: dict)
 //                        
@@ -212,7 +212,7 @@ class RegisterViewController: UIViewController, UIPopoverControllerDelegate, UIP
 //                        let vc = storyBoard.instantiateViewControllerWithIdentifier("tabView")
 //                        self.navigationController?.pushViewController(vc, animated: true)
 //                    }else {
-//                        print(data)
+//                        //print(data)
 //                        MBProgressHUD.hideAllHUDsForView(self.view, animated: true)
 //                        blurEffectView.removeFromSuperview()
 //                        
@@ -227,12 +227,12 @@ class RegisterViewController: UIViewController, UIPopoverControllerDelegate, UIP
 //                            }
 //                            return nil
 //                        }
-//                        //print("Invalid Username/Password: \(data["message"])")
+//                        ////print("Invalid Username/Password: \(data["message"])")
 //                        PixaPalsErrorType.CantAuthenticateError.show(self, title: nil, message: message())
 //                    }
 //                case .Failure(let error):
 //                    //showAlertView("Error", message: "Can't connect right now.Check your internet settings.", controller: self)
-//                    //print("Error in connection \(error)")
+//                    ////print("Error in connection \(error)")
 //                    MBProgressHUD.hideAllHUDsForView(self.view, animated: true)
 //                    blurEffectView.removeFromSuperview()
 //                    PixaPalsErrorType.ConnectionError.show(self)
@@ -256,7 +256,7 @@ class RegisterViewController: UIViewController, UIPopoverControllerDelegate, UIP
 //                "gender":"",
 //                "device_token" : deviceToken
 //            ]
-//            print(parameters)
+//            //print(parameters)
 //            Alamofire.request(.POST, registerUrlString, parameters: parameters)
 //                .responseJSON { response in
 //                    
@@ -269,11 +269,11 @@ class RegisterViewController: UIViewController, UIPopoverControllerDelegate, UIP
 //                            self.loginWithEmail = true
 //                        }
 //                        else {
-//                            print(data)
-//                            print("Invalid Username/Password: \(data["message"])")
+//                            //print(data)
+//                            //print("Invalid Username/Password: \(data["message"])")
 //                        }
 //                    case .Failure(let error):
-//                        print("Error in connection \(error)")
+//                        //print("Error in connection \(error)")
 //                    }
 //            }
 //        })

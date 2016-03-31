@@ -34,7 +34,6 @@ class CustomTabBarController: UITabBarController {
         // remove default border
         tabBar.frame.size.width = self.view.frame.width + 4
         tabBar.frame.origin.x = -2
-        
     }
     
     override func didReceiveMemoryWarning() {
@@ -63,6 +62,7 @@ class CustomTabBarController: UITabBarController {
             self.selectedIndex = 3
         }
     }
+    
     
     func changeBadge() {
         if let numberOfNotificationBadge = appDelegate.numberOfNotificationBadge {

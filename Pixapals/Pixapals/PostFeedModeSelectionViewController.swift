@@ -65,7 +65,7 @@ class PostFeedModeSelectionViewController: UIViewController, UINavigationControl
             }
             
         } catch {
-            print("Unable to create Reachability")
+            ////print("Unable to create Reachability")
             return
         }
     }

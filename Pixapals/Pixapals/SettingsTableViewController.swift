@@ -79,7 +79,7 @@ class SettingsTableViewController: UITableViewController {
             
         case 0:
             
-            print(indexPath.row)
+            ////print(indexPath.row)
             if indexPath.row==1{
                 uiPickerMaker()
                 PickerAction()
@@ -102,8 +102,8 @@ class SettingsTableViewController: UITableViewController {
             self.navigationController?.pushViewController(vc, animated: true)
         case 3:
             logoutRequest()
-        default:
-            print("Error")
+        default: break
+           // //print("Error")
             
         }
     }
@@ -195,7 +195,7 @@ class SettingsTableViewController: UITableViewController {
     
     
     func pickerView(_pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        print(pickerDataSource.count, terminator: "")
+        ////print(pickerDataSource.count, terminator: "")
         return pickerDataSource.count
         
     }
@@ -265,7 +265,7 @@ class SettingsTableViewController: UITableViewController {
             "gender": String(genderDetailText.text!),
             "region": String(locationDetailText.text!)
         ]
-        //        print(parameters)
+        //        //print(parameters)
         //
         //        let headers = [
         //            "X-Auth-Token" : user.api_token!,
@@ -273,28 +273,28 @@ class SettingsTableViewController: UITableViewController {
         
         
         //                Alamofire.request(.POST, registerUrlString, parameters: parameters, headers:headers).responseJSON { response in
-        //                    print(response.request)
+        //                    //print(response.request)
         //                    switch response.result {
         //                    case .Failure(let error):
-        //                        print(error)
+        //                        //print(error)
         //                    case .Success(let value):
-        //                        print(value)
+        //                        //print(value)
         //                    }
         //                }
         
         APIManager(requestType: RequestType.WithXAuthTokenInHeader, urlString: urlString, parameters: parameters).handleResponse(
             { (successObject: SuccessFailJSON) -> Void in
-                print("Set successfully \(successObject.message)")
+                ////print("Set successfully \(successObject.message)")
             }, errorBlock: {self})
         
         //        requestWithHeaderXAuthToken(.POST, registerUrlString, parameters: parameters).responseObject { (response: Response<SuccessFailJSON, NSError>) -> Void in
         //            switch response.result {
         //            case .Success(let successObject):
-        //                print("Set successfully \(successObject.message)")
+        //                //print("Set successfully \(successObject.message)")
         //
         //            case .Failure(let error):
         //                //showAlertView("Error", message: "Can't connect right now.Check your internet settings.", controller: self)
-        //                //print("Error in connection \(error)")
+        //                ////print("Error in connection \(error)")
         //                PixaPalsErrorType.ConnectionError.show(self)
         //            }
         //        }
@@ -313,7 +313,7 @@ class SettingsTableViewController: UITableViewController {
         APIManager(requestType: RequestType.WithXAuthTokenInHeader, urlString: registerUrlString, method: .GET).giveResponseJSON({_ in self.logOut()}, errorBlock:{self})
         
         //        Alamofire.request(.GET, registerUrlString, parameters: nil, headers:headers).responseJSON { response in
-        //            print(response.request)
+        //            //print(response.request)
         //            switch response.result {
         //            case .Success( _ ):
         //
@@ -321,12 +321,12 @@ class SettingsTableViewController: UITableViewController {
         //
         //
         //            case .Failure(let error):
-        //                //print("Error in connection \(error)")
+        //                ////print("Error in connection \(error)")
         //                //showAlertView("Error", message: "Can't connect right now.Check your internet settings.", controller: self)
         //                PixaPalsErrorType.ConnectionError.show(self)
         //            }
         //        }
-        //        print(headers)
+        //        //print(headers)
         
     }
     func logOut(){

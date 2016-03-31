@@ -149,13 +149,13 @@ class NotificationViewController: UIViewController {
 //        
 //        requestWithHeaderXAuthToken(.GET, urlString)
 //            //                        .responseJSON { response -> Void in
-//            //                            print(response.request)
+//            //                            //print(response.request)
 //            //                            switch response.result {
 //            //                            case .Success(let value):
 //            //                                let json = (JSON(value))
-//            //                                print(json)
+//            //                                //print(json)
 //            //                            case .Failure(let error):
-//            //                                print(error)
+//            //                                //print(error)
 //            //                            }
 //            //                        }
 //            .responseObject { (response: Response<NotificationResponseJSON, NSError>) -> Void in
@@ -204,7 +204,7 @@ class NotificationViewController: UIViewController {
 //                    //                    }, handlerForCancel: nil)
 //                    //self.loadMoreActivityIndicator.stopAnimating()
 //                    //self.tryAgainButton.hidden = false
-//                    //print("ERROR: \(error)")
+//                    ////print("ERROR: \(error)")
 //                    //showAlertView("Error", message: "Can't connect right now.Check your internet settings.", controller: self)
 //                    PixaPalsErrorType.ConnectionError.show(self)
 //                    self.pullToRefresh.endRefreshing()
@@ -272,9 +272,9 @@ extension NotificationViewController: UITableViewDataSource, UITableViewDelegate
     }
     
     func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
-        //print( hasMoreDataInServer)
-        //print(indexPath.section)
-        //print(indexPath.section == self.feedsFromResponseAsObject.feeds!.count)
+        ////print( hasMoreDataInServer)
+        ////print(indexPath.section)
+        ////print(indexPath.section == self.feedsFromResponseAsObject.feeds!.count)
         let sections = self.numberOfRowsInSections()
         
         if indexPath.section == (sections.count - 1) && indexPath.row == (sections[indexPath.section].numberOfRows - 1) && self.hasMoreDataInServer {

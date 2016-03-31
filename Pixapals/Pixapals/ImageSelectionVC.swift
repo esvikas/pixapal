@@ -60,7 +60,7 @@
 //                })
 //            }
 //            }) { (error) -> Void in
-//                print("problem loading albums: \(error)")
+//                //print("problem loading albums: \(error)")
 //        }
 //        */
 //    }

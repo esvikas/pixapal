@@ -72,13 +72,13 @@ class ProfileEditViewController: UIViewController, UINavigationControllerDelegat
         phoneTextField.leftViewMode = .Always
         phoneTextField.leftView = lbl
         
-        print(userDataAsObject.gender)
+        ////print(userDataAsObject.gender)
         //        genderTextField.text = userDataAsObject.gender ?? ""
         
-        print(userDataAsObject.photo_thumb)
+        ////print(userDataAsObject.photo_thumb)
         userProfilePic.kf_setImageWithURL(NSURL(string: userDataAsObject.photo_thumb ?? "")!, placeholderImage: UIImage(named: "global_feed_user"))
         
-        print(userDataAsObject.photo_thumb)
+        ////print(userDataAsObject.photo_thumb)
         
         self.navigationItem.hidesBackButton = true
         newDoneButton = UIBarButtonItem(image: UIImage(named: "tick_green"), style: UIBarButtonItemStyle.Plain, target: self, action: "done:")
@@ -122,7 +122,7 @@ class ProfileEditViewController: UIViewController, UINavigationControllerDelegat
             }
             
         } catch {
-            print("Unable to create Reachability")
+            ////print("Unable to create Reachability")
             return
         }
         
@@ -178,8 +178,8 @@ class ProfileEditViewController: UIViewController, UINavigationControllerDelegat
         
         // example image data
         
-        print(parameters)
-        print(headers)
+//        print(parameters)
+//        //print(headers)
         
         // CREATE AND SEND REQUEST ----------
         
@@ -204,7 +204,7 @@ class ProfileEditViewController: UIViewController, UINavigationControllerDelegat
             .send({(response:AnyObject!, status:Int) -> Void in
                 
                 //                    _ = JSON(response)
-                print(response)
+                ////print(response)
                 
                 
                 MBProgressHUD.hideAllHUDsForView(self.view, animated: true)
@@ -309,7 +309,7 @@ class ProfileEditViewController: UIViewController, UINavigationControllerDelegat
         ]
         
         
-        print(parameters)
+        ////print(parameters)
         
         APIManager(requestType: RequestType.WithXAuthTokenInHeader, urlString: urlString, parameters:  parameters).giveResponseJSON(
             { (data) -> Void in
@@ -344,7 +344,7 @@ class ProfileEditViewController: UIViewController, UINavigationControllerDelegat
                         }
                         return nil
                     }
-                    //print("Invalid Username/Password: \(data["message"])")
+                    ////print("Invalid Username/Password: \(data["message"])")
                     PixaPalsErrorType.CantAuthenticateError.show(self, title: nil, message: message())
                 }
             }, errorBlock: {self}, onResponse: {
@@ -358,15 +358,15 @@ class ProfileEditViewController: UIViewController, UINavigationControllerDelegat
         
 //        requestWithHeaderXAuthToken(.POST, urlString, parameters: parameters)
 //            .responseJSON { response in
-//                //                debugPrint(response)     // prints detailed description of all response properties
+//                //                debug//print(response)     // //prints detailed description of all response properties
 //                //
-//                //                print(response.request)  // original URL request
-//                //                print(response.response) // URL response
-//                //                print(response.data)     // server data
-//                //                print(response.result)   // result of response serialization
+//                //                //print(response.request)  // original URL request
+//                //                //print(response.response) // URL response
+//                //                //print(response.data)     // server data
+//                //                //print(response.result)   // result of response serialization
 //                
 //                //                if let JSON = response.result.value {
-//                //                    print("JSON: \(JSON)")
+//                //                    //print("JSON: \(JSON)")
 //                //                }
 //                //
 //                //                if let HTTPResponse = response.response {
@@ -402,7 +402,7 @@ class ProfileEditViewController: UIViewController, UINavigationControllerDelegat
 //                
 //                switch response.result {
 //                case .Success(let data):
-//                    print(data)
+//                    //print(data)
 //                    //let data = JSON(nsdata)
 //                    if let isError = data["error"] as? Bool where isError == false{
 //                        self.userDataAsObject.username = self.userNameTextField.text
@@ -447,7 +447,7 @@ class ProfileEditViewController: UIViewController, UINavigationControllerDelegat
 //                            }
 //                           return nil
 //                        }
-//                        //print("Invalid Username/Password: \(data["message"])")
+//                        ////print("Invalid Username/Password: \(data["message"])")
 //                        PixaPalsErrorType.CantAuthenticateError.show(self, title: nil, message: message())
 //                    }
 //                case .Failure(let error):

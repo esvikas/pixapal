@@ -98,7 +98,7 @@ extension LoverListViewController: UITableViewDataSource {
 //        cell.loveCount.text = "\(feed.loveit ?? 0) loved it"
 //        cell.leftCount.text = "\(feed.leaveit ?? 0) left it"
 //        cell.comment.text = "\(feed.comment ?? "")"
-//        //print(feedsToShow)
+//        ////print(feedsToShow)
         return cell
     }
     
@@ -139,10 +139,10 @@ extension LoverListViewController: loverListTableViewCellDelegate {
             {(getFeed: SuccessFailJSON) -> Void in
                 if !getFeed.error! {
                     
-                    print("Getting feed")
+                   // //print("Getting feed")
                 } else {
                     changeUserIsMyFed()
-                    print("Error: feeding error")
+                   // //print("Error: feeding error")
                     PixaPalsErrorType.CantFedTheUserError.show(self)
                 }
             }, errorBlock: {
@@ -156,11 +156,11 @@ extension LoverListViewController: loverListTableViewCellDelegate {
 //            case .Success(let getFeed):
 //                if !getFeed.error! {
 //                    
-//                    print("Getting feed")
+//                    //print("Getting feed")
 //                } else {
 //                    user.is_my_fed = false
 //                    sender.enabled = true
-//                    print("Error: feeding error")
+//                    //print("Error: feeding error")
 //                    PixaPalsErrorType.CantFedTheUserError.show(self)
 //                }
 //            case .Failure(let error):
@@ -168,7 +168,7 @@ extension LoverListViewController: loverListTableViewCellDelegate {
 //                sender.enabled = true
 //                PixaPalsErrorType.ConnectionError.show(self)
 //                //showAlertView("Error", message: "Can't connect right now.Check your internet settings.", controller: self)
-//                //print("Error in connection \(error)")
+//                ////print("Error in connection \(error)")
 //            }
 //        }
     }

@@ -66,7 +66,7 @@ extension LocationChooserViewController: UITableViewDelegate, UITableViewDataSou
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
-        print(datasource[indexPath.row] as String)
+        ////print(datasource[indexPath.row] as String)
         nsUserDefault.setObject(datasource[indexPath.row] as String, forKey: "UserLocationForFilter")
         self.navigationController?.popViewControllerAnimated(true)
     }
