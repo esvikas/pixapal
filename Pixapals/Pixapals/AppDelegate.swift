@@ -183,7 +183,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         if (currentController?.isKindOfClass(UIAlertController) != true){
             currentController?.presentViewController(alertController, animated: true, completion: nil)
-            
         }
         
     }

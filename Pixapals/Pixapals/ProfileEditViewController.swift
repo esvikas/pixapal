@@ -38,7 +38,6 @@ class ProfileEditViewController: UIViewController, UINavigationControllerDelegat
     
     var userDataAsObject: UserInDetailJSON!
     
-    
     var dataSource=UserDataStruct()
     var newBackButton = UIBarButtonItem()
     var newDoneButton = UIBarButtonItem()
@@ -71,8 +70,8 @@ class ProfileEditViewController: UIViewController, UINavigationControllerDelegat
         lbl.textAlignment = .Right
         phoneTextField.leftViewMode = .Always
         phoneTextField.leftView = lbl
-//        let x = phoneTextField.leftView?.frame.insetBy(dx: 0, dy: -15)
-//        phoneTextField.leftView?.frame = x!
+        //        let x = phoneTextField.leftView?.frame.insetBy(dx: 0, dy: -15)
+        //        phoneTextField.leftView?.frame = x!
         
         ////print(userDataAsObject.gender)
         //        genderTextField.text = userDataAsObject.gender ?? ""
@@ -99,35 +98,72 @@ class ProfileEditViewController: UIViewController, UINavigationControllerDelegat
     }
     
     func back(sender: UIBarButtonItem) {
-        
         self.navigationController!.popViewControllerAnimated(true)
-        
-        
     }
     
     @IBAction func btnChangePic(sender: AnyObject) {
         
-        
-        let reachability: Reachability
-        do {
-            reachability = try Reachability.reachabilityForInternetConnection()
-            if reachability.isReachable()  {
+        let alertController = UIAlertController(title: nil, message: nil, preferredStyle: UIAlertControllerStyle.ActionSheet)
+        let changeAction = UIAlertAction(title: "Change Profile Photo", style: .Default) { _ -> Void in
+            let reachability: Reachability
+            do {
+                reachability = try Reachability.reachabilityForInternetConnection()
+                if reachability.isReachable()  {
+                    
+                    let imagePickerController = ImagePickerController()
+                    imagePickerController.delegate = self
+                    imagePickerController.imageLimit = 1
+                    self.presentViewController(imagePickerController, animated: true, completion: nil)
+                    Configuration.doneButtonTitle = "Next"
+                    Configuration.noImagesTitle = "Sorry! There are no images here!"
+                }
                 
-                
-                let imagePickerController = ImagePickerController()
-                imagePickerController.delegate = self
-                imagePickerController.imageLimit = 1
-                presentViewController(imagePickerController, animated: true, completion: nil)
-                Configuration.doneButtonTitle = "Next"
-                Configuration.noImagesTitle = "Sorry! There are no images here!"
-                
+            } catch {
+                ////print("Unable to create Reachability")
+                //return
             }
-            
-        } catch {
-            ////print("Unable to create Reachability")
-            return
         }
         
+        let removeAction = UIAlertAction(title: "Remove Profile Photo", style: .Default) { _ -> Void in
+            
+            self.newDoneButton.enabled=false
+            self.newBackButton.enabled=false
+            
+            let blurEffectView = UIVisualEffectView(effect: UIBlurEffect(style: UIBlurEffectStyle.ExtraLight))
+            blurEffectView.alpha = 0.4
+            blurEffectView.frame = self.view.bounds
+            self.view.addSubview(blurEffectView)
+            
+            let loadingNotification = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
+            loadingNotification.mode = MBProgressHUDMode.Indeterminate
+            loadingNotification.labelText = "Removing"
+            
+            APIManager.init(requestType: RequestType.WithXAuthTokenInHeader, urlString: URLType.RemoveProfilePhoto.make(), method: .GET).handleResponse({ (response: SuccessFailJSON) -> Void in
+                if let error = response.error where !error {
+                    self.userDataAsObject.photo = ""
+                    self.userDataAsObject.photo_thumb = ""
+                    let user = UserFeedDistinction().getUserWithId(self.userDataAsObject.id!)
+                    user?.photo_thumb = ""
+                    user?.photo = ""
+                    self.navigationController?.popViewControllerAnimated(true)
+                }else {
+                    PixaPalsErrorType.NoDataFoundError.show(self, message: "Couldn't remove the profile picture. Try again.")
+                }
+                }, errorBlock: {self}, onResponse: {
+                    self.newDoneButton.enabled=true
+                    self.newBackButton.enabled=true
+                    loadingNotification.removeFromSuperview()
+                    blurEffectView.removeFromSuperview()
+            })
+        }
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .Default, handler: nil)
+        
+        alertController.addAction(changeAction)
+        alertController.addAction(removeAction)
+        alertController.addAction(cancelAction)
+        
+        self.presentViewController(alertController, animated: true, completion: nil)
     }
     
     @IBAction func btnGender(sender: AnyObject) {
@@ -180,8 +216,8 @@ class ProfileEditViewController: UIViewController, UINavigationControllerDelegat
         
         // example image data
         
-//        print(parameters)
-//        //print(headers)
+        //        print(parameters)
+        //        //print(headers)
         
         // CREATE AND SEND REQUEST ----------
         
@@ -326,7 +362,7 @@ class ProfileEditViewController: UIViewController, UINavigationControllerDelegat
                     self.delegate.reloadDataAfterProfileEdit()
                     //let user = UserFeedDistinction.sharedInstance.getUserWithId(self.userDataAsObject.id!)
                     UserFeedDistinction.sharedInstance.checkDistinctUser(self.userDataAsObject)
-
+                    
                     self.navigationController!.popViewControllerAnimated(true)
                 }else {
                     
@@ -338,7 +374,7 @@ class ProfileEditViewController: UIViewController, UINavigationControllerDelegat
                                 if $1 == "Old password didn't match." {
                                     self.oldPasswordTextField.text = ""
                                     self.newPasswordTextField.text = ""
-                                    self.conformPasswordTextField.text = ""	
+                                    self.conformPasswordTextField.text = ""
                                 }
                                 return $0 + "\n" + $1
                             })
@@ -356,108 +392,108 @@ class ProfileEditViewController: UIViewController, UINavigationControllerDelegat
                 MBProgressHUD.hideAllHUDsForView(self.view, animated: true)
                 self.blurEffectView.removeFromSuperview()
             }
-            )
+        )
         
-//        requestWithHeaderXAuthToken(.POST, urlString, parameters: parameters)
-//            .responseJSON { response in
-//                //                debug//print(response)     // //prints detailed description of all response properties
-//                //
-//                //                //print(response.request)  // original URL request
-//                //                //print(response.response) // URL response
-//                //                //print(response.data)     // server data
-//                //                //print(response.result)   // result of response serialization
-//                
-//                //                if let JSON = response.result.value {
-//                //                    //print("JSON: \(JSON)")
-//                //                }
-//                //
-//                //                if let HTTPResponse = response.response {
-//                //
-//                //                    let statusCode = HTTPResponse.statusCode
-//                //
-//                //                    if statusCode==200{
-//                //                        self.userDataAsObject.username = self.userNameTextField.text
-//                //                        self.userDataAsObject.email = self.emailTextField.text
-//                //                        self.userDataAsObject.gender = self.btnGender.titleLabel?.text
-//                //                        self.userDataAsObject.phone = self.phoneTextField.text
-//                //                        self.userDataAsObject.website = self.webSiteTextField.text
-//                //                        self.userDataAsObject.bio = self.bioTextField.text
-//                //
-//                //                        self.delegate.reloadDataAfterProfileEdit()
-//                //                        //let user = UserFeedDistinction.sharedInstance.getUserWithId(self.userDataAsObject.id!)
-//                //                        UserFeedDistinction.sharedInstance.checkDistinctUser(self.userDataAsObject)
-//                //
-//                //                        MBProgressHUD.hideAllHUDsForView(self.view, animated: true)
-//                //                        self.blurEffectView.removeFromSuperview()
-//                //                        self.navigationController!.popViewControllerAnimated(true)
-//                //                    }else  {
-//                //
-//                //
-//                //                        MBProgressHUD.hideAllHUDsForView(self.view, animated: true)
-//                //                        self.blurEffectView.removeFromSuperview()
-//                //
-//                //                        //self.navigationItem.hidesBackButton = false
-//                //                        self.newBackButton.enabled=true
-//                //                        self.newDoneButton.enabled=true
-//                //                    }
-//                //                }
-//                
-//                switch response.result {
-//                case .Success(let data):
-//                    //print(data)
-//                    //let data = JSON(nsdata)
-//                    if let isError = data["error"] as? Bool where isError == false{
-//                        self.userDataAsObject.username = self.userNameTextField.text
-//                        self.userDataAsObject.email = self.emailTextField.text
-//                        self.userDataAsObject.gender = self.btnGender.titleLabel?.text
-//                        self.userDataAsObject.phone = self.phoneTextField.text
-//                        self.userDataAsObject.website = self.webSiteTextField.text
-//                        self.userDataAsObject.bio = self.bioTextField.text
-//                        
-//                        self.delegate.reloadDataAfterProfileEdit()
-//                        //let user = UserFeedDistinction.sharedInstance.getUserWithId(self.userDataAsObject.id!)
-//                        UserFeedDistinction.sharedInstance.checkDistinctUser(self.userDataAsObject)
-//                        
-//                        MBProgressHUD.hideAllHUDsForView(self.view, animated: true)
-//                        self.blurEffectView.removeFromSuperview()
-//                        self.navigationController!.popViewControllerAnimated(true)
-//                    }else {
-//                        MBProgressHUD.hideAllHUDsForView(self.view, animated: true)
-//                        self.blurEffectView.removeFromSuperview()
-//                        
-//                        //self.navigationItem.hidesBackButton = false
-//                        self.newBackButton.enabled=true
-//                        self.newDoneButton.enabled=true
-//                        
-////                        func message() -> String? {
-////                            if let message = data["message"] as? [String: [String]] {
-////                                let msg  = message.reduce("", combine: { (msg, message) -> String in
-////                                    return msg + message.1.reduce("", combine: { (indivMsg, msg) -> String in
-////                                        return indivMsg + "\n" + msg
-////                                    })
-////                                })
-////                                return msg
-////                            }
-////                            return nil
-////                        }
-//                        func message() -> String? {
-//                            if let message = data["message"] as? [String] {
-//                                let msg = message.reduce("", combine: {
-//                                    $0 + "\n" + $1
-//                                })
-//                                return msg
-//                            }
-//                           return nil
-//                        }
-//                        ////print("Invalid Username/Password: \(data["message"])")
-//                        PixaPalsErrorType.CantAuthenticateError.show(self, title: nil, message: message())
-//                    }
-//                case .Failure(let error):
-//                    MBProgressHUD.hideAllHUDsForView(self.view, animated: true)
-//                    self.blurEffectView.removeFromSuperview()
-//                    PixaPalsErrorType.ConnectionError.show(self)
-//                }
-//        }
+        //        requestWithHeaderXAuthToken(.POST, urlString, parameters: parameters)
+        //            .responseJSON { response in
+        //                //                debug//print(response)     // //prints detailed description of all response properties
+        //                //
+        //                //                //print(response.request)  // original URL request
+        //                //                //print(response.response) // URL response
+        //                //                //print(response.data)     // server data
+        //                //                //print(response.result)   // result of response serialization
+        //
+        //                //                if let JSON = response.result.value {
+        //                //                    //print("JSON: \(JSON)")
+        //                //                }
+        //                //
+        //                //                if let HTTPResponse = response.response {
+        //                //
+        //                //                    let statusCode = HTTPResponse.statusCode
+        //                //
+        //                //                    if statusCode==200{
+        //                //                        self.userDataAsObject.username = self.userNameTextField.text
+        //                //                        self.userDataAsObject.email = self.emailTextField.text
+        //                //                        self.userDataAsObject.gender = self.btnGender.titleLabel?.text
+        //                //                        self.userDataAsObject.phone = self.phoneTextField.text
+        //                //                        self.userDataAsObject.website = self.webSiteTextField.text
+        //                //                        self.userDataAsObject.bio = self.bioTextField.text
+        //                //
+        //                //                        self.delegate.reloadDataAfterProfileEdit()
+        //                //                        //let user = UserFeedDistinction.sharedInstance.getUserWithId(self.userDataAsObject.id!)
+        //                //                        UserFeedDistinction.sharedInstance.checkDistinctUser(self.userDataAsObject)
+        //                //
+        //                //                        MBProgressHUD.hideAllHUDsForView(self.view, animated: true)
+        //                //                        self.blurEffectView.removeFromSuperview()
+        //                //                        self.navigationController!.popViewControllerAnimated(true)
+        //                //                    }else  {
+        //                //
+        //                //
+        //                //                        MBProgressHUD.hideAllHUDsForView(self.view, animated: true)
+        //                //                        self.blurEffectView.removeFromSuperview()
+        //                //
+        //                //                        //self.navigationItem.hidesBackButton = false
+        //                //                        self.newBackButton.enabled=true
+        //                //                        self.newDoneButton.enabled=true
+        //                //                    }
+        //                //                }
+        //
+        //                switch response.result {
+        //                case .Success(let data):
+        //                    //print(data)
+        //                    //let data = JSON(nsdata)
+        //                    if let isError = data["error"] as? Bool where isError == false{
+        //                        self.userDataAsObject.username = self.userNameTextField.text
+        //                        self.userDataAsObject.email = self.emailTextField.text
+        //                        self.userDataAsObject.gender = self.btnGender.titleLabel?.text
+        //                        self.userDataAsObject.phone = self.phoneTextField.text
+        //                        self.userDataAsObject.website = self.webSiteTextField.text
+        //                        self.userDataAsObject.bio = self.bioTextField.text
+        //
+        //                        self.delegate.reloadDataAfterProfileEdit()
+        //                        //let user = UserFeedDistinction.sharedInstance.getUserWithId(self.userDataAsObject.id!)
+        //                        UserFeedDistinction.sharedInstance.checkDistinctUser(self.userDataAsObject)
+        //
+        //                        MBProgressHUD.hideAllHUDsForView(self.view, animated: true)
+        //                        self.blurEffectView.removeFromSuperview()
+        //                        self.navigationController!.popViewControllerAnimated(true)
+        //                    }else {
+        //                        MBProgressHUD.hideAllHUDsForView(self.view, animated: true)
+        //                        self.blurEffectView.removeFromSuperview()
+        //
+        //                        //self.navigationItem.hidesBackButton = false
+        //                        self.newBackButton.enabled=true
+        //                        self.newDoneButton.enabled=true
+        //
+        ////                        func message() -> String? {
+        ////                            if let message = data["message"] as? [String: [String]] {
+        ////                                let msg  = message.reduce("", combine: { (msg, message) -> String in
+        ////                                    return msg + message.1.reduce("", combine: { (indivMsg, msg) -> String in
+        ////                                        return indivMsg + "\n" + msg
+        ////                                    })
+        ////                                })
+        ////                                return msg
+        ////                            }
+        ////                            return nil
+        ////                        }
+        //                        func message() -> String? {
+        //                            if let message = data["message"] as? [String] {
+        //                                let msg = message.reduce("", combine: {
+        //                                    $0 + "\n" + $1
+        //                                })
+        //                                return msg
+        //                            }
+        //                           return nil
+        //                        }
+        //                        ////print("Invalid Username/Password: \(data["message"])")
+        //                        PixaPalsErrorType.CantAuthenticateError.show(self, title: nil, message: message())
+        //                    }
+        //                case .Failure(let error):
+        //                    MBProgressHUD.hideAllHUDsForView(self.view, animated: true)
+        //                    self.blurEffectView.removeFromSuperview()
+        //                    PixaPalsErrorType.ConnectionError.show(self)
+        //                }
+        //        }
         
         
     }

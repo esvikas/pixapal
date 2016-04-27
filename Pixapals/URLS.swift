@@ -22,6 +22,7 @@ enum URLType: String {
     case PostFeed = "feeds"
     case Profile = "profile/"
     case ProfilePhoto = "profile/photo"
+    case RemoveProfilePhoto = "profile/delete/photo"
     case ProfileUpdate = "profile/update"
     case Register = "register"
     case AppIssue = "app/issue"
