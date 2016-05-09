@@ -86,10 +86,8 @@ class GlobalFeedsViewController: UIViewController {
     }
     
     private func notificationTabItemBadge() {
-        if let numberOfNotificationBadge = appDelegate.numberOfNotificationBadge {
-            let tabArray = self.tabBarController?.tabBar.items as NSArray!
-            let tabItem = tabArray.objectAtIndex(3) as! UITabBarItem
-            tabItem.badgeValue = String(numberOfNotificationBadge)
+        if let tabBarController = self.tabBarController as? CustomTabBarController {
+            tabBarController.changeBadge()
         }
     }
     
@@ -118,11 +116,11 @@ class GlobalFeedsViewController: UIViewController {
     */
     
     @IBAction func swipedLeft(sender: AnyObject) {
-        print("Swiped left")
+       // //print("Swiped left")
     }
     
     @IBAction func swipedRight(sender: AnyObject) {
-        print("Swiped right")
+        ////print("Swiped right")
     }
     
     @IBAction func tryAgainPressed(sender: AnyObject) {
@@ -135,7 +133,7 @@ class GlobalFeedsViewController: UIViewController {
     
     private func loadDataFromAPI(){
         guard let id = UserDataStruct().id else {
-            print("no user id")
+            ////print("no user id")
             return
         }
         
@@ -149,9 +147,9 @@ class GlobalFeedsViewController: UIViewController {
 //        else {
 //            apiURLString = URLs().makeGetGLobalFeed(userId: id, pageNumber: self.pageNumber, postLimit: self.postLimit)
 //        }
-        //print(apiURLString)
+        ////print(apiURLString)
 //        guard let api_token = UserDataStruct().api_token else{
-//            print("no api token")
+//            //print("no api token")
 //            return
 //        }
         
@@ -160,12 +158,12 @@ class GlobalFeedsViewController: UIViewController {
         //                requestWithHeaderXAuthToken(.GET, apiURLString)
         //                   //requestWithHeaderXAuthToken(.GET, apiURLString)
         //                    .responseJSON { response -> Void in
-        //                        print(response.request)
+        //                        //print(response.request)
         //                        switch response.result {
         //                        case .Success(let value):
-        //                            print(JSON(value))
+        //                            //print(JSON(value))
         //                        case .Failure(let error):
-        //                            print(error)
+        //                            //print(error)
         //                }
         //            }
         
@@ -176,7 +174,7 @@ class GlobalFeedsViewController: UIViewController {
                 
                 PixaPalsErrorType.NoDataFoundError.show(self)
                 
-                print("Error: \(feedsResponseJSON.message)")
+               // //print("Error: \(feedsResponseJSON.message)")
             } else {
                 if let _ = self.feedsFromResponseAsObject {
                     if self.refreshingStatus == true {
@@ -197,7 +195,7 @@ class GlobalFeedsViewController: UIViewController {
                 else {
                     self.feedsFromResponseAsObject = feedsResponseJSON
                 }
-                //print(feedsResponseJSON.feeds?.count)
+                ////print(feedsResponseJSON.feeds?.count)
                 self.tableView.reloadData()
                 self.collectionView.reloadData()
                 self.footerView.hidden = true
@@ -231,7 +229,7 @@ class GlobalFeedsViewController: UIViewController {
         //                    self.loadMoreActivityIndicator.stopAnimating()
         //                    self.tryAgainButton.hidden = false
         //                    showAlertView("Error", message: "\(feedsResponseJSON.message!)", controller: self)
-        //                    print("Error: \(feedsResponseJSON.message)")
+        //                    //print("Error: \(feedsResponseJSON.message)")
         //                } else {
         //                    if let _ = self.feedsFromResponseAsObject {
         //                        if self.refreshingStatus == true {
@@ -252,7 +250,7 @@ class GlobalFeedsViewController: UIViewController {
         //                    else {
         //                        self.feedsFromResponseAsObject = feedsResponseJSON
         //                    }
-        //                    //print(feedsResponseJSON.feeds?.count)
+        //                    ////print(feedsResponseJSON.feeds?.count)
         //                    self.tableView.reloadData()
         //                    self.collectionView.reloadData()
         //                    MBProgressHUD.hideAllHUDsForView(self.view, animated: true)
@@ -284,7 +282,7 @@ class GlobalFeedsViewController: UIViewController {
         //                    self.loadMoreActivityIndicator.stopAnimating()
         //                    self.tryAgainButton.hidden = false
         //                    showAlertView("Error", message: "\(feedsResponseJSON.message!)", controller: self)
-        //                    print("Error: \(feedsResponseJSON.message)")
+        //                    //print("Error: \(feedsResponseJSON.message)")
         //                } else {
         //                    if let _ = self.feedsFromResponseAsObject {
         //                        if self.refreshingStatus == true {
@@ -305,7 +303,7 @@ class GlobalFeedsViewController: UIViewController {
         //                    else {
         //                        self.feedsFromResponseAsObject = feedsResponseJSON
         //                    }
-        //                    //print(feedsResponseJSON.feeds?.count)
+        //                    ////print(feedsResponseJSON.feeds?.count)
         //                    self.tableView.reloadData()
         //                    self.collectionView.reloadData()
         //                    MBProgressHUD.hideAllHUDsForView(self.view, animated: true)
@@ -326,14 +324,14 @@ class GlobalFeedsViewController: UIViewController {
         //                //                    }, handlerForCancel: nil)
         //                self.loadMoreActivityIndicator.stopAnimating()
         //                self.tryAgainButton.hidden = false
-        //                print("ERROR: \(error)")
+        //                //print("ERROR: \(error)")
         //                self.tableViewRefreshControl.endRefreshing()
         //                self.collectionViewRefreshControl.endRefreshing()
         //                PixaPalsErrorType.ConnectionError.show(self)
         //            }
         //
         //            }.progress { (a, b, c) -> Void in
-        //                // print("\(a) -- \(b) -- \(c)")
+        //                // //print("\(a) -- \(b) -- \(c)")
         //        }
         
     }
@@ -391,7 +389,7 @@ class GlobalFeedsViewController: UIViewController {
 extension GlobalFeedsViewController: UITableViewDataSource {
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         
-        print(self.feedsFromResponseAsObject?.feeds?.count)
+        ////print(self.feedsFromResponseAsObject?.feeds?.count)
         return self.feedsFromResponseAsObject?.feeds?.count ?? 0
     }
     
@@ -436,11 +434,19 @@ extension GlobalFeedsViewController: UITableViewDataSource {
         
         cell.delegate = self
         
+        cell.feedId = feed.id
         cell.id = indexPath.section
         cell.left = feed.is_my_left
         cell.loved = feed.is_my_love
         cell.mode = feed.mode
-        print(feed.mode)
+        
+        if feed.is_my_feed! {
+            cell.moreButton.hidden = true
+        }else {
+            cell.moreButton.hidden = false
+        }
+        //print(feed.is_my_feed)
+        
         cell.selectionStyle =  UITableViewCellSelectionStyle.None
         
         cell.loveCount.text = "\(feed.loveit ?? 0) Loved it"
@@ -454,7 +460,7 @@ extension GlobalFeedsViewController: UITableViewDataSource {
             cell.leftIcon.image = UIImage(named: self.getIconName(feed.leaveit ?? 0))
         }
         cell.comment.text = "\(feed.comment ?? "")"
-        //print(feedsToShow)
+        ////print(feedsToShow)
         return cell
     }
     
@@ -481,9 +487,9 @@ extension GlobalFeedsViewController: UITableViewDataSource {
     }
     
     func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
-        //print( hasMoreDataInServer)
-        //print(indexPath.section)
-        //print(indexPath.section == self.feedsFromResponseAsObject.feeds!.count)
+        ////print( hasMoreDataInServer)
+        ////print(indexPath.section)
+        ////print(indexPath.section == self.feedsFromResponseAsObject.feeds!.count)
         if indexPath.section == self.feedsFromResponseAsObject.feeds!.count - 1 && self.hasMoreDataInServer {
             self.loadMore()
         }
@@ -523,8 +529,7 @@ extension GlobalFeedsViewController: UITableViewDelegate {
         let feed = self.feedsFromResponseAsObject.feeds![section]
         let cell = tableView.dequeueReusableCellWithIdentifier("globalFeedTableViewHeaderCell") as! GlobalFeedTableViewHeaderCell
         cell.userProfilePic.kf_setImageWithURL(NSURL(string: feed.user!.photo_thumb!)!, placeholderImage: cell.userProfilePic.image)
-        
-        
+        //cell.username.text = (feed.user!.is_my_profile!) ? (feed.user?.username)! + " (YOU)" : feed.user?.username
         cell.username.text = feed.user?.username
         cell.id = feed.user?.id
         cell.delegate = self
@@ -552,7 +557,7 @@ extension GlobalFeedsViewController: UITableViewDelegate {
 
 extension GlobalFeedsViewController: UICollectionViewDataSource{
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        //print(feedsToShow?.count)
+        ////print(feedsToShow?.count)
         return self.feedsFromResponseAsObject?.feeds?.count ?? 0
     }
     
@@ -619,13 +624,13 @@ extension GlobalFeedsViewController: UICollectionViewDelegateFlowLayout {
 
 extension GlobalFeedsViewController: CellImageSwippedDelegate {
     func imageSwipedLeft(id: Int, loved: Bool, left:Bool) {
-        print("swipped love (left)")
+       // //print("swipped love (left)")
         let feed = self.feedsFromResponseAsObject.feeds![id]
         feed.loveFeed(self) {self.tableView.reloadData()}
         
     }
     func imageSwipedRight(id: Int, loved: Bool, left: Bool, mode: Int) {
-        print("swipped leave (right)")
+       // //print("swipped leave (right)")
         
         let feed = self.feedsFromResponseAsObject.feeds![id]
         feed.leaveFeed(self) {self.tableView.reloadData()}
@@ -638,6 +643,9 @@ extension GlobalFeedsViewController: CellImageSwippedDelegate {
         segueToLoverListViewController(usersArrayToDisplay: getFeedWithId(id).leavers!)
     }
     func SegueToProfile(id: Int?) {
+        if let is_my_profile = UserFeedDistinction.sharedInstance.getUserWithId(id!)?.is_my_profile where is_my_profile {
+            return
+        }
         let storyBoard = UIStoryboard(name: "Main", bundle: nil)
         let vc: ProfileViewController = storyBoard.instantiateViewControllerWithIdentifier("ProfileViewController") as! ProfileViewController
         vc.userId = id
@@ -647,8 +655,6 @@ extension GlobalFeedsViewController: CellImageSwippedDelegate {
     func getFeedWithId(id: Int?) -> FeedJSON {
         return self.feedsFromResponseAsObject.feeds![id!]
     }
-    
-    
     
     func segueToLoverListViewController(usersArrayToDisplay users: [UserJSON]) {
         let storyBoard = UIStoryboard(name: "Main", bundle: nil)
@@ -686,13 +692,13 @@ extension GlobalFeedsViewController: CellImageSwippedDelegate {
 ////                    feed.leaveTheFeed({self.tableView.reloadData()})
 ////                    PixaPalsErrorType.CantLoveItLeaveItError.show(self)
 ////                    //showAlertView("Error", message: "Can't love the post. Try again.", controller: self)
-////                    //print("Error: Love it error")
+////                    ////print("Error: Love it error")
 ////                }
 ////            case .Failure(let error):
 ////                feed.leaveTheFeed({self.tableView.reloadData()})
 ////                PixaPalsErrorType.ConnectionError.show(self)
 ////                //showAlertView("Error", message: "Can't connect right now.Check your internet settings.", controller: self)
-////                // print("Error in connection \(error)")
+////                // //print("Error in connection \(error)")
 ////            }
 ////        }
 //    }
@@ -717,12 +723,12 @@ extension GlobalFeedsViewController: CellImageSwippedDelegate {
 ////        feed.leaveTheFeed({self.tableView.reloadData()})
 ////        
 ////        //                Alamofire.request(.POST, registerUrlString, parameters: parameters, headers:headers).responseJSON { response in
-////        //                    print(response.request)
+////        //                    //print(response.request)
 ////        //                    switch response.result {
 ////        //                    case .Failure(let error):
-////        //                        print(error)
+////        //                        //print(error)
 ////        //                    case .Success(let value):
-////        //                        print(value)
+////        //                        //print(value)
 ////        //                    }
 ////        //                }
 ////        
@@ -733,7 +739,7 @@ extension GlobalFeedsViewController: CellImageSwippedDelegate {
 ////                    feed.leavers?.append(leaveItObject.user!)
 ////                    feed.lovers = feed.lovers!.filter{$0.id! != leaveItObject.user!.id!}
 ////                } else {
-////                    //print("Error: Love it error")
+////                    ////print("Error: Love it error")
 ////                    feed.loveTheFeed({self.tableView.reloadData()})
 ////                    PixaPalsErrorType.CantLoveItLeaveItError.show(self)
 ////                    //showAlertView("Error", message: "Can't leave the post. Try again.", controller: self)
@@ -742,7 +748,7 @@ extension GlobalFeedsViewController: CellImageSwippedDelegate {
 ////            case .Failure(let error):
 ////                PixaPalsErrorType.ConnectionError.show(self)
 ////                //showAlertView("Error", message: "Can't connect right now.Check your internet settings.", controller: self)
-////                // print("Error in connection \(error)")
+////                // //print("Error in connection \(error)")
 ////                feed.loveTheFeed({self.tableView.reloadData()})
 ////                
 ////            }

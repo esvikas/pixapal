@@ -34,6 +34,7 @@ class SettingsTableViewController: UITableViewController {
         
         self.view.backgroundColor=UIColor(red: 240/255, green: 240/255, blue: 240/255, alpha: 1)
         reloadView()
+        self.getPreferencesData()
     }
     
     override func didReceiveMemoryWarning() {
@@ -46,11 +47,29 @@ class SettingsTableViewController: UITableViewController {
         reloadView()
         
     }
+    func getPreferencesData(){
+        let url = URLType.PreferenceGet.make() + "\(UserDataStruct().id)"
+        APIManager(requestType: RequestType.WithXAuthTokenInHeader, urlString: url, method: .GET).giveResponseJSON({ (data) -> Void in
+            if let dict = data as? [String: AnyObject] {
+                if let errorStatus = dict["error"] as? Bool where !errorStatus {
+                    if let gender = dict["message"]?["gender"] as? String{
+                        nsUserDefault.setObject((gender == "") ? "All" : gender, forKey: "UserGenderForFilter")
+                    }
+                    if let region = dict["message"]?["region"]?["name"] as? String {
+                        nsUserDefault.setObject(region, forKey: "UserLocationForFilter")
+                    }
+                }
+            }
+            self.reloadView()
+            }, errorBlock: {self})
+    }
     
     func reloadView(){
+        
         nsUserDefault.synchronize()
         locationDetailText.text =  nsUserDefault.objectForKey("UserLocationForFilter") as? String
         genderDetailText.text =  nsUserDefault.objectForKey("UserGenderForFilter") as? String
+        self.tableView.reloadData()
         
     }
     
@@ -60,7 +79,7 @@ class SettingsTableViewController: UITableViewController {
             
         case 0:
             
-            print(indexPath.row)
+            ////print(indexPath.row)
             if indexPath.row==1{
                 uiPickerMaker()
                 PickerAction()
@@ -83,8 +102,8 @@ class SettingsTableViewController: UITableViewController {
             self.navigationController?.pushViewController(vc, animated: true)
         case 3:
             logoutRequest()
-        default:
-            print("Error")
+        default: break
+           // //print("Error")
             
         }
     }
@@ -159,7 +178,7 @@ class SettingsTableViewController: UITableViewController {
         
         pickerDateToolbar = UIToolbar(frame: CGRectMake(0, 0, kSCREEN_WIDTH, 44))
         pickerDateToolbar!.barStyle = UIBarStyle.Black
-        pickerDateToolbar!.barTintColor = UIColor(red: 20/255, green: 153/255, blue: 236/255, alpha: 1)
+        pickerDateToolbar!.barTintColor = UIColor.blackColor()
         pickerDateToolbar!.translucent = true
         
     }
@@ -176,7 +195,7 @@ class SettingsTableViewController: UITableViewController {
     
     
     func pickerView(_pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        print(pickerDataSource.count, terminator: "")
+        ////print(pickerDataSource.count, terminator: "")
         return pickerDataSource.count
         
     }
@@ -246,7 +265,7 @@ class SettingsTableViewController: UITableViewController {
             "gender": String(genderDetailText.text!),
             "region": String(locationDetailText.text!)
         ]
-        //        print(parameters)
+        //        //print(parameters)
         //
         //        let headers = [
         //            "X-Auth-Token" : user.api_token!,
@@ -254,28 +273,28 @@ class SettingsTableViewController: UITableViewController {
         
         
         //                Alamofire.request(.POST, registerUrlString, parameters: parameters, headers:headers).responseJSON { response in
-        //                    print(response.request)
+        //                    //print(response.request)
         //                    switch response.result {
         //                    case .Failure(let error):
-        //                        print(error)
+        //                        //print(error)
         //                    case .Success(let value):
-        //                        print(value)
+        //                        //print(value)
         //                    }
         //                }
         
         APIManager(requestType: RequestType.WithXAuthTokenInHeader, urlString: urlString, parameters: parameters).handleResponse(
             { (successObject: SuccessFailJSON) -> Void in
-                print("Set successfully \(successObject.message)")
+                ////print("Set successfully \(successObject.message)")
             }, errorBlock: {self})
         
         //        requestWithHeaderXAuthToken(.POST, registerUrlString, parameters: parameters).responseObject { (response: Response<SuccessFailJSON, NSError>) -> Void in
         //            switch response.result {
         //            case .Success(let successObject):
-        //                print("Set successfully \(successObject.message)")
+        //                //print("Set successfully \(successObject.message)")
         //
         //            case .Failure(let error):
         //                //showAlertView("Error", message: "Can't connect right now.Check your internet settings.", controller: self)
-        //                //print("Error in connection \(error)")
+        //                ////print("Error in connection \(error)")
         //                PixaPalsErrorType.ConnectionError.show(self)
         //            }
         //        }
@@ -287,27 +306,27 @@ class SettingsTableViewController: UITableViewController {
         let registerUrlString = URLType.Logout.make()
         
         
-//        let headers = [
-//            "X-Auth-Token" : String(user.api_token!),
-//        ]
+        //        let headers = [
+        //            "X-Auth-Token" : String(user.api_token!),
+        //        ]
         
         APIManager(requestType: RequestType.WithXAuthTokenInHeader, urlString: registerUrlString, method: .GET).giveResponseJSON({_ in self.logOut()}, errorBlock:{self})
         
-//        Alamofire.request(.GET, registerUrlString, parameters: nil, headers:headers).responseJSON { response in
-//            print(response.request)
-//            switch response.result {
-//            case .Success( _ ):
-//                
-//                self.logOut()
-//                
-//                
-//            case .Failure(let error):
-//                //print("Error in connection \(error)")
-//                //showAlertView("Error", message: "Can't connect right now.Check your internet settings.", controller: self)
-//                PixaPalsErrorType.ConnectionError.show(self)
-//            }
-//        }
-//        print(headers)
+        //        Alamofire.request(.GET, registerUrlString, parameters: nil, headers:headers).responseJSON { response in
+        //            //print(response.request)
+        //            switch response.result {
+        //            case .Success( _ ):
+        //
+        //                self.logOut()
+        //
+        //
+        //            case .Failure(let error):
+        //                ////print("Error in connection \(error)")
+        //                //showAlertView("Error", message: "Can't connect right now.Check your internet settings.", controller: self)
+        //                PixaPalsErrorType.ConnectionError.show(self)
+        //            }
+        //        }
+        //        //print(headers)
         
     }
     func logOut(){

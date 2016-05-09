@@ -29,9 +29,9 @@ class PostFeedModeSelectionViewController: UIViewController, UINavigationControl
         
         // Do any additional setup after loading the view.
         singleModeButton.layer.borderColor = UIColor(red:0.914, green:0.910, blue:0.922, alpha:1.00).CGColor
-        singleModeButton.layer.borderWidth = 3
+        singleModeButton.layer.borderWidth = 1
         doubleModeButton.layer.borderColor = UIColor(red:0.914, green:0.910, blue:0.922, alpha:1.00).CGColor
-        doubleModeButton.layer.borderWidth = 3
+        doubleModeButton.layer.borderWidth = 1
         
         self.view.backgroundColor=UIColor(red: 240/255, green: 240/255, blue: 240/255, alpha: 1)
 
@@ -65,7 +65,7 @@ class PostFeedModeSelectionViewController: UIViewController, UINavigationControl
             }
             
         } catch {
-            print("Unable to create Reachability")
+            ////print("Unable to create Reachability")
             return
         }
     }

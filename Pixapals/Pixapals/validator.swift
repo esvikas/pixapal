@@ -97,7 +97,7 @@ struct Validator {
         }
        
         
-        print(rule.rawValue)
+        //print(rule.rawValue)
         let regex = Regex(regex: regexString)
         if !regex.test(text) {
             errorMsgs.append("Input doesn't match the specified datatype.")
@@ -123,7 +123,7 @@ struct Regex {
         catch
         {
             self.internalExpression = nil
-            print(error)
+            //print(error)
         }
     }
     

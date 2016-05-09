@@ -21,15 +21,23 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var deviceTokenString: String!
     var numberOfNotificationBadge: Int?
     var fromNotification = false
+    var tabBarDelegate: CustomTabBarControllerDelegate?
     //var twitterSession: TWTRSession?
     //var fbLoginManager: FBSDKLoginManager?
     
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         UINavigationBar.appearance().backIndicatorImage = UIImage(named: "report_form_left_arrow")
         UINavigationBar.appearance().backIndicatorTransitionMaskImage = UIImage(named: "report_form_left_arrow")
+        //self.navigationController.navigationBar.titleTextAttributes = [ NSFontAttributeName: UIFont(name: "CaviarDreams", size: 20)!]
+        let font = UIFont(name: "Helvetica-Condensed-Bold", size: 20)!
+        UINavigationBar.appearance().titleTextAttributes = [ NSFontAttributeName: font, NSForegroundColorAttributeName: UIColor.whiteColor()]
+        UINavigationBar.appearance().tintColor = UIColor.whiteColor()
+        UITabBarItem.appearance().setTitleTextAttributes([NSForegroundColorAttributeName: UIColor.whiteColor()], forState: UIControlState.Normal)
+        //UINavigationBar.appearance().barTintColor = UIColor.whiteColor()
         
         UIApplication.sharedApplication().statusBarStyle = .LightContent
-        UITabBar.appearance().tintColor = UIColor.whiteColor()
+         //[[UILabel appearance] setFont:[UIFont fontWithName:@"YourFontName" size:17.0]];
+        //UILabel.appearance().font = UIFont(name: "Helvetica-Condensed", size: 17.0)
         
         // Override point for customization after application launch.
         
@@ -39,7 +47,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         
         
-
+        
         
         let settings: UIUserNotificationSettings = UIUserNotificationSettings( forTypes: types, categories: nil )
         application.registerUserNotificationSettings( settings )
@@ -47,6 +55,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         Fabric.with([Crashlytics.self, Twitter.self])
         
+        
+        getNotificationCount()
         
         
         return FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
@@ -61,30 +71,30 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             .stringByReplacingOccurrencesOfString( " ", withString: "" ) as String
         let nsUserDefault = NSUserDefaults.standardUserDefaults()
         nsUserDefault.setObject(deviceTokenString, forKey: "deviceTokenString")
-        print(deviceTokenString)
+        //print(deviceTokenString)
     }
-
+    
     func applicationWillResignActive(application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
         // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
     }
-
+    
     func applicationDidEnterBackground(application: UIApplication) {
         // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
         // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
     }
-
+    
     func applicationWillEnterForeground(application: UIApplication) {
         // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
         
-        fromNotification = true
-
+        //fromNotification = true
+        
     }
-
+    
     func applicationDidBecomeActive(application: UIApplication) {
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
     }
-
+    
     func applicationWillTerminate(application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
@@ -105,31 +115,42 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject : AnyObject]) {
         if application.applicationState == UIApplicationState.Inactive || application.applicationState == UIApplicationState.Background {
             
-//            let storyBoard = UIStoryboard(name: "Main", bundle: nil)
-//            let vc = storyBoard.instantiateViewControllerWithIdentifier("tabView") as! CustomTabBarController
-//            vc.initalTab = 2
+            //            let storyBoard = UIStoryboard(name: "Main", bundle: nil)
+            //            let vc = storyBoard.instantiateViewControllerWithIdentifier("tabView") as! CustomTabBarController
+            //            vc.initalTab = 2
             fromNotification = true
-            
+            if let tabBarDelegate = tabBarDelegate {
+                tabBarDelegate.fromNotificationClick()
+            }
         }
         
-        if let numberOfNotificationBadge = self.numberOfNotificationBadge {
-            self.numberOfNotificationBadge = numberOfNotificationBadge + 1
-        } else {
-            self.numberOfNotificationBadge = 1
+        if let tabBarDelegate = tabBarDelegate {
+            tabBarDelegate.changeBadge()
+        }
+        
+        if application.applicationState == UIApplicationState.Active {
+            if let numberOfNotificationBadge = self.numberOfNotificationBadge {
+                self.numberOfNotificationBadge = numberOfNotificationBadge + 1
+            } else {
+                self.numberOfNotificationBadge = 1
+            }
+            if let tabBarDelegate = tabBarDelegate {
+                tabBarDelegate.changeBadge()
+            }
         }
         
         
-//        let alertController = UIAlertController(title: userInfo["aps"]?["alert"]?!["title"] as? String, message: userInfo["aps"]?["alert"]?!["body"] as? String, preferredStyle: .Alert)
-//        
-//        
-//        
-//        let OKAction = UIAlertAction(title: "Ok", style: .Default) { (action) in
-//        
-//        }
-//        alertController.addAction(OKAction)
-//        let currentController = self.getCurrentViewController()
-//        
-//        currentController?.presentViewController(alertController, animated: true, completion: nil)
+        //        let alertController = UIAlertController(title: userInfo["aps"]?["alert"]?!["title"] as? String, message: userInfo["aps"]?["alert"]?!["body"] as? String, preferredStyle: .Alert)
+        //
+        //
+        //
+        //        let OKAction = UIAlertAction(title: "Ok", style: .Default) { (action) in
+        //
+        //        }
+        //        alertController.addAction(OKAction)
+        //        let currentController = self.getCurrentViewController()
+        //
+        //        currentController?.presentViewController(alertController, animated: true, completion: nil)
         
         
         
@@ -162,7 +183,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         if (currentController?.isKindOfClass(UIAlertController) != true){
             currentController?.presentViewController(alertController, animated: true, completion: nil)
-            
         }
         
     }
@@ -193,17 +213,31 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             if reachability.isReachable()  {
                 
                 return true
-
+                
             } else {
                 
                 //ShowAlertView("Sorry ", message: "you are not conected with internet")
             }
             
         } catch {
-            print("Unable to create Reachability")
+            //print("Unable to create Reachability")
             return false
         }
         return false
+    }
+    
+    func getNotificationCount(){
+        if UserDataStruct().id != nil {
+            APIManager(requestType: RequestType.WithXAuthTokenInHeader, urlString: URLType.NotificationCount.make(), method: .GET).handleResponse({ (response: NotificationCountJSON) -> Void in
+                self.numberOfNotificationBadge = response.notificationCount
+                }, errorBlock: {
+                    return UIViewController()
+                }) {
+                    if let tabBarDelegate = self.tabBarDelegate {
+                        tabBarDelegate.changeBadge()
+                    }
+            }
+        }
     }
     
     

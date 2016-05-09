@@ -23,10 +23,10 @@ enum APIConnectionErrorMessage: String {
 //validation errors
 enum ValidationErrorMessage: String {
     case InvalidEmailErrorMessage = "The email you've entered is incorrect."
-    case EmptyPasswordFieldErrorMessage = "Password field is required."
-    case EmptyUsernameFieldErrorMessage = "Username field is required."
+    case EmptyPasswordFieldErrorMessage = "Password required."
+    case EmptyUsernameFieldErrorMessage = "Username required."
     case GenderNotSelectedErrorMessage = "Please choose a gender."
-    case EmptyFullNameErrorMessage = "Full name field is required."
+    case EmptyFullNameErrorMessage = "Full name required."
     case PasswordNotConfirmedErrorMessage = "Password and confirm password doesn't match"
 }
 
@@ -60,10 +60,11 @@ enum MiscErrorMessage: String {
 //report issue error
 enum ReportIssueErrorMessage: String {
     case CantReportIssueErrorMessage = "Reporting issue is unsuccessful."
-    case CommentBoxIsEmptyErrorMessage = "Comment field is required."
-    case RelatedToNotSelectedErrorMessage = "Related to field is required. Select an option."
+    case CommentBoxIsEmptyErrorMessage = "Comment required."
+    case RelatedToNotSelectedErrorMessage = "Related to required. Please select an option."
     case ReportIssueSuccessfulMessage = "Thank you! the issue is received. We will try to resolve the issue as soon as possible."
     case ReportNotEnsuredErrorMessage = "Ensure that the report is legit and valid one."
+    case CantBlockTheUserErrorMessage = "Can't block the user."
 }
 
 //find feeders error
@@ -154,6 +155,7 @@ enum PixaPalsErrorType {
     case RelatedToNotSelectedError
     case ReportIssueSuccessful
     case ReportNotEnsuredError
+    case CantBlockTheUserError
     
     //find feeders error
     case CantFindFeedersError
@@ -223,6 +225,8 @@ enum PixaPalsErrorType {
                     return ReportIssueErrorMessage.ReportNotEnsuredErrorMessage.rawValue
                 case .CantFindFeedersError:
                     return FindFeedersErrorMessage.CantFindFeedersErrorMessage.rawValue
+                case .CantBlockTheUserError:
+                    return ReportIssueErrorMessage.CantBlockTheUserErrorMessage.rawValue
                 }
             }()
         }

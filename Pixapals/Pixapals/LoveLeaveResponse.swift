@@ -28,3 +28,17 @@ class SuccessFailJSON: Mappable {
         }
     }
 }
+
+class ReportResponseJSON: Mappable {
+    var code: Int?
+    var error: Bool?
+    var message = [String]()
+    required init?(_ map: Map) {
+        
+    }
+    func mapping(map: Map) {
+        code <- map["code"]
+        error <- map["error"]
+        message <- map["message"]
+    }
+}

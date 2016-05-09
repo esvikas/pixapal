@@ -187,13 +187,13 @@ class DetailVIewViewController: UIViewController {
         APIManager(requestType: RequestType.WithXAuthTokenInHeader, urlString: urlString, parameters: parameters).handleResponse(
             { (getFeed: SuccessFailJSON) -> Void in
                 if !getFeed.error! {
-                    print("getting feed")
+                    //print("getting feed")
                     self.triggerDelegateNeedReloadData()
                     //appDelegate.ShowAlertView("Success", message: "You are now following to \( (self.feed.user?.username)!)")
                 } else {
                     getFeedButtonEnabled()
-                    print(getFeed.message)
-                    print("Error: feeding error")
+                    //print(getFeed.message)
+                    //print("Error: feeding error")
                     PixaPalsErrorType.CantFedTheUserError.show(self)
                 }
             }, errorBlock: {
@@ -235,6 +235,7 @@ class DetailVIewViewController: UIViewController {
     
     private func setUserInfo() {
         self.usernameLbl.text = feed!.user?.username
+        //self.usernameLbl.text = feed!.user?.username
         self.userProfilePic.kf_setImageWithURL(NSURL(string: feed!.user!.photo_thumb!)!, placeholderImage: self.userProfilePic.image)
     }
     private func triggerDelegateNeedReloadData() {
@@ -283,14 +284,14 @@ class DetailVIewViewController: UIViewController {
         APIManager(requestType: RequestType.WithXAuthTokenInHeader, urlString: urls(feedId), method: .GET).handleResponse(
             { (getFeed: FeedsResponseJSON) -> Void in
                 if let count = getFeed.feeds?.count where count > 0{
-                    print("getting feed")
+                    //print("getting feed")
                     self.feed = getFeed.feeds?.first
                     self.feedIsNotNil()
                     self.tableView.reloadData()
                     //appDelegate.ShowAlertView("Success", message: "You are now following to \( (self.feed.user?.username)!)")
                 } else {
                     PixaPalsErrorType.CantFedTheUserError.show(self)
-                    print("Error: getting feed error")
+                    //print("Error: getting feed error")
                 }
             }, errorBlock: {self})
         
@@ -365,10 +366,12 @@ extension DetailVIewViewController: UITableViewDataSource {
         //        } else {
         //            cell.feedImage2.hidden = true
         //        }
-        
+        if feed!.is_my_feed! {
+            cell.moreButton.hidden = true
+        }
         cell.delegate = self
         cell.selectionStyle =  UITableViewCellSelectionStyle.None
-        
+        cell.feedId = feed!.id
         cell.id = feed!.id
         cell.left = feed!.is_my_left
         cell.loved = feed!.is_my_love
@@ -436,11 +439,11 @@ extension DetailVIewViewController: UITableViewDelegate {
 extension DetailVIewViewController: CellImageSwippedDelegate {
     
     func imageSwipedLeft(id: Int, loved: Bool, left:Bool) {
-        print("swipped love (left)")
+        //print("swipped love (left)")
         self.feed?.loveFeed(self, completionHandler: {self.tableView.reloadData()})
     }
     func imageSwipedRight(id: Int, loved: Bool, left: Bool, mode: Int) {
-        print("swipped leave (right)")
+        //print("swipped leave (right)")
         self.feed?.leaveFeed(self, completionHandler: {self.tableView.reloadData()})
     }
     
@@ -451,6 +454,9 @@ extension DetailVIewViewController: CellImageSwippedDelegate {
         segueToLoverListViewController(usersArrayToDisplay: getFeedWithId(id).leavers!)
     }
     func SegueToProfile(id: Int?) {
+        if let is_my_profile = self.feed?.user?.is_my_profile where is_my_profile {
+            return
+        }
         let storyBoard = UIStoryboard(name: "Main", bundle: nil)
         let vc: ProfileViewController = storyBoard.instantiateViewControllerWithIdentifier("ProfileViewController") as! ProfileViewController
         vc.userId = id

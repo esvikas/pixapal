@@ -106,7 +106,7 @@ class DoubleModeFeedImageSelectionViewController: UIViewController, ImagePickerD
         vc.image2=CapturedImage2
         self.navigationController?.pushViewController(vc, animated: true)
         }else{
-            print("Only one Image")
+            ////print("Only one Image")
         }
     }
     

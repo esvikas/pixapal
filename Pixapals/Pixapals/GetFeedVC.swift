@@ -36,7 +36,7 @@ class GetFeedVC: UIViewController {
     
     private func loadDataFromAPI(){
         guard let id = UserDataStruct().id else {
-            print("no user id")
+            ////print("no user id")
             return
         }
         
@@ -45,9 +45,9 @@ class GetFeedVC: UIViewController {
         apiURLString = "api/v1/profile/fb-following-details"
         
        
-        //print(apiURLString)
+        ////print(apiURLString)
         guard let api_token = UserDataStruct().api_token else{
-            print("no api token")
+           // //print("no api token")
             return
         }
         
@@ -62,7 +62,7 @@ class GetFeedVC: UIViewController {
                 Alamofire.request(.GET, apiURLString, parameters: parameters, headers: headers)
                     //requestWithHeaderXAuthToken(.GET, apiURLString)
                     .responseJSON { response -> Void in
-                        print(response.request)
+                        ////print(response.request)
                         switch response.result {
                         case .Success(let value):
                             print(JSON(value))
@@ -96,7 +96,7 @@ extension GetFeedVC: UITableViewDataSource {
         
         cell.selectionStyle =  UITableViewCellSelectionStyle.None
         
-        //print(feedsToShow)
+        ////print(feedsToShow)
         return cell
     }
     

@@ -245,7 +245,7 @@ public class SRWebClient : NSObject
                         let json:AnyObject?
                         do {
                                 json = try NSJSONSerialization.JSONObjectWithData(result!, options: [])
-                            print(json)
+                            //print(json)
                             
                             if (error != nil && failure != nil) {
                                 failure!(Ejson, error)

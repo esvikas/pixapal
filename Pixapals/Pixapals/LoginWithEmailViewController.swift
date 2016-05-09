@@ -56,11 +56,13 @@
         loadingNotification.mode = MBProgressHUDMode.Indeterminate
         loadingNotification.labelText = "Logging In"
         
+        self.navigationItem.hidesBackButton = true
+        
         let loginUrlString = URLType.LoginWithEmail.make()
         
         //        let validator = Validator()
         //        if !validator.isValidEmail(emailTextfield.text!){
-        //            print("invalid email")
+        //            //print("invalid email")
         //            PixaPalsErrorType.InvalidEmailError.show(self)
         //            //appDelegate.ShowAlertView("Error", message: "Invalid email address")
         //            MBProgressHUD.hideAllHUDsForView(self.view, animated: true)
@@ -77,7 +79,7 @@
         APIManager(requestType: RequestType.WithDeviceTokenInParam, urlString: loginUrlString, parameters: parametersToPost).giveResponseJSON(
             { (data) -> Void in
                 if let dict = data["user"] as? [String: AnyObject] {
-                    print(dict)
+                    ////print(dict)
                     let userInfoStruct = UserDataStruct()
                     userInfoStruct.saveUserInfoFromJSON(jsonContainingUserInfo: dict)
                     
@@ -90,8 +92,8 @@
                     
                     
                 } else {
-                    print(data)
-                    print("Invalid Username/Password: \(data["message"])")
+                    ////print(data)
+                    ////print("Invalid Username/Password: \(data["message"])")
                     //appDelegate.ShowAlertView("Error", message: "Invalid email address or password")
                     
                     self.emailTextfield.text=""
@@ -100,6 +102,7 @@
                     
                 }
             }, errorBlock: {self}) {
+                self.navigationItem.hidesBackButton = false
                 MBProgressHUD.hideAllHUDsForView(self.view, animated: true)
                 self.blurEffectView.removeFromSuperview()
         }
@@ -108,7 +111,7 @@
 //                switch response.result {
 //                case .Success(let data):
 //                    if let dict = data["user"] as? [String: AnyObject] {
-//                        print(dict)
+//                        //print(dict)
 //                        let userInfoStruct = UserDataStruct()
 //                        userInfoStruct.saveUserInfoFromJSON(jsonContainingUserInfo: dict)
 //                        
@@ -121,8 +124,8 @@
 //                        
 //                        
 //                    } else {
-//                        print(data)
-//                        print("Invalid Username/Password: \(data["message"])")
+//                        //print(data)
+//                        //print("Invalid Username/Password: \(data["message"])")
 //                        MBProgressHUD.hideAllHUDsForView(self.view, animated: true)
 //                        self.blurEffectView.removeFromSuperview()
 //                        //appDelegate.ShowAlertView("Error", message: "Invalid email address or password")
@@ -134,7 +137,7 @@
 //                    }
 //                case .Failure(let error):
 //                    //showAlertView("Error", message: "Can't connect right now.Check your internet settings.", controller: self)
-//                    //print("Error in connection \(error)")
+//                    ////print("Error in connection \(error)")
 //                    MBProgressHUD.hideAllHUDsForView(self.view, animated: true)
 //                    self.blurEffectView.removeFromSuperview()
 //                    PixaPalsErrorType.ConnectionError.show(self)

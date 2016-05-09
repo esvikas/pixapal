@@ -28,6 +28,17 @@ class NotificationResponseJSON: Mappable {
     }
 }
 
+class NotificationCountJSON: SuccessFailJSON {
+    var notificationCount: Int?
+    required init?(_ map: Map) {
+        super.init(map)
+    }
+    override func mapping(map: Map) {
+        notificationCount <- map["notification"]
+        super.mapping(map)
+    }
+}
+
 class NotificationJSON: Mappable {
     var action: String?
     var user: NotificationItemJSON?
@@ -51,7 +62,7 @@ class NotificationJSON: Mappable {
         message <- map["message"]
         created_at <- map["created_at"]
         //x <- map["created_at", "date"]
-        //print(x)
+        ////print(x)
     }
 }
 

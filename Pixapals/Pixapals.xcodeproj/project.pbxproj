@@ -57,12 +57,16 @@
 		439738151C45F3E2001F344F /* PostFeedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439738141C45F3E2001F344F /* PostFeedViewController.swift */; };
 		439A350C1C4CFD5600A036E9 /* UserDataStruct.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439A350B1C4CFD5600A036E9 /* UserDataStruct.swift */; };
 		439BC7B11C86A1E500C07F2B /* ReportAnIssueViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439BC7B01C86A1E500C07F2B /* ReportAnIssueViewController.swift */; };
+		43A546891CACE603003DF38A /* Helvetica-Condensed-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 43A546881CACE5EF003DF38A /* Helvetica-Condensed-Bold.otf */; };
+		43A5468A1CAD23D3003DF38A /* Helvetica-Condensed.otf in Resources */ = {isa = PBXBuildFile; fileRef = 43A546851CACDE00003DF38A /* Helvetica-Condensed.otf */; };
 		43A8E7451C75B57100AB266E /* NotificationResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43A8E7441C75B57100AB266E /* NotificationResponse.swift */; };
 		43AD237E1C63290000A0E1B9 /* LoveLeaveResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43AD237D1C63290000A0E1B9 /* LoveLeaveResponse.swift */; };
+		43B9B3CB1C9AD448004418DC /* EULAViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43B9B3CA1C9AD448004418DC /* EULAViewController.swift */; };
 		43BF1F1A1C48B252000980D5 /* DoubleModeFeedImageSelectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43BF1F191C48B252000980D5 /* DoubleModeFeedImageSelectionViewController.swift */; };
 		43C103381C44EF70009512C2 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C103371C44EF70009512C2 /* ProfileViewController.swift */; };
 		43C1033B1C44F276009512C2 /* LoginWithEmailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C1033A1C44F276009512C2 /* LoginWithEmailViewController.swift */; };
 		43C1033E1C450BEF009512C2 /* CustomTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C1033D1C450BEF009512C2 /* CustomTabBarController.swift */; };
+		43D03CBF1C9BC68D00F6CBE1 /* EULADescriptionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D03CBE1C9BC68D00F6CBE1 /* EULADescriptionTableViewCell.swift */; };
 		43D2C75F1C4378A900F0E2C5 /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D2C75E1C4378A900F0E2C5 /* RegisterViewController.swift */; };
 		43D2C7651C43B89800F0E2C5 /* PostFeedModeSelectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D2C7641C43B89800F0E2C5 /* PostFeedModeSelectionViewController.swift */; };
 		43E477C41C92CE8F000CAD49 /* ForgotPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43E477C31C92CE8F000CAD49 /* ForgotPasswordViewController.swift */; };
@@ -124,12 +128,16 @@
 		439738141C45F3E2001F344F /* PostFeedViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostFeedViewController.swift; sourceTree = "<group>"; };
 		439A350B1C4CFD5600A036E9 /* UserDataStruct.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UserDataStruct.swift; path = Pixapals/UserDataStruct.swift; sourceTree = "<group>"; };
 		439BC7B01C86A1E500C07F2B /* ReportAnIssueViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReportAnIssueViewController.swift; sourceTree = "<group>"; };
+		43A546851CACDE00003DF38A /* Helvetica-Condensed.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Helvetica-Condensed.otf"; sourceTree = "<group>"; };
+		43A546881CACE5EF003DF38A /* Helvetica-Condensed-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Helvetica-Condensed-Bold.otf"; sourceTree = "<group>"; };
 		43A8E7441C75B57100AB266E /* NotificationResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationResponse.swift; sourceTree = "<group>"; };
 		43AD237D1C63290000A0E1B9 /* LoveLeaveResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoveLeaveResponse.swift; sourceTree = "<group>"; };
+		43B9B3CA1C9AD448004418DC /* EULAViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EULAViewController.swift; sourceTree = "<group>"; };
 		43BF1F191C48B252000980D5 /* DoubleModeFeedImageSelectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DoubleModeFeedImageSelectionViewController.swift; sourceTree = "<group>"; };
 		43C103371C44EF70009512C2 /* ProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		43C1033A1C44F276009512C2 /* LoginWithEmailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginWithEmailViewController.swift; sourceTree = "<group>"; };
 		43C1033D1C450BEF009512C2 /* CustomTabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomTabBarController.swift; sourceTree = "<group>"; };
+		43D03CBE1C9BC68D00F6CBE1 /* EULADescriptionTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EULADescriptionTableViewCell.swift; sourceTree = "<group>"; };
 		43D2C75E1C4378A900F0E2C5 /* RegisterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
 		43D2C7641C43B89800F0E2C5 /* PostFeedModeSelectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostFeedModeSelectionViewController.swift; sourceTree = "<group>"; };
 		43E477C31C92CE8F000CAD49 /* ForgotPasswordViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ForgotPasswordViewController.swift; sourceTree = "<group>"; };
@@ -184,6 +192,7 @@
 		329B581A1C3E260600C1EE08 /* Pixapals */ = {
 			isa = PBXGroup;
 			children = (
+				43A546841CACDDF1003DF38A /* Font */,
 				4394FD771C898155008E8394 /* Utilities */,
 				437969431C5F4E5A00CE136D /* Model */,
 				43C1033C1C44F2A3009512C2 /* Views */,
@@ -365,9 +374,27 @@
 			name = ReportIssue;
 			sourceTree = "<group>";
 		};
+		43A546841CACDDF1003DF38A /* Font */ = {
+			isa = PBXGroup;
+			children = (
+				43A546851CACDE00003DF38A /* Helvetica-Condensed.otf */,
+				43A546881CACE5EF003DF38A /* Helvetica-Condensed-Bold.otf */,
+			);
+			name = Font;
+			sourceTree = "<group>";
+		};
+		43B9B3C91C9AD42E004418DC /* EULA */ = {
+			isa = PBXGroup;
+			children = (
+				43B9B3CA1C9AD448004418DC /* EULAViewController.swift */,
+			);
+			name = EULA;
+			sourceTree = "<group>";
+		};
 		43C103391C44F242009512C2 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				43B9B3C91C9AD42E004418DC /* EULA */,
 				32395ACB1C8FEF0A00AE2B11 /* GetFeedVC.swift */,
 				4394FD881C898286008E8394 /* LoginUsingEmail */,
 				4394FD891C898297008E8394 /* TabController */,
@@ -394,6 +421,7 @@
 				32395AB71C8FEDF000AE2B11 /* GlobalFeedTableViewCell.swift */,
 				32395AB51C8FEDE700AE2B11 /* GetFeedTableViewCell.swift */,
 				32395AB31C8FEDD400AE2B11 /* SelectionTableViewCell.swift */,
+				43D03CBE1C9BC68D00F6CBE1 /* EULADescriptionTableViewCell.swift */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -506,6 +534,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				43A5468A1CAD23D3003DF38A /* Helvetica-Condensed.otf in Resources */,
+				43A546891CACE603003DF38A /* Helvetica-Condensed-Bold.otf in Resources */,
 				329B58261C3E260600C1EE08 /* LaunchScreen.storyboard in Resources */,
 				329B58231C3E260600C1EE08 /* Assets.xcassets in Resources */,
 				329B58211C3E260600C1EE08 /* Main.storyboard in Resources */,
@@ -605,6 +635,7 @@
 				329F01401C60C4BC008A01B2 /* GenderSelectionView.swift in Sources */,
 				329B582E1C3E267300C1EE08 /* ViewController.swift in Sources */,
 				437969471C5F64B400CE136D /* ExtensionAlamofire.swift in Sources */,
+				43D03CBF1C9BC68D00F6CBE1 /* EULADescriptionTableViewCell.swift in Sources */,
 				43D2C7651C43B89800F0E2C5 /* PostFeedModeSelectionViewController.swift in Sources */,
 				4391876C1C4E207C00022B38 /* validator.swift in Sources */,
 				43682C501C86ED3D00ADCBCD /* SelectionViewController.swift in Sources */,
@@ -626,6 +657,7 @@
 				32CBF55D1C4F7E090064E91D /* GridView.swift in Sources */,
 				325279581C62050900978C0C /* DetailVIewViewController.swift in Sources */,
 				32EBBD611C562C2600EF8149 /* RootFBClass.swift in Sources */,
+				43B9B3CB1C9AD448004418DC /* EULAViewController.swift in Sources */,
 				32395ACA1C8FEEC200AE2B11 /* ButtonWithCornerRadius.swift in Sources */,
 				437969451C5F4E8200CE136D /* FeedsResponse.swift in Sources */,
 				321B7F9B1C460E760017932E /* Reachability.swift in Sources */,
@@ -690,8 +722,8 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Bandhu Raj (VTPR87BH28)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Bandhu Raj (VTPR87BH28)";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -736,8 +768,8 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Bandhu Raj (VTPR87BH28)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Bandhu Raj (VTPR87BH28)";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
@@ -763,8 +795,8 @@
 			baseConfigurationReference = CD4AF32D5D95BBDC56CB9EDA /* Pods-Pixapals.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Bandhu Raj (VTPR87BH28)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Bandhu Raj (VTPR87BH28)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -784,8 +816,8 @@
 			baseConfigurationReference = 25D925DA979295FB8DE10432 /* Pods-Pixapals.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Bandhu Raj (VTPR87BH28)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Bandhu Raj (VTPR87BH28)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",

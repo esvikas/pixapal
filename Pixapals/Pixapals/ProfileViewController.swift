@@ -130,7 +130,15 @@ class ProfileViewController: UIViewController {
             rightBarButton.customView = btnName
             self.tabBarController?.navigationItem.rightBarButtonItem = rightBarButton
         } else {
-            self.navigationItem.rightBarButtonItem = UIBarButtonItem()
+            let btnName = UIButton()
+            btnName.setImage(UIImage(named: "dotwhite"), forState: .Normal)
+            btnName.frame = CGRectMake(0, 0, 30, 30)
+            btnName.addTarget(self, action: Selector("more"), forControlEvents: .TouchUpInside)
+            
+            //.... Set Right/Left Bar Button item
+            let rightBarButton = UIBarButtonItem()
+            rightBarButton.customView = btnName
+            self.navigationItem.rightBarButtonItem = rightBarButton
         }
         self.checkIfUserIsMyFed()
         //        let camera = UIBarButtonItem(barButtonSystemItem: .Camera, target: self, action: Selector("btnOpenCamera"))
@@ -164,6 +172,73 @@ class ProfileViewController: UIViewController {
         self.tabBarController?.navigationController?.pushViewController(vc, animated: true)
         
     }
+    
+    func more(){
+        let actionsheet = UIAlertController(title: "Choose Action", message: "", preferredStyle: UIAlertControllerStyle.ActionSheet)
+        let cancel = UIAlertAction(title: "Cancel", style: .Default, handler: nil)
+        let report = UIAlertAction(title: "Report User", style: .Default, handler: { (_) -> Void in
+            let storyboard: UIStoryboard = UIStoryboard (name: "Main", bundle: nil)
+            let vc = storyboard.instantiateViewControllerWithIdentifier("ReportAnIssueViewController") as! ReportAnIssueViewController
+            vc.type = ReportAnIssueViewController.ReportType.User(self.userId!)
+            self.navigationController?.pushViewController(vc, animated: true)
+        })
+        let block = UIAlertAction(title: "Block User", style: UIAlertActionStyle.Destructive) { (_) -> Void in
+            let alertView = UIAlertController(title: "Confirmation", message: "Are you sure want to block?", preferredStyle: UIAlertControllerStyle.Alert)
+            let okAction = UIAlertAction(title: "Yes", style: .Destructive, handler: { _ in
+                self.blockUser()
+            })
+            let cancelAction = UIAlertAction(title: "Cancel", style: .Default, handler: nil)
+            alertView.addAction(okAction)
+            alertView.addAction(cancelAction)
+            self.presentViewController(alertView, animated: true, completion: nil)
+        }
+        
+        actionsheet.addAction(cancel)
+        actionsheet.addAction(report)
+        actionsheet.addAction(block)
+        self.presentViewController(actionsheet, animated: true, completion: nil)
+    }
+    
+    func blockUser(){
+        let urlString = URLType.BlockUserFeed.make()
+        let parameters: [String: AnyObject] =
+        [
+            "type" : "user",
+            "blocked_id" : String(self.userId!),
+            "comments" : "User Block"
+        ]
+        
+        let blurEffectView = UIVisualEffectView(effect: UIBlurEffect(style: UIBlurEffectStyle.ExtraLight))
+        blurEffectView.alpha = 0.4
+        blurEffectView.frame = self.view.bounds
+        self.view.addSubview(blurEffectView)
+        
+        self.navigationItem.hidesBackButton = true
+        self.view.userInteractionEnabled=false
+        self.navigationItem.rightBarButtonItem?.enabled = false
+        
+        let loadingNotification = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
+        loadingNotification.mode = MBProgressHUDMode.Indeterminate
+        loadingNotification.labelText = "Blocking User"
+        
+        APIManager(requestType: RequestType.WithXAuthTokenInHeader, urlString: urlString, parameters:  parameters).handleResponse({ (successOrFail: ReportResponseJSON) -> Void in
+            self.navigationItem.hidesBackButton = false
+            self.view.userInteractionEnabled=true
+            if successOrFail.error! {
+                PixaPalsErrorType.CantBlockTheUserError.show(self, title: "Error", message: successOrFail.message.first, afterCompletion: nil)
+            }else {
+                PixaPalsErrorType.ReportIssueSuccessful.show(self, title: "User Blocked", message: "User is blocked successfully.")
+                self.btnEdit.setTitle("Blocked", forState: .Disabled)
+                self.btnEdit.enabled = false
+            }
+            }, errorBlock: {self}, onResponse: {
+                loadingNotification.removeFromSuperview()
+                blurEffectView.removeFromSuperview()
+                self.navigationItem.hidesBackButton = false
+                self.view.userInteractionEnabled=true
+                self.navigationItem.rightBarButtonItem?.enabled = true
+        })
+    }
     func checkIfUserIsMyFed() {
         self.btnEdit.enabled = true
         if let userId = userId {
@@ -191,9 +266,9 @@ class ProfileViewController: UIViewController {
         
         let existingUser = UserFeedDistinction.sharedInstance.getUserWithId(id)
         
-//        if let existingUser = existingUser {
-//            existingUser.is_my_fed = true
-//        }
+        //        if let existingUser = existingUser {
+        //            existingUser.is_my_fed = true
+        //        }
         self.btnEdit.enabled = false
         self.tableView.reloadData()
         let headers = [
@@ -204,9 +279,9 @@ class ProfileViewController: UIViewController {
         //            .responseJSON { response in
         //            switch response.result {
         //            case .Failure(let error):
-        //                print("ERROR: \(error)")
+        //                //print("ERROR: \(error)")
         //            case .Success(let value):
-        //                print(value)
+        //                //print(value)
         //            }
         //        }
         
@@ -222,13 +297,13 @@ class ProfileViewController: UIViewController {
             { (getFeed: SuccessFailJSON) -> Void in
                 if !getFeed.error! {
                     
-                    //print("getting feed")
+                    ////print("getting feed")
                     existingUser?.is_my_fed = !(existingUser?.is_my_fed)!
                     //appDelegate.ShowAlertView("Success", message: "You are now following to \( (self.feed.user?.username)!)")
                 } else {
                     enableDisableEditButton()
                     //showAlertView("Error", message: "Can't get feeds from the user. Try again.", controller: self)
-                    //print("Error: Love it error")
+                    ////print("Error: Love it error")
                     PixaPalsErrorType.CantFedTheUserError.show(self)
                 }
             }, errorBlock: {
@@ -244,7 +319,7 @@ class ProfileViewController: UIViewController {
         //            switch response.result {
         //            case .Success(let getFeed):
         //                if !getFeed.error! {
-        //                    //print("getting feed")
+        //                    ////print("getting feed")
         //
         //                    //appDelegate.ShowAlertView("Success", message: "You are now following to \( (self.feed.user?.username)!)")
         //                } else {
@@ -253,7 +328,7 @@ class ProfileViewController: UIViewController {
         //                        existingUser.is_my_fed = false
         //                    }
         //                    //showAlertView("Error", message: "Can't get feeds from the user. Try again.", controller: self)
-        //                    //print("Error: Love it error")
+        //                    ////print("Error: Love it error")
         //                    PixaPalsErrorType.CantFedTheUserError.show(self)
         //                }
         //            case .Failure(let error):
@@ -262,7 +337,7 @@ class ProfileViewController: UIViewController {
         //                    existingUser.is_my_fed = false
         //                }
         //                //showAlertView("Error", message: "Can't connect right now.Check your internet settings.", controller: self)
-        //                //print("Error in connection \(error)")
+        //                ////print("Error in connection \(error)")
         //                PixaPalsErrorType.ConnectionError.show(self)
         //            }
         //            self.tableView.reloadData()
@@ -291,24 +366,25 @@ class ProfileViewController: UIViewController {
     
     private func loadDataFromAPI(){
         guard var id = UserDataStruct().id else {
-            print("no user id")
+            ////print("no user id")
             return
         }
         if let _ = self.userId {
             id = self.userId!
         }
+        ////print(id)
         //let apiURLString = "\(apiUrl)api/v1/profile/\(id)/\(self.pageNumber)/\(self.postLimit)"
         let apiURLString = (URLs().makeURLByAddingTrailling(userId: id, pageNumber: self.pageNumber, limit: self.postLimit))(.Profile)
-        //print(apiURLString)
+        ////print(apiURLString)
         guard let api_token = UserDataStruct().api_token else{
-            print("no api token")
+            ////print("no api token")
             return
         }
         
         let headers = [
             "X-Auth-Token" : String(api_token),
         ]
-        // print(api_token)
+        // //print(api_token)
         
         
         APIManager(requestType: RequestType.WithXAuthTokenInHeader, urlString: apiURLString, method: .GET).handleResponse(
@@ -317,7 +393,7 @@ class ProfileViewController: UIViewController {
                     self.tryAgainButton.hidden = false
                     //showAlertView("Error", message: "Error loading data from server.", controller: self)
                     
-                    //print("Error: \(feedsResponseJSON.message)")
+                    ////print("Error: \(feedsResponseJSON.message)")
                 } else {
                     if let _ = self.feedsFromResponseAsObject {
                         if self.refreshingStatus == true {
@@ -342,7 +418,7 @@ class ProfileViewController: UIViewController {
                     self.tableView.reloadData()
                     self.collectionView.reloadData()
                     self.footerView.hidden = true
-                    //print(feedsResponseJSON.user.username)
+                    ////print(feedsResponseJSON.user.username)
                     self.navTitle = feedsResponseJSON.user.username
                     self.setHeader()
                 }
@@ -358,72 +434,72 @@ class ProfileViewController: UIViewController {
         )
         
         
-//        requestWithHeaderXAuthToken(.GET, apiURLString)
-//            //            .responseJSON { response in
-//            //                print(response.request)
-//            //                switch response.result {
-//            //                case .Failure(let error):
-//            //                    print(error)
-//            //                case .Success(let value):
-//            //                    print(value)
-//            //                }
-//            //            }
-//            .responseObject { (response: Response<ProfileResponseJSON, NSError>) -> Void in
-//                switch response.result {
-//                case .Success(let feedsResponseJSON):
-//                    
-//                    if let error = feedsResponseJSON.error where error == true {
-//                        self.loadMoreActivityIndicator.stopAnimating()
-//                        self.tryAgainButton.hidden = false
-//                        //showAlertView("Error", message: "Error loading data from server.", controller: self)
-//                        
-//                        //print("Error: \(feedsResponseJSON.message)")
-//                    } else {
-//                        if let _ = self.feedsFromResponseAsObject {
-//                            if self.refreshingStatus == true {
-//                                self.refreshingStatus = false
-//                                self.feedsFromResponseAsObject = feedsResponseJSON
-//                            } else {
-//                                if feedsResponseJSON.feeds?.count < self.postLimit && feedsResponseJSON.feeds?.count > 0{
-//                                    self.feedsFromResponseAsObject.feeds?.appendContentsOf(feedsResponseJSON.feeds!)
-//                                    self.hasMoreDataInServer = false
-//                                } else if feedsResponseJSON.feeds?.count > 0 {
-//                                    self.feedsFromResponseAsObject.feeds?.appendContentsOf(feedsResponseJSON.feeds!)
-//                                }
-//                                else {
-//                                    self.hasMoreDataInServer = false
-//                                }
-//                            }
-//                        }
-//                        else {
-//                            self.feedsFromResponseAsObject = feedsResponseJSON
-//                        }
-//                        
-//                        self.tableView.reloadData()
-//                        self.collectionView.reloadData()
-//                        MBProgressHUD.hideAllHUDsForView(self.view, animated: true)
-//                        self.blurEffectView.removeFromSuperview()
-//                        self.tableViewRefreshControl.endRefreshing()
-//                        self.collectionViewRefreshContol.endRefreshing()
-//                        self.loadMoreActivityIndicator.stopAnimating()
-//                        self.footerView.hidden = true
-//                        //print(feedsResponseJSON.user.username)
-//                        self.navTitle = feedsResponseJSON.user.username
-//                        self.setHeader()
-//                    }
-//                case .Failure(let error):
-//                    //showAlertView("Error", message: "Can't connect right now.Check your internet settings.", controller: self)
-//                    // print("ERROR: \(error)")
-//                    PixaPalsErrorType.ConnectionError.show(self)
-//                }
-//        }
+        //        requestWithHeaderXAuthToken(.GET, apiURLString)
+        //            //            .responseJSON { response in
+        //            //                //print(response.request)
+        //            //                switch response.result {
+        //            //                case .Failure(let error):
+        //            //                    //print(error)
+        //            //                case .Success(let value):
+        //            //                    //print(value)
+        //            //                }
+        //            //            }
+        //            .responseObject { (response: Response<ProfileResponseJSON, NSError>) -> Void in
+        //                switch response.result {
+        //                case .Success(let feedsResponseJSON):
+        //
+        //                    if let error = feedsResponseJSON.error where error == true {
+        //                        self.loadMoreActivityIndicator.stopAnimating()
+        //                        self.tryAgainButton.hidden = false
+        //                        //showAlertView("Error", message: "Error loading data from server.", controller: self)
+        //
+        //                        ////print("Error: \(feedsResponseJSON.message)")
+        //                    } else {
+        //                        if let _ = self.feedsFromResponseAsObject {
+        //                            if self.refreshingStatus == true {
+        //                                self.refreshingStatus = false
+        //                                self.feedsFromResponseAsObject = feedsResponseJSON
+        //                            } else {
+        //                                if feedsResponseJSON.feeds?.count < self.postLimit && feedsResponseJSON.feeds?.count > 0{
+        //                                    self.feedsFromResponseAsObject.feeds?.appendContentsOf(feedsResponseJSON.feeds!)
+        //                                    self.hasMoreDataInServer = false
+        //                                } else if feedsResponseJSON.feeds?.count > 0 {
+        //                                    self.feedsFromResponseAsObject.feeds?.appendContentsOf(feedsResponseJSON.feeds!)
+        //                                }
+        //                                else {
+        //                                    self.hasMoreDataInServer = false
+        //                                }
+        //                            }
+        //                        }
+        //                        else {
+        //                            self.feedsFromResponseAsObject = feedsResponseJSON
+        //                        }
+        //
+        //                        self.tableView.reloadData()
+        //                        self.collectionView.reloadData()
+        //                        MBProgressHUD.hideAllHUDsForView(self.view, animated: true)
+        //                        self.blurEffectView.removeFromSuperview()
+        //                        self.tableViewRefreshControl.endRefreshing()
+        //                        self.collectionViewRefreshContol.endRefreshing()
+        //                        self.loadMoreActivityIndicator.stopAnimating()
+        //                        self.footerView.hidden = true
+        //                        ////print(feedsResponseJSON.user.username)
+        //                        self.navTitle = feedsResponseJSON.user.username
+        //                        self.setHeader()
+        //                    }
+        //                case .Failure(let error):
+        //                    //showAlertView("Error", message: "Can't connect right now.Check your internet settings.", controller: self)
+        //                    // //print("ERROR: \(error)")
+        //                    PixaPalsErrorType.ConnectionError.show(self)
+        //                }
+        //        }
     }
     
     func setHeader() {
         self.username.text = (feedsFromResponseAsObject.user.name)!
         
         self.userImage.kf_setImageWithURL(NSURL(string: feedsFromResponseAsObject.user.photo_thumb ?? "")!, placeholderImage: UIImage(named: "global_feed_user"))
-        //print(self.feedsFromResponseAsObject.user.feeding_count)
+        ////print(self.feedsFromResponseAsObject.user.feeding_count)
         self.feeding.text = String(feedsFromResponseAsObject.user.feeding_count)
         self.feeders.text = String(feedsFromResponseAsObject.user.feeders_count)
         self.feeds.text = String(feedsFromResponseAsObject.user.feeds_count)
@@ -553,7 +629,7 @@ extension ProfileViewController: UITableViewDataSource {
             cell?.addSubview(headerView)
             return cell!
         } else {
-            print(indexPath.row)
+            ////print(indexPath.row)
             let feed = self.feedsFromResponseAsObject.feeds![indexPath.row - 1]
             let cell = tableView.dequeueReusableCellWithIdentifier("globalFeedTableViewCell", forIndexPath: indexPath) as! GlobalFeedTableViewCell
             //            cell.feedImage.kf_setImageWithURL(NSURL(string: feed.photo ?? "" )!, placeholderImage: UIImage(named: "loading.png"))
@@ -579,6 +655,12 @@ extension ProfileViewController: UITableViewDataSource {
                 cell.feedImage2.hidden = true
             }
             cell.delegate = self
+            if feed.is_my_feed! {
+                cell.moreButton.hidden = true
+            }else {
+                cell.moreButton.hidden = false
+            }
+            cell.feedId = feed.id
             cell.id = (indexPath.row - 1)
             cell.loved = feed.is_my_love
             cell.left = feed.is_my_left
@@ -615,7 +697,7 @@ extension ProfileViewController: UITableViewDataSource {
                 cell.timeElapsed.text = textTimeElapsed
                 //}
             } else {
-                print("here")
+                ////print("here")
             }
             //        cell.imageViewObject?.kf_setImageWithURL(NSURL(string: feedsToShow[indexPath.section, "photo"].string!)!)
             //        cell.DynamicView.addSubview(cell.feedImage)
@@ -645,14 +727,14 @@ extension ProfileViewController: UITableViewDataSource {
     }
     
     func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
-        //print(indexPath.row)
-        //print(indexPath.section)
-        //print( hasMoreDataInServer)
-        //print(indexPath.section)
-        //print(indexPath.section == self.feedsFromResponseAsObject.feeds!.count)
-        //print((indexPath.row) == (self.feedsFromResponseAsObject.feeds!.count - 1))
-        //print("\(indexPath.row) == \(self.feedsFromResponseAsObject.feeds!.count - 1)")
-        //        print(hasMoreDataInServer)
+        ////print(indexPath.row)
+        ////print(indexPath.section)
+        ////print( hasMoreDataInServer)
+        ////print(indexPath.section)
+        ////print(indexPath.section == self.feedsFromResponseAsObject.feeds!.count)
+        ////print((indexPath.row) == (self.feedsFromResponseAsObject.feeds!.count - 1))
+        ////print("\(indexPath.row) == \(self.feedsFromResponseAsObject.feeds!.count - 1)")
+        //        //print(hasMoreDataInServer)
         if indexPath.row == 0 {
             return
         }
@@ -664,25 +746,25 @@ extension ProfileViewController: UITableViewDataSource {
 }
 extension ProfileViewController: CellImageSwippedDelegate {
     func imageSwipedLeft(id: Int, loved: Bool, left:Bool) {
-        print("swipped love (left)")
-        //        print(id)
-        //        print(loved)
-        //        print(left)
+        ////print("swipped love (left)")
+        //        //print(id)
+        //        //print(loved)
+        //        //print(left)
         //left=true
-       // self.loveFeed(id)
+        // self.loveFeed(id)
         let feed = self.feedsFromResponseAsObject.feeds![id]
         feed.loveFeed(self) {self.tableView.reloadData()}
         
     }
     func imageSwipedRight(id: Int, loved: Bool, left: Bool, mode: Int) {
-        print("swipped leave (right)")
-        //        print(loved)
-        //        print(left)
+        ////print("swipped leave (right)")
+        //        //print(loved)
+        //        //print(left)
         //        loved = true
         //        left = false
         //self.leaveit(id)
-        //print(mode)
-         let feed = self.feedsFromResponseAsObject.feeds![id]
+        ////print(mode)
+        let feed = self.feedsFromResponseAsObject.feeds![id]
         feed.leaveFeed(self) {self.tableView.reloadData()}
         
     }
@@ -711,112 +793,112 @@ extension ProfileViewController: CellImageSwippedDelegate {
         return self.feedsFromResponseAsObject.feeds![id!]
     }
     
-//    func loveFeed(id:Int){
-//        let feed = self.feedsFromResponseAsObject.feeds![id]
-//        let user = UserDataStruct()
-//        
-//        let registerUrlString = "\(apiUrl)api/v1/feeds/loveit"
-//        
-//        let parameters: [String: AnyObject] =
-//        [
-//            "user_id": String(user.id!),
-//            "post_id": String(feed.id!)
-//        ]
-//        let headers = [
-//            "X-Auth-Token" : user.api_token!,
-//        ]
-//        
-//        self.loveCountIncrease(feed)
-//        
-//        requestWithHeaderXAuthToken(.POST, registerUrlString, parameters: parameters).responseObject { (response: Response<SuccessFailJSON, NSError>) -> Void in
-//            switch response.result {
-//            case .Success(let loveItObject):
-//                if !loveItObject.error! {
-//                    feed.lovers?.append(loveItObject.user!)
-//                    feed.leavers = feed.leavers!.filter{$0.id! != loveItObject.user!.id!}
-//                } else {
-//                    self.leaveCountIncrease(feed)
-//                    print("Error: Love it error")
-//                    PixaPalsErrorType.CantLoveItLeaveItError.show(self)
-//                }
-//            case .Failure(let error):
-//                self.leaveCountIncrease(feed)
-//                //showAlertView("Error", message: "Can't connect right now.Check your internet settings.", controller: self)
-//                //print("Error in connection \(error)")
-//                PixaPalsErrorType.ConnectionError.show(self)
-//            }
-//        }
-//    }
-//    
-//    
-//    func leaveit(id: Int){
-//        let feed = self.feedsFromResponseAsObject.feeds![id]
-//        let user = UserDataStruct()
-//        let registerUrlString = "\(apiUrl)api/v1/feeds/leaveit"
-//        
-//        let parameters: [String: AnyObject] =
-//        [
-//            "user_id": String(user.id!),
-//            "post_id": String(feed.id!)
-//        ]
-//        let headers = [
-//            "X-Auth-Token" : user.api_token!,
-//        ]
-//        
-//        self.leaveCountIncrease(feed)
-//        
-//        //                Alamofire.request(.POST, registerUrlString, parameters: parameters, headers:headers).responseJSON { response in
-//        //                    print(response.request)
-//        //                    switch response.result {
-//        //                    case .Failure(let error):
-//        //                        print(error)
-//        //                    case .Success(let value):
-//        //                        print(value)
-//        //                    }
-//        //                }
-//        
-//        requestWithHeaderXAuthToken(.POST, registerUrlString, parameters: parameters).responseObject { (response: Response<SuccessFailJSON, NSError>) -> Void in
-//            switch response.result {
-//            case .Success(let leaveItObject):
-//                if !leaveItObject.error! {
-//                    feed.leavers?.append(leaveItObject.user!)
-//                    feed.lovers = feed.lovers!.filter{$0.id! != leaveItObject.user!.id!}
-//                } else {
-//                    print("Error: Love it error")
-//                    self.loveCountIncrease(feed)
-//                    PixaPalsErrorType.CantLoveItLeaveItError.show(self)
-//                }
-//                
-//            case .Failure(let error):
-//                //showAlertView("Error", message: "Can't connect right now.Check your internet settings.", controller: self)
-//                //print("Error in connection \(error)")
-//                self.loveCountIncrease(feed)
-//                PixaPalsErrorType.ConnectionError.show(self)
-//                
-//            }
-//        }
-//    }
-//    
-//    func loveCountIncrease(feed: FeedJSON){
-//        feed.is_my_love = true
-//        feed.loveit = feed.loveit! + 1
-//        if feed.is_my_left! {
-//            feed.is_my_left = false
-//            feed.leaveit = feed.leaveit! - 1
-//        }
-//        self.tableView.reloadData()
-//        
-//    }
-//    
-//    func leaveCountIncrease(feed: FeedJSON){
-//        feed.is_my_left = true
-//        feed.leaveit = feed.leaveit! + 1
-//        if feed.is_my_love! {
-//            feed.is_my_love = false
-//            feed.loveit = feed.loveit! - 1
-//        }
-//        self.tableView.reloadData()
-//    }
+    //    func loveFeed(id:Int){
+    //        let feed = self.feedsFromResponseAsObject.feeds![id]
+    //        let user = UserDataStruct()
+    //
+    //        let registerUrlString = "\(apiUrl)api/v1/feeds/loveit"
+    //
+    //        let parameters: [String: AnyObject] =
+    //        [
+    //            "user_id": String(user.id!),
+    //            "post_id": String(feed.id!)
+    //        ]
+    //        let headers = [
+    //            "X-Auth-Token" : user.api_token!,
+    //        ]
+    //
+    //        self.loveCountIncrease(feed)
+    //
+    //        requestWithHeaderXAuthToken(.POST, registerUrlString, parameters: parameters).responseObject { (response: Response<SuccessFailJSON, NSError>) -> Void in
+    //            switch response.result {
+    //            case .Success(let loveItObject):
+    //                if !loveItObject.error! {
+    //                    feed.lovers?.append(loveItObject.user!)
+    //                    feed.leavers = feed.leavers!.filter{$0.id! != loveItObject.user!.id!}
+    //                } else {
+    //                    self.leaveCountIncrease(feed)
+    //                    //print("Error: Love it error")
+    //                    PixaPalsErrorType.CantLoveItLeaveItError.show(self)
+    //                }
+    //            case .Failure(let error):
+    //                self.leaveCountIncrease(feed)
+    //                //showAlertView("Error", message: "Can't connect right now.Check your internet settings.", controller: self)
+    //                ////print("Error in connection \(error)")
+    //                PixaPalsErrorType.ConnectionError.show(self)
+    //            }
+    //        }
+    //    }
+    //
+    //
+    //    func leaveit(id: Int){
+    //        let feed = self.feedsFromResponseAsObject.feeds![id]
+    //        let user = UserDataStruct()
+    //        let registerUrlString = "\(apiUrl)api/v1/feeds/leaveit"
+    //
+    //        let parameters: [String: AnyObject] =
+    //        [
+    //            "user_id": String(user.id!),
+    //            "post_id": String(feed.id!)
+    //        ]
+    //        let headers = [
+    //            "X-Auth-Token" : user.api_token!,
+    //        ]
+    //
+    //        self.leaveCountIncrease(feed)
+    //
+    //        //                Alamofire.request(.POST, registerUrlString, parameters: parameters, headers:headers).responseJSON { response in
+    //        //                    //print(response.request)
+    //        //                    switch response.result {
+    //        //                    case .Failure(let error):
+    //        //                        //print(error)
+    //        //                    case .Success(let value):
+    //        //                        //print(value)
+    //        //                    }
+    //        //                }
+    //
+    //        requestWithHeaderXAuthToken(.POST, registerUrlString, parameters: parameters).responseObject { (response: Response<SuccessFailJSON, NSError>) -> Void in
+    //            switch response.result {
+    //            case .Success(let leaveItObject):
+    //                if !leaveItObject.error! {
+    //                    feed.leavers?.append(leaveItObject.user!)
+    //                    feed.lovers = feed.lovers!.filter{$0.id! != leaveItObject.user!.id!}
+    //                } else {
+    //                    //print("Error: Love it error")
+    //                    self.loveCountIncrease(feed)
+    //                    PixaPalsErrorType.CantLoveItLeaveItError.show(self)
+    //                }
+    //
+    //            case .Failure(let error):
+    //                //showAlertView("Error", message: "Can't connect right now.Check your internet settings.", controller: self)
+    //                ////print("Error in connection \(error)")
+    //                self.loveCountIncrease(feed)
+    //                PixaPalsErrorType.ConnectionError.show(self)
+    //
+    //            }
+    //        }
+    //    }
+    //
+    //    func loveCountIncrease(feed: FeedJSON){
+    //        feed.is_my_love = true
+    //        feed.loveit = feed.loveit! + 1
+    //        if feed.is_my_left! {
+    //            feed.is_my_left = false
+    //            feed.leaveit = feed.leaveit! - 1
+    //        }
+    //        self.tableView.reloadData()
+    //        
+    //    }
+    //    
+    //    func leaveCountIncrease(feed: FeedJSON){
+    //        feed.is_my_left = true
+    //        feed.leaveit = feed.leaveit! + 1
+    //        if feed.is_my_love! {
+    //            feed.is_my_love = false
+    //            feed.loveit = feed.loveit! - 1
+    //        }
+    //        self.tableView.reloadData()
+    //    }
 }
 
 extension ProfileViewController: DetailViewViewControllerProtocol {

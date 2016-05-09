@@ -136,7 +136,7 @@ class PostFeedViewController: UIViewController, UITextViewDelegate {
                         
                 })
                 
-                print("Swiped right")
+                ////print("Swiped right")
 
             case UISwipeGestureRecognizerDirection.Left:
                 DynamicView.image=image2
@@ -158,7 +158,7 @@ class PostFeedViewController: UIViewController, UITextViewDelegate {
                         
                 })
                 
-                print("Swiped left")
+                ////print("Swiped left")
 
                 
             default:
@@ -203,8 +203,8 @@ btnPostFeed.enabled=false
         
         // example image data
         
-        print(parameters)
-        print(headers)
+//        print(parameters)
+//        //print(headers)
         
         // CREATE AND SEND REQUEST ----------
         doubleModeStackView.layoutIfNeeded()
@@ -245,17 +245,17 @@ btnPostFeed.enabled=false
             .send({(response:AnyObject!, status:Int) -> Void in
                 
                 //                    _ = JSON(response)
-                print(response)
-                print(self.imageData)
-
-                print("success")
+//                print(response)
+//                print(self.imageData)
+//
+//                //print("success")
                 self.image1=nil
                 self.image2=nil
 
                 let alertController = UIAlertController(title: "Success", message: "Your feed has been successfully posted.", preferredStyle: .Alert)
                 
                 let cancelAction = UIAlertAction(title: "Ok", style: .Cancel) { (action) in
-                    print(action)
+                    ////print(action)
                     
                     
 //                    let viewControllers: [UIViewController] = self.navigationController!.viewControllers as [UIViewController];
@@ -295,9 +295,9 @@ btnPostFeed.enabled=false
                     PixaPalsErrorType.ConnectionError.show(self)
 
                     //appDelegate.ShowAlertView("Sorry", message: "Something Went Wrong")
-                    print("Failure")
-                    print(response)
-                    print(error)
+//                    print("Failure")
+//                    print(response)
+//                    //print(error)
             })
         
     }
@@ -330,13 +330,13 @@ scrollView.contentOffset = CGPoint(x: 0, y: 0)
     func textViewDidChange(textView: UITextView) {
         
       
-        print(commentTextField.text.characters.count)
+        ////print(commentTextField.text.characters.count)
         
         characterCountLabel.text="\(240 - commentTextField.text.characters.count) Characters Left"
     }
     
     func textViewDidBeginEditing(textView: UITextView) {
-scrollView.scrollEnabled=false
+        scrollView.scrollEnabled=false
         if commentTextField.text == "Comments" {
             commentTextField.text=""
 

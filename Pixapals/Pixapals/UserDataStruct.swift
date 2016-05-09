@@ -63,7 +63,7 @@ struct UserDataStruct {
         for (item, value) in dict where "<null>" != "\(value.description)" {
             newDict[item] = "\(value)"
         }
-        print(newDict)
+        //print(newDict)
         let userDefaults = NSUserDefaults.standardUserDefaults()
         userDefaults.setObject(newDict, forKey: "user_info")
     }
