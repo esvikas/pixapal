@@ -209,38 +209,6 @@
             endingLineNumber = "103"
             landmarkName = "respondToSwipeGesture(_:)"
             landmarkType = "5">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Pixapals.GlobalFeedTableViewCell.respondToSwipeGesture (__ObjC.UIGestureRecognizer) -&gt; ()"
-                  moduleName = "Pixapals"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/ak2g/Documents/Pixapals/Pixapals/Pixapals/GlobalFeedTableViewCell.swift"
-                  timestampString = "482821933.03333"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "104"
-                  endingLineNumber = "104"
-                  offsetFromSymbolStart = "19">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Pixapals.GlobalFeedTableViewCell.respondToSwipeGesture (__ObjC.UIGestureRecognizer) -&gt; ()"
-                  moduleName = "Pixapals"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/ak2g/Documents/Pixapals/Pixapals/Pixapals/GlobalFeedTableViewCell.swift"
-                  timestampString = "482821933.033451"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "104"
-                  endingLineNumber = "104"
-                  offsetFromSymbolStart = "174">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -289,6 +257,38 @@
             endingLineNumber = "71"
             landmarkName = "returnUserData()"
             landmarkType = "5">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Pixapals.RootFBClass.returnUserData () -&gt; ()"
+                  moduleName = "Pixapals"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/ak2g/Documents/Pixapals/Pixapals/Pixapals/RootFBClass.swift"
+                  timestampString = "484477891.011008"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "74"
+                  endingLineNumber = "74"
+                  offsetFromSymbolStart = "1738">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Pixapals.RootFBClass.(returnUserData () -&gt; ()).(closure #3)"
+                  moduleName = "Pixapals"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/ak2g/Documents/Pixapals/Pixapals/Pixapals/RootFBClass.swift"
+                  timestampString = "484477891.011127"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "74"
+                  endingLineNumber = "74"
+                  offsetFromSymbolStart = "20">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -337,6 +337,38 @@
             endingLineNumber = "278"
             landmarkName = "getFBUserData()"
             landmarkType = "5">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Pixapals.ViewController.getFBUserData () -&gt; ()"
+                  moduleName = "Pixapals"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/ak2g/Documents/Pixapals/Pixapals/Pixapals/ViewControllers/ViewController.swift"
+                  timestampString = "484477891.012266"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "280"
+                  endingLineNumber = "280"
+                  offsetFromSymbolStart = "2095">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Pixapals.ViewController.(getFBUserData () -&gt; ()).(closure #2)"
+                  moduleName = "Pixapals"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/ak2g/Documents/Pixapals/Pixapals/Pixapals/ViewControllers/ViewController.swift"
+                  timestampString = "484477891.012385"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "280"
+                  endingLineNumber = "280"
+                  offsetFromSymbolStart = "752">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -378,7 +410,7 @@
                   moduleName = "Pixapals"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/ak2g/Documents/Pixapals/Pixapals/Pixapals/ViewControllers/ViewController.swift"
-                  timestampString = "482821933.037689"
+                  timestampString = "484477891.013165"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "285"
@@ -393,7 +425,7 @@
                   moduleName = "Pixapals"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/ak2g/Documents/Pixapals/Pixapals/Pixapals/ViewControllers/ViewController.swift"
-                  timestampString = "482821933.037815"
+                  timestampString = "484477891.013294"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "286"
