@@ -153,12 +153,6 @@ picker .dismissViewControllerAnimated(true, completion: nil)
 //}
 //}
 
-
-
-
-
-
-
 extension UIImage {
 
 func fixOrientation() -> UIImage {
