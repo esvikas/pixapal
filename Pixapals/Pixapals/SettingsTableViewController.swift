@@ -55,7 +55,7 @@ class SettingsTableViewController: UITableViewController {
                     if let gender = dict["message"]?["gender"] as? String{
                         nsUserDefault.setObject((gender == "") ? "All" : gender, forKey: "UserGenderForFilter")
                     }
-                    if let region = dict["message"]?["region"]?["name"] as? String {
+                    if let region = dict["message"]?["region"]?!["name"] as? String {
                         nsUserDefault.setObject(region, forKey: "UserLocationForFilter")
                     }
                 }
